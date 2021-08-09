@@ -8,7 +8,7 @@
 
         <Navbar />
 
-        <div class="p-6 mb-20">
+        <div class="p-6 mb-10">
           <Breadcrumb />
           <router-view />
         </div>
