@@ -25,8 +25,11 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "husky": "^7.0.1",
+    "node-sass": "^6.0.1",
     "postcss": "^7.0.36",
+    "sass-loader": "^10",
     "semantic-release": "^17.4.4",
+    "style-loader": "^3.2.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7",
     "vue-template-compiler": "^2.6.11"
   },
