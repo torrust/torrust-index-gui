@@ -2,38 +2,40 @@
   <div class="col-span-12">
     <div class="overflow-auto lg:overflow-visible ">
       <table class="table w-full text-gray-400 border-separate space-y-6 text-sm">
-        <thead class="text-black">
+        <thead class="text-black text-center">
           <tr>
-            <th class="p-3 text-left">Name</th>
-            <th class="p-3 text-center">Seeders</th>
-            <th class="p-3 text-center">Leechers</th>
-            <th class="p-3 text-center">Time</th>
-            <th class="p-3 text-center">Size</th>
-            <th class="p-3 text-center">Uploader</th>
+            <th class="text-left">Name</th>
+            <th class="">Seeders</th>
+            <th class="">Leechers</th>
+            <th class="">Uploaded</th>
+            <th class="">Size</th>
+            <th class="">Uploader</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="text-center cursor-pointer duration-100 hover:bg-blue-100" v-for="i in 16" :key="i">
-            <td class="p-3">
+          <tr class="text-center cursor-pointer duration-100 hover:bg-blue-100" v-for="(torrent, index) in torrents.concat(torrents).concat(torrents).concat(torrents)" :key="index">
+            <td class="">
               <div class="flex flex-row items-center">
-                <img class="rounded-lg h-12 w-12  object-cover" src="https://i2.extraimage.info/pix/2021/08/08/712335bc3cf031c553b4f15bb3a79ad9.png" alt="unsplash image">
-                <div class="ml-3 text-black font-bold">Borderlands 3: Director's Cut [WB]</div>
+                <img class="rounded-lg h-12 w-12  object-cover" :src="torrent.image" :alt="torrent.name">
+                <div class="ml-3 text-black font-bold">
+                  {{ torrent.name }}
+                </div>
               </div>
             </td>
-            <td class="p-3">
-              <span class="text-green-400 font-bold">1787</span>
+            <td class="text-green-400 font-bold">
+              {{ torrent.seeders }}
             </td>
-            <td class="p-3">
-              <span class="text-red-400 font-bold">2376</span>
+            <td class="text-red-400 font-bold">
+              {{ torrent.leechers }}
             </td>
-            <td class="p-3">
-              Today
+            <td class="">
+              {{ timeSince(torrent.date) }} ago
             </td>
-            <td class="p-3">
-              <span class="text-black">674 MB</span>
+            <td class="text-black">
+              {{ fileSize(torrent.size) }}
             </td>
-            <td class="p-3">
-              <span class="text-blue-400 font-bold">Warm Beer</span>
+            <td class="text-black font-bold">
+              {{ torrent.uploader }}
             </td>
           </tr>
         </tbody>
@@ -44,7 +46,47 @@
 
 <script>
 export default {
-  name: "TorrentList"
+  name: "TorrentList",
+  data: () => ({
+    torrents: [
+      {
+        name: "The.Suicide.Squad.2021.1080p.WEBRip.x264-RARBG",
+        seeders: 13164,
+        leechers: 4391,
+        date: Date.now(),
+        size: 2500000000,
+        uploader: "TheMorozko",
+        image: "https://lx1.dyncdn.cc/cdn/f1/f171fca83dbbcbcbd0dfedee5f27b4c3.jpg"
+      },
+      {
+        name: "Jungle.Cruise.2021.1080p.WEBRip.x264-RARBG",
+        seeders: 7519,
+        leechers: 1205,
+        date: Date.now(),
+        size: 324500000,
+        uploader: "Warm Beer",
+        image: "https://lx1.dyncdn.cc/cdn/a2/a2075634828053a442fab660fe1cf33e.jpg"
+      },
+      {
+        name: "Loki.S01E06.For.All.Time.Always.1080p.DSNP.WEBRip.DDP5.1.x264-TOMMY",
+        seeders: 4551,
+        leechers: 602,
+        date: Date.now(),
+        size: 2000000000,
+        uploader: "Dakshvv",
+        image: "https://dyncdn.me/static/20/tvdb/347843_banner_optimized.jpg"
+      },
+      {
+        name: "Fast.and.Furious.F9.The.Fast.Saga.2021.1080p.WEBRip.x264-RARBG",
+        seeders: 6888,
+        leechers: 1326,
+        date: Date.now(),
+        size: 2700000000,
+        uploader: "Warm Beer",
+        image: "https://www.moviemeter.nl/images/cover/1128000/1128280.jpg"
+      }
+    ]
+  })
 }
 </script>
 
@@ -68,6 +110,11 @@ tr {
       @apply border-blue-400;
     }
   }
+}
+
+tr th,
+tr td {
+  @apply p-2;
 }
 
 tr td {
