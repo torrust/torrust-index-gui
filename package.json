@@ -30,7 +30,7 @@
     "sass-loader": "^10",
     "semantic-release": "^17.4.4",
     "style-loader": "^3.2.1",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7",
+    "@tailwindcss/postcss7-compat": "2.0.2",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

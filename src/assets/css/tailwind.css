@@ -8,12 +8,13 @@ body {
     font-family: Poppins, sans-serif;
 }
 
-body::-webkit-scrollbar {
-    display: none;
+.overlay {
+    position: relative;
 }
 
-.overlay {
-    position: relative; 
+.view-title {
+    @apply text-2xl font-semibold mb-2 lg:mb-0;
+    /*@apply text-tbk-80;*/
 }
 
 /* 1024 -1 so it doesnt show when it hits 1024px */

@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
-import '@/assets/css/tailwind.css'
+import './assets/css/tailwind.css'
 import Layout from "@/components/Layout";
 import Home from "@/views/Home";
 import store from "@/store/index";
+import CategoryOverview from "./views/CategoryOverview";
 
 
 Vue.use(VueRouter)
@@ -53,7 +54,8 @@ Vue.mixin({
 const routes = [
   { path: '/', redirect: { name: 'Home' } },
   { path: '/', component: Layout, children: [
-      { path: 'home', name: 'Home', component: Home }
+      { path: 'home', name: 'Home', component: Home },
+      { path: 'category/:name', name: 'CategoryOverview', component: CategoryOverview }
     ]
   }
 ]

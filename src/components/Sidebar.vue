@@ -31,7 +31,7 @@ export default {
     ]
   }),
   computed: {
-      ...mapState(['sideBarOpen'])
+    ...mapState(['sideBarOpen'])
   }
 }
 </script>
