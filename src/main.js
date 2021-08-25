@@ -5,68 +5,75 @@ import './assets/css/tailwind.css'
 import Layout from "@/components/Layout";
 import Home from "@/views/Home";
 import store from "@/store/index";
+import CategoryDetail from "./views/CategoryDetail";
+import vClickOutside from "v-click-outside";
 import CategoryOverview from "./views/CategoryOverview";
 
-
 Vue.use(VueRouter)
+Vue.use(vClickOutside)
 
 Vue.config.productionTip = false
 
 Vue.mixin({
-  methods: {
-    timeSince(date) {
-      const seconds = Math.floor((+new Date() - date) / 1000);
-      let interval = Math.floor(seconds / 31536000);
-      if (interval >= 1) {
-        return `${interval} year${(interval > 1 ? 's' : '')}`;
-      }
-      interval = Math.floor(seconds / 2592000);
-      if (interval >= 1) {
-        return `${interval} month${(interval > 1 ? 's' : '')}`;
-      }
-      interval = Math.floor(seconds / 86400);
-      if (interval >= 1) {
-        return `${interval} day${(interval > 1 ? 's' : '')}`;
-      }
-      interval = Math.floor(seconds / 3600);
-      if (interval >= 1) {
-        return `${interval} hour${(interval > 1 ? 's' : '')}`;
-      }
-      interval = Math.floor(seconds / 60);
-      if (interval >= 1) {
-        return `${interval} minute${(interval > 1 ? 's' : '')}`;
-      }
-      return `${Math.floor(seconds)} seconds`;
-    },
-    // get string of file size in bytes
-    fileSize(size) {
-      let sizeString = `${(size).toFixed(2)} B`;
+    methods: {
+        timeSince(date) {
+            const seconds = Math.floor((+new Date() - date) / 1000);
+            let interval = Math.floor(seconds / 31536000);
+            if (interval >= 1) {
+                return `${interval} year${(interval > 1 ? 's' : '')}`;
+            }
+            interval = Math.floor(seconds / 2592000);
+            if (interval >= 1) {
+                return `${interval} month${(interval > 1 ? 's' : '')}`;
+            }
+            interval = Math.floor(seconds / 86400);
+            if (interval >= 1) {
+                return `${interval} day${(interval > 1 ? 's' : '')}`;
+            }
+            interval = Math.floor(seconds / 3600);
+            if (interval >= 1) {
+                return `${interval} hour${(interval > 1 ? 's' : '')}`;
+            }
+            interval = Math.floor(seconds / 60);
+            if (interval >= 1) {
+                return `${interval} minute${(interval > 1 ? 's' : '')}`;
+            }
+            return `${Math.floor(seconds)} seconds`;
+        },
+        // get string of file size in bytes
+        fileSize(size) {
+            let sizeString = `${(size).toFixed(2)} B`;
 
-      if (size / 1000000000 < 1000) sizeString = `${(size / 1000000000).toFixed(2)} GB`;
-      if (size / 1000000 < 1000) sizeString = `${(size / 1000000).toFixed(2)} MB`;
-      if (size / 1000 < 1000) sizeString = `${(size / 1000).toFixed(2)} KB`;
+            if (size / 1000000000 < 1000) sizeString = `${(size / 1000000000).toFixed(2)} GB`;
+            if (size / 1000000 < 1000) sizeString = `${(size / 1000000).toFixed(2)} MB`;
+            if (size / 1000 < 1000) sizeString = `${(size / 1000).toFixed(2)} KB`;
 
-      return sizeString;
+            return sizeString;
+        },
+        urlSafe(str) {
+            return str.toLowerCase().replace(' ', '-');
+        }
     },
-  },
 })
 
 const routes = [
-  { path: '/', redirect: { name: 'Home' } },
-  { path: '/', component: Layout, children: [
-      { path: 'home', name: 'Home', component: Home },
-      { path: 'category/:name', name: 'CategoryOverview', component: CategoryOverview }
-    ]
-  }
+    {path: '/', redirect: {name: 'Home'}},
+    {
+        path: '/', component: Layout, children: [
+            {path: 'home', name: 'Home', component: Home},
+            {path: 'categories', name: 'CategoryOverview', component: CategoryOverview},
+            {path: 'categories/:name', name: 'CategoryDetail', component: CategoryDetail}
+        ]
+    }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  routes
+    mode: 'history',
+    routes
 })
 
 new Vue({
-  render: h => h(App),
-  router,
-  store
+    render: h => h(App),
+    router,
+    store
 }).$mount('#app')
