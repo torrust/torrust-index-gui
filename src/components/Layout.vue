@@ -17,16 +17,18 @@
 
       </div>
     </div>
+    <AuthenticationModal />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 
-import Sidebar from './Sidebar'
-import Navbar from './Navbar'
+import Sidebar from './navigation/Sidebar'
+import Navbar from './navigation/Navbar'
 import Footer from './Footer'
 import Breadcrumb from "@/components/Breadcrumb";
+import AuthenticationModal from "../views/AuthenticationModal";
 
 export default {
   name: 'Layout',
@@ -34,6 +36,7 @@ export default {
     ...mapState(['sideBarOpen'])
   },
   components: {
+    AuthenticationModal,
     Breadcrumb,
     Sidebar,
     Navbar,
