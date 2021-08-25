@@ -11,11 +11,11 @@
         <p class="font-semibold text-white text-xl">{{ category.title }}</p>
         <div class="details">
           <p class="pr-2 inline-flex text-gray-200 text-sm">
-            <HashtagIcon size="20" class="mr-0.5" />
+            <HashtagIcon size="20" class="mr-0.5"/>
             {{ category.numTorrents }}
           </p>
           <p class="pl-2 inline-flex text-gray-200 text-sm">
-            <DownloadIcon size="20" class="mr-0.5" />
+            <DownloadIcon size="20" class="mr-0.5"/>
             {{ category.totalDownloads }}
           </p>
         </div>
@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import { HashtagIcon  } from "@vue-hero-icons/outline"
-import { DownloadIcon } from "@vue-hero-icons/outline";
+import {HashtagIcon} from "@vue-hero-icons/outline"
+import {DownloadIcon} from "@vue-hero-icons/outline";
 
 export default {
   name: "CategoryOverview",
-  components: { HashtagIcon , DownloadIcon },
+  components: {HashtagIcon, DownloadIcon},
   data: () => ({
     categories: [
       {
