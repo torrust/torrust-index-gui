@@ -15,7 +15,7 @@
         <div class="xl:col-span-2 xl:pr-8 xl:border-r xl:border-gray-200">
           <div>
             <div class="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6">
-              <h1 class="text-xl md:text-2xl font-bold text-gray-900">{{ torrent.name }}</h1>
+              <h1 class="text-xl break-all md:text-2xl font-bold text-gray-900">{{ torrent.name }}</h1>
               <button type="button"
                       class="text-white bg-green-600 border-transparent shadow-sm button hover:bg-green-700">
                 <DownloadIcon class="mr-2 -ml-1 w-5 h-5"/>

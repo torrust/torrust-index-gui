@@ -50,7 +50,7 @@
     <div class="bar-section">
       <div class="inline-flex justify-between w-full">
         <button type="button"
-                class="user-buttons text-gray-700 bg-white border-gray-300 hover:bg-gray-50">
+                class="user-buttons text-gray-700 bg-white border-gray-300 hover:bg-gray-200">
           <PencilIcon class="mr-2 -ml-1 w-5 h-5 text-gray-400"/>
           <span>Edit</span>
         </button>
