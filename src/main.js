@@ -8,6 +8,7 @@ import store from "@/store/index";
 import CategoryDetail from "./views/CategoryDetail";
 import vClickOutside from "v-click-outside";
 import CategoryOverview from "./views/CategoryOverview";
+import TorrentDetail from "./views/TorrentDetail";
 
 Vue.use(VueRouter)
 Vue.use(vClickOutside)
@@ -72,7 +73,15 @@ const routes = [
         path: '/', component: Layout, children: [
             {path: 'home', name: 'Home', component: Home},
             {path: 'categories', name: 'CategoryOverview', component: CategoryOverview},
-            {path: 'categories/:name', name: 'CategoryDetail', component: CategoryDetail}
+            {
+                path: 'categories/:name',
+                name: 'CategoryDetail',
+                component: CategoryDetail,
+                children: [
+                    {path: ':torrentId', name: 'TorrentDetail', component: TorrentDetail}
+                ]
+            },
+
         ]
     }
 ]

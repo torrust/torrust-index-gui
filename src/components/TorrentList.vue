@@ -3,41 +3,45 @@
     <div class="overflow-auto lg:overflow-visible ">
       <table class="table w-full text-gray-400 border-separate space-y-6 text-sm">
         <thead class="text-black text-center">
-          <tr>
-            <th class="text-left">Name</th>
-            <th class="">Seeders</th>
-            <th class="">Leechers</th>
-            <th class="">Uploaded</th>
-            <th class="">Size</th>
-            <th class="">Uploader</th>
-          </tr>
+        <tr>
+          <th class="text-left">Name</th>
+          <th class="">Seeders</th>
+          <th class="">Leechers</th>
+          <th class="">Uploaded</th>
+          <th class="">Size</th>
+          <th class="">Uploader</th>
+        </tr>
         </thead>
         <tbody>
-          <tr class="text-center cursor-pointer duration-100 hover:bg-blue-100" v-for="(torrent, index) in torrents.concat(torrents).concat(torrents).concat(torrents)" :key="index">
-            <td class="">
-              <div class="flex flex-row items-center">
-                <img class="rounded-lg h-12 w-12  object-cover" :src="torrent.image" :alt="torrent.name">
-                <div class="ml-3 text-black font-bold">
-                  {{ torrent.name }}
-                </div>
+        <tr
+            v-for="(torrent, index) in torrents.concat(torrents).concat(torrents).concat(torrents)" :key="index"
+            @click="$router.push({path: index.toString(), append: true})"
+            class="text-center cursor-pointer duration-100 hover:bg-blue-100"
+        >
+          <td class="">
+            <div class="flex flex-row items-center">
+              <img class="rounded-lg h-12 w-12 object-cover" :src="torrent.image" :alt="torrent.name">
+              <div class="ml-3 text-black font-bold">
+                {{ torrent.name }}
               </div>
-            </td>
-            <td class="text-green-400 font-bold">
-              {{ torrent.seeders }}
-            </td>
-            <td class="text-red-400 font-bold">
-              {{ torrent.leechers }}
-            </td>
-            <td class="">
-              {{ timeSince(torrent.date) }} ago
-            </td>
-            <td class="text-black">
-              {{ fileSize(torrent.size) }}
-            </td>
-            <td class="text-black font-bold">
-              {{ torrent.uploader }}
-            </td>
-          </tr>
+            </div>
+          </td>
+          <td class="text-green-400 font-bold">
+            {{ torrent.seeders }}
+          </td>
+          <td class="text-red-400 font-bold">
+            {{ torrent.leechers }}
+          </td>
+          <td class="">
+            {{ timeSince(torrent.date) }} ago
+          </td>
+          <td class="text-black">
+            {{ fileSize(torrent.size) }}
+          </td>
+          <td class="text-black font-bold">
+            {{ torrent.uploader }}
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
