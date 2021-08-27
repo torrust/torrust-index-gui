@@ -4,21 +4,25 @@
     <div class="space-y-5">
       <div class="detail-row">
         <UploadIcon class="w-5 h-5 text-green-500"/>
-        <span class="text-sm font-medium text-green-700">123 seeders</span>
+        <span class="text-sm font-medium text-green-700">{{ torrent.seeders }} seeders</span>
       </div>
       <div class="detail-row">
         <DownloadIcon class="w-5 h-5 text-red-500"/>
-        <span class="text-sm font-medium text-red-500">4 leechers</span>
+        <span class="text-sm font-medium text-red-500">{{ torrent.leechers }} leechers</span>
       </div>
       <div class="detail-row">
         <DocumentIcon class="w-5 h-5 text-gray-400"/>
-        <span class="text-sm font-medium text-gray-900">{{ fileSize(1000) }}</span>
+        <span class="text-sm font-medium text-gray-900">{{ fileSize(torrent.size) }}</span>
+      </div>
+      <div class="detail-row">
+        <UserIcon class="w-5 h-5 text-gray-400"/>
+        <span class="text-sm font-medium text-gray-900">{{ torrent.uploader }}</span>
       </div>
       <div class="detail-row">
         <CalendarIcon class="w-5 h-5 text-gray-400"/>
         <span class="text-sm font-medium text-gray-900">
           Uploaded on
-          <time datetime="2020-12-02">Dec 2, 2020</time>
+          <time :datetime="torrent.date">{{ torrent.date }}</time>
         </span>
       </div>
     </div>
@@ -26,17 +30,17 @@
       <div>
         <h2 class="text-sm font-medium text-gray-500">Categories</h2>
         <ul role="list" class="mt-2 space-x-1 leading-8">
-          <li class="inline">
-            <a href="#"
-               class="inline-flex rounded-full border border-gray-300 px-3 py-0.5">
-              <div class="text-sm font-medium text-gray-900">Movie</div>
-            </a>
-          </li>
-          <li class="inline">
-            <a href="#"
-               class="inline-flex rounded-full border border-gray-300 px-3 py-0.5">
-              <div class="text-sm font-medium text-gray-900">TV Show</div>
-            </a>
+          <li
+              v-for="category in torrent.categories"
+              :key="category"
+              class="inline"
+          >
+            <router-link
+                :to="{name: 'CategoryDetail', params: {name: urlSafe(category)}}"
+                class="inline-flex rounded-full border border-gray-300 px-3 py-0.5"
+            >
+              <div class="text-sm font-medium text-gray-900">{{ category }}</div>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -64,11 +68,14 @@
 </template>
 
 <script>
-import {CalendarIcon, DocumentIcon, DownloadIcon, PencilIcon, UploadIcon, TrashIcon} from "@vue-hero-icons/outline";
+import {CalendarIcon, DocumentIcon, DownloadIcon, PencilIcon, UploadIcon, UserIcon, TrashIcon} from "@vue-hero-icons/outline";
 
 export default {
   name: "DetailsSidebar",
-  components: {CalendarIcon, DocumentIcon, DownloadIcon, PencilIcon, UploadIcon, TrashIcon},
+  components: {CalendarIcon, DocumentIcon, DownloadIcon, PencilIcon, UploadIcon, UserIcon, TrashIcon},
+  props: {
+    torrent: Object,
+  }
 }
 </script>
 
