@@ -1,6 +1,6 @@
 <template>
   <div
-      class="flex absolute top-0 left-0 z-30 flex-col justify-center w-screen min-h-screen bg-black bg-opacity-50"
+      class="flex fixed top-0 left-0 z-30 flex-col justify-center w-full min-h-screen bg-black bg-opacity-50"
       :class="{hidden: !authModalOpen}"
       @click.self="$store.dispatch('closeAuthModal')"
   >

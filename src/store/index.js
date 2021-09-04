@@ -41,10 +41,12 @@ export default new Vuex.Store({
     },
     actions: {
         closeAuthModal({commit}) {
-            commit('setAuthModal', false)
+            commit('setAuthModal', false);
+            document.body.classList.remove("modal-open");
         },
         openAuthModal({commit}) {
-            commit('setAuthModal', true)
+            commit('setAuthModal', true);
+            document.body.classList.add("modal-open");
         },
         toggleSidebar({commit}) {
             commit('toggleSidebar')

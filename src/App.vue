@@ -11,5 +11,8 @@ export default {
 </script>
 
 <style>
-
+body.modal-open {
+  overflow: hidden;
+  padding-right: 15px;
+}
 </style>
