@@ -7,7 +7,7 @@ export default new Vuex.Store({
     state: {
         authModalOpen: false,
         sideBarOpen: false,
-        loggedIn: false,
+        loggedIn: true,
         userToken: localStorage.getItem('userToken') || '',
         user: {},
     },
