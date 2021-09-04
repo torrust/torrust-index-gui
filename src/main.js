@@ -9,6 +9,7 @@ import CategoryDetail from "./views/CategoryDetail";
 import vClickOutside from "v-click-outside";
 import CategoryOverview from "./views/CategoryOverview";
 import TorrentDetail from "./views/TorrentDetail";
+import TorrentUpload from "./views/TorrentUpload";
 
 Vue.use(VueRouter)
 Vue.use(vClickOutside)
@@ -81,7 +82,7 @@ const routes = [
                     {path: ':torrentId', name: 'TorrentDetail', component: TorrentDetail}
                 ]
             },
-
+            {path: 'upload', name: 'TorrentUpload', component: TorrentUpload},
         ]
     }
 ]

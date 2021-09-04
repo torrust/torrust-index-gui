@@ -26,8 +26,14 @@
       </div>
 
       <!-- right navbar -->
-      <Profile v-if="loggedIn" />
-      <button v-else class="h-10 px-4 bg-primary-500 text-white rounded-lg" @click="$store.dispatch('openAuthModal')">
+      <div v-if="loggedIn" class="flex justify-between items-center space-x-4">
+        <router-link to="/upload" class="button leading-10">
+          New torrent
+        </router-link>
+        <Profile />
+      </div>
+
+      <button v-else class="button" @click="$store.dispatch('openAuthModal')">
         Sign in
       </button>
 
@@ -56,5 +62,9 @@ export default {
 <style scoped>
 img {
   image-rendering: crisp-edges;
+}
+
+.button {
+  @apply h-10 px-4 bg-primary-500 text-white rounded-lg;
 }
 </style>
