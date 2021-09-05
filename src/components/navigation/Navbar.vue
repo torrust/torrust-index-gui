@@ -49,7 +49,9 @@ export default {
   name: 'Navbar',
   components: {Profile},
   computed: {
-    ...mapState(['loggedIn'])
+    ...mapState({
+      loggedIn: state => state.auth.loggedIn
+    })
   },
   methods: {
     toggleSidebar() {
