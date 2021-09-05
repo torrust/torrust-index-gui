@@ -16,8 +16,8 @@
       <router-view/>
     </transition>
 
-    <TorrentList/>
-    <Pagination/>
+    <TorrentList :torrents="torrents" />
+    <Pagination :current-page.sync="currentPage" :total-pages="totalPages" :total-results="torrents.length || 0" page-size="20" />
   </div>
 </template>
 
@@ -25,13 +25,37 @@
 import TorrentList from "../components/TorrentList";
 import Pagination from "../components/Pagination";
 import TableOrder from "../components/TableOrder";
+import HttpService from "@/common/http-service";
 
 export default {
   name: "CategoryDetail",
   components: {TableOrder, Pagination, TorrentList},
+  data: () => ({
+    torrents: [],
+    currentPage: 1,
+    pageSize: 20,
+  }),
+  methods: {
+    loadTorrents(category, page) {
+      HttpService.get(`/category/${category}/torrents?page_size=${this.pageSize}&page=${page-1}`, (res) => {
+        this.torrents = res.data.data;
+      });
+    }
+  },
   computed: {
     category() {
       return this.$route.params?.name;
+    },
+    totalPages() {
+      return Math.ceil(this.torrents.length / this.pageSize);
+    },
+  },
+  watch: {
+    category(newCat) {
+      this.loadTorrents(newCat, this.currentPage);
+    },
+    currentPage(newPage) {
+      this.loadTorrents(this.category, newPage);
     }
   }
 }

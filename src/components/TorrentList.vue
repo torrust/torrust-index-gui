@@ -51,45 +51,48 @@
 <script>
 export default {
   name: "TorrentList",
+  props: {
+    torrents: Array,
+  },
   data: () => ({
-    torrents: [
-      {
-        name: "The.Suicide.Squad.2021.1080p.WEBRip.x264-RARBG",
-        seeders: 13164,
-        leechers: 4391,
-        date: Date.now(),
-        size: 2500000000,
-        uploader: "TheMorozko",
-        image: "https://lx1.dyncdn.cc/cdn/f1/f171fca83dbbcbcbd0dfedee5f27b4c3.jpg"
-      },
-      {
-        name: "Jungle.Cruise.2021.1080p.WEBRip.x264-RARBG",
-        seeders: 7519,
-        leechers: 1205,
-        date: Date.now(),
-        size: 324500000,
-        uploader: "Warm Beer",
-        image: "https://lx1.dyncdn.cc/cdn/a2/a2075634828053a442fab660fe1cf33e.jpg"
-      },
-      {
-        name: "Loki.S01E06.For.All.Time.Always.1080p.DSNP.WEBRip.DDP5.1.x264-TOMMY",
-        seeders: 4551,
-        leechers: 602,
-        date: Date.now(),
-        size: 2000000000,
-        uploader: "Dakshvv",
-        image: "https://dyncdn.me/static/20/tvdb/347843_banner_optimized.jpg"
-      },
-      {
-        name: "Fast.and.Furious.F9.The.Fast.Saga.2021.1080p.WEBRip.x264-RARBG",
-        seeders: 6888,
-        leechers: 1326,
-        date: Date.now(),
-        size: 2700000000,
-        uploader: "Warm Beer",
-        image: "https://www.moviemeter.nl/images/cover/1128000/1128280.jpg"
-      }
-    ]
+    // torrents: [
+    //   {
+    //     name: "The.Suicide.Squad.2021.1080p.WEBRip.x264-RARBG",
+    //     seeders: 13164,
+    //     leechers: 4391,
+    //     date: Date.now(),
+    //     size: 2500000000,
+    //     uploader: "TheMorozko",
+    //     image: "https://lx1.dyncdn.cc/cdn/f1/f171fca83dbbcbcbd0dfedee5f27b4c3.jpg"
+    //   },
+    //   {
+    //     name: "Jungle.Cruise.2021.1080p.WEBRip.x264-RARBG",
+    //     seeders: 7519,
+    //     leechers: 1205,
+    //     date: Date.now(),
+    //     size: 324500000,
+    //     uploader: "Warm Beer",
+    //     image: "https://lx1.dyncdn.cc/cdn/a2/a2075634828053a442fab660fe1cf33e.jpg"
+    //   },
+    //   {
+    //     name: "Loki.S01E06.For.All.Time.Always.1080p.DSNP.WEBRip.DDP5.1.x264-TOMMY",
+    //     seeders: 4551,
+    //     leechers: 602,
+    //     date: Date.now(),
+    //     size: 2000000000,
+    //     uploader: "Dakshvv",
+    //     image: "https://dyncdn.me/static/20/tvdb/347843_banner_optimized.jpg"
+    //   },
+    //   {
+    //     name: "Fast.and.Furious.F9.The.Fast.Saga.2021.1080p.WEBRip.x264-RARBG",
+    //     seeders: 6888,
+    //     leechers: 1326,
+    //     date: Date.now(),
+    //     size: 2700000000,
+    //     uploader: "Warm Beer",
+    //     image: "https://www.moviemeter.nl/images/cover/1128000/1128280.jpg"
+    //   }
+    // ]
   })
 }
 </script>
