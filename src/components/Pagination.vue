@@ -49,7 +49,7 @@
               ...
             </span>
           </template>
-          <button v-else v-for="i in 5" :key="i"
+          <button v-else v-for="i in 5" :key="i" v-show="i < totalPages"
                   @click="goToPage(i)"
                   :disabled="i === currentPage"
                   class="page-button">
@@ -87,7 +87,7 @@
             </button>
           </template>
           <template v-else>
-            <button v-for="i in 5" :key="totalPages-5+i"
+            <button v-for="i in 5" :key="totalPages-5+i" v-show="totalPages-5+i > 0"
                     @click="goToPage(totalPages-5+i)"
                     :disabled="totalPages-5+i === currentPage"
                     class="page-button">
@@ -162,6 +162,10 @@ export default {
       this.goToPage(this.currentPage+1);
     },
     goToPage(pageNum) {
+      if(pageNum > this.currentPage || pageNum < 1) {
+        return;
+      }
+
       this.$emit('update:currentPage', pageNum);
     },
   }
