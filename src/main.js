@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import App from './App.vue'
-import VueRouter from 'vue-router'
-import './assets/css/tailwind.css'
+import Vue from 'vue';
+import App from './App.vue';
+import VueRouter from 'vue-router';
+import './assets/css/tailwind.css';
 import Layout from "@/components/Layout";
 import Home from "@/views/Home";
 import store from "@/store/index";
@@ -10,11 +10,16 @@ import vClickOutside from "v-click-outside";
 import CategoryOverview from "./views/CategoryOverview";
 import TorrentDetail from "./views/TorrentDetail";
 import TorrentUpload from "./views/TorrentUpload";
+import Notifications from 'vue-notification'
+import axios from "axios";
 
-Vue.use(VueRouter)
-Vue.use(vClickOutside)
+axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 
-Vue.config.productionTip = false
+Vue.use(VueRouter);
+Vue.use(vClickOutside);
+Vue.use(Notifications);
+
+Vue.config.productionTip = false;
 
 Vue.mixin({
     methods: {
@@ -85,15 +90,15 @@ const routes = [
             {path: 'upload', name: 'TorrentUpload', component: TorrentUpload},
         ]
     }
-]
+];
 
 const router = new VueRouter({
     mode: 'history',
     routes
-})
+});
 
 new Vue({
     render: h => h(App),
     router,
     store
-}).$mount('#app')
+}).$mount('#app');

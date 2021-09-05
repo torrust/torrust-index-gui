@@ -1,43 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import authStore from './auth';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        authModalOpen: false,
         sideBarOpen: false,
-        loggedIn: true,
-        userToken: localStorage.getItem('userToken') || '',
-        user: {},
     },
     getters: {
-        isAuthenticationModalOpen: state => {
-            return state.authModalOpen;
-        },
         sideBarOpen: state => {
             return state.sideBarOpen;
         },
-        isLoggedIn: state => {
-            return state.loggedIn;
-        },
     },
     mutations: {
-        setAuthModal (state, opened) {
-            state.authModalOpen = opened
-        },
         toggleSidebar (state) {
             state.sideBarOpen = !state.sideBarOpen
         },
-        authSucces (state, token, user) {
-            state.loggedIn = true;
-            state.userToken = token;
-            state.user = user;
-        },
-        logout(state) {
-            state.loggedIn = false;
-            state.token = '';
-        }
     },
     actions: {
         closeAuthModal({commit}) {
@@ -51,5 +30,8 @@ export default new Vuex.Store({
         toggleSidebar({commit}) {
             commit('toggleSidebar')
         },
+    },
+    modules: {
+        auth: authStore
     }
 })

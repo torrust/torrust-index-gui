@@ -20,7 +20,10 @@
           <h2 v-else class="text-2xl mb-4 text-center">Sign In</h2>
         </transition>
 
-        <form class="space-y-6">
+        <form
+            @submit.prevent="submit"
+            class="space-y-6"
+        >
           <transition
               enter-active-class="transition ease-out duration-100 transform"
               enter-class="opacity-0 scale-95"
@@ -34,7 +37,8 @@
                 Username
               </label>
               <div class="mt-1">
-                <input id="username" name="username" type="text"
+                <input v-model="form.username"
+                       id="username" name="username" type="text"
                        required class="form-style">
               </div>
             </div>
@@ -42,10 +46,11 @@
 
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700">
-              Username or Email address
+              {{ !isSignUp ? 'Username or ' : '' }} Email address
             </label>
             <div class="mt-1">
-              <input id="email" name="email" type="email" autocomplete="email" required
+              <input v-model="form.email"
+                     id="email" name="email" type="text" autocomplete="email" required
                      class="form-style">
             </div>
           </div>
@@ -55,14 +60,15 @@
               <label for="password" class="inline text-sm font-medium text-gray-700">
                 Password
               </label>
-              <div class="mt-2 text-xs text-right">
-                <a href="#" class="font-medium text-primary-600 hover:text-primary-500">
-                  Forgot your password?
-                </a>
-              </div>
+              <!--              <div v-if="!isSignUp" class="mt-2 text-xs text-right">-->
+              <!--                <a href="#" class="font-medium text-primary-600 hover:text-primary-500">-->
+              <!--                  Forgot your password?-->
+              <!--                </a>-->
+              <!--              </div>-->
             </div>
             <div class="mt-1">
-              <input id="password" name="password" type="password"
+              <input v-model="form.password"
+                     id="password" name="password" type="password"
                      :autocomplete="[isSignUp ? 'new-password' : 'current-password']" required class="form-style">
             </div>
           </div>
@@ -81,7 +87,8 @@
                 Confirm password
               </label>
               <div class="mt-1">
-                <input id="password-repeat" name="password-repeat" type="password"
+                <input v-model="form.confirm_password"
+                       id="password-repeat" name="password-repeat" type="password"
                        autocomplete="new-password" required class="form-style">
               </div>
             </div>
@@ -100,10 +107,10 @@
           </div>
           <div class="flex relative justify-center text-sm">
             <button v-if="isSignUp" class="px-2 text-blue-500 bg-white" @click="toggleMode">
-              Don't have an account? Sign up
+              Already have an account? Sign in
             </button>
             <button v-else class="px-2 text-blue-500 bg-white" @click="toggleMode">
-              Already have an account? Sign in
+              Don't have an account? Sign up
             </button>
           </div>
         </div>
@@ -119,14 +126,31 @@ import {mapState} from "vuex";
 export default {
   name: "AuthenticationModal",
   computed: {
-    ...mapState(['authModalOpen'])
+    ...mapState({
+      authModalOpen: state => state.auth.authModalOpen
+    })
   },
   data: () => ({
     isSignUp: false,
+    form: {
+      username: "",
+      email: "",
+      password: "",
+      confirm_password: "",
+    },
   }),
   methods: {
     toggleMode() {
       this.isSignUp = !this.isSignUp;
+    },
+    submit() {
+      if (this.isSignUp) {
+        this.$store.dispatch('register', this.form).then(() => {
+          this.toggleMode();
+        });
+      } else {
+        this.$store.dispatch('login', {login: this.form.email, password: this.form.password});
+      }
     }
   }
 }
