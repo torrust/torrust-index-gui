@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         sideBarOpen: false,
+        categories: [],
     },
     getters: {
         sideBarOpen: state => {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
         toggleSidebar (state) {
             state.sideBarOpen = !state.sideBarOpen
         },
+        setCategories(state, categories) {
+            Vue.set(state, 'categories', categories);
+        }
     },
     actions: {
         closeAuthModal({commit}) {

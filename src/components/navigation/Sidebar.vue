@@ -11,8 +11,8 @@
         <span>Recent Torrents</span>
       </router-link>
       <template v-for="(category, index) in categories">
-        <router-link :key="index" :to="`/categories/${urlSafe(category)}`" class="mt-2 w-full flex items-center h-10 pl-4 rounded-lg cursor-pointer" exact-active-class="bg-gray-100">
-          <span>{{ category }}</span>
+        <router-link :key="index" :to="`/categories/${urlSafe(category.name)}`" class="mt-2 w-full flex items-center h-10 pl-4 rounded-lg cursor-pointer" exact-active-class="bg-gray-100">
+          <span>{{ titleCase(category.name) }}</span>
         </router-link>
       </template>
       <router-link :to="'/categories'" class="mt-2 w-full flex items-center h-10 pl-4 rounded-lg cursor-pointer" exact-active-class="bg-gray-100">
@@ -24,18 +24,18 @@
 
 <script>
 import { mapState } from 'vuex'
+import HttpService from '@/common/http-service';
 
 export default {
   name: 'Sidebar',
-  data: () => ({
-    categories: [
-        "Movies",
-        "TV Shows",
-        "Games"
-    ]
-  }),
+  created() {
+    HttpService.get('/category/', (res) => {
+      const categories = res.data.data;
+      this.$store.commit('setCategories', categories);
+    });
+  },
   computed: {
-    ...mapState(['sideBarOpen'])
+    ...mapState(['sideBarOpen', 'categories'])
   }
 }
 </script>
