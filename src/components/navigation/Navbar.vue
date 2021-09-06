@@ -28,7 +28,7 @@
       <!-- right navbar -->
       <div v-if="loggedIn" class="flex justify-between items-center space-x-4">
         <router-link to="/upload" class="button leading-10">
-          New torrent
+          Upload torrent
         </router-link>
         <Profile />
       </div>

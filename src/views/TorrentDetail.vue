@@ -69,47 +69,50 @@ export default {
       uploader: "TheMorozko",
       image: "https://lx1.dyncdn.cc/cdn/f1/f171fca83dbbcbcbd0dfedee5f27b4c3.jpg",
       categories: ["Movies"],
-      files: [
-        {
-          name: "child folder",
-          children: [
-            {
-              name: "child folder",
-              children: [{name: "hello.jpg"}, {name: "wat.pdf"}]
-            },
-            {name: "hello.jpg"},
-            {name: "wat.pdf"},
-            {
-              name: "child folder",
-              children: [{name: "hello.jpg"}, {name: "wat.pdf"}]
-            }
-          ]
-        },
-        {name: "hello.jpg"},
-        {name: "wat.pdf"},
-        {
-          name: "child folder",
-          children: [
-            {
-              name: "child folder",
-              children: [{name: "hello.jpg"}, {name: "wat.pdf", }]
-            },
-            {name: "hello.jpg"},
-            {name: "wat.pdf"},
-            {
-              name: "child folder",
-              children: [{name: "hello.jpg"}, {name: "wat.pdf"}]
-            }
-          ]
-        }
-      ]
+      // files: [
+      //   {
+      //     name: "child folder",
+      //     children: [
+      //       {
+      //         name: "child folder",
+      //         children: [{name: "hello.jpg"}, {name: "wat.pdf"}]
+      //       },
+      //       {name: "hello.jpg"},
+      //       {name: "wat.pdf"},
+      //       {
+      //         name: "child folder",
+      //         children: [{name: "hello.jpg"}, {name: "wat.pdf"}]
+      //       }
+      //     ]
+      //   },
+      //   {name: "hello.jpg"},
+      //   {name: "wat.pdf"},
+      //   {
+      //     name: "child folder",
+      //     children: [
+      //       {
+      //         name: "child folder",
+      //         children: [{name: "hello.jpg"}, {name: "wat.pdf", }]
+      //       },
+      //       {name: "hello.jpg"},
+      //       {name: "wat.pdf"},
+      //       {
+      //         name: "child folder",
+      //         children: [{name: "hello.jpg"}, {name: "wat.pdf"}]
+      //       }
+      //     ]
+      //   }
+      // ]
     },
     md: new MarkdownIt(),
   }),
   mounted() {
     document.body.classList.add("modal-open");
-    this.getTorrent(this.torrentId);
+    this.getTorrent(this.$route.params.torrentId);
   },
+  // beforeRouteUpdate() {
+  //   this.getTorrent(this.$route.params.torrentId);
+  // },
   beforeDestroy() {
     document.body.classList.remove("modal-open");
   },
