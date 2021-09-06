@@ -12,7 +12,7 @@
       </div>
       <div class="detail-row">
         <DocumentIcon class="w-5 h-5 text-gray-400"/>
-        <span class="text-sm font-medium text-gray-900">{{ fileSize(torrent.size) }}</span>
+        <span class="text-sm font-medium text-gray-900">{{ fileSize(torrent.file_size) }}</span>
       </div>
       <div class="detail-row">
         <UserIcon class="w-5 h-5 text-gray-400"/>
@@ -22,7 +22,7 @@
         <CalendarIcon class="w-5 h-5 text-gray-400"/>
         <span class="text-sm font-medium text-gray-900">
           Uploaded on
-          <time :datetime="torrent.date">{{ torrent.date }}</time>
+          <time :datetime="torrent.upload_date * 1000">{{ new Date(torrent.upload_date * 1000).toLocaleDateString() }}</time>
         </span>
       </div>
     </div>

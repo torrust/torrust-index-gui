@@ -15,8 +15,8 @@
         <div class="xl:col-span-2 xl:pr-8 xl:border-r xl:border-gray-200">
           <div>
             <div class="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6">
-              <h1 class="text-xl break-all md:text-2xl font-bold text-gray-900">{{ torrent.name }}</h1>
-              <button type="button"
+              <h1 class="text-xl break-all md:text-2xl font-bold text-gray-900">{{ torrent.title }}</h1>
+              <button type="button" @click="downloadTorrent"
                       class="text-white bg-green-600 border-transparent shadow-sm button hover:bg-green-700">
                 <DownloadIcon class="mr-2 -ml-1 w-5 h-5"/>
                 Download
@@ -28,15 +28,15 @@
 
             <div class="py-3 xl:pt-6 xl:pb-0">
               <h2 class="sr-only">Description</h2>
-              <div class="flex justify-center w-full">
-                <img class="mb-5 max-w-full h-auto rounded-lg"
-                     :src="torrent.image" :alt="torrent.name">
-              </div>
+<!--              <div class="flex justify-center w-full">-->
+<!--                <img class="mb-5 max-w-full h-auto rounded-lg"-->
+<!--                     :src="torrent.image" :alt="torrent.title">-->
+<!--              </div>-->
               <div v-html="compiledMarkdown" class="max-w-none prose-sm md:prose"></div>
             </div>
           </div>
 
-          <FileTree :files="torrent.files" />
+<!--          <FileTree :files="torrent.files" />-->
 
         </div>
 
@@ -50,14 +50,15 @@
 
 <script>
 import MarkdownIt from 'markdown-it';
-import FileTree from "../components/torrent-details/FileTree";
+// import FileTree from "../components/torrent-details/FileTree";
 import DetailsSidebar from "../components/torrent-details/DetailsSidebar";
 import {DownloadIcon, XIcon} from "@vue-hero-icons/outline";
+import HttpService from "@/common/http-service";
 
 
 export default {
   name: "TorrentDetail",
-  components: {DetailsSidebar, FileTree, DownloadIcon, XIcon},
+  components: {DetailsSidebar, DownloadIcon, XIcon},
   data: () => ({
     torrent: {
       name: "The.Suicide.Squad.2021.1080p.WEBRip.x264-RARBG",
@@ -107,6 +108,7 @@ export default {
   }),
   mounted() {
     document.body.classList.add("modal-open");
+    this.getTorrent(this.torrentId);
   },
   beforeDestroy() {
     document.body.classList.remove("modal-open");
@@ -114,6 +116,22 @@ export default {
   methods: {
     closeModal() {
       this.$router.push({name: 'CategoryDetail'});
+    },
+    getTorrent(torrentId) {
+      HttpService.get(`/torrent/${torrentId}`, (res) => {
+        this.torrent = res.data.data;
+      });
+    },
+    downloadTorrent() {
+      //window.open(`${process.env.VUE_APP_API_BASE_URL}/torrent/download`, '_blank');
+      HttpService.getBlob(`/torrent/download/${this.torrentId}`, (res) => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${this.torrent.title}.torrent`);
+        document.body.appendChild(link);
+        link.click();
+      });
     }
   },
   computed: {
@@ -121,7 +139,7 @@ export default {
       return this.$route.params.torrentId;
     },
     compiledMarkdown() {
-      return this.md.render("# Markdown title\n ### Markdown title");
+      return this.md.render(this.torrent.description || "");
     }
   }
 }

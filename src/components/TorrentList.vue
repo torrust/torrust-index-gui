@@ -15,7 +15,7 @@
         <tbody>
         <tr
             v-for="(torrent, index) in torrents" :key="index"
-            @click="$router.push({path: index.toString(), append: true})"
+            @click="$router.push({path: torrent.torrent_id.toString(), append: true})"
             class="text-center cursor-pointer duration-100 hover:bg-blue-100"
         >
           <td class="">
