@@ -25,6 +25,13 @@ export default new class {
         return axios.get(url).then(callback).catch(this.errorHandler);
     }
 
+    // for downloading files
+    getBlob(url, callback) {
+        this.setToken();
+
+        return axios.get(url, { responseType: 'blob' }).then(callback).catch(this.errorHandler);
+    }
+
     post(url, data, callback) {
         this.setToken();
 

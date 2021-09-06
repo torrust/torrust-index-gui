@@ -57,6 +57,10 @@ export default {
     currentPage(newPage) {
       this.loadTorrents(this.category, newPage);
     }
+  },
+  mounted() {
+    let category = this.$route.params?.name;
+    this.loadTorrents(category, this.currentPage);
   }
 }
 </script>

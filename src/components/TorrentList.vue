@@ -14,15 +14,15 @@
         </thead>
         <tbody>
         <tr
-            v-for="(torrent, index) in torrents.concat(torrents).concat(torrents).concat(torrents)" :key="index"
-            @click="$router.push({path: index.toString(), append: true})"
+            v-for="(torrent, index) in torrents" :key="index"
+            @click="$router.push({path: torrent.torrent_id.toString(), append: true})"
             class="text-center cursor-pointer duration-100 hover:bg-blue-100"
         >
           <td class="">
             <div class="flex flex-row items-center">
               <img class="rounded-lg h-12 w-12 object-cover" :src="torrent.image" :alt="torrent.name">
               <div class="ml-3 text-black font-bold">
-                {{ torrent.name }}
+                {{ torrent.title }}
               </div>
             </div>
           </td>
@@ -33,10 +33,10 @@
             {{ torrent.leechers }}
           </td>
           <td class="">
-            {{ timeSince(torrent.date) }} ago
+            {{ timeSince(torrent.upload_date) }} ago
           </td>
           <td class="text-black">
-            {{ fileSize(torrent.size) }}
+            {{ fileSize(torrent.file_size) }}
           </td>
           <td class="text-black font-bold">
             {{ torrent.uploader }}
