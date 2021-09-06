@@ -7,9 +7,9 @@
 
     <div class="mt-6 px-4">
       <h3 class="font-semibold text-md mb-2">Categories</h3>
-      <router-link to="/home" class="w-full flex items-center h-10 pl-4 rounded-lg cursor-pointer" exact-active-class="bg-gray-100">
-        <span>Recent Torrents</span>
-      </router-link>
+<!--      <router-link to="/home" class="w-full flex items-center h-10 pl-4 rounded-lg cursor-pointer" exact-active-class="bg-gray-100">-->
+<!--        <span>Recent Torrents</span>-->
+<!--      </router-link>-->
       <template v-for="(category, index) in categories">
         <router-link :key="index" :to="`/categories/${urlSafe(category.name)}`" class="mt-2 w-full flex items-center h-10 pl-4 rounded-lg cursor-pointer" exact-active-class="bg-gray-100">
           <span>{{ titleCase(category.name) }}</span>

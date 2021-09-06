@@ -3,7 +3,7 @@ import App from './App.vue';
 import VueRouter from 'vue-router';
 import './assets/css/tailwind.css';
 import Layout from "@/components/Layout";
-import Home from "@/views/Home";
+//import Home from "@/views/Home";
 import store from "@/store/index";
 import CategoryDetail from "./views/CategoryDetail";
 import vClickOutside from "v-click-outside";
@@ -24,7 +24,7 @@ Vue.config.productionTip = false;
 Vue.mixin({
     methods: {
         timeSince(date) {
-            const seconds = Math.floor((+new Date() - date) / 1000);
+            const seconds = Math.floor(((+new Date() / 1000) - date));
             let interval = Math.floor(seconds / 31536000);
             if (interval >= 1) {
                 return `${interval} year${(interval > 1 ? 's' : '')}`;
@@ -49,6 +49,7 @@ Vue.mixin({
         },
         // get string of file size in bytes
         fileSize(size) {
+            if (!size) size = 0;
             let sizeString = `${(size).toFixed(2)} B`;
 
             if (size / 1000000000 < 1000) sizeString = `${(size / 1000000000).toFixed(2)} GB`;
@@ -74,10 +75,10 @@ Vue.mixin({
 })
 
 const routes = [
-    {path: '/', redirect: {name: 'Home'}},
+    {path: '/', redirect: {name: 'CategoryOverview'}},
     {
         path: '/', component: Layout, children: [
-            {path: 'home', name: 'Home', component: Home},
+            // {path: 'home', name: 'Home', component: Home},
             {path: 'categories', name: 'CategoryOverview', component: CategoryOverview},
             {
                 path: 'categories/:name',
