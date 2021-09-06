@@ -5,16 +5,18 @@
        @dragleave="dragleave"
        @drop="dropFile"
   >
+
+    <input hidden id="torrent-upload" name="torrent-upload" type="file" class="sr-only" :accept="accept"
+           ref="file" @change="onChange">
+
     <div class="space-y-1 text-center" v-if="filelist.length === 0">
       <DocumentAddIcon v-if="type === 'file'" class="mx-auto w-12 h-12 text-gray-400"/>
       <PhotographIcon v-else-if="type === 'image'" class="mx-auto w-12 h-12 text-gray-400"/>
       <div class="flex text-sm text-gray-600">
-        <label for="torrent-upload"
-               class="relative font-medium text-primary-600 rounded-md cursor-pointer hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
+        <a @click="$refs.file.click()"
+           class="relative font-medium text-primary-600 rounded-md cursor-pointer hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
           <span>Upload a file</span>
-          <input id="torrent-upload" name="torrent-upload" type="file" class="sr-only" :accept="accept"
-                 ref="file" @change="onChange">
-        </label>
+        </a>
         <p class="pl-1">or drag and drop</p>
       </div>
       <p class="text-xs text-gray-500">
@@ -28,6 +30,10 @@
              class="h-20 w-auto"
         />
         <p>{{ file.name }}</p>
+        <a @click="$refs.file.click()"
+           class="relative font-medium text-primary-600 rounded-md cursor-pointer hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
+          <span>Upload a file</span>
+        </a>
       </li>
     </ul>
   </div>
@@ -82,5 +88,7 @@ export default {
 </script>
 
 <style scoped>
-
+.button {
+  @apply w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 text-base font-medium sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm;
+}
 </style>

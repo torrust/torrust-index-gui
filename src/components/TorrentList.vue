@@ -18,13 +18,14 @@
             @click="$router.push({path: torrent.torrent_id.toString(), append: true})"
             class="text-center cursor-pointer duration-100 hover:bg-blue-100"
         >
-          <td class="">
-            <div class="flex flex-row items-center">
-              <img class="rounded-lg h-12 w-12 object-cover" :src="torrent.image" :alt="torrent.name">
-              <div class="ml-3 text-black font-bold">
-                {{ torrent.title }}
-              </div>
-            </div>
+          <td class="text-black font-bold text-left">
+<!--            <div class="flex flex-row items-center">-->
+<!--              <img class="rounded-lg h-12 w-12 object-cover" :src="torrent.image" :alt="torrent.name">-->
+<!--              <div class="ml-3 text-black font-bold">-->
+<!--                {{ torrent.title }}-->
+<!--              </div>-->
+<!--            </div>-->
+            {{ torrent.title }}
           </td>
           <td class="text-green-400 font-bold">
             {{ torrent.seeders }}

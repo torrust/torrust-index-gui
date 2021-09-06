@@ -45,16 +45,14 @@ export default {
     dropdownOpened: false,
     selectedItem: "",
     sortingOrders: {
-      downloads: "Downloads",
-      uploadedAt: "Upload date",
+      uploadedDate: "Upload date",
       seeders: "Seeders",
-      leechers: "Leechers"
     }
   }),
   methods: {
     selectItem(orderBy) {
       this.selectedItem = orderBy;
-      this.$emit('item-selected', orderBy);
+      this.$emit('update:sorting', orderBy);
     }
   }
 }

@@ -2,7 +2,7 @@
   <div>
     <div class="flex justify-between">
       <h1 class="view-title">{{ titleCase(category) }}</h1>
-      <TableOrder/>
+      <TableOrder :sorting.sync="sorting"/>
     </div>
 
     <transition
@@ -16,7 +16,7 @@
       <router-view/>
     </transition>
 
-    <TorrentList :torrents="torrents" />
+    <TorrentList :torrents="sortedTorrents" />
     <Pagination :current-page.sync="currentPage" :total-pages="totalPages" :total-results="torrents.length || 0" page-size="20" />
   </div>
 </template>
@@ -31,6 +31,7 @@ export default {
   name: "CategoryDetail",
   components: {TableOrder, Pagination, TorrentList},
   data: () => ({
+    sorting: "uploadDate",
     torrents: [],
     currentPage: 1,
     pageSize: 20,
@@ -48,6 +49,14 @@ export default {
     },
     totalPages() {
       return Math.ceil(this.torrents.length / this.pageSize);
+    },
+    sortedTorrents() {
+      let sortedTorrents = this.torrents;
+      if (this.sorting === "seeders") {
+        return sortedTorrents.sort((a, b) => b.seeders - a.seeders);
+      } else {
+        return sortedTorrents.sort((a, b) => b.upload_date - a.upload_date);
+      }
     },
   },
   watch: {

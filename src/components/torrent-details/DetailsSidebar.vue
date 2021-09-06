@@ -47,6 +47,11 @@
     <!-- Edit/Delete buttons -->
     <div class="mt-6 bar-section">
       <div class="inline-flex justify-between w-full">
+        <button type="button" @click="downloadTorrent"
+                class="text-white bg-green-600 border-transparent shadow-sm button hover:bg-green-700">
+          <DownloadIcon class="mr-2 -ml-1 w-5 h-5"/>
+          Torrent file
+        </button>
 <!--        <button type="button"-->
 <!--                class="user-buttons text-gray-700 bg-white border-gray-300 hover:bg-gray-200">-->
 <!--          <PencilIcon class="mr-2 -ml-1 w-5 h-5 text-gray-400"/>-->
@@ -68,6 +73,7 @@
 <script>
 import {CalendarIcon, DocumentIcon, DownloadIcon, UploadIcon, UserIcon} from "@vue-hero-icons/outline";
 import {mapState} from "vuex";
+import HttpService from "@/common/http-service";
 
 export default {
   name: "DetailsSidebar",
@@ -77,7 +83,20 @@ export default {
   },
   computed: {
     ...mapState(['categories']),
-  }
+  },
+  methods: {
+    downloadTorrent() {
+      //window.open(`${process.env.VUE_APP_API_BASE_URL}/torrent/download`, '_blank');
+      HttpService.getBlob(`/torrent/download/${this.torrent.torrent_id}`, (res) => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${this.torrent.title}.torrent`);
+        document.body.appendChild(link);
+        link.click();
+      });
+    }
+  },
 }
 </script>
 
@@ -92,5 +111,9 @@ export default {
 
 .detail-row {
   @apply flex items-center space-x-2;
+}
+
+.button {
+  @apply inline-flex justify-center px-4 py-2 text-sm font-medium rounded-md border shadow-sm;
 }
 </style>
