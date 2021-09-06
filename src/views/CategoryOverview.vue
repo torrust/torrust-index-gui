@@ -13,11 +13,12 @@
                    class="category-tile"
                    :style="{background: 'linear-gradient(172deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url(' + category.image + ') no-repeat center center'}"
       >
-        <p class="font-semibold text-white text-xl">{{ category.name }}</p>
+        <p class="capitalize font-semibold text-white text-xl">{{ category.name }}</p>
         <div class="details">
           <p class="pr-2 inline-flex text-gray-200 text-sm">
-            <HashtagIcon size="18" class="mr-0.5"/>
+<!--            <HashtagIcon size="18" class="mr-0.5"/>-->
             {{ category.num_torrents }}
+            Torrents
           </p>
 <!--          <p class="pl-2 inline-flex text-gray-200 text-sm">-->
 <!--            <DownloadIcon size="18" class="mr-0.5"/>-->
@@ -30,12 +31,12 @@
 </template>
 
 <script>
-import {HashtagIcon} from "@vue-hero-icons/outline"
+// import {HashtagIcon} from "@vue-hero-icons/outline"
 import {mapState} from "vuex";
 
 export default {
   name: "CategoryOverview",
-  components: {HashtagIcon},
+  // components: {HashtagIcon},
   data: () => ({
     // categories: [
     //   {
