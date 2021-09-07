@@ -45,8 +45,9 @@ export default {
     dropdownOpened: false,
     selectedItem: "",
     sortingOrders: {
-      uploadedDate: "Upload date",
+      uploaded: "Upload date",
       seeders: "Seeders",
+      leechers: "Leechers",
     }
   }),
   methods: {

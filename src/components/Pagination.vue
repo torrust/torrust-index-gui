@@ -49,12 +49,12 @@
               ...
             </span>
           </template>
-          <button v-else v-for="i in 5" :key="i" v-show="i < totalPages"
-                  @click="goToPage(i)"
-                  :disabled="i === currentPage"
-                  class="page-button">
-            {{ i }}
-          </button>
+<!--          <button v-else v-for="i in 5" :key="i" v-show="i < totalPages"-->
+<!--                  @click="goToPage(i)"-->
+<!--                  :disabled="i === currentPage"-->
+<!--                  class="page-button">-->
+<!--            {{ i }}-->
+<!--          </button>-->
 
           <template v-if="currentPage > 4 && currentPage < totalPages-3">
             <button v-for="i in 2" :key="currentPage - 3 + i"
@@ -96,7 +96,7 @@
           </template>
 
           <button
-              @click="goToNextPage"
+              @click="goToNextPage()"
               class="relative inline-flex items-center px-2 py-2 border border-secondary-300 bg-white text-sm font-medium text-secondary-500 hover:bg-secondary-50">
             <span class="sr-only">Next</span>
             <!-- Heroicon name: solid/chevron-right -->
@@ -162,7 +162,7 @@ export default {
       this.goToPage(this.currentPage+1);
     },
     goToPage(pageNum) {
-      if(pageNum > this.currentPage || pageNum < 1) {
+      if(pageNum > this.totalPages || pageNum < 1) {
         return;
       }
 

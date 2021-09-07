@@ -22,7 +22,7 @@
             <DetailsSidebar class="mt-8 xl:hidden" :torrent="torrent"/>
 
             <div class="flex flex-wrap overflow-hidden">
-              <div class="p-4 w-full overflow-hidden xl:w-2/3">
+              <div class="p-4 pl-0 w-full overflow-hidden xl:w-2/3">
                 <h2 class="sr-only">Description</h2>
   <!--              <div class="flex justify-center w-full">-->
   <!--                <img class="mb-5 max-w-full h-auto rounded-lg"-->

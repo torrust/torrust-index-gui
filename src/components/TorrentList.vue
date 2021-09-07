@@ -125,17 +125,18 @@ tr td {
   @apply p-2;
 }
 
-tr td {
-  @apply border-t-2 border-b-2 border-gray-200;
-}
-
-tr td:nth-child(n+6) {
-  border-radius: 0 .625rem .625rem 0;
-  @apply border-r-2;
-}
-
-tr td:nth-child(1) {
-  border-radius: .625rem 0 0 .625rem;
-  @apply border-l-2;
-}
+//tr td {
+//  @apply border-t-2 border-b-2 border-gray-200;
+//}
+//
+//
+//tr td:nth-child(n+6) {
+//  border-radius: 0 .625rem .625rem 0;
+//  @apply border-r-2;
+//}
+//
+//tr td:nth-child(1) {
+//  border-radius: .625rem 0 0 .625rem;
+//  @apply border-l-2;
+//}
 </style>
