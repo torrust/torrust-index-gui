@@ -35,7 +35,7 @@
             </div>
           </div>
 
-<!--          <FileTree :files="torrent.files" />-->
+          <FileTree :files="groupedFiles" />
 
         </div>
       </div>
@@ -45,7 +45,7 @@
 
 <script>
 import MarkdownIt from 'markdown-it';
-// import FileTree from "../components/torrent-details/FileTree";
+import FileTree from "../components/torrent-details/FileTree";
 import DetailsSidebar from "../components/torrent-details/DetailsSidebar";
 import {XIcon} from "@vue-hero-icons/outline";
 import HttpService from "@/common/http-service";
@@ -53,7 +53,7 @@ import HttpService from "@/common/http-service";
 
 export default {
   name: "TorrentDetail",
-  components: {DetailsSidebar, XIcon},
+  components: {DetailsSidebar, FileTree, XIcon},
   data: () => ({
     torrent: {
       name: "The.Suicide.Squad.2021.1080p.WEBRip.x264-RARBG",
@@ -64,6 +64,7 @@ export default {
       uploader: "TheMorozko",
       image: "https://lx1.dyncdn.cc/cdn/f1/f171fca83dbbcbcbd0dfedee5f27b4c3.jpg",
       categories: ["Movies"],
+      files: [],
       // files: [
       //   {
       //     name: "child folder",
@@ -127,7 +128,26 @@ export default {
     },
     compiledMarkdown() {
       return this.md.render(this.torrent.description || "This torrent has no description.");
-    }
+    },
+    groupedFiles() {
+      let files = [];
+
+      for (const file of this.torrent.files) {
+        let filename = "";
+        for (const [i, path] of file.path.entries()) {
+         filename += path;
+         if (i !== file.path.length - 1) {
+           filename += "/"
+         }
+        }
+        files.push({
+          name: filename,
+          length: file.length
+        });
+      }
+
+      return files;
+    },
   }
 }
 </script>

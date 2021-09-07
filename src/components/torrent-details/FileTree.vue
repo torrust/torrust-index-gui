@@ -6,7 +6,10 @@
       </div>
       <div class="pt-6">
         <ul class="file-tree pb-4 overflow-y-hidden overflow-x-auto h-auto">
-          <TreeItem v-for="(file, index) in files" :key="index" :file="file" :level="1" />
+          <li v-for="(file, index) in files" :key="index">
+            {{ file.name + ` (${fileSize(file.length)})` }}
+          </li>
+<!--          <TreeItem v-for="(file, index) in files" :key="index" :file="file" :level="1" />-->
         </ul>
       </div>
     </div>
@@ -14,10 +17,10 @@
 </template>
 
 <script>
-import TreeItem from "./TreeItem";
+//import TreeItem from "./TreeItem";
 export default {
   name: "FileTree",
-  components: {TreeItem},
+  components: {},
   props: {
     files: Array,
   }

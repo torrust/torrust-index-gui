@@ -6,7 +6,7 @@
         @click="toggle"
     >
       <FolderIcon v-if="isFolder" size="20" class="mr-0.5 text-gray-500"/>
-      {{ file.name }}
+      {{ file.name + ` (${fileSize(file.length)})` }}
     </p>
     <ul v-show="isOpen" v-if="isFolder">
       <TreeItem v-for="(child, index) in file.children" :key="index" :file="child" :level="level+1" />
@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     isFolder() {
-      return this.file.children && this.file.children.length;
+      return this.file.children && this.file.path.children;
     }
   },
   methods: {

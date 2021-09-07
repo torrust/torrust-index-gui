@@ -1,7 +1,7 @@
 <template>
   <div class="col-span-12">
     <div class="overflow-auto lg:overflow-visible ">
-      <table class="table w-full text-gray-400 border-separate space-y-6 text-sm">
+      <table class="table w-full text-gray-400 border-separate space-y-6 text-sm whitespace-nowrap">
         <thead class="text-black text-center">
         <tr>
           <th class="text-left">Name</th>
