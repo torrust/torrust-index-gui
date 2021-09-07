@@ -13,7 +13,7 @@
 <!--        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Account</a>-->
 <!--        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>-->
         <button
-            @click="$store.commit('logout')"
+            @click="$store.dispatch('logout')"
             class="block w-full text-left px-4 py-2 hover:bg-gray-100"
         >
           Logout

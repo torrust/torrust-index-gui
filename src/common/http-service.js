@@ -5,14 +5,19 @@ import store from "@/store";
 export default new class {
     constructor() {
         axios.interceptors.response.use(undefined, (err) => {
-            if (err.status === 401) {
+            if (err.response && err.response.status === 401) {
                 store.commit('logout');
                 Vue.notify({
                     title: 'Authentication',
-                    text: 'Your session has expired.',
+                    text: 'Your session has expired. Please login again.',
                     type: 'warn',
                 });
+
+                return;
             }
+
+            // If its not a 401 continue to other error handlers
+            return Promise.reject(err);
         });
     }
 

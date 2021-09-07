@@ -47,11 +47,7 @@ export default {
 
             localStorage.removeItem('userToken');
 
-            Vue.notify({
-                title: 'Authentication',
-                text: 'You have been logged out',
-                type: 'info'
-            })
+
         }
     },
     actions: {
@@ -73,6 +69,15 @@ export default {
 
                 resolve();
             }))
+        },
+        logout({commit}) {
+            commit('logout');
+
+            Vue.notify({
+                title: 'Authentication',
+                text: 'You have been logged out',
+                type: 'info'
+            });
         }
     }
 }
