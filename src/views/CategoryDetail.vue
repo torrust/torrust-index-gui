@@ -16,8 +16,8 @@
       <router-view/>
     </transition>
 
-    <TorrentList :torrents="sortedTorrents" />
-    <Pagination :current-page.sync="currentPage" :total-pages="totalPages" :total-results="torrents.length || 0" page-size="20" />
+    <TorrentList :torrents="torrents.results" />
+    <Pagination :current-page.sync="currentPage" :total-pages="totalPages" :total-results="torrents.total" :page-size="pageSize" />
   </div>
 </template>
 
@@ -31,14 +31,17 @@ export default {
   name: "CategoryDetail",
   components: {TableOrder, Pagination, TorrentList},
   data: () => ({
-    sorting: "uploadDate",
-    torrents: [],
+    sorting: "uploaded",
+    torrents: {
+      total: 0,
+      results: []
+    },
     currentPage: 1,
     pageSize: 20,
   }),
   methods: {
-    loadTorrents(category, page) {
-      HttpService.get(`/category/${category}/torrents?page_size=${this.pageSize}&page=${page-1}`, (res) => {
+    loadTorrents(category, page, sort) {
+      HttpService.get(`/category/${category}/torrents?page_size=${this.pageSize}&page=${page-1}&sort=${sort}`, (res) => {
         this.torrents = res.data.data;
       });
     }
@@ -48,28 +51,23 @@ export default {
       return this.$route.params?.name;
     },
     totalPages() {
-      return Math.ceil(this.torrents.length / this.pageSize);
-    },
-    sortedTorrents() {
-      let sortedTorrents = this.torrents;
-      if (this.sorting === "seeders") {
-        return sortedTorrents.sort((a, b) => b.seeders - a.seeders);
-      } else {
-        return sortedTorrents.sort((a, b) => b.upload_date - a.upload_date);
-      }
+      return Math.ceil(this.torrents.total / this.pageSize);
     },
   },
   watch: {
     category(newCat) {
-      this.loadTorrents(newCat, this.currentPage);
+      this.loadTorrents(newCat, this.currentPage, this.sorting);
+    },
+    sorting(newSort) {
+      this.loadTorrents(this.category, this.currentPage, newSort);
     },
     currentPage(newPage) {
-      this.loadTorrents(this.category, newPage);
+      this.loadTorrents(this.category, newPage, this.sorting);
     }
   },
   mounted() {
     let category = this.$route.params?.name;
-    this.loadTorrents(category, this.currentPage);
+    this.loadTorrents(category, this.currentPage, this.sorting);
   }
 }
 </script>
