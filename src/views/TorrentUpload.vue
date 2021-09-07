@@ -54,9 +54,13 @@
             </div>
 
             <div class="py-3 sm:flex sm:flex-row-reverse">
-              <button :disabled="!formValid" @click="submitForm" type="button" class="button text-white"
-                      :class="[{'bg-gray-500': !formValid}, {'hover:bg-gray-500': !formValid}, {'bg-green-600': formValid}, {'hover:bg-green-700': formValid}]"
+              <button :disabled="!formValid || uploading" @click="submitForm" type="button" class="button text-white"
+                      :class="[{'bg-gray-500': !formValid || uploading}, {'hover:bg-gray-500': !formValid || uploading}, {'bg-green-600': formValid && !uploading}, {'hover:bg-green-700': formValid && !uploading}]"
               >
+                <svg v-if="uploading" class="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
                 Upload torrent
               </button>
               <button type="button" class="mt-3 button bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
@@ -82,6 +86,7 @@ export default {
   data: () => ({
     cover: null,
     torrent: null,
+    uploading: false,
     form: {
       title: "",
       category: "",
@@ -103,15 +108,19 @@ export default {
       [this.form.torrentFile] = file;
     },
     submitForm() {
-      let formData = new FormData();
-      formData.append('title', this.form.title);
-      formData.append('description', this.form.description);
-      formData.append('category', this.form.category);
-      formData.append('torrent', this.form.torrentFile);
-      HttpService.post(`/torrent/upload`, formData, (res) => {
-        console.log(res);
-        // todo: go to torrent
-      });
+      if (this.formValid && !this.uploading) {
+        this.uploading = true;
+        let formData = new FormData();
+        formData.append('title', this.form.title);
+        formData.append('description', this.form.description);
+        formData.append('category', this.form.category);
+        formData.append('torrent', this.form.torrentFile);
+        HttpService.post(`/torrent/upload`, formData, (res) => {
+          this.$router.push(`/categories/${this.form.category}/${res.data.data.torrent_id}`);
+        }).finally(() => {
+          this.uploading = false;
+        })
+      }
     },
   },
   computed: {
