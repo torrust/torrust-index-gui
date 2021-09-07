@@ -132,18 +132,20 @@ export default {
     groupedFiles() {
       let files = [];
 
-      for (const file of this.torrent.files) {
-        let filename = "";
-        for (const [i, path] of file.path.entries()) {
-         filename += path;
-         if (i !== file.path.length - 1) {
-           filename += "/"
-         }
+      if (this.torrent.files) {
+        for (const file of this.torrent.files) {
+          let filename = "";
+          for (const [i, path] of file.path.entries()) {
+            filename += path;
+            if (i !== file.path.length - 1) {
+              filename += "/"
+            }
+          }
+          files.push({
+            name: filename,
+            length: file.length
+          });
         }
-        files.push({
-          name: filename,
-          length: file.length
-        });
       }
 
       return files;
