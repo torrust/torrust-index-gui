@@ -43,7 +43,7 @@ export default new class {
         return axios.post(url, data).then(callback).catch(this.errorHandler);
     }
 
-    errorHandler(error) {
+    async errorHandler(error) {
         if (!error.response) {
             console.error('Cannot connect to backend');
             Vue.notify({
@@ -55,10 +55,23 @@ export default new class {
         }
 
         const res = error.response;
-        console.error(res.data.error);
+        let errorString = error.response.data;
+
+        if (
+            error.request.responseType === 'blob' &&
+            error.response.data instanceof Blob &&
+            error.response.data.type &&
+            error.response.data.type.toLowerCase().indexOf('json') !== -1
+        ) {
+            const errorJson = JSON.parse(await error.response.data.text());
+            errorString = errorJson.error;
+        }
+
+        console.log(error.request.responseType === 'blob');
+        console.log(res.data.text())
         Vue.notify({
-            title: 'Authentication',
-            text: res.data.error,
+            title: 'Error',
+            text: errorString,
             type: 'error',
         });
     }
