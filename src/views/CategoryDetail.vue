@@ -43,6 +43,7 @@ export default {
     loadTorrents(category, page, sort) {
       HttpService.get(`/category/${category}/torrents?page_size=${this.pageSize}&page=${page-1}&sort=${sort}`, (res) => {
         this.torrents = res.data.data;
+      }).catch(() => {
       });
     }
   },

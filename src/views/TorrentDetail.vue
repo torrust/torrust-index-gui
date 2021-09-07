@@ -56,14 +56,14 @@ export default {
   components: {DetailsSidebar, FileTree, XIcon},
   data: () => ({
     torrent: {
-      name: "The.Suicide.Squad.2021.1080p.WEBRip.x264-RARBG",
-      seeders: 13164,
-      leechers: 4391,
+      name: "",
+      seeders: 0,
+      leechers: 0,
       date: Date.now(),
-      size: 2500000000,
-      uploader: "TheMorozko",
-      image: "https://lx1.dyncdn.cc/cdn/f1/f171fca83dbbcbcbd0dfedee5f27b4c3.jpg",
-      categories: ["Movies"],
+      size: 0,
+      uploader: "null",
+      image: "",
+      categories: [],
       files: [],
       // files: [
       //   {
@@ -117,9 +117,12 @@ export default {
       this.$router.push({name: 'CategoryDetail'});
     },
     getTorrent(torrentId) {
+      const self = this;
       HttpService.get(`/torrent/${torrentId}`, (res) => {
         this.torrent = res.data.data;
-      });
+      }).catch(() => {
+        self.closeModal();
+      })
     },
   },
   computed: {

@@ -32,6 +32,7 @@ export default {
     HttpService.get('/category/', (res) => {
       const categories = res.data.data;
       this.$store.commit('setCategories', categories);
+    }).catch(() => {
     });
   },
   computed: {

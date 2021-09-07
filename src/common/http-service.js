@@ -54,7 +54,7 @@ export default new class {
             return;
         }
 
-        const res = error.response;
+        // const res = error.response;
         let errorString = error.response.data;
 
         if (
@@ -67,12 +67,14 @@ export default new class {
             errorString = errorJson.error;
         }
 
-        console.log(error.request.responseType === 'blob');
-        console.log(res.data.text())
+        // console.log(error.request.responseType === 'blob');
+        // console.log(res.data.text())
         Vue.notify({
             title: 'Error',
             text: errorString,
             type: 'error',
         });
+
+        throw error;
     }
 }
