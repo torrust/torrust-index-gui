@@ -1,11 +1,11 @@
-# Torrust Frontend
+# Torrust Web Frontend
 
 [![Release](https://github.com/torrust/torrust-web-frontend/actions/workflows/release.yml/badge.svg)](https://github.com/torrust/torrust-web-frontend/actions/workflows/release.yml)
 
-[Docs](https://torrust.github.io/torrust-documentation/torrust-web-frontend/about/)
+__Torrust Web Frontend__ is a Vue application where users can upload and download torrents.
+It shows details like seeders, leechers, files and a description of all the tracked torrents. It relies on the __Torrust Web Backend__ to function.
 
-__Torrust Frontend__ is a Vue application where users can upload and download torrents. 
-It shows details like seeders, leechers, files and a description of all the tracked torrents.
+[Documentation](https://torrust.github.io/torrust-documentation/torrust-web-frontend/about/)
 
 ## Features
 * [X] Built with Tailwind CSS
