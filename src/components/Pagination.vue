@@ -3,7 +3,7 @@
   <div class="flex items-center justify-between">
     <div class="flex-1 flex items-center sm:justify-between justify-end">
       <div class="hidden sm:block">
-        <p class="text-sm text-secondary-700">
+        <p class="text-sm text-gray-500">
           Showing
           <span class="font-medium">{{ (currentPage * pageSize) - pageSize }}</span>
           to
@@ -14,9 +14,9 @@
         </p>
       </div>
       <div>
-        <nav class="relative z-0 inline-flex rounded-md -space-x-px" aria-label="Pagination">
+        <nav class="relative z-0 inline-flex -space-x-px" aria-label="Pagination">
           <a @click="goToFirstPage"
-             class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-secondary-300 bg-white text-sm font-medium text-secondary-500 hover:bg-secondary-50">
+             class="page-button rounded-l-lg">
             <span class="sr-only">Previous</span>
             <!-- Heroicon name: solid/chevron-double-left -->
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -27,7 +27,7 @@
           </a>
           <button
               @click="goToPrevPage"
-              class="relative inline-flex items-center px-2 py-2 border border-secondary-300 bg-white text-sm font-medium text-secondary-500 hover:bg-secondary-50">
+              class="page-button">
             <span class="sr-only">Previous</span>
             <!-- Heroicon name: solid/chevron-left -->
             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -45,7 +45,7 @@
               1
             </button>
             <span
-                class="relative inline-flex items-center px-4 py-2 border border-secondary-300 bg-white text-sm font-medium text-secondary-700">
+                class="page-button">
               ...
             </span>
           </template>
@@ -77,7 +77,7 @@
 
           <template v-if="currentPage < totalPages-3">
             <span
-                class="relative inline-flex items-center px-4 py-2 border border-secondary-300 bg-white text-sm font-medium text-secondary-700">
+                class="page-button">
               ...
             </span>
             <button
@@ -97,7 +97,7 @@
 
           <button
               @click="goToNextPage()"
-              class="relative inline-flex items-center px-2 py-2 border border-secondary-300 bg-white text-sm font-medium text-secondary-500 hover:bg-secondary-50">
+              class="page-button">
             <span class="sr-only">Next</span>
             <!-- Heroicon name: solid/chevron-right -->
             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -109,7 +109,7 @@
           </button>
           <button
               @click="goToLastPage"
-              class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-secondary-300 bg-white text-sm font-medium text-secondary-500 hover:bg-secondary-50">
+              class="page-button rounded-r-lg">
             <span class="sr-only">Next</span>
             <!-- Heroicon name: solid/chevron-double-right -->
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -173,11 +173,13 @@ export default {
 </script>
 
 <style scoped>
+
 .page-button {
-  @apply relative inline-flex items-center px-4 py-2 border border-secondary-300 bg-white text-sm font-medium text-secondary-700 hover:bg-secondary-100;
+  @apply relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-300 hover:text-white outline-none;
+  background-color: #2e3139;
 }
 
 .page-button[disabled] {
-  @apply bg-secondary-200;
+  @apply text-blue-500;
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="relative inline-block text-left" v-click-outside="() => (dropdownOpened = false)">
-    <div class="flex items-center relative cursor-pointer" @click="dropdownOpened = !dropdownOpened">
-      <UserIcon/>
+    <div class="py-2 px-4 rounded-lg bg-primary text-white flex items-center relative cursor-pointer" @click="dropdownOpened = !dropdownOpened">
       {{ user }}
+      <UserIcon size="16" class="ml-2"/>
     </div>
 
     <div :class="{hidden: !dropdownOpened}"

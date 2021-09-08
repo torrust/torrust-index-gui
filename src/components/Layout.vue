@@ -2,13 +2,13 @@
   <div class="leading-normal tracking-normal" id="main-body">
     <div class="flex flex-wrap">
 
-      <Sidebar />
+      <Sidebar class="bg-primary z-10 lg:z-0" />
 
-      <div class="w-full bg-white pl-0 lg:pl-64 min-h-screen" :class="sideBarOpen ? 'overlay' : ''" id="main-content">
+      <div class="rounded-l-3xl bg-secondary w-full ml-0 lg:ml-64 min-h-screen flex flex-col z-0" :class="sideBarOpen ? 'overlay' : ''" id="main-content">
 
         <Navbar />
 
-        <div class="p-6 mb-10">
+        <div class="p-6 px-2 lg:p-6">
           <Breadcrumb />
           <router-view />
         </div>

@@ -1,23 +1,24 @@
 <template>
-  <div>
+  <div class="bg-primary p-6 rounded-3xl">
     <div class="flex justify-between">
-      <h1 class="view-title">{{ titleCase(category) }}</h1>
-      <TableOrder :sorting.sync="sorting"/>
+      <h1 class="view-title text-white">{{ titleCase(category) }}</h1>
+      <TableOrder v-if="torrents.results.length > 0" :sorting.sync="sorting"/>
     </div>
 
-    <transition
-        enter-active-class="transition ease-out duration-100 transform"
-        enter-class="opacity-0 scale-95"
-        enter-to-class="opacity-100 scale-100"
-        leave-active-class="transition ease-in duration-75 transform"
-        leave-class="opacity-100 scale-100"
-        leave-to-class="opacity-0 scale-95"
-    >
+<!--    <transition-->
+<!--        enter-active-class="transition ease-out duration-100 transform"-->
+<!--        enter-class="opacity-0 scale-95"-->
+<!--        enter-to-class="opacity-100 scale-100"-->
+<!--        leave-active-class="transition ease-in duration-75 transform"-->
+<!--        leave-class="opacity-100 scale-100"-->
+<!--        leave-to-class="opacity-0 scale-95"-->
+<!--    >-->
       <router-view/>
-    </transition>
+<!--    </transition>-->
 
-    <TorrentList :torrents="torrents.results" />
-    <Pagination :current-page.sync="currentPage" :total-pages="totalPages" :total-results="torrents.total" :page-size="pageSize" />
+    <TorrentList v-if="torrents.results.length > 0" :torrents="torrents.results" />
+    <Pagination v-if="torrents.results.length > 0" :current-page.sync="currentPage" :total-pages="totalPages" :total-results="torrents.total" :page-size="pageSize" />
+    <div v-else class="py-6 text-gray-300">This category has no results.</div>
   </div>
 </template>
 

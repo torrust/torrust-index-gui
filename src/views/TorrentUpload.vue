@@ -133,6 +133,6 @@ export default {
 
 <style scoped>
 .button {
-  @apply w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 text-base font-medium sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm;
+  @apply w-full inline-flex justify-center rounded-lg shadow-sm px-4 py-2 text-base font-medium sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm;
 }
 </style>

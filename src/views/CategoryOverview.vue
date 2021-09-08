@@ -1,17 +1,18 @@
 <template>
   <div>
-    <h1 class="view-title">Categories</h1>
+    <h1 class="view-title text-white">Categories</h1>
 
     <div v-if="categories.length === 0" class="relative w-full text-center p-12 font-medium text-sm text-gray-700">
       Loading...
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
+<!--    :style="{background: 'linear-gradient(172deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url(' + category.image + ') no-repeat center center'}"-->
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-6">
       <router-link :to="`/categories/${urlSafe(category.name)}`"
                    v-for="(category, index) in categories"
                    :key="index"
-                   class="category-tile"
-                   :style="{background: 'linear-gradient(172deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url(' + category.image + ') no-repeat center center'}"
+                   class="category-tile bg-primary duration-300 transform scale-100 hover:bg-light"
       >
         <p class="capitalize font-semibold text-white text-xl">{{ category.name }}</p>
         <div class="details">
@@ -68,7 +69,7 @@ export default {
 <style scoped>
 .category-tile {
   @apply bg-cover !important;
-  @apply w-full rounded shadow-md text-center py-16 relative;
+  @apply w-full rounded-3xl shadow-lg text-center py-16 relative;
 }
 
 .details {

@@ -1,8 +1,8 @@
 <template>
   <div class="col-span-12">
     <div class="overflow-auto lg:overflow-visible ">
-      <table class="table w-full text-gray-400 border-separate space-y-6 text-sm whitespace-nowrap">
-        <thead class="text-black text-center">
+      <table class="table w-full mb-2 border-separate text-sm whitespace-nowrap">
+        <thead class="text-gray-500 text-center">
         <tr>
           <th class="text-left">Name</th>
           <th class="">Seeders</th>
@@ -12,13 +12,13 @@
           <th class="">Uploader</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="text-gray-300">
         <tr
             v-for="(torrent, index) in torrents" :key="index"
             @click="$router.push({path: torrent.torrent_id.toString(), append: true})"
-            class="text-center cursor-pointer duration-100 hover:bg-blue-100"
+            class="text-center cursor-pointer duration-100 hover:bg-secondary hover:text-white"
         >
-          <td class="text-black font-bold text-left">
+          <td class="font-bold text-left" :class="{ 'text-red-400': torrent.seeders === 0 }">
 <!--            <div class="flex flex-row items-center">-->
 <!--              <img class="rounded-lg h-12 w-12 object-cover" :src="torrent.image" :alt="torrent.name">-->
 <!--              <div class="ml-3 text-black font-bold">-->
@@ -36,10 +36,10 @@
           <td class="">
             {{ timeSince(torrent.upload_date) }} ago
           </td>
-          <td class="text-black">
+          <td class="">
             {{ fileSize(torrent.file_size) }}
           </td>
-          <td class="text-black font-bold">
+          <td class="font-bold">
             {{ torrent.uploader }}
           </td>
         </tr>
@@ -122,7 +122,11 @@ tr {
 
 tr th,
 tr td {
-  @apply p-2;
+  @apply p-3;
+}
+
+th {
+  @apply font-light;
 }
 
 //tr td {
@@ -130,13 +134,13 @@ tr td {
 //}
 //
 //
-//tr td:nth-child(n+6) {
-//  border-radius: 0 .625rem .625rem 0;
-//  @apply border-r-2;
-//}
-//
-//tr td:nth-child(1) {
-//  border-radius: .625rem 0 0 .625rem;
-//  @apply border-l-2;
-//}
+tr td:nth-child(n+6) {
+  border-radius: 0 .625rem .625rem 0;
+  //@apply border-r-2;
+}
+
+tr td:nth-child(1) {
+  border-radius: .625rem 0 0 .625rem;
+  //@apply border-l-2;
+}
 </style>

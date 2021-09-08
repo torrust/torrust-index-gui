@@ -1,6 +1,6 @@
 <template>
   <div
-      class="flex overflow-auto fixed top-0 left-0 z-30 flex-col justify-center w-full h-screen bg-black bg-opacity-50"
+      class="flex overflow-x-auto fixed top-0 left-0 z-20 flex-col justify-center w-full h-screen bg-black bg-opacity-50"
       @click.self="closeModal"
   >
     <div class="mx-auto mt-8 w-11/12 h-full sm:w-full sm:max-w-5xl">

@@ -1,8 +1,8 @@
 <template>
   <div class="relative inline-block text-left">
-    <div>
+    <div class="">
       <button type="button"
-              class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700"
+              class="inline-flex justify-center w-full rounded-lg bg-primary border border-secondary shadow-sm px-4 py-2 text-sm font-medium text-white"
               id="menu-button" aria-expanded="true" aria-haspopup="true"
               @click="dropdownOpened = !dropdownOpened"
               v-click-outside="() => (dropdownOpened = false)"
@@ -20,7 +20,7 @@
 
     <div
         :class="{hidden: !dropdownOpened}"
-        class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+        class="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
         role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
     >
       <div class="py-1" role="none">
