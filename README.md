@@ -1,24 +1,17 @@
-# torrust-web
+# Torrust Frontend
 
-## Project setup
-```
-npm install
-```
+[![Release](https://github.com/torrust/torrust-web-frontend/actions/workflows/release.yml/badge.svg)](https://github.com/torrust/torrust-web-frontend/actions/workflows/release.yml)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+[Docs](https://torrust.github.io/torrust-documentation/torrust-web-frontend/about/)
 
-### Compiles and minifies for production
-```
-npm run build
-```
+__Torrust Frontend__ is a Vue application where users can upload and download torrents. 
+It shows details like seeders, leechers, files and a description of all the tracked torrents.
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Features
+* [X] Built with Tailwind CSS
+* [X] Single Page Application
+* [X] Clean design
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Contributing
+Please report any bugs you find to our issue tracker. Ideas and feature requests are welcome as well!
+Any pull request targeting existing issues would be very much appreciated.
