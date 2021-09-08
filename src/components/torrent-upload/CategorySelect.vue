@@ -6,7 +6,7 @@
     <div class="relative mt-1">
       <button
           type="button"
-          class="relative py-2 pr-10 pl-3 w-full text-left bg-white rounded-md border border-gray-300 shadow-sm cursor-default focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+          class="relative py-2 pr-10 pl-3 w-full text-left bg-white rounded-md border border-gray-300 shadow-sm cursor-default focus:outline-none focus:ring-1  focus:border-primary-500 sm:text-sm"
           @click="dropdownOpened = !dropdownOpened"
       >
         <span class="block truncate capitalize">{{ selectedCategory || 'Select a category...' }}</span>

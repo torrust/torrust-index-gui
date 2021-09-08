@@ -6,7 +6,7 @@
     <div class="mx-auto mt-8 w-11/12 h-full sm:w-full sm:max-w-5xl">
 
       <div
-          class="relative px-4 py-12 mx-auto mb-4 max-w-3xl bg-white shadow xl:py-8 sm:px-6 lg:px-8 xl:max-w-2xl md:rounded-lg">
+          class="relative px-4 py-12 mx-auto mb-4 max-w-3xl bg-white shadow xl:py-8 sm:px-6 lg:px-8 xl:max-w-2xl rounded-lg">
         <button
             @click="closeModal"
             class="absolute top-0 right-0">
@@ -23,7 +23,7 @@
               </label>
               <div class="mt-1">
                 <input id="title" name="title" type="text" v-model="form.title"
-                       class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                       class="block w-full rounded-md border-gray-300 shadow-sm  focus:border-primary-500 sm:text-sm">
               </div>
             </div>
 
@@ -33,7 +33,7 @@
               </label>
               <div class="mt-1">
                 <textarea id="description" name="description" rows="8" v-model="form.description"
-                          class="block w-full rounded-md border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"></textarea>
+                          class="block w-full rounded-md border border-gray-300 shadow-sm  focus:border-primary-500 sm:text-sm"></textarea>
               </div>
               <p class="mt-2 text-sm text-gray-500">Markdown is supported.</p>
             </div>
@@ -63,7 +63,7 @@
                 </svg>
                 Upload torrent
               </button>
-              <button type="button" class="mt-3 button bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+              <button @click="closeModal" type="button" class="mt-3 button bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
                 Cancel
               </button>
             </div>

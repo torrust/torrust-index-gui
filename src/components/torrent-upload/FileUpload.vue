@@ -14,7 +14,7 @@
       <PhotographIcon v-else-if="type === 'image'" class="mx-auto w-12 h-12 text-gray-400"/>
       <div class="flex text-sm text-gray-600">
         <a @click="$refs.file.click()"
-           class="relative font-medium text-primary-600 rounded-md cursor-pointer hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
+           class="relative font-medium text-blue-600 rounded-md cursor-pointer hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
           <span>Upload a file</span>
         </a>
         <p class="pl-1">or drag and drop</p>
@@ -25,13 +25,13 @@
     </div>
 
     <ul v-if="this.filelist.length">
-      <li class="flex justify-between items-center gap-2 text-sm" v-for="file in filelist" :key="file.name">
+      <li class="flex flex-row w-full justify-between items-center gap-2 text-sm" v-for="file in filelist" :key="file.name">
         <img v-if="type === 'image'" :src="fileUrl(file)" :alt="file.name"
              class="h-20 w-auto"
         />
-        <p>{{ file.name }}</p>
+        <p class="truncate">{{ file.name }}</p>
         <a @click="$refs.file.click()"
-           class="relative font-medium text-primary-600 rounded-md cursor-pointer hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
+           class="relative font-medium text-blue-600 rounded-md cursor-pointer hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
           <span>Upload a file</span>
         </a>
       </li>
