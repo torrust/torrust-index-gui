@@ -2,7 +2,7 @@
   <div class="mt-20 lg:mt-0 w-2/3 md:w-1/3 lg:w-64 fixed md:top-0 md:left-0 h-screen lg:block bg-white z-0" :class="{ 'hidden': !sideBarOpen }" id="main-nav">
 
     <div class="w-full h-20 flex px-4 items-center">
-      <p class="text-white font-semibold text-xl mx-auto">Torrust</p>
+      <a class="text-white font-semibold text-xl mx-auto" href="/">Torrust</a>
     </div>
 
     <div class="mt-6 px-4 text-gray-300">
