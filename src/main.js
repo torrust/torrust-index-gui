@@ -12,6 +12,7 @@ import TorrentDetail from "./views/TorrentDetail";
 import TorrentUpload from "./views/TorrentUpload";
 import Notifications from 'vue-notification'
 import axios from "axios";
+import Home from "@/views/Home";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 
@@ -75,10 +76,10 @@ Vue.mixin({
 })
 
 const routes = [
-    {path: '/', redirect: {name: 'CategoryOverview'}},
+    {path: '/', redirect: {name: 'Home'}},
     {
         path: '/', component: Layout, children: [
-            // {path: 'home', name: 'Home', component: Home},
+            {path: 'home', name: 'Home', component: Home},
             {path: 'categories', name: 'CategoryOverview', component: CategoryOverview},
             {
                 path: 'categories/:name',
