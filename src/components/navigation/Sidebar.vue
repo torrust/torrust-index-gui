@@ -6,16 +6,15 @@
     </div>
 
     <div class="mt-6 px-4 text-gray-300">
-<!--      <h3 class="font-semibold text-md mb-2">Categories</h3>-->
-<!--      <router-link to="/home" class="w-full flex items-center h-10 pl-4 rounded-lg cursor-pointer" exact-active-class="bg-gray-100">-->
-<!--        <span>Recent Torrents</span>-->
-<!--      </router-link>-->
       <router-link :to="'/categories'" class="mt-2 w-full flex justify-center items-center h-10 rounded-lg cursor-pointer" exact-active-class="text-white bg-secondary">
         <span>Categories</span>
       </router-link>
+      <router-link :to="`/home`" class="mt-2 w-full flex items-center h-10 pl-4 rounded-lg cursor-pointer" exact-active-class="text-white bg-secondary">
+        <span>Most Popular</span>
+      </router-link>
       <template v-for="(category, index) in categories">
         <router-link :key="index" :to="`/categories/${urlSafe(category.name)}`" class="mt-2 w-full flex items-center h-10 pl-4 rounded-lg cursor-pointer" exact-active-class="text-white bg-secondary">
-          <span>{{ titleCase(category.name) }}</span>
+          <span>{{ titleCase(category.name) }} ({{ category.num_torrents }})</span>
         </router-link>
       </template>
     </div>
