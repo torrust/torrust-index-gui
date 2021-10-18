@@ -18,7 +18,7 @@ import Pagination from "@/components/Pagination";
 import HttpService from "@/common/http-service";
 
 export default {
-  name: 'Home',
+  name: 'Popular',
   components: {Pagination, TorrentList},
   data: () => ({
     category: 'popular',
