@@ -12,6 +12,7 @@ import TorrentDetail from "./views/TorrentDetail";
 import TorrentUpload from "./views/TorrentUpload";
 import Notifications from 'vue-notification'
 import axios from "axios";
+import Recent from "@/views/Recent";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 
@@ -83,6 +84,14 @@ const routes = [
                 path: 'categories/popular',
                 name: 'Popular',
                 component: Popular,
+                children: [
+                    {path: ':torrentId', name: 'TorrentDetail', component: TorrentDetail}
+                ]
+            },
+            {
+                path: 'categories/recent',
+                name: 'Recent',
+                component: Recent,
                 children: [
                     {path: ':torrentId', name: 'TorrentDetail', component: TorrentDetail}
                 ]
