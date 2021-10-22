@@ -5,6 +5,15 @@
       <a class="text-white font-semibold text-xl mx-auto" href="/">Torrust</a>
     </div>
 
+    <!-- search bar -->
+    <div class="px-4 flex md:hidden flex-col">
+      <input type="search" name="search" placeholder="Search Torrents.."
+             class="bg-gray-100 text-black h-10 w-full xl:w-64 px-5 rounded-lg text-sm focus:outline-none">
+      <button class="mt-2 py-2 bg-primary-400 text-white rounded-lg" type="submit">
+        Search
+      </button>
+    </div>
+
     <div class="mt-6 px-4 text-gray-300">
       <router-link :to="'/categories'" class="mt-2 w-full flex justify-center items-center h-10 rounded-lg cursor-pointer" exact-active-class="text-white bg-secondary">
         <span>Categories</span>
