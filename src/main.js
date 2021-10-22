@@ -3,7 +3,7 @@ import App from './App.vue';
 import VueRouter from 'vue-router';
 import './assets/css/tailwind.css';
 import Layout from "@/components/Layout";
-//import Home from "@/views/Home";
+import Popular from "@/views/Popular";
 import store from "@/store/index";
 import CategoryDetail from "./views/CategoryDetail";
 import vClickOutside from "v-click-outside";
@@ -12,6 +12,7 @@ import TorrentDetail from "./views/TorrentDetail";
 import TorrentUpload from "./views/TorrentUpload";
 import Notifications from 'vue-notification'
 import axios from "axios";
+import Recent from "@/views/Recent";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 
@@ -75,11 +76,26 @@ Vue.mixin({
 })
 
 const routes = [
-    {path: '/', redirect: {name: 'CategoryOverview'}},
+    {path: '/', redirect: {name: 'Popular'}},
     {
         path: '/', component: Layout, children: [
-            // {path: 'home', name: 'Home', component: Home},
             {path: 'categories', name: 'CategoryOverview', component: CategoryOverview},
+            {
+                path: 'categories/popular',
+                name: 'Popular',
+                component: Popular,
+                children: [
+                    {path: ':torrentId', name: 'TorrentDetail', component: TorrentDetail}
+                ]
+            },
+            {
+                path: 'categories/recent',
+                name: 'Recent',
+                component: Recent,
+                children: [
+                    {path: ':torrentId', name: 'TorrentDetail', component: TorrentDetail}
+                ]
+            },
             {
                 path: 'categories/:name',
                 name: 'CategoryDetail',

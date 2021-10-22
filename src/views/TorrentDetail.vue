@@ -150,7 +150,10 @@ export default {
   },
   methods: {
     closeModal() {
-      this.$router.push({name: 'CategoryDetail'});
+      //this.$router.push({name: 'CategoryDetail'});
+      this.$router.push({
+        name: this.$route.matched[this.$route.matched.length - 2].name
+      })
     },
     getTorrent(torrentId) {
       const self = this;
