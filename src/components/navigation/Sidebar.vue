@@ -7,9 +7,9 @@
 
     <!-- search bar -->
     <div class="px-4 flex md:hidden flex-col">
-      <input type="search" name="search" placeholder="Search Torrents.."
+      <input v-model="searchQuery" type="search" name="search" placeholder="Search Torrents.."
              class="bg-gray-100 text-black h-10 w-full xl:w-64 px-5 rounded-lg text-sm focus:outline-none">
-      <button class="mt-2 py-2 bg-primary-400 text-white rounded-lg" type="submit">
+      <button @click="submitSearch" class="mt-2 py-2 bg-primary-400 text-white rounded-lg" type="submit">
         Search
       </button>
     </div>
@@ -48,6 +48,16 @@ export default {
   },
   computed: {
     ...mapState(['sideBarOpen', 'categories'])
+  },
+  data: () => ({
+    searchQuery: ''
+  }),
+  methods: {
+    submitSearch() {
+      if (this.searchQuery) {
+        this.$router.push(`/search?query=${this.searchQuery}`)
+      }
+    },
   }
 }
 </script>

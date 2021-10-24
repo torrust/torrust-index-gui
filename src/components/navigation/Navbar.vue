@@ -16,9 +16,9 @@
 
         <!-- search bar -->
         <div class="hidden md:flex flex-row">
-          <input type="search" name="search" placeholder="Search Torrents.."
+          <input v-model="searchQuery" type="search" name="search" placeholder="Search Torrents.."
                  class="bg-gray-100 text-black h-10 w-full xl:w-64 px-5 rounded-lg text-sm focus:outline-none">
-          <button class="ml-2 px-4 bg-gray-500 text-white rounded-lg" type="submit">
+          <button @click="submitSearch" class="ml-2 px-4 bg-gray-500 text-white rounded-lg" type="submit">
             Search
           </button>
         </div>
@@ -53,7 +53,15 @@ export default {
       loggedIn: state => state.auth.loggedIn
     })
   },
+  data: () => ({
+    searchQuery: ''
+  }),
   methods: {
+    submitSearch() {
+      if (this.searchQuery) {
+        this.$router.push(`/search?query=${this.searchQuery}`)
+      }
+    },
     toggleSidebar() {
       this.$store.dispatch('toggleSidebar')
     }
