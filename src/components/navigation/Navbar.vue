@@ -15,14 +15,14 @@
         </div>
 
         <!-- search bar -->
-<!--        <div class="relative mr-2">-->
-<!--          <input type="search" name="search" placeholder="Search Torrents.."-->
-<!--                 class="bg-gray-100 text-black h-10 w-full xl:w-64 px-5 rounded-lg text-sm focus:outline-none">-->
-<!--        </div>-->
+        <div class="hidden md:flex flex-row">
+          <input v-model="searchQuery" type="search" name="search" placeholder="Search Torrents.."
+                 class="bg-gray-100 text-black h-10 w-full xl:w-64 px-5 rounded-lg text-sm focus:outline-none">
+          <button @click="submitSearch" class="ml-2 px-4 bg-gray-500 text-white rounded-lg" type="submit">
+            Search
+          </button>
+        </div>
 
-<!--        <button class="px-4 bg-primary-500 text-white rounded-lg" type="submit">-->
-<!--          Search-->
-<!--        </button>-->
       </div>
 
       <!-- right navbar -->
@@ -53,7 +53,15 @@ export default {
       loggedIn: state => state.auth.loggedIn
     })
   },
+  data: () => ({
+    searchQuery: ''
+  }),
   methods: {
+    submitSearch() {
+      if (this.searchQuery) {
+        this.$router.push(`/search?query=${this.searchQuery}`)
+      }
+    },
     toggleSidebar() {
       this.$store.dispatch('toggleSidebar')
     }

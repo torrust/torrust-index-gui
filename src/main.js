@@ -13,6 +13,7 @@ import TorrentUpload from "./views/TorrentUpload";
 import Notifications from 'vue-notification'
 import axios from "axios";
 import Recent from "@/views/Recent";
+import SearchResults from "@/views/SearchResults";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 
@@ -79,7 +80,20 @@ const routes = [
     {path: '/', redirect: {name: 'Popular'}},
     {
         path: '/', component: Layout, children: [
-            {path: 'categories', name: 'CategoryOverview', component: CategoryOverview},
+            {
+                path: 'search',
+                name: 'SearchResults',
+                component: SearchResults,
+                props: (route) => ({ searchQuery: route.query.query }),
+                children: [
+                    {path: ':torrentId', name: 'TorrentDetail', component: TorrentDetail}
+                ]
+            },
+            {
+                path: 'categories',
+                name: 'CategoryOverview',
+                component: CategoryOverview
+            },
             {
                 path: 'categories/popular',
                 name: 'Popular',
