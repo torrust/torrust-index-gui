@@ -15,16 +15,10 @@
         <tbody class="text-gray-300">
         <tr
             v-for="(torrent, index) in torrents" :key="index"
-            @click="$router.push({path: torrent.torrent_id.toString(), append: true})"
+            @click="$router.push(`/torrent/${torrent.torrent_id.toString()}`)"
             class="text-center cursor-pointer duration-100 hover:bg-secondary hover:text-white"
         >
           <td class="font-bold text-left" :class="{ 'text-red-400': torrent.seeders === 0 }">
-<!--            <div class="flex flex-row items-center">-->
-<!--              <img class="rounded-lg h-12 w-12 object-cover" :src="torrent.image" :alt="torrent.name">-->
-<!--              <div class="ml-3 text-black font-bold">-->
-<!--                {{ torrent.title }}-->
-<!--              </div>-->
-<!--            </div>-->
             {{ torrent.title }}
           </td>
           <td class="text-green-400 font-bold">

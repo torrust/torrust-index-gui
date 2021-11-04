@@ -1,21 +1,10 @@
 <template>
   <div class="bg-primary p-6 rounded-3xl">
     <div class="flex justify-between">
-      <h1 class="view-title text-white">{{ titleCase(category) }}</h1>
-      <TableOrder v-if="torrents.results.length > 0" :sorting.sync="sorting"/>
+      <h1 class="view-title text-white">Browse Torrents</h1>
+      <TableOrder v-if="torrents.results.length > 0" :sorting.sync="params.sorting"/>
     </div>
-
-<!--    <transition-->
-<!--        enter-active-class="transition ease-out duration-100 transform"-->
-<!--        enter-class="opacity-0 scale-95"-->
-<!--        enter-to-class="opacity-100 scale-100"-->
-<!--        leave-active-class="transition ease-in duration-75 transform"-->
-<!--        leave-class="opacity-100 scale-100"-->
-<!--        leave-to-class="opacity-0 scale-95"-->
-<!--    >-->
-      <router-view/>
-<!--    </transition>-->
-
+    <router-view/>
     <TorrentList v-if="torrents.results.length > 0" :torrents="torrents.results" />
     <Pagination v-if="torrents.results.length > 0" :current-page.sync="currentPage" :total-pages="totalPages" :total-results="torrents.total" :page-size="pageSize" />
     <div v-else class="py-6 text-gray-300">This category has no results.</div>
@@ -29,10 +18,22 @@ import TableOrder from "../components/TableOrder";
 import HttpService from "@/common/http-service";
 
 export default {
-  name: "CategoryDetail",
+  name: "Torrents",
   components: {TableOrder, Pagination, TorrentList},
+  props: {
+    sorting: {
+      type: String,
+      default: '',
+    },
+    searchParam: {
+      type: String,
+      default: '',
+    },
+  },
   data: () => ({
-    sorting: "uploaded",
+    params: {
+      sorting: ''
+    },
     torrents: {
       total: 0,
       results: []
@@ -41,8 +42,8 @@ export default {
     pageSize: 20,
   }),
   methods: {
-    loadTorrents(category, page, sort) {
-      HttpService.get(`/category/${category}/torrents?page_size=${this.pageSize}&page=${page-1}&sort=${sort}`, (res) => {
+    loadTorrents(page, sort) {
+      HttpService.get(`/torrents/?page_size=${this.pageSize}&page=${page-1}&sort=${sort}`, (res) => {
         this.torrents = res.data.data;
       }).catch(() => {
       });
@@ -68,8 +69,8 @@ export default {
     }
   },
   mounted() {
-    let category = this.$route.params?.name;
-    this.loadTorrents(category, this.currentPage, this.sorting);
+    if (this.sorting) this.params.sorting = this.sorting;
+    this.loadTorrents(this.currentPage, this.sorting);
   }
 }
 </script>
