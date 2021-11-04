@@ -1,56 +1,42 @@
 import Layout from "@/components/Layout";
-import SearchResults from "@/views/SearchResults";
 import TorrentDetail from "@/views/Torrent";
 import CategoryOverview from "@/views/CategoryOverview";
-import Popular from "@/views/Popular";
-import Recent from "@/views/Recent";
-import CategoryDetail from "@/views/TorrentList";
 import TorrentUpload from "@/views/TorrentUpload";
 import VueRouter from "vue-router";
+import Torrents from "@/views/Torrents";
 
 const routes = [
-    {path: '/', redirect: {name: 'Popular'}},
     {
-        path: '/', component: Layout, children: [
-            {
-                path: 'search',
-                name: 'SearchResults',
-                component: SearchResults,
-                props: (route) => ({ searchQuery: route.query.query }),
-                children: [
-                    {path: ':torrentId', name: 'TorrentDetail', component: TorrentDetail}
-                ]
-            },
+        path: '/',
+        redirect: {
+            name: 'TorrentList'
+        }
+    },
+    {
+        path: '/',
+        component:
+        Layout,
+        children: [
             {
                 path: 'categories',
                 name: 'CategoryOverview',
                 component: CategoryOverview
             },
             {
-                path: 'categories/popular',
-                name: 'Popular',
-                component: Popular,
-                children: [
-                    {path: ':torrentId', name: 'TorrentDetail', component: TorrentDetail}
-                ]
+                path: 'torrent/:torrentId',
+                name: 'TorrentDetail',
+                component: TorrentDetail
             },
             {
-                path: 'categories/recent',
-                name: 'Recent',
-                component: Recent,
-                children: [
-                    {path: ':torrentId', name: 'TorrentDetail', component: TorrentDetail}
-                ]
+                path: 'torrents/:sorting?',
+                name: 'TorrentList',
+                component: Torrents,
             },
             {
-                path: 'torrents',
-                name: 'CategoryDetail',
-                component: CategoryDetail,
-                children: [
-                    {path: ':torrentId', name: 'TorrentDetail', component: TorrentDetail}
-                ]
+                path: 'upload',
+                name: 'TorrentUpload',
+                component: TorrentUpload
             },
-            {path: 'upload', name: 'TorrentUpload', component: TorrentUpload},
         ]
     }
 ];
