@@ -40,49 +40,12 @@
           <div v-html="compiledMarkdown" class="max-w-none prose-sm prose-blue"></div>
         </div>
       </div>
-
-<!--      <div class="relative px-4 py-12 mx-auto mb-4 max-w-3xl bg-secondary shadow xl:py-8 sm:px-6 lg:px-8 xl:max-w-5xl xl:grid xl:grid-cols-1 md:rounded-lg">-->
-<!--        <button-->
-<!--            @click="closeModal"-->
-<!--            class="absolute top-0 right-0">-->
-<!--          <XIcon class="m-2 xl:m-5 text-white"/>-->
-<!--        </button>-->
-
-<!--        <div class="xl:col-span-2 xl:pr-8">-->
-<!--          <div>-->
-<!--            <div class="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6">-->
-<!--              <h1 class="text-xl break-all md:text-2xl font-bold text-gray-900">{{ torrent.title }}</h1>-->
-<!--            </div>-->
-
-<!--            &lt;!&ndash; Mobile sidebar &ndash;&gt;-->
-<!--            <DetailsSidebar class="mt-8 xl:hidden" :torrent="torrent"/>-->
-
-<!--            <div class="flex flex-wrap overflow-hidden">-->
-<!--              <div class="p-4 pl-0 w-full overflow-hidden xl:w-2/3">-->
-<!--                <h2 class="sr-only">Description</h2>-->
-<!--  &lt;!&ndash;              <div class="flex justify-center w-full">&ndash;&gt;-->
-<!--  &lt;!&ndash;                <img class="mb-5 max-w-full h-auto rounded-lg"&ndash;&gt;-->
-<!--  &lt;!&ndash;                     :src="torrent.image" :alt="torrent.title">&ndash;&gt;-->
-<!--  &lt;!&ndash;              </div>&ndash;&gt;-->
-<!--                <div v-html="compiledMarkdown" class="max-w-none prose-sm md:prose"></div>-->
-<!--              </div>-->
-<!--              &lt;!&ndash; Desktop sidebar &ndash;&gt;-->
-<!--              <DetailsSidebar class="hidden xl:block p-4 border-l w-full overflow-hidden xl:w-1/3" :torrent="torrent"/>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <FileTree :files="groupedFiles" />-->
-
-<!--        </div>-->
-<!--      </div>-->
     </div>
   </div>
 </template>
 
 <script>
 import MarkdownIt from 'markdown-it';
-// import FileTree from "../components/torrent-details/FileTree";
-// import DetailsSidebar from "../components/torrent-details/DetailsSidebar";
 import {XIcon, DownloadIcon} from "@vue-hero-icons/outline";
 import HttpService from "@/common/http-service";
 
@@ -91,6 +54,7 @@ export default {
   name: "TorrentDetail",
   components: {XIcon, DownloadIcon},
   data: () => ({
+    prevRoute: null,
     torrent: {
       name: "",
       seeders: 0,
@@ -101,59 +65,30 @@ export default {
       image: "",
       categories: [],
       files: [],
-      // files: [
-      //   {
-      //     name: "child folder",
-      //     children: [
-      //       {
-      //         name: "child folder",
-      //         children: [{name: "hello.jpg"}, {name: "wat.pdf"}]
-      //       },
-      //       {name: "hello.jpg"},
-      //       {name: "wat.pdf"},
-      //       {
-      //         name: "child folder",
-      //         children: [{name: "hello.jpg"}, {name: "wat.pdf"}]
-      //       }
-      //     ]
-      //   },
-      //   {name: "hello.jpg"},
-      //   {name: "wat.pdf"},
-      //   {
-      //     name: "child folder",
-      //     children: [
-      //       {
-      //         name: "child folder",
-      //         children: [{name: "hello.jpg"}, {name: "wat.pdf", }]
-      //       },
-      //       {name: "hello.jpg"},
-      //       {name: "wat.pdf"},
-      //       {
-      //         name: "child folder",
-      //         children: [{name: "hello.jpg"}, {name: "wat.pdf"}]
-      //       }
-      //     ]
-      //   }
-      // ]
     },
     md: new MarkdownIt(),
   }),
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      // save previous route to go back to
+      vm.prevRoute = from
+    })
+  },
   mounted() {
     document.body.classList.add("modal-open");
     this.getTorrent(this.$route.params.torrentId);
   },
-  // beforeRouteUpdate() {
-  //   this.getTorrent(this.$route.params.torrentId);
-  // },
   beforeDestroy() {
     document.body.classList.remove("modal-open");
   },
   methods: {
     closeModal() {
-      //this.$router.push({name: 'CategoryDetail'});
-      this.$router.push({
-        name: this.$route.matched[this.$route.matched.length - 2].name
-      })
+      // check if user was browsing or torrents or used a direct link
+      if (this.prevRoute.name === 'TorrentList') {
+        this.$router.go(-1);
+      } else {
+        this.$router.push('/torrents/');
+      }
     },
     getTorrent(torrentId) {
       const self = this;
@@ -164,8 +99,7 @@ export default {
       })
     },
     downloadTorrent() {
-      //window.open(`${process.env.VUE_APP_API_BASE_URL}/torrent/download`, '_blank');
-      HttpService.getBlob(`/torrent/download/${this.torrent.torrent_id}`, (res) => {
+      HttpService.getBlob(`/torrents/download/${this.torrent.torrent_id}`, (res) => {
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement('a');
         link.href = url;
