@@ -4,19 +4,19 @@ import CategoryOverview from "@/views/CategoryOverview";
 import TorrentUpload from "@/views/TorrentUpload";
 import VueRouter from "vue-router";
 import Torrents from "@/views/Torrents";
+import Welcome from "@/views/Welcome";
 
 const routes = [
-    {
-        path: '/',
-        redirect: {
-            name: 'TorrentList'
-        }
-    },
     {
         path: '/',
         component:
         Layout,
         children: [
+            {
+                path: '/',
+                name: 'Welcome',
+                component: Welcome,
+            },
             {
                 path: 'categories',
                 name: 'CategoryOverview',
