@@ -1,8 +1,12 @@
 <template>
   <div class="bg-primary p-6 rounded-3xl">
+    <div v-if="search" class="flex flex-row">
+      <h2 class="text-gray-400">Search results for '{{ this.search }}'</h2>
+      <button @click="clearSearch" class="px-2 ml-2 text-sm rounded-xl bg-red-500 bg-opacity-10 text-red-400 hover:text-red-500">Clear search</button>
+    </div>
     <div class="flex justify-between">
       <h1 class="view-title text-white">Browse Torrents</h1>
-      <TableOrder v-if="torrents.results.length > 0" :sorting.sync="params.sorting"/>
+      <TableOrder :sorting.sync="params.sorting"/>
     </div>
     <router-view/>
     <TorrentList v-if="torrents.results.length > 0" :torrents="torrents.results" />
@@ -16,6 +20,7 @@ import TorrentList from "../components/TorrentList";
 import Pagination from "../components/Pagination";
 import TableOrder from "../components/TableOrder";
 import HttpService from "@/common/http-service";
+import {mapState} from "vuex";
 
 export default {
   name: "Torrents",
@@ -25,15 +30,12 @@ export default {
       type: String,
       default: '',
     },
-    searchParam: {
-      type: String,
-      default: '',
-    },
   },
   data: () => ({
     params: {
       sorting: ''
     },
+    search: '',
     torrents: {
       total: 0,
       results: []
@@ -43,33 +45,42 @@ export default {
   }),
   methods: {
     loadTorrents(page, sort) {
-      HttpService.get(`/torrents/?page_size=${this.pageSize}&page=${page-1}&sort=${sort}`, (res) => {
+      HttpService.get(`/torrents?page_size=${this.pageSize}&page=${page-1}&sort=${sort}&categories=${this.categoryFilters.join(',')}&search=${this.search}`, (res) => {
         this.torrents = res.data.data;
       }).catch(() => {
       });
+    },
+    clearSearch() {
+      this.$router.replace({ query: {...this.$route.query, search: ''}})
     }
   },
   computed: {
-    category() {
-      return this.$route.params?.name;
-    },
+    ...mapState(['categoryFilters']),
     totalPages() {
       return Math.ceil(this.torrents.total / this.pageSize);
     },
   },
   watch: {
-    category(newCat) {
-      this.loadTorrents(newCat, this.currentPage, this.sorting);
+    '$route.query.search': function (search) {
+      search ? this.search = search : this.search = '';
+      this.loadTorrents(this.currentPage, this.sorting);
+    },
+    filters() {
+      this.loadTorrents(this.currentPage, this.sorting);
     },
     sorting(newSort) {
-      this.loadTorrents(this.category, this.currentPage, newSort);
+      this.loadTorrents(this.currentPage, newSort);
     },
     currentPage(newPage) {
-      this.loadTorrents(this.category, newPage, this.sorting);
+      this.loadTorrents(newPage, this.sorting);
+    },
+    categoryFilters() {
+      this.loadTorrents(this.currentPage, this.sorting);
     }
   },
   mounted() {
     if (this.sorting) this.params.sorting = this.sorting;
+    this.$route.query.search ? this.search = this.$route.query.search : this.search = '';
     this.loadTorrents(this.currentPage, this.sorting);
   }
 }

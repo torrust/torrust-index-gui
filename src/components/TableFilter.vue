@@ -7,7 +7,7 @@
               @click="dropdownOpened = !dropdownOpened"
               v-click-outside="() => (dropdownOpened = false)"
       >
-        Order by
+        Categories
         <!-- Heroicon name: solid/chevron-down -->
         <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
              aria-hidden="true">
@@ -25,11 +25,11 @@
     >
       <div class="py-1" role="none">
         <a
-            v-for="(label, orderBy) in sortingOrders"
-            :key="orderBy"
+            v-for="(label, category) in categoryFilters"
+            :key="category"
             class="item"
-            :class="{active: selectedItem === orderBy}"
-            @click="selectItem(orderBy)"
+            :class="{active: selectedItems.indexOf(category) > -1}"
+            @click="selectItem(category)"
         >
           {{ label }}
         </a>
@@ -40,20 +40,23 @@
 
 <script>
 export default {
-  name: "TableOrder",
+  name: "TableFilter",
   data: () => ({
     dropdownOpened: false,
-    selectedItem: "",
-    sortingOrders: {
-      uploaded: "Upload date",
-      seeders: "Seeders",
-      leechers: "Leechers",
+    selectedItems: [],
+    categoryFilters: {
+      movies: "Movies",
+      other: "Other",
     }
   }),
   methods: {
-    selectItem(orderBy) {
-      this.selectedItem = orderBy;
-      this.$emit('update:sorting', orderBy);
+    selectItem(category) {
+      if (this.selectedItems.indexOf(category) > -1) {
+        this.selectedItems.splice(this.selectedItems.indexOf(category), 1)
+      } else {
+        this.selectedItems.push(category);
+      }
+      this.$emit('update:filters', this.selectedItems);
     }
   }
 }

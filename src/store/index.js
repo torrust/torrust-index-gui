@@ -8,6 +8,7 @@ export default new Vuex.Store({
     state: {
         sideBarOpen: false,
         categories: [],
+        categoryFilters: [],
     },
     getters: {
         sideBarOpen: state => {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
         },
         setCategories(state, categories) {
             Vue.set(state, 'categories', categories);
+        },
+        setCategoryFilters(state, categoryFilters) {
+            Vue.set(state, 'categoryFilters', categoryFilters);
         }
     },
     actions: {
