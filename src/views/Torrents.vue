@@ -6,10 +6,9 @@
     </div>
     <div class="flex justify-between">
       <h1 class="view-title text-white">Browse Torrents</h1>
-      <TableOrder :sorting.sync="params.sorting"/>
     </div>
     <router-view/>
-    <TorrentList v-if="torrents.results.length > 0" :torrents="torrents.results" />
+    <TorrentList v-if="torrents.results.length > 0" :torrents="torrents.results" :update-sorting="updateSorting"/>
     <Pagination v-if="torrents.results.length > 0" :current-page.sync="currentPage" :total-pages="totalPages" :total-results="torrents.total" :page-size="pageSize" />
     <div v-else class="py-6 text-gray-300">This category has no results.</div>
   </div>
@@ -18,22 +17,16 @@
 <script>
 import TorrentList from "../components/TorrentList";
 import Pagination from "../components/Pagination";
-import TableOrder from "../components/TableOrder";
 import HttpService from "@/common/http-service";
 import {mapState} from "vuex";
 
 export default {
   name: "Torrents",
-  components: {TableOrder, Pagination, TorrentList},
-  props: {
-    sorting: {
-      type: String,
-      default: '',
-    },
-  },
+  components: {Pagination, TorrentList},
   data: () => ({
-    params: {
-      sorting: ''
+    sorting: {
+      name: 'uploaded',
+      direction: 'DESC',
     },
     search: '',
     torrents: {
@@ -44,14 +37,19 @@ export default {
     pageSize: 20,
   }),
   methods: {
-    loadTorrents(page, sort) {
-      HttpService.get(`/torrents?page_size=${this.pageSize}&page=${page-1}&sort=${sort}&categories=${this.categoryFilters.join(',')}&search=${this.search}`, (res) => {
+    loadTorrents(page) {
+      HttpService.get(`/torrents?page_size=${this.pageSize}&page=${page-1}&sort=${this.sorting.name}_${this.sorting.direction}&categories=${this.categoryFilters.join(',')}&search=${this.search}`, (res) => {
         this.torrents = res.data.data;
       }).catch(() => {
       });
     },
     clearSearch() {
       this.$router.replace({ query: {...this.$route.query, search: ''}})
+    },
+    updateSorting(sorting) {
+      console.log(sorting);
+      this.sorting = sorting;
+      this.loadTorrents(this.currentPage);
     }
   },
   computed: {
@@ -68,9 +66,6 @@ export default {
     filters() {
       this.loadTorrents(this.currentPage, this.sorting);
     },
-    sorting(newSort) {
-      this.loadTorrents(this.currentPage, newSort);
-    },
     currentPage(newPage) {
       this.loadTorrents(newPage, this.sorting);
     },
@@ -79,7 +74,6 @@ export default {
     }
   },
   mounted() {
-    if (this.sorting) this.params.sorting = this.sorting;
     this.$route.query.search ? this.search = this.$route.query.search : this.search = '';
     this.loadTorrents(this.currentPage, this.sorting);
   }
