@@ -2,28 +2,29 @@
   <div class="col-span-12">
     <div class="overflow-auto lg:overflow-visible ">
       <table class="table w-full mb-2 border-separate text-sm whitespace-nowrap">
-        <thead class="text-gray-500">
+        <thead class="text-gray-500 text-center">
         <tr>
-          <th v-for="column in table_columns" :key="column" @click="changeSort(column)"
-              class="cursor-pointer text-center hover:text-white"
-              :class="{ 'text-white': sort.name === column }"
-          >
-            <div class="flex flex-row justify-start items-center" :class="{ 'justify-center': column!=='name' }">
-              <span>{{ titleCase(column) }}</span>
-              <SortAscendingIcon size="16" v-if="sort.name===column&&sort.direction==='ASC'" class="ml-1" />
-              <SortDescendingIcon size="16" v-if="sort.name===column&&sort.direction==='DESC'" class="ml-1" />
-            </div>
-          </th>
+          <th class="text-left">Name</th>
+          <th class="">Seeders</th>
+          <th class="">Leechers</th>
+          <th class="">Uploaded</th>
+          <th class="">Size</th>
           <th class="">Uploader</th>
         </tr>
         </thead>
         <tbody class="text-gray-300">
         <tr
             v-for="(torrent, index) in torrents" :key="index"
-            @click="$router.push(`/torrent/${torrent.torrent_id.toString()}`)"
-            class="hover:bg-black hover:bg-opacity-10 text-center cursor-pointer duration-100 hover:text-white"
+            @click="$router.push({path: torrent.torrent_id.toString(), append: true})"
+            class="text-center cursor-pointer duration-100 hover:bg-secondary hover:text-white"
         >
           <td class="font-bold text-left" :class="{ 'text-red-400': torrent.seeders === 0 }">
+<!--            <div class="flex flex-row items-center">-->
+<!--              <img class="rounded-lg h-12 w-12 object-cover" :src="torrent.image" :alt="torrent.name">-->
+<!--              <div class="ml-3 text-black font-bold">-->
+<!--                {{ torrent.title }}-->
+<!--              </div>-->
+<!--            </div>-->
             {{ torrent.title }}
           </td>
           <td class="text-green-400 font-bold">
@@ -49,44 +50,51 @@
 </template>
 
 <script>
-import { SortAscendingIcon, SortDescendingIcon } from "@vue-hero-icons/outline"
-
 export default {
   name: "TorrentList",
-  components: {SortAscendingIcon, SortDescendingIcon},
   props: {
     torrents: Array,
-    updateSorting: Function,
   },
   data: () => ({
-    sort: {
-      name: 'uploaded',
-      direction: 'DESC'
-    },
-    table_columns: [
-      'name',
-      'seeders',
-      'leechers',
-      'uploaded',
-      'size',
-    ]
-  }),
-  methods: {
-    changeSort(sort) {
-      if (this.sort.name === sort) {
-        if (this.sort.direction === 'ASC') {
-          this.sort.direction = 'DESC'
-        } else {
-          this.sort.direction = 'ASC'
-        }
-      } else {
-        this.sort.name = sort;
-        this.sort.direction = 'DESC'
-      }
-      this.updateSorting(this.sort);
-      //this.$emit('update:sorting', sort);
-    }
-  }
+    // torrents: [
+    //   {
+    //     name: "The.Suicide.Squad.2021.1080p.WEBRip.x264-RARBG",
+    //     seeders: 13164,
+    //     leechers: 4391,
+    //     date: Date.now(),
+    //     size: 2500000000,
+    //     uploader: "TheMorozko",
+    //     image: "https://lx1.dyncdn.cc/cdn/f1/f171fca83dbbcbcbd0dfedee5f27b4c3.jpg"
+    //   },
+    //   {
+    //     name: "Jungle.Cruise.2021.1080p.WEBRip.x264-RARBG",
+    //     seeders: 7519,
+    //     leechers: 1205,
+    //     date: Date.now(),
+    //     size: 324500000,
+    //     uploader: "Warm Beer",
+    //     image: "https://lx1.dyncdn.cc/cdn/a2/a2075634828053a442fab660fe1cf33e.jpg"
+    //   },
+    //   {
+    //     name: "Loki.S01E06.For.All.Time.Always.1080p.DSNP.WEBRip.DDP5.1.x264-TOMMY",
+    //     seeders: 4551,
+    //     leechers: 602,
+    //     date: Date.now(),
+    //     size: 2000000000,
+    //     uploader: "Dakshvv",
+    //     image: "https://dyncdn.me/static/20/tvdb/347843_banner_optimized.jpg"
+    //   },
+    //   {
+    //     name: "Fast.and.Furious.F9.The.Fast.Saga.2021.1080p.WEBRip.x264-RARBG",
+    //     seeders: 6888,
+    //     leechers: 1326,
+    //     date: Date.now(),
+    //     size: 2700000000,
+    //     uploader: "Warm Beer",
+    //     image: "https://www.moviemeter.nl/images/cover/1128000/1128280.jpg"
+    //   }
+    // ]
+  })
 }
 </script>
 
