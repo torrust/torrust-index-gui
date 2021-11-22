@@ -59,7 +59,7 @@ export default {
   methods: {
     submitSearch() {
       if (this.searchQuery) {
-        this.$router.push(`/torrents?search=${this.searchQuery}`)
+        this.$router.push(`/search?query=${this.searchQuery}`)
       }
     },
     toggleSidebar() {

@@ -65,6 +65,6 @@ export default {
 }
 
 .active {
-  @apply bg-blue-300 text-gray-700;
+  @apply text-gray-700;
 }
 </style>
