@@ -43,6 +43,12 @@ export default new class {
         return axios.post(url, data).then(callback).catch(this.errorHandler);
     }
 
+    delete(url, callback) {
+        this.setToken();
+
+        return axios.delete(url).then(callback).catch(this.errorHandler);
+    }
+
     async errorHandler(error) {
         if (!error.response) {
             console.error('Cannot connect to backend');

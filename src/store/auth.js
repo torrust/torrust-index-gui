@@ -3,11 +3,13 @@ import HttpService from "@/common/http-service";
 
 const userToken = localStorage.getItem('userToken') || '';
 const user = localStorage.getItem('user') || '';
+const admin = localStorage.getItem('admin') || false;
 
 const initialState = {
     userToken: userToken,
     user: user,
     loggedIn: !!(userToken && user),
+    administrator: admin
 };
 
 export default {
@@ -22,18 +24,23 @@ export default {
         isLoggedIn: state => {
             return state.loggedIn;
         },
+        isAdministrator: state => {
+            return state.administrator;
+        },
     },
     mutations: {
         setAuthModal(state, opened) {
             state.authModalOpen = opened
         },
-        authSuccess(state, {token, username}) {
+        authSuccess(state, {token, username, admin}) {
             state.loggedIn = true;
             state.userToken = token;
             state.user = username;
+            state.administrator = admin;
 
             localStorage.setItem('userToken', token);
             localStorage.setItem('user', username);
+            localStorage.setItem('admin', admin);
 
             Vue.notify({
                 title: 'Authentication',
@@ -55,7 +62,7 @@ export default {
             HttpService.post('/user/login', data, (res) => {
                 const data = res.data.data;
 
-                commit('authSuccess', {token: data.token, username: data.username});
+                commit('authSuccess', {token: data.token, username: data.username, admin: data.admin});
                 dispatch('closeAuthModal');
             });
         },

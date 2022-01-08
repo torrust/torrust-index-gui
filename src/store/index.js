@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import authStore from './auth';
+import HttpService from "@/common/http-service";
 
 Vue.use(Vuex)
 
@@ -8,6 +9,7 @@ export default new Vuex.Store({
     state: {
         sideBarOpen: false,
         categories: [],
+        categoryFilters: [],
     },
     getters: {
         sideBarOpen: state => {
@@ -20,6 +22,9 @@ export default new Vuex.Store({
         },
         setCategories(state, categories) {
             Vue.set(state, 'categories', categories);
+        },
+        setCategoryFilters(state, categoryFilters) {
+            Vue.set(state, 'categoryFilters', categoryFilters);
         }
     },
     actions: {
@@ -34,6 +39,11 @@ export default new Vuex.Store({
         toggleSidebar({commit}) {
             commit('toggleSidebar')
         },
+        getCategories({commit}) {
+            HttpService.get('/category', (res) => {
+                commit('setCategories', res.data.data);
+            }).catch(() => {});
+        }
     },
     modules: {
         auth: authStore

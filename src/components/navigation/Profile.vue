@@ -10,13 +10,14 @@
          role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
     >
       <div class="py-1" role="none">
-<!--        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Account</a>-->
-<!--        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>-->
+        <router-link to="/settings" replace class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+          <span>Settings</span>
+        </router-link>
         <button
             @click="$store.dispatch('logout')"
-            class="block w-full text-left px-4 py-2 hover:bg-gray-100"
+            class="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
         >
-          Logout
+          Sign out
         </button>
       </div>
     </div>
