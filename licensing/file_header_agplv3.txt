@@ -1,7 +1,7 @@
     Torrust Index
 
     Project owner: Nautilus Cyberneering GmbH.
-    Github repository: https://github.com/torrust/torrust
+    Github repository: https://github.com/torrust/torrust-index
         Project description:
     Torrust is a suite of client-server software for hosting online torrent indexes.
 

@@ -1,6 +1,6 @@
 # Torrust Index Frontend
 
-This repository serves as the frontend for the [Torrust Index](https://github.com/torrust/torrust) project.
+This repository serves as the frontend for the [Torrust Index](https://github.com/torrust/torrust-index) project.
 
 ## Documentation
 You can read the documentation [here](https://torrust.github.io/torrust-documentation/torrust-web-frontend/about/).
@@ -28,4 +28,4 @@ npm run build
 5. Serve the newly generated `dist` folder.
 
 ## Contributing
-Please report any Torrust Index frontend specific bugs you find to the issue tracker of this repository. Torrust Index backend specific issues can be submitted [here](https://github.com/torrust/torrust-index-backend). Universal issues with the Torrust Index can be submitted [here](https://github.com/torrust/torrust). Ideas and feature requests are welcome as well!
+Please report any Torrust Index frontend specific bugs you find to the issue tracker of this repository. Torrust Index backend specific issues can be submitted [here](https://github.com/torrust/torrust-index-backend). Universal issues with the Torrust Index can be submitted [here](https://github.com/torrust/torrust-index). Ideas and feature requests are welcome as well!
