@@ -4,7 +4,7 @@
   "description": "This repository serves as the frontend for the Torrust Index project.",
   "author": "Mick van Dijke <mick@dutchbits.nl>",
   "license": "AGPL-3.0",
-  "homepage": "https://github.com/torrust/torrust",
+  "homepage": "https://github.com/torrust/torrust-index",
   "repository": {
     "type": "git",
     "url": "https://github.com/torrust/torrust-index-frontend.git"
