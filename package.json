@@ -1,18 +1,10 @@
 {
-  "name": "torrust-index-frontend",
-  "version": "1.0.0",
-  "description": "This repository serves as the frontend for the Torrust Index project.",
-  "author": "Mick van Dijke <mick@dutchbits.nl>",
-  "license": "AGPL-3.0",
-  "homepage": "https://github.com/torrust/torrust-index",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/torrust/torrust-index-frontend.git"
-  },
+  "name": "torrust",
+  "private": false,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite serve",
+    "serve": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
@@ -49,5 +41,9 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/torrust/torrust.git"
+  }
 }
