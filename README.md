@@ -1,17 +1,31 @@
-# Torrust Web Frontend
+# Torrust Index Frontend
+This repository serves as the frontend for the [Torrust Index](https://github.com/torrust/torrust-index) project.
 
-[![Release](https://github.com/torrust/torrust-web-frontend/actions/workflows/release.yml/badge.svg)](https://github.com/torrust/torrust-web-frontend/actions/workflows/release.yml)
+## Documentation
+You can read the documentation [here](https://torrust.github.io/torrust-documentation/torrust-web-frontend/about/).
 
-__Torrust Web Frontend__ is a Vue application where users can upload and download torrents.
-It shows details like seeders, leechers, files and a description of all the tracked torrents. It relies on the __Torrust Web Backend__ to function.
+## Installation
+1. Install prerequisites:
+- [NodeJS/NPM](https://nodejs.org/) - NodeJS & Node Package Manager.
 
-[Documentation](https://torrust.github.io/torrust-documentation/torrust-web-frontend/about/)
+2. Clone the repository:
+```bash
+git clone https://github.com/torrust/torrust-index-frontend.git
+```
 
-## Features
-* [X] Built with Tailwind CSS
-* [X] Single Page Application
-* [X] Clean design
+3. Set the URL of the backend:
+> Replace YOUR_BACKEND_URL
+```bash
+echo "VITE_API_BASE_URL=YOUR_BACKEND_URL" > .env
+```
+
+4. Install node modules and build the frontend:
+```bash
+npm i
+npm run build
+```
+
+5. Serve the newly generated `dist` folder.
 
 ## Contributing
-Please report any bugs you find to our issue tracker. Ideas and feature requests are welcome as well!
-Any pull request targeting existing issues would be very much appreciated.
+Please report any Torrust Index frontend specific bugs you find to the issue tracker of this repository. Torrust Index backend specific issues can be submitted [here](https://github.com/torrust/torrust-index-backend). Universal issues with the Torrust Index can be submitted [here](https://github.com/torrust/torrust-index). Ideas and feature requests are welcome as well!
