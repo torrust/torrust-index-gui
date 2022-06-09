@@ -1,4 +1,4 @@
 /node_modules/
 /dist/
 /.idea/
-git rm --cached ReadMe.md
+git rm --cached README.md
