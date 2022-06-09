@@ -1,5 +1,4 @@
 # Torrust Index Frontend
-
 This repository serves as the frontend for the [Torrust Index](https://github.com/torrust/torrust-index) project.
 
 ## Documentation
@@ -15,8 +14,9 @@ git clone https://github.com/torrust/torrust-index-frontend.git
 ```
 
 3. Set the URL of the backend:
+> Replace YOUR_BACKEND_URL
 ```bash
-echo "VITE_API_BASE_URL=https://YOUR_DOMAIN/api" > .env
+echo "VITE_API_BASE_URL=YOUR_BACKEND_URL" > .env
 ```
 
 4. Install node modules and build the frontend:
