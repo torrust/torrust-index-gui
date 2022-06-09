@@ -1,5 +1,4 @@
 # Torrust Index Frontend
-
 This repository serves as the frontend for the [Torrust Index](https://github.com/torrust/torrust-index) project.
 
 ## Documentation
@@ -15,8 +14,9 @@ git clone https://github.com/torrust/torrust-index-frontend.git
 ```
 
 3. Set the URL of the backend:
+> Replace YOUR_BACKEND_URL
 ```bash
-echo "VITE_API_BASE_URL=https://YOUR_DOMAIN/api" > .env
+echo "VITE_API_BASE_URL=YOUR_BACKEND_URL" > .env
 ```
 
 4. Install node modules and build the frontend:
@@ -26,20 +26,6 @@ npm run build
 ```
 
 5. Serve the newly generated `dist` folder.
-
-### Project Roadmap
-
-* [ ] Feedback Form
-* [ ] Comments Section (can be powered by disqus)
-* [ ] Age Restricted Option for Torrent
-* [ ] Allow custom favicon for website
-* [ ] User Profile and his posts
-* [ ] Trusted Uploaders Badge for users
-* [ ] Seeders and Leechers Amount from external and Internet trackers
-* [ ] RSS feed of torrents
-* [ ] Tags for torrent
-* [ ] Bookmark for torrent
-* [ ] Personal RSS with custom option
 
 ## Contributing
 Please report any Torrust Index frontend specific bugs you find to the issue tracker of this repository. Torrust Index backend specific issues can be submitted [here](https://github.com/torrust/torrust-index-backend). Universal issues with the Torrust Index can be submitted [here](https://github.com/torrust/torrust-index). Ideas and feature requests are welcome as well!
