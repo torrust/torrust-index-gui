@@ -4,8 +4,9 @@ import CategoryOverview from "../views/CategoryOverview.vue";
 import TorrentUpload from "../views/TorrentUpload.vue";
 import VueRouter from "vue-router";
 import Torrents from "../views/Torrents.vue";
-import Welcome from "../views/Welcome.vue";
 import Settings from "../views/settings/Settings.vue";
+import Pages from "../views/Pages.vue";
+import CreatePage from "../views/CreatePage.vue";
 
 const routes = [
     {
@@ -16,7 +17,7 @@ const routes = [
             {
                 path: '/',
                 name: 'Welcome',
-                component: Welcome,
+		component: Pages
             },
             {
                 path: 'settings',
@@ -43,6 +44,16 @@ const routes = [
                 name: 'Upload Torrent',
                 component: TorrentUpload
             },
+	    {
+		path: 'new',
+		name: 'Create Page',
+		component: CreatePage
+	    },
+	    {
+		path: ':page',
+		name: '',
+		component: Pages
+	    }
         ]
     }
 ];
