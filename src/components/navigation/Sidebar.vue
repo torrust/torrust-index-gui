@@ -1,4 +1,5 @@
 <template>
+  <div>
   <nav class="lg:text-sm lg:leading-6 relative">
 
     <div class="py-4">
@@ -49,6 +50,8 @@
       </li>
     </ul>
   </nav>
+  <span class="py-2 text-slate-400 font-semibold" style="bottom: 20px;position: absolute"><router-link :to="'/feedback'">Feedback</router-link></span>
+</div>
 </template>
 
 <script>
