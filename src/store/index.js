@@ -88,7 +88,9 @@ export default new Vuex.Store({
                 commit('setCategories', res.data.data);
             }).catch(() => {});
         },
-        getSettings({commit}) {
+        getSettings({commit, state}) {
+            if (!state.auth.user.token) return;
+
             HttpService.get('/settings', (res) => {
                 commit('setSettings', res.data.data);
             }).catch(() => {});

@@ -105,13 +105,6 @@
           <input type='number' v-model="settings.database.torrent_info_update_interval">
         </div>
 
-        <!-- Storage -->
-        <h3>Storage</h3>
-        <label>Torrent Upload Path</label>
-        <div class="setting-input-container">
-          <input type='text' v-model="settings.storage.upload_path">
-        </div>
-
         <!-- Mail -->
         <h3>Mail</h3>
         <label>Email Verification Enabled (true or false)</label>
@@ -190,9 +183,6 @@ export default {
       database: {
         connect_url: "",
         torrent_info_update_interval: 0
-      },
-      storage: {
-        upload_path: ""
       },
       mail: {
         email_verification_enabled: false,
