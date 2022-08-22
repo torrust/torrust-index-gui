@@ -68,6 +68,7 @@
 
 <script>
 import { SortAscendingIcon, SortDescendingIcon } from "@vue-hero-icons/outline"
+import {mapState} from "vuex";
 
 export default {
   name: "TorrentList",
@@ -90,6 +91,16 @@ export default {
       'size',
     ]
   }),
+  computed: {
+    ...mapState(['categories']),
+    indexedCategories() {
+      let obj = {};
+      for (let category of this.categories) {
+        obj[category.category_id] = category;
+      }
+      return obj;
+    }
+  },
   methods: {
     changeSort(sort) {
       let direction = 'ASC';

@@ -16,6 +16,7 @@ export default new Vuex.Store({
             },
             tracker: {
                 url: "",
+                mode: "",
                 api_url: "",
                 token: "",
                 token_valid_seconds: 0
@@ -45,6 +46,12 @@ export default new Vuex.Store({
                 server: "",
                 port: 0
             }
+        },
+        publicSettings: {
+            website_name: "",
+            tracker_url: "",
+            tracker_mode: "",
+            email_on_signup: ""
         }
     },
     getters: {
@@ -66,6 +73,10 @@ export default new Vuex.Store({
             Vue.set(state, 'settings', settings);
             window.document.title = settings.website.name;
         },
+        setPublicSettings(state, settings) {
+            Vue.set(state, 'publicSettings', settings);
+            window.document.title = settings.website_name;
+        },
         setSiteName(state, name) {
             state.settings.website.name = name;
             window.document.title = name;
@@ -76,7 +87,8 @@ export default new Vuex.Store({
             commit('setAuthModal', false);
             document.body.classList.remove("modal-open");
         },
-        openAuthModal({commit}) {
+        openAuthModal({dispatch, commit}) {
+            dispatch('getPublicSettings');
             commit('setAuthModal', true);
             document.body.classList.add("modal-open");
         },
@@ -93,6 +105,11 @@ export default new Vuex.Store({
 
             HttpService.get('/settings', (res) => {
                 commit('setSettings', res.data.data);
+            }).catch(() => {});
+        },
+        getPublicSettings({commit}) {
+            HttpService.get('/settings/public', (res) => {
+                commit('setPublicSettings', res.data.data);
             }).catch(() => {});
         },
         getSiteName({commit}) {
