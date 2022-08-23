@@ -6,11 +6,7 @@
     </div>
     <div class="flex flex-row">
       <FilterCategory />
-      <ChangePageSize :update-page-size="updatePageSize" :page-size-list="pageSizeList"/>
-<!--      <button disabled class="filter ml-2">-->
-<!--        <FilterIcon size="16" class="mr-1 opacity-50" />-->
-<!--        Filters-->
-<!--      </button>-->
+      <PageSize :update-page-size="updatePageSize" :page-size-list="pageSizeList"/>
     </div>
     <TorrentList id="TorrentList" class="mt-4" v-if="torrents.results.length > 0" :torrents="torrents.results" :sorting="sorting" :update-sorting="updateSorting"/>
     <Pagination v-if="torrents.results.length > 0" :current-page.sync="currentPage" :total-pages="totalPages" :total-results="torrents.total" :page-size="pageSize" />
@@ -21,6 +17,7 @@
 <script>
 import TorrentList from "../components/TorrentList.vue";
 import Pagination from "../components/Pagination.vue";
+import PageSize from "../components/PageSize.vue";
 import HttpService from "@/common/http-service";
 import {mapState} from "vuex";
 import Breadcrumb from "../components/Breadcrumb.vue";
@@ -29,11 +26,11 @@ import FilterCategory from "../components/FilterCategory.vue";
 
 export default {
   name: "Torrents",
-  components: {FilterCategory, Pagination, TorrentList, Breadcrumb, AdjustmentsIcon, FilterIcon, ChangePageSize},
+  components: {FilterCategory, Pagination, PageSize, TorrentList, Breadcrumb, AdjustmentsIcon, FilterIcon},
   data: () => ({
     sorting: {
-      name: 'uploaded',
-      direction: 'DESC',
+      name: 'Uploaded',
+      direction: 'Desc',
     },
     search: '',
     torrents: {
@@ -48,20 +45,19 @@ export default {
     loadTorrents(page) {
       HttpService.get(`/torrents?page_size=${this.pageSize}&page=${page-1}&sort=${this.sorting.name}${this.sorting.direction}&categories=${this.categoryFilters.join(',')}&search=${this.search}`, (res) => {
         this.torrents = res.data.data;
-      }).catch(() => {
-      });
+      }).catch(() => {});
     },
     updateSortFromRoute() {
       if (this.$route.params.sorting) {
         let sort = this.$route.params.sorting;
         switch (sort) {
           case 'popular':
-            this.sorting.name = 'seeders';
-            this.sorting.direction = 'DESC';
+            this.sorting.name = 'Seeders';
+            this.sorting.direction = 'Desc';
             break;
           case 'recent':
-            this.sorting.name = 'uploaded';
-            this.sorting.direction = 'DESC';
+            this.sorting.name = 'Uploaded';
+            this.sorting.direction = 'Desc';
             break;
           default:
             this.sorting.name = sort;
@@ -117,7 +113,4 @@ export default {
 </script>
 
 <style scoped>
-.filter {
-  @apply px-3 py-1.5 text-slate-400 text-sm font-semibold border border-slate-800 rounded-md flex items-center relative cursor-pointer transition duration-200 hover:text-slate-200 hover:border-slate-200;
-}
 </style>

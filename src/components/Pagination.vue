@@ -1,5 +1,4 @@
 <template>
-  <!-- This example requires Tailwind CSS v2.0+ -->
   <div class="py-6 flex items-center justify-between">
     <div class="flex-1 flex items-center sm:justify-between justify-end">
       <div class="hidden sm:block">
@@ -38,27 +37,22 @@
             </svg>
           </button>
 
-          <button @click="goToFirstPage"
-              class="page-button"
-              :disabled="currentPage === 1">
-            1
-          </button>
-
+          <!--show all page buttons-->
           <template v-if="totalPages < 7">
-            <button v-for="i in totalPages - 2" :key="i"
-                  @click="goToPage(i + 1)"
-                  :disabled="i + 1 === currentPage"
+            <button v-for="i in totalPages" :key="i"
+                  @click="goToPage(i)"
+                  :disabled="i === currentPage"
                   class="page-button">
-                  {{ i + 1 }}
+                  {{ i }}
             </button>
           </template>
 
           <template v-else-if="currentPage <= 4">
-            <button v-for="i in 5" :key="i + 1"
-                  @click="goToPage(i + 1)"
-                  :disabled="i + 1 === currentPage"
+            <button v-for="i in 5" :key="i"
+                  @click="goToPage(i)"
+                  :disabled="i === currentPage"
                   class="page-button">
-                  {{ i + 1 }}
+                  {{ i }}
             </button>
             <span v-if="totalPages > 7"
                 class="page-button">
@@ -71,11 +65,11 @@
               class="page-button">
               ...
             </span>
-            <button v-for="i in 5" :key="totalPages - 6 + i"
-                  @click="goToPage(totalPages - 6 + i)"
-                  :disabled="totalPages - 6 + i === currentPage"
+            <button v-for="i in 5" :key="totalPages - 5 + i"
+                  @click="goToPage(totalPages - 5 + i)"
+                  :disabled="totalPages - 5 + i === currentPage"
                   class="page-button">
-                  {{ totalPages - 6 + i }}
+                  {{ totalPages - 5 + i }}
             </button>
           </template>
 
@@ -101,13 +95,6 @@
               ...
             </span>
           </template>
-
-          <button v-if="totalPages > 1"
-              @click="goToLastPage"
-              :disabled="totalPages === currentPage"
-              class="page-button">
-            {{ totalPages }}
-          </button>
 
           <button
               @click="goToNextPage()"

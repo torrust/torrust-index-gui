@@ -23,7 +23,7 @@
             <div class="px-1 py-1 w-full lg:w-2/3 flex flex-col lg:flex-row flex-row bg-slate-800/50 rounded-md">
               <div class="px-3 w-full lg:w-1/2 flex flex-col justify-start">
                 <div class="detail">Total size:<span class="value">{{ fileSize(torrent.file_size) }}</span></div>
-                <div class="detail">Upload Date:<span class="value">{{ new Date(torrent.upload_date * 1000).toLocaleString() }}</span></div>
+                <div class="detail">Upload Date:<span class="value">{{ new Date(torrent.upload_date).toLocaleString() }}</span></div>
                 <div class="detail lg:border-none">Uploader:<span class="value">{{ torrent.uploader }}</span></div>
               </div>
               <div class="px-3 w-full lg:w-1/2 flex flex-col justify-start">

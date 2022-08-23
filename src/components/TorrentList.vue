@@ -49,7 +49,7 @@
                   {{ torrent.leechers }}
                 </td>
                 <td>
-                  {{ timeSince(torrent.upload_date) }} ago
+                  {{ timeSince(torrent.date_uploaded) }} ago
                 </td>
                 <td>
                   {{ fileSize(torrent.file_size) }}
@@ -93,13 +93,6 @@ export default {
   }),
   computed: {
     ...mapState(['categories']),
-    indexedCategories() {
-      let obj = {};
-      for (let category of this.categories) {
-        obj[category.category_id] = category;
-      }
-      return obj;
-    }
   },
   methods: {
     changeSort(sort) {
@@ -115,7 +108,6 @@ export default {
         direction = 'DESC'
       }
       this.updateSorting({name: sort, direction});
-      //this.$emit('update:sorting', sort);
     }
   }
 }
