@@ -1,6 +1,9 @@
 export default {
     methods: {
         timeSince(date) {
+            // convert datetime to unix timestamp
+            date = Math.floor(new Date(date).getTime() / 1000);
+
             const seconds = Math.floor(((+new Date() / 1000) - date));
             let interval = Math.floor(seconds / 31536000);
             if (interval >= 1) {
