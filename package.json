@@ -1,6 +1,6 @@
 {
   "name": "torrust-index-frontend",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "This repository serves as the frontend for the Torrust Index project.",
   "author": "Mick van Dijke <mick@dutchbits.nl>",
   "license": "AGPL-3.0",
