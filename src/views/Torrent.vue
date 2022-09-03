@@ -8,14 +8,22 @@
 <!--          </svg>-->
 <!--        </div>-->
         <div class="w-full overflow-hidden">
-          <h1 class="py-2 text-xl font-semibold text-slate-200 truncate">{{ torrent.title }}</h1>
+          <div class="flex flex-row items-center">
+            <input v-if="editingTitle" v-model="newTitle" class="mr-2" type="text">
+            <h1 v-else class="py-2 text-xl font-semibold text-slate-200 truncate">{{ torrent.title }}</h1>
+            <button v-if="torrent.uploader === user.username && !editingTitle" @click="editTitle" class="ml-auto edit">Edit</button>
+            <div v-if="torrent.uploader === user.username && editingTitle" class="ml-auto flex flex-row space-x-2">
+              <button @click="() => (editingTitle = false)" class="ml-auto edit">Cancel</button>
+              <button :disabled="newTitle === torrent.title" @click="saveTitle" class="ml-auto edit">Save</button>
+            </div>
+          </div>
           <h2 class="font-semibold text-xs lg:text-sm text-slate-400 uppercase">{{ torrent.info_hash }}</h2>
 
           <div class="py-4 flex flex-col flex-col-reverse lg:flex-row">
             <div class="px-1 py-1 w-full lg:w-2/3 flex flex-col lg:flex-row flex-row bg-slate-800/50 rounded-md">
               <div class="px-3 w-full lg:w-1/2 flex flex-col justify-start">
                 <div class="detail">Total size:<span class="value">{{ fileSize(torrent.file_size) }}</span></div>
-                <div class="detail">Upload Date:<span class="value">{{ new Date(torrent.upload_date * 1000).toLocaleString() }}</span></div>
+                <div class="detail">Upload Date:<span class="value">{{ new Date(torrent.upload_date).toLocaleString() }}</span></div>
                 <div class="detail lg:border-none">Uploader:<span class="value">{{ torrent.uploader }}</span></div>
               </div>
               <div class="px-3 w-full lg:w-1/2 flex flex-col justify-start">
@@ -29,18 +37,30 @@
                 <div class="status">Seeders: <span class="ml-auto text-green-500">{{ torrent.seeders }}</span></div>
                 <div class="ml-2 status">Leechers: <span class="ml-auto text-red-500">{{ torrent.leechers }}</span></div>
               </div>
-              <button type="button" @click="downloadTorrent"
+              <button v-if="showDownloadButtons" type="button" @click="downloadTorrent"
                       class="mt-2 px-3 py-1.5 w-full flex flex-row justify-center text-sm text-white text-center bg-green-600 border border-green-600 rounded-md transition duration-200 hover:shadow-lg hover:shadow-green-600/25">
                 <DownloadIcon class="justify-self-start mr-2 w-5 h-5"/>
                 <span>Torrent Download</span>
               </button>
-              <a type="button" :href="torrent.magnet_link"
+              <button v-else type="button" @click="$store.dispatch('openAuthModal')"
+                      class="mt-2 px-3 py-1.5 w-full flex flex-row justify-center text-sm text-white text-center bg-sky-500 border border-sky-500 rounded-md transition duration-200">
+                <DownloadIcon class="justify-self-start mr-2 w-5 h-5"/>
+                <span>Sign in to download</span>
+              </button>
+              <a v-if="showDownloadButtons" type="button" :href="torrent.magnet_link"
                  class="mt-2 px-3 py-1.5 w-full flex flex-row justify-center text-sm text-white text-center bg-red-600 border border-red-600 rounded-md transition duration-200 hover:shadow-lg hover:shadow-red-600/25">
                 <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span>Magnet Download</span>
               </a>
+              <button v-else type="button" @click="$store.dispatch('openAuthModal')"
+                      class="mt-2 px-3 py-1.5 w-full flex flex-row justify-center text-sm text-white text-center bg-sky-500 border border-sky-500 rounded-md transition duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Sign in to download</span>
+              </button>
             </div>
           </div>
 
@@ -74,7 +94,7 @@
         <div class="py-3 border-t border-slate-200/5"></div>
         <textarea v-if="editingDescription" rows="8" v-model="newDescription" class="input"></textarea>
         <h2 v-if="editingDescription" class="section">Markdown Preview</h2>
-        <MarkdownItVue v-if="editingDescription" :content="newDescription" class="px-4 py-4 max-h-64 overflow-auto md-body max-w-none prose-sm prose-blue bg-slate-800/50 rounded-md" />
+        <MarkdownItVue v-if="editingDescription" :content="newDescription" class="torrust-md px-4 py-4 max-h-64 overflow-auto md-body max-w-none prose-sm prose-blue bg-slate-800/50 rounded-md" />
         <MarkdownItVue v-if="!editingDescription && torrent.description" :content="torrent.description" class="md-body max-w-none prose-sm prose-blue" />
         <span v-if="!editingDescription && !torrent.description" class="text-slate-400 italic">Empty</span>
       </div>
@@ -113,8 +133,10 @@ export default {
   components: {Breadcrumb, XIcon, DownloadIcon, ChevronLeftIcon, MarkdownItVue},
   data: () => ({
     loading: true,
+    editingTitle: false,
+    newTitle: "",
     editingDescription: false,
-    newDescription: '',
+    newDescription: "",
     prevRoute: null,
     torrent: {},
   }),
@@ -126,17 +148,20 @@ export default {
   },
   mounted() {
     document.body.classList.add("modal-open");
-    this.getTorrent(this.$route.params.torrentId);
+    this.getTorrent(this.$route.params.torrentId, this.$route.params.download === "download" || this.$route.params.title === "download");
   },
   beforeDestroy() {
     document.body.classList.remove("modal-open");
   },
   methods: {
-    getTorrent(torrentId) {
+    getTorrent(torrentId, download) {
       this.loading = true;
       HttpService.get(`/torrent/${torrentId}`, (res) => {
         this.torrent = res.data.data;
         this.loading = false;
+        if(download){
+          this.downloadTorrent();
+        }
         this.updateUrlWithTitle();
       }).catch(() => {
         this.loading = false;
@@ -189,6 +214,21 @@ export default {
         self.closeModal();
       })
     },
+    editTitle() {
+      this.newTitle = this.torrent.title;
+      this.editingTitle = true;
+    },
+    saveTitle() {
+      HttpService.put(`/torrent/${this.torrent.torrent_id}`, { title: this.newTitle }, (res) => {
+        this.editingTitle = false;
+        Vue.notify({
+          title: 'Updated',
+          text: 'Torrent updated successfully.',
+          type: 'success',
+        })
+        this.torrent.title = res.data.data.title;
+      }).catch(() => {})
+    },
     editDescription() {
       this.newDescription = this.torrent.description;
       this.editingDescription = true;
@@ -239,11 +279,14 @@ export default {
 
       return files;
     },
+    showDownloadButtons() {
+      return this.$store.getters.isLoggedIn || this.$store.state.publicSettings.tracker_mode === "Public" || this.$store.state.publicSettings.tracker_mode === "Whitelisted"
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .status {
   @apply px-2 py-1.5 w-1/2 flex flex-row bg-slate-800/50 text-slate-200 capitalize border border-transparent rounded-md text-sm uppercase;
 }
@@ -264,10 +307,12 @@ button.edit {
   @apply px-4 py-1.5 rounded-md border border-slate-800 text-sm text-slate-400 flex items-center relative cursor-pointer transition duration-200 hover:text-slate-200 hover:border-slate-200 disabled:bg-slate-700 disabled:border-slate-700 disabled:text-slate-400;
 }
 
-textarea.input {
+textarea.input, input {
   @apply py-2 px-4 bg-slate-800/50 appearance-none w-full text-slate-200 rounded-md leading-tight focus:outline-none;
 }
+</style>
 
+<style>
 .markdown-body {
   @apply text-slate-400;
 }

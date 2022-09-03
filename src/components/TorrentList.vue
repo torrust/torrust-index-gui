@@ -49,7 +49,7 @@
                   {{ torrent.leechers }}
                 </td>
                 <td>
-                  {{ timeSince(torrent.upload_date) }} ago
+                  {{ timeSince(torrent.date_uploaded) }} ago
                 </td>
                 <td>
                   {{ fileSize(torrent.file_size) }}
@@ -68,6 +68,7 @@
 
 <script>
 import { SortAscendingIcon, SortDescendingIcon } from "@vue-hero-icons/outline"
+import {mapState} from "vuex";
 
 export default {
   name: "TorrentList",
@@ -90,6 +91,9 @@ export default {
       'size',
     ]
   }),
+  computed: {
+    ...mapState(['categories']),
+  },
   methods: {
     changeSort(sort) {
       let direction = 'ASC';
@@ -104,7 +108,6 @@ export default {
         direction = 'DESC'
       }
       this.updateSorting({name: sort, direction});
-      //this.$emit('update:sorting', sort);
     }
   }
 }

@@ -7,11 +7,20 @@ const USER = {
     admin: false,
 }
 
-const user_encoded = localStorage.getItem('torrust_user');
-const user = user_encoded ? JSON.parse(user_encoded) : { ...USER };
+function getUserFromLocalStorage() {
+    const user_encoded = localStorage.getItem('torrust_user');
+
+    if (user_encoded && user_encoded !== "undefined") {
+        return JSON.parse(user_encoded);
+    }
+
+    return { ...USER };
+}
+
+
 
 const initialState = {
-    user: user
+    user: getUserFromLocalStorage()
 };
 
 export default {
@@ -37,16 +46,10 @@ export default {
         setAuthModal(state, opened) {
             state.authModalOpen = opened
         },
-        authSuccess(state, data) {
+        setUser(state, data) {
             state.user = data;
 
-            localStorage.setItem('torrust_user', JSON.stringify(data));
-
-            Vue.notify({
-                title: 'Authentication',
-                text: 'Successfully logged in!',
-                type: 'success'
-            });
+            localStorage.setItem('torrust_user', JSON.stringify(state.user));
         },
         logout(state) {
             state.user = { ...USER }
@@ -55,15 +58,22 @@ export default {
         }
     },
     actions: {
-        login({dispatch, commit}, data) {
-            HttpService.post('/user/login', data, (res) => {
+        async login({dispatch, state, commit, getters}, data) {
+            await HttpService.post('/user/login', data, async (res) => {
                 const data = res.data.data;
 
-                commit('authSuccess', data);
+                await commit('setUser', data);
+
                 dispatch('closeAuthModal');
+
+                Vue.notify({
+                    title: 'Authentication',
+                    text: 'You have successfully signed in!',
+                    type: 'success',
+                });
             });
         },
-        register(store, data) {
+        register({}, data) {
             return new Promise((resolve) => HttpService.post('/user/register', data, () => {
                 Vue.notify({
                     title: 'Authentication',
@@ -82,6 +92,18 @@ export default {
                 text: 'You have been logged out',
                 type: 'info'
             });
-        }
+        },
+        async renewToken({dispatch, commit, state}) {
+            if (!state.user.token) return;
+
+            await HttpService.post('/user/token/renew', { token: state.user.token }, async (res) => {
+                const data = res.data.data;
+
+                await commit('setUser', data);
+            })
+                .catch(() => {
+                    dispatch("logout");
+                });
+        },
     }
 }
