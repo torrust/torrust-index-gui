@@ -32,18 +32,12 @@
           </label>
           <CategorySelect class="py-1" :category.sync="form.category"/>
         </div>
-<!--            <div>-->
-<!--              <label class="block font-medium text-gray-700">-->
-<!--                Cover picture-->
-<!--              </label>-->
-<!--              <FileUpload type="image" accept="image/*" />-->
-<!--            </div>-->
 
         <div>
           <label class="block font-medium text-gray-700">
             Torrent
           </label>
-          <FileUpload @onChange="setFile" sub-title="Only .torrent files allowed" accept=".torrent" />
+          <FileUpload @onChange="setFile" sub-title="Only .torrent files allowed. BitTorrent v2 files are NOT supported." accept=".torrent" />
         </div>
 
         <div class="py-3 flex flex-row justify-end">
