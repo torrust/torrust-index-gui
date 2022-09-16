@@ -7,7 +7,7 @@
             {{ $route.name }}
           </div>
           <div class="relative flex items-center ml-auto">
-            <div v-if="$store.getters.isLoggedIn" class="flex justify-between items-center space-x-4">
+            <div v-if="$store.getters.isLoggedIn && $store.getters.isAdministrator" class="flex justify-between items-center space-x-4">
               <router-link to="/upload" class="px-4 py-1.5 bg-sky-500 text-sm text-white border border-sky-500 rounded-md transition duration-200 hover:shadow-lg hover:shadow-sky-500/25">
                 <span class="hidden md:block">Upload torrent</span>
                 <span class="block md:hidden">+</span>
