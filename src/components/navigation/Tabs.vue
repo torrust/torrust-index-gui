@@ -1,9 +1,9 @@
 <template>
-  <ul class="flex flex-wrap border-b-2 border-slate-600">
+  <ul class="flex flex-row border-b-2 border-slate-600">
     <li v-for="(tab) in tabs">
       <router-link
           :to="tab.path"
-          class="inline-block py-2 px-4 font-medium text-center text-slate-400 hover:text-slate-200 border-b-2 border-transparent duration-200"
+          class="inline-flex py-2 px-4 font-medium text-center text-slate-400 hover:text-slate-200 border-b-2 border-transparent duration-200"
           style="margin-bottom: -2px;"
           :class="{ 'active': $route.path === tab.path }"
       >
