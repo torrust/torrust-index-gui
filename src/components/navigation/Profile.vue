@@ -1,17 +1,18 @@
 <template>
   <div class="relative inline-block text-left" v-click-outside="() => (dropdownOpened = false)">
 
-    <button v-if="$store.getters.isLoggedIn" class="px-4 py-1.5 rounded-md border border-slate-800 text-sm text-slate-400 flex items-center relative cursor-pointer transition duration-200 hover:text-slate-200 hover:border-slate-200" @click="dropdownOpened = !dropdownOpened">
-      <UserCircleIcon size="16" class="mr-1 opacity-50" />
-      {{ user.username }}
+    <button v-if="$store.getters.isLoggedIn" class="px-6 h-10 inline-flex justify-center items-center self-start appearance-none bg-white hover:bg-gray-200 text-sm text-black font-medium rounded-md cursor-pointer duration-200" @click="dropdownOpened = !dropdownOpened">
+      <UserCircleIcon size="24" class="mr-3" />
+      <span>{{ user.username }}</span>
       <ChevronDownIcon
           class="w-5 h-5 ml-2 -mr-1"
           aria-hidden="true"
       />
     </button>
 
-    <button v-else class="px-4 py-1.5 bg-sky-500 text-sm text-white border border-sky-500 rounded-md transition duration-200 hover:shadow-lg hover:shadow-sky-500/25" @click="$store.dispatch('openAuthModal')">
-      Sign in
+    <button v-else class="px-6 h-10 inline-flex justify-center items-center self-start appearance-none bg-white hover:bg-gray-200 text-sm text-black font-medium rounded-md cursor-pointer duration-200" @click="$store.dispatch('openAuthModal')">
+      <UserCircleIcon size="24" class="mr-3" />
+      <span>Sign in</span>
     </button>
 
     <div class="origin-top-right absolute right-0 mt-2 z-10" :class="{hidden: !dropdownOpened}">
@@ -28,13 +29,12 @@
 </template>
 
 <script>
-import {UserIcon} from "@vue-hero-icons/outline";
 import { ChevronDownIcon, UserCircleIcon } from '@vue-hero-icons/solid'
 import {mapState} from "vuex";
 
 export default {
   name: "Profile",
-  components: {UserIcon, ChevronDownIcon, UserCircleIcon},
+  components: {ChevronDownIcon, UserCircleIcon},
   data: () => ({
     dropdownOpened: false,
   }),
