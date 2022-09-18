@@ -3,7 +3,7 @@
     <div class="px-8 flex flex-col w-full">
       <div class="flex flex-row items-center border-b lg:border-0 border-slate-800/50 max-w-full">
 
-        <div id="site-name" class="flex flex-row">
+        <div id="site-name" class="flex flex-row flex-1 mr-auto justify-start">
           <div class="flex flex-col">
             <router-link class="block text-2xl text-white duration-200" to="/">
               <div class="flex flex-row flex-nowrap">
@@ -13,7 +13,7 @@
           </div>
         </div>
 
-        <div id="search-bar" class="mx-5 block grow">
+        <div id="search-bar" class="mx-5 block grow max-w-lg">
           <div class="flex flex-col">
             <form class="flex flex-col">
               <div class="px-3.5 bg-white/5 border border-transparent hover:border-slate-600 focus:border-slate-400 rounded-md duration-200">
@@ -23,6 +23,9 @@
                   </div>
                   <div class="flex flex-col grow">
                     <input
+                        @keyup.enter="submitSearch"
+                        v-model="searchQuery"
+                        name="search"
                         type="text"
                         class="h-12 bg-transparent outline-0 text-slate-200 font-medium placeholder-slate-400"
                         placeholder="Search by torrent, category or user"
@@ -34,12 +37,12 @@
           </div>
         </div>
 
-        <div id="extra-options" class="flex flex-row items-center">
+        <div id="extra-options" class="flex flex-row flex-1 ml-auto items-center justify-end">
           <Profile class="mr-3" />
 
-          <router-link to="/upload" class="px-6 h-10 inline-flex justify-center items-center self-start appearance-none bg-sky-500 hover:bg-sky-600 text-sm text-white font-medium rounded-md cursor-pointer duration-200">
+          <router-link to="/upload" class="px-6 h-10 inline-flex flex-nowrap justify-center items-center self-start appearance-none bg-sky-500 hover:bg-sky-600 text-sm text-white font-medium rounded-md cursor-pointer duration-200">
             <UploadIcon size="24" class="mr-3" />
-            <span class="block">Upload torrent</span>
+            <span class="flex flex-nowrap whitespace-nowrap">Upload torrent</span>
           </router-link>
         </div>
 
@@ -71,9 +74,6 @@ export default {
         this.$router.push(`/torrents?search=${this.searchQuery}`)
       }
     },
-    toggleSidebar() {
-      this.$store.dispatch('toggleSidebar')
-    }
   }
 }
 </script>
@@ -81,9 +81,5 @@ export default {
 <style scoped>
 img {
   image-rendering: crisp-edges;
-}
-
-.button {
-  @apply h-10 px-4 bg-red-500 text-white rounded-lg;
 }
 </style>

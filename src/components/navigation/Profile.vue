@@ -1,27 +1,46 @@
 <template>
   <div class="relative inline-block text-left" v-click-outside="() => (dropdownOpened = false)">
 
-    <button v-if="$store.getters.isLoggedIn" class="px-6 h-10 inline-flex justify-center items-center self-start appearance-none bg-white hover:bg-gray-200 text-sm text-black font-medium rounded-md cursor-pointer duration-200" @click="dropdownOpened = !dropdownOpened">
+    <button
+        v-if="$store.getters.isLoggedIn"
+        id="profile-button"
+        class="px-6 h-10 inline-flex justify-center items-center self-start appearance-none bg-white hover:bg-gray-200 text-sm text-black font-medium rounded-md cursor-pointer duration-200"
+        @click="dropdownOpened = !dropdownOpened"
+    >
       <UserCircleIcon size="24" class="mr-3" />
-      <span>{{ user.username }}</span>
+      <span class="flex flex-nowrap whitespace-nowrap">{{ user.username }}</span>
       <ChevronDownIcon
           class="w-5 h-5 ml-2 -mr-1"
           aria-hidden="true"
       />
     </button>
 
-    <button v-else class="px-6 h-10 inline-flex justify-center items-center self-start appearance-none bg-white hover:bg-gray-200 text-sm text-black font-medium rounded-md cursor-pointer duration-200" @click="$store.dispatch('openAuthModal')">
+    <button
+        v-else
+        id="sign-in-button"
+        class="px-6 h-10 inline-flex justify-center items-center self-start appearance-none bg-white hover:bg-gray-200 text-sm text-black font-medium rounded-md cursor-pointer duration-200"
+        @click="$store.dispatch('openAuthModal')"
+    >
       <UserCircleIcon size="24" class="mr-3" />
-      <span>Sign in</span>
+      <span class="flex flex-nowrap whitespace-nowrap">Sign in</span>
     </button>
 
-    <div class="origin-top-right absolute right-0 mt-2 z-10" :class="{hidden: !dropdownOpened}">
-      <div @click.prevent="() => (dropdownOpened = false)" class="py-2 px-2 w-48 flex flex-col bg-slate-800 text-sm rounded-md shadow-lg">
-        <router-link v-if="$store.getters.isAdministrator" to="/settings" replace class="py-1.5 text-center text-slate-100 border border-transparent rounded-md transition duration-200 hover:bg-slate-700 hover:border-slate-700">
-          <span>Settings</span>
-        </router-link>
-        <hr class="my-2 border-slate-700" />
-        <button @click="$store.dispatch('logout')" class="py-1.5 bg-red-500 bg-opacity-10 text-red-400 border border-transparent rounded-md transition duration-200 hover:text-red-500">Sign out</button>
+    <div
+        id="dropdown-menu"
+        class="origin-top-right absolute right-0 mt-4 z-10"
+        :class="{hidden: !dropdownOpened}"
+    >
+      <div @click.prevent="() => (dropdownOpened = false)" class="w-48 divide-y divide-gray-100 shadow bg-gray-700 rounded-md">
+        <ul class="py-1 text-sm text-gray-200 font-medium duration-200" aria-labelledby="dropdownDefault">
+          <li v-if="$store.getters.isAdministrator">
+            <router-link to="/settings/general" replace class="h-10 inline-flex items-center py-2 px-6 w-full hover:bg-gray-600 hover:text-white duration-200">
+              <span class="flex flex-nowrap whitespace-nowrap">Settings</span>
+            </router-link>
+          </li>
+          <li>
+            <a @click="$store.dispatch('logout')" class="h-10 inline-flex items-center py-2 px-6 w-full hover:bg-gray-600 text-red-300 text-left hover:text-red-400 cursor-pointer duration-200">Sign out</a>
+          </li>
+        </ul>
       </div>
     </div>
 
