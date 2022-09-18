@@ -1,9 +1,56 @@
 <template>
-  <div class="flex flex-col sticky top-0 justify-center bg-slate-900/85 z-50 max-w-full" style="height: 92px;backdrop-filter: blur(20px);">
-    <div class="px-8 flex flex-col w-full">
-      <div class="flex flex-row items-center border-b lg:border-0 border-slate-800/50 max-w-full">
+  <div class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-slate-900/85 border-b lg:border-0 border-slate-800/50 z-50 max-w-full" style="backdrop-filter: blur(20px);">
+    <div class="px-4 md:px-8 flex flex-col w-full">
+      <!-- MOBILE -->
+      <div id="mobile-menu" class="flex md:hidden flex-row items-center max-w-full">
 
-        <div id="site-name" class="flex flex-row flex-1 mr-auto justify-start">
+        <div id="open-mobile-search-bar-toggle" v-if="mobileState === MobileStates.Navigate" class="px-3.5 h-10 mr-3 flex md:hidden flex-col justify-center items-center bg-white/5 border border-slate-600 rounded-2xl">
+          <button class="flex flex-col" @click="mobileState = MobileStates.Search">
+            <SearchIcon size="18" class="text-slate-400" />
+          </button>
+        </div>
+
+        <div id="extra-options" v-if="mobileState === MobileStates.Navigate" class="flex flex-row flex-1 ml-auto items-center justify-end">
+          <Profile class="mr-3" />
+
+          <router-link to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center self-start appearance-none bg-sky-500 hover:bg-sky-600 text-sm text-white font-medium rounded-2xl cursor-pointer duration-200">
+            <UploadIcon size="24" />
+          </router-link>
+        </div>
+
+        <div id="mobile-search-bar" v-if="mobileState === MobileStates.Search" class="block md:hidden grow">
+          <div class="flex flex-col mr-3">
+            <div class="flex flex-col">
+              <div class="px-3.5 bg-white/5 border border-slate-600 focus:border-slate-400 rounded-2xl duration-200">
+                <div class="flex flex-row items-center">
+                  <div class="flex flex-col grow">
+                    <input
+                        @keyup.enter="submitSearch"
+                        v-model="searchQuery"
+                        name="search"
+                        type="text"
+                        class="h-12 bg-transparent outline-0 text-slate-200 text-sm font-medium placeholder-slate-400"
+                        placeholder="Search by torrent, category or user"
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="close-mobile-search-bar-toggle" v-if="mobileState === MobileStates.Search" class="px-4 h-12 flex md:hidden flex-col justify-center items-center bg-white/5 rounded-2xl">
+          <button class="flex flex-col" @click="mobileState = MobileStates.Navigate">
+            <XIcon size="18" class="text-slate-400" />
+          </button>
+        </div>
+
+      </div>
+
+      <!-- DESKTOP -->
+      <div id="desktop-menu" class="hidden md:flex flex-row items-center max-w-full">
+
+        <div id="site-name" class="hidden md:flex flex-row flex-1 mr-auto justify-start">
           <div class="flex flex-col">
             <router-link class="block text-2xl text-white duration-200" to="/">
               <div class="flex flex-row flex-nowrap">
@@ -13,9 +60,9 @@
           </div>
         </div>
 
-        <div id="search-bar" class="mx-5 block grow max-w-lg">
+        <div id="search-bar" class="hidden md:block mx-5 grow max-w-lg">
           <div class="flex flex-col">
-            <form class="flex flex-col">
+            <div class="flex flex-col">
               <div class="px-3.5 bg-white/5 border border-transparent hover:border-slate-600 focus:border-slate-400 rounded-2xl duration-200">
                 <div class="flex flex-row items-center">
                   <div class="mr-3 flex flex-col">
@@ -33,7 +80,7 @@
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
 
@@ -57,16 +104,21 @@ import Profile from "./Profile.vue";
 import Logo from "../Logo.vue";
 import Breadcrumb from "../Breadcrumb.vue";
 import Sidebar from "./Sidebar.vue";
-import { SearchIcon, UploadIcon } from "@vue-hero-icons/outline"
+import { SearchIcon, UploadIcon, XIcon } from "@vue-hero-icons/outline"
 
 export default {
   name: 'Navbar',
-  components: {Sidebar, Breadcrumb, Profile, Logo, SearchIcon, UploadIcon},
+  components: {Sidebar, Breadcrumb, Profile, Logo, SearchIcon, UploadIcon, XIcon},
   computed: {
     ...mapState({})
   },
   data: () => ({
-    searchQuery: ''
+    MobileStates: Object.freeze({
+      Search: 0,
+      Navigate: 1,
+    }),
+    mobileState: 1,
+    searchQuery: '',
   }),
   methods: {
     submitSearch() {
