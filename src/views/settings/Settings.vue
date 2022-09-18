@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex flex-col max-w-2xl mx-auto">
+  <div class="w-full flex flex-col">
     <h1 class="mb-14 text-4xl font-semibold text-slate-200">Settings</h1>
 
     <Tabs
