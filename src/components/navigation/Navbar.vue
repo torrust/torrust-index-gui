@@ -1,43 +1,99 @@
 <template>
-  <div class="top-0 z-40 w-full flex-none lg:z-50">
-    <div class="max-w-8xl mx-auto">
-      <div class="py-4 border-b lg:border-0 border-slate-300/10">
-        <div class="relative flex items-center">
-          <div class="text-2xl font-bold text-slate-100">
-            {{ $route.name }}
-          </div>
-          <div class="relative flex items-center ml-auto">
-            <div v-if="$store.getters.isLoggedIn" class="flex justify-between items-center space-x-4">
-              <router-link to="/upload" class="px-4 py-1.5 bg-sky-500 text-sm text-white border border-sky-500 rounded-md transition duration-200 hover:shadow-lg hover:shadow-sky-500/25">
-                <span class="hidden md:block">Upload torrent</span>
-                <span class="block md:hidden">+</span>
-              </router-link>
-            </div>
-            <div class="ml-4 flex items-center">
-              <Profile />
+  <div class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-slate-900/85 border-b lg:border-0 border-slate-800/50 z-50 max-w-full" style="backdrop-filter: blur(20px);">
+    <div class="px-4 md:px-8 flex flex-col w-full">
+      <!-- MOBILE -->
+      <div id="mobile-menu" class="flex md:hidden flex-row items-center max-w-full">
+
+        <div id="open-mobile-search-bar-toggle" v-if="mobileState === MobileStates.Navigate" class="px-3.5 h-10 mr-3 flex md:hidden flex-col justify-center items-center bg-white/5 border border-slate-600 rounded-2xl">
+          <button class="flex flex-col" @click="mobileState = MobileStates.Search">
+            <SearchIcon size="18" class="text-slate-400" />
+          </button>
+        </div>
+
+        <div id="extra-options" v-if="mobileState === MobileStates.Navigate" class="flex flex-row flex-1 ml-auto items-center justify-end">
+          <Profile class="mr-3" />
+
+          <router-link to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center self-start appearance-none bg-sky-500 hover:bg-sky-600 text-sm text-white font-medium rounded-2xl cursor-pointer duration-200">
+            <UploadIcon size="24" />
+          </router-link>
+        </div>
+
+        <div id="mobile-search-bar" v-if="mobileState === MobileStates.Search" class="block md:hidden grow">
+          <div class="flex flex-col mr-3">
+            <div class="flex flex-col">
+              <div class="px-3.5 bg-white/5 border border-slate-600 focus:border-slate-400 rounded-2xl duration-200">
+                <div class="flex flex-row items-center">
+                  <div class="flex flex-col grow">
+                    <input
+                        @keyup.enter="submitSearch"
+                        v-model="searchQuery"
+                        name="search"
+                        type="text"
+                        class="h-12 bg-transparent outline-0 text-slate-200 text-sm font-medium placeholder-slate-400"
+                        placeholder="Search by torrent, category or user"
+                    >
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <div id="close-mobile-search-bar-toggle" v-if="mobileState === MobileStates.Search" class="px-4 h-12 flex md:hidden flex-col justify-center items-center bg-white/5 rounded-2xl">
+          <button class="flex flex-col" @click="mobileState = MobileStates.Navigate">
+            <XIcon size="18" class="text-slate-400" />
+          </button>
+        </div>
+
       </div>
-      <div class="flex items-center p-4 border-b lg:hidden text-slate-400 border-slate-50/[0.06]">
-        <button
-            @click="toggleSidebar"
-            type="button"
-        >
-          <span class="sr-only">Navigation</span>
-          <svg width="24" height="24">
-            <path
-                d="M5 6h14M5 12h14M5 18h14"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-            />
-          </svg>
-        </button>
-        <Breadcrumb class="ml-6" />
+
+      <!-- DESKTOP -->
+      <div id="desktop-menu" class="hidden md:flex flex-row items-center max-w-full">
+
+        <div id="site-name" class="hidden md:flex flex-row flex-1 mr-auto justify-start">
+          <div class="flex flex-col">
+            <router-link class="block text-2xl text-white duration-200" to="/">
+              <div class="flex flex-row flex-nowrap">
+                <span class="block w-full text-3xl font-semibold">{{ $store.state.settings.website.name }}</span>
+              </div>
+            </router-link>
+          </div>
+        </div>
+
+        <div id="search-bar" class="hidden md:block mx-5 grow max-w-lg">
+          <div class="flex flex-col">
+            <div class="flex flex-col">
+              <div class="px-3.5 bg-white/5 border border-transparent hover:border-slate-600 focus:border-slate-400 rounded-2xl duration-200">
+                <div class="flex flex-row items-center">
+                  <div class="mr-3 flex flex-col">
+                    <SearchIcon size="18" class="text-slate-400" />
+                  </div>
+                  <div class="flex flex-col grow">
+                    <input
+                        @keyup.enter="submitSearch"
+                        v-model="searchQuery"
+                        name="search"
+                        type="text"
+                        class="h-12 bg-transparent outline-0 text-slate-200 font-medium placeholder-slate-400"
+                        placeholder="Search by torrent, category or user"
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="extra-options" class="flex flex-row flex-1 ml-auto items-center justify-end">
+          <Profile class="mr-3" />
+
+          <router-link to="/upload" class="px-6 h-10 inline-flex flex-nowrap justify-center items-center self-start appearance-none bg-sky-500 hover:bg-sky-600 text-sm text-white font-medium rounded-2xl cursor-pointer duration-200">
+            <UploadIcon size="24" class="mr-3" />
+            <span class="flex flex-nowrap whitespace-nowrap">Upload torrent</span>
+          </router-link>
+        </div>
+
       </div>
-      <Sidebar v-show="$store.state.sideBarOpen" class="block lg:hidden px-4" />
     </div>
   </div>
 </template>
@@ -48,15 +104,21 @@ import Profile from "./Profile.vue";
 import Logo from "../Logo.vue";
 import Breadcrumb from "../Breadcrumb.vue";
 import Sidebar from "./Sidebar.vue";
+import { SearchIcon, UploadIcon, XIcon } from "@vue-hero-icons/outline"
 
 export default {
   name: 'Navbar',
-  components: {Sidebar, Breadcrumb, Profile, Logo},
+  components: {Sidebar, Breadcrumb, Profile, Logo, SearchIcon, UploadIcon, XIcon},
   computed: {
     ...mapState({})
   },
   data: () => ({
-    searchQuery: ''
+    MobileStates: Object.freeze({
+      Search: 0,
+      Navigate: 1,
+    }),
+    mobileState: 1,
+    searchQuery: '',
   }),
   methods: {
     submitSearch() {
@@ -64,9 +126,6 @@ export default {
         this.$router.push(`/torrents?search=${this.searchQuery}`)
       }
     },
-    toggleSidebar() {
-      this.$store.dispatch('toggleSidebar')
-    }
   }
 }
 </script>
@@ -74,9 +133,5 @@ export default {
 <style scoped>
 img {
   image-rendering: crisp-edges;
-}
-
-.button {
-  @apply h-10 px-4 bg-red-500 text-white rounded-lg;
 }
 </style>
