@@ -1,19 +1,20 @@
 <template>
   <div>
+
     <Navbar />
-    <div class="max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
-      <div class="hidden lg:block fixed z-20 inset-0 pt-4 left-[max(0px,calc(50%-45rem))] right-auto w-[19.5rem] pb-10 px-8 overflow-y-auto border-r border-slate-800" id="main-nav">
-        <Sidebar />
+
+    <div class="flex flex-col w-full max-w-full">
+
+      <div class="my-6 mx-auto py-0 px-8 flex flex-col grow w-full">
+        <router-view />
       </div>
-      <div class="lg:pl-[19.5rem]">
-        <div class="max-w-3xl mx-auto pt-0 lg:pt-4 xl:max-w-none xl:ml-0">
-          <router-view />
-          <Footer />
-        </div>
-      </div>
-  <!--    <Footer />-->
+
+      <Footer />
+
       <AuthenticationModal />
+
     </div>
+
   </div>
 </template>
 

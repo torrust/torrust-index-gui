@@ -21,7 +21,7 @@
         <div id="mobile-search-bar" v-if="mobileState === MobileStates.Search" class="block md:hidden grow">
           <div class="flex flex-col mr-3">
             <div class="flex flex-col">
-              <div class="px-3.5 bg-white/5 border border-slate-600 focus:border-slate-400 rounded-2xl duration-200">
+              <div class="px-3.5 bg-slate-800/60 border border-slate-600 focus:border-slate-400 rounded-2xl duration-200">
                 <div class="flex flex-row items-center">
                   <div class="flex flex-col grow">
                     <input
@@ -63,7 +63,7 @@
         <div id="search-bar" class="hidden md:block mx-5 grow max-w-lg">
           <div class="flex flex-col">
             <div class="flex flex-col">
-              <div class="px-3.5 bg-white/5 border border-transparent hover:border-slate-600 focus:border-slate-400 rounded-2xl duration-200">
+              <div class="px-3.5 bg-slate-800/60 border border-transparent hover:border-slate-600 focus:border-slate-400 rounded-2xl duration-200">
                 <div class="flex flex-row items-center">
                   <div class="mr-3 flex flex-col">
                     <SearchIcon size="18" class="text-slate-400" />
