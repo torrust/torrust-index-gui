@@ -43,6 +43,43 @@
                     </div>
                   </div>
                 </div>
+                <div v-if="tab === Tabs.files" class="flex flex-col">
+                  <div id="torrent-description" class="mb-10 flex flex-col">
+                    <div class="w-full h-full flex flex-col">
+                      <div class="p-6 w-full h-full flex flex-row grow justify-between items-center text-sm border border-slate-800 rounded-2xl">
+                        <span class="text-slate-200 font-semibold">movie.mp4</span>
+                        <div class="px-3 flex flex-row flex-nowrap items-center justify-center text-slate-400 font-semibold">
+                          <DatabaseIcon class="mr-1" size="18" />
+                          <span>4.7 GB</span>
+                        </div>
+                      </div>
+                      <div class="mt-3 p-6 w-full h-full flex flex-row grow justify-between items-center text-sm border border-slate-800 rounded-2xl">
+                        <span class="text-slate-200 font-semibold">images/poster.jpg</span>
+                        <div class="px-3 flex flex-row flex-nowrap items-center justify-center text-slate-400 font-semibold">
+                          <DatabaseIcon class="mr-1" size="18" />
+                          <span>320 KB</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div v-if="tab === Tabs.trackers" class="flex flex-col">
+                  <div id="torrent-description" class="mb-10 flex flex-col">
+                    <div class="w-full h-full flex flex-col">
+                      <div class="px-6 py-4 w-full h-full flex flex-row grow justify-between items-center text-sm border border-slate-800 rounded-2xl">
+                        <span class="text-slate-200 font-semibold">https://tracker.torrust.org/announce</span>
+                        <div class="flex flex-row flex-nowrap justify-between">
+                          <div class="px-4 py-2 mr-3 flex flex-col items-center bg-slate-800/60 rounded-2xl grow">
+                            <span id="seeders" class="text-green-500 font-semibold">246</span>
+                          </div>
+                          <div class="px-4 py-2 flex flex-col items-center bg-slate-800/60 rounded-2xl grow">
+                            <span id="leechers" class="text-red-500 font-semibold">687</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -74,7 +111,7 @@
             <div class="w-full h-full flex flex-col">
               <div class="p-6 w-full h-full flex flex-col grow border border-slate-800 rounded-2xl">
                 <div class="flex flex-col">
-                  <div class="mb-3 flex flex-row justify-between">
+                  <div class="mb-3 flex flex-row flex-nowrap justify-between">
                     <div class="p-2 mr-3 flex flex-col items-center bg-slate-800/60 rounded-2xl grow">
                       <span class="text-xs text-slate-600 font-semibold">SEEDERS</span>
                       <span id="seeders" class="text-green-500 font-semibold">246</span>
@@ -115,7 +152,7 @@ export default {
       { name: 'Files', tab: 1 },
       { name: 'Trackers', tab: 2 },
     ],
-    tab: 0,
+    tab: 2,
     torrent: {
       description: "---\n" +
           "__Advertisement :)__\n" +
