@@ -96,6 +96,7 @@ import { DatabaseIcon, CalendarIcon } from "@vue-hero-icons/outline";
 import { BadgeCheckIcon, PencilIcon, XIcon, CheckIcon } from "@vue-hero-icons/solid";
 import HttpService from "../../../../common/http-service";
 import Vue from "vue";
+import {mapState} from "vuex";
 
 export default {
   name: "TorrentActionCard",
@@ -135,8 +136,11 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      user: state => state.auth.user,
+    }),
     editRights() {
-      return this.$store.getters.isAdministrator || this.$store.state.user.username === this.torrent.uploader;
+      return this.$store.getters.isAdministrator || this.user.username === this.torrent.uploader;
     }
   }
 }

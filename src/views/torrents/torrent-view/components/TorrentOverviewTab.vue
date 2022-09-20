@@ -47,6 +47,7 @@ import 'markdown-it-vue/dist/markdown-it-vue.css';
 import { PencilIcon, XIcon, CheckIcon } from "@vue-hero-icons/solid";
 import Vue from "vue";
 import HttpService from "../../../../common/http-service";
+import {mapState} from "vuex";
 
 export default {
   name: "TorrentOverviewTab",
@@ -86,8 +87,11 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      user: state => state.auth.user,
+    }),
     editRights() {
-      return this.$store.getters.isAdministrator || this.$store.state.user.username === this.torrent.uploader;
+      return this.$store.getters.isAdministrator || this.user.username === this.torrent.uploader;
     }
   }
 }
