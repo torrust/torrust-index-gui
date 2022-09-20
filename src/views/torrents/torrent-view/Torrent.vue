@@ -4,7 +4,7 @@
 
       <!-- MOBILE -->
       <div id="torrent-view" class="mb-8 max-w-full flex lg:hidden flex-col items-center">
-        <TorrentActionCard class="mb-8 w-full" :torrent="torrent"/>
+        <TorrentActionCard class="mb-8 w-full" :torrent="torrent" @updated="reload"/>
         <div id="torrent-view-details" class="w-full flex flex-col flex-auto items-center">
           <div id="torrent-view-details-body" class="w-full flex flex-col grow">
             <div class="flex flex-col items-center">
@@ -23,9 +23,9 @@
                 </ul>
               </div>
               <div class="mt-4 w-full flex flex-col flex-auto">
-                <TorrentOverviewTab v-if="tab === Tabs.overview" :torrent="torrent"/>
-                <TorrentFilesTab v-else-if="tab === Tabs.files" :torrent="torrent"/>
-                <TorrentTrackersTab v-else-if="tab === Tabs.trackers" :torrent="torrent"/>
+                <TorrentOverviewTab v-if="tab === Tabs.overview" :torrent="torrent" @updated="reload"/>
+                <TorrentFilesTab v-else-if="tab === Tabs.files" :torrent="torrent" @updated="reload"/>
+                <TorrentTrackersTab v-else-if="tab === Tabs.trackers" :torrent="torrent" @updated="reload"/>
               </div>
             </div>
           </div>
@@ -52,14 +52,14 @@
                 </ul>
               </div>
               <div class="mt-4 w-full flex flex-col flex-auto">
-                <TorrentOverviewTab v-if="tab === Tabs.overview" :torrent="torrent"/>
-                <TorrentFilesTab v-else-if="tab === Tabs.files" :torrent="torrent"/>
-                <TorrentTrackersTab v-else-if="tab === Tabs.trackers" :torrent="torrent"/>
+                <TorrentOverviewTab v-if="tab === Tabs.overview" :torrent="torrent" @updated="reload"/>
+                <TorrentFilesTab v-else-if="tab === Tabs.files" :torrent="torrent" @updated="reload"/>
+                <TorrentTrackersTab v-else-if="tab === Tabs.trackers" :torrent="torrent" @updated="reload"/>
               </div>
             </div>
           </div>
         </div>
-        <TorrentActionCard class="top-24 sticky max-w-md" :torrent="torrent"/>
+        <TorrentActionCard class="top-24 sticky max-w-md" :torrent="torrent" @updated="reload"/>
       </div>
 
     </div>
@@ -107,6 +107,9 @@ export default {
       }).catch(() => {
         this.loading = false;
       })
+    },
+    reload() {
+      this.getTorrent(this.torrent.torrent_id);
     },
     setTorrentTitleInUrl() {
       if (this.$route.params.title !== this.torrent.title) {
