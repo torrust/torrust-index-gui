@@ -21,9 +21,13 @@ import 'markdown-it-vue/dist/markdown-it-vue.css';
 export default {
   name: "TorrentOverviewTab",
   components: {MarkdownItVue},
-  data: () => ({
-    torrent: {}
-  })
+  props: {
+    torrent: {
+      type: Object,
+      required: true,
+      default: () => {}
+    }
+  },
 }
 </script>
 

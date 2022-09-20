@@ -3,8 +3,8 @@
     <div class="max-w-full flex flex-col">
 
       <!-- MOBILE -->
-      <div id="torrent-view" class="mb-8 max-w-full flex md:hidden flex-col items-center">
-        <TorrentActionCard class="mb-8" />
+      <div id="torrent-view" class="mb-8 max-w-full flex lg:hidden flex-col items-center">
+        <TorrentActionCard class="mb-8 w-full" :torrent="torrent"/>
         <div id="torrent-view-details" class="w-full flex flex-col flex-auto items-center">
           <div id="torrent-view-details-body" class="w-full flex flex-col grow">
             <div class="flex flex-col items-center">
@@ -23,9 +23,9 @@
                 </ul>
               </div>
               <div class="mt-4 w-full flex flex-col flex-auto">
-                <TorrentOverviewTab v-if="tab === Tabs.overview" />
-                <TorrentFilesTab v-else-if="tab === Tabs.files" />
-                <TorrentTrackersTab v-else-if="tab === Tabs.trackers" />
+                <TorrentOverviewTab v-if="tab === Tabs.overview" :torrent="torrent"/>
+                <TorrentFilesTab v-else-if="tab === Tabs.files" :torrent="torrent"/>
+                <TorrentTrackersTab v-else-if="tab === Tabs.trackers" :torrent="torrent"/>
               </div>
             </div>
           </div>
@@ -33,7 +33,7 @@
       </div>
 
       <!-- DESKTOP -->
-      <div id="torrent-view" class="hidden mb-8 max-w-full md:flex flex-row flex-nowrap items-start">
+      <div id="torrent-view" class="hidden mb-8 max-w-full lg:flex flex-row flex-nowrap items-start">
         <div id="torrent-view-details" class="mr-8 flex flex-col flex-auto items-center">
           <div id="torrent-view-details-body" class="w-full max-w-3xl flex flex-col grow">
             <div class="flex flex-col items-center">
@@ -52,14 +52,14 @@
                 </ul>
               </div>
               <div class="mt-4 w-full flex flex-col flex-auto">
-                <TorrentOverviewTab v-if="tab === Tabs.overview" />
-                <TorrentFilesTab v-else-if="tab === Tabs.files" />
-                <TorrentTrackersTab v-else-if="tab === Tabs.trackers" />
+                <TorrentOverviewTab v-if="tab === Tabs.overview" :torrent="torrent"/>
+                <TorrentFilesTab v-else-if="tab === Tabs.files" :torrent="torrent"/>
+                <TorrentTrackersTab v-else-if="tab === Tabs.trackers" :torrent="torrent"/>
               </div>
             </div>
           </div>
         </div>
-        <TorrentActionCard class="top-24 sticky" />
+        <TorrentActionCard class="top-24 sticky max-w-md" :torrent="torrent"/>
       </div>
 
     </div>
@@ -93,7 +93,9 @@ export default {
       { name: 'Trackers', tab: 2 },
     ],
     tab: 0,
-    torrent: {}
+    torrent: {
+      description: ''
+    }
   }),
   methods: {
     getTorrent(torrentId) {
@@ -118,6 +120,9 @@ export default {
         this.$router.push({ params: mergedParams });
       }
     },
+  },
+  created() {
+    this.getTorrent(this.$route.params.torrentId);
   }
 }
 </script>
