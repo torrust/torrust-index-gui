@@ -6,14 +6,38 @@
           <div class="mb-4 flex flex-col">
             <div class="mb-8 flex flex-col">
               <span class="mb-1 font-semibold text-sky-600 capitalize">{{ torrent.category.name }}</span>
-              <h2 class="mb-1 text-slate-200 font-bold overflow-hidden break-words">{{ torrent.title }}</h2>
+              <div class="mb-1 flex flex-row justify-between">
+                <h2 v-if="state === States.viewing" class="mb-1 text-slate-200 font-bold overflow-hidden break-words">{{ torrent.title }}</h2>
+                <input v-else-if="state === States.editing" type="text" class="input mr-3" v-model="changes.title">
+                <button
+                    v-if="editRights && state === States.viewing"
+                    class="ml-1 text-slate-400 hover:text-white duration-200"
+                    @click="startEditingTitle"
+                >
+                  <PencilIcon size="18" />
+                </button>
+                <div v-else-if="state === States.editing" class="flex flex-row flex-nowrap">
+                  <button
+                      class="mr-3 text-slate-400 hover:text-white duration-200"
+                      @click="state = States.viewing"
+                  >
+                    <XIcon size="18" />
+                  </button>
+                  <button
+                      class="text-slate-400 hover:text-white duration-200"
+                      @click="saveChanges"
+                  >
+                    <CheckIcon size="18" />
+                  </button>
+                </div>
+              </div>
               <span class="text-xs md:text-sm font-semibold text-slate-600 overflow-hidden break-words">{{ torrent.info_hash }}</span>
             </div>
-            <div class="flex flex-col">
-              <span class="mb-1 text-sm text-slate-500 font-semibold uppercase text-xs">Uploader</span>
+            <div class="flex flex-row flex-nowrap justify-start items-center text-sm">
+              <span class="mr-3 text-slate-500 font-semibold uppercase text-xs">Uploader:</span>
               <div class="flex flex-row flex-nowrap items-center">
                 <a class="mr-1 font-semibold text-sky-600">{{ torrent.uploader }}</a>
-  <!--              <BadgeCheckIcon class="text-yellow-500" size="18" />-->
+                <BadgeCheckIcon class="text-yellow-500" size="16" />
               </div>
             </div>
           </div>
@@ -69,11 +93,13 @@
 
 <script>
 import { DatabaseIcon, CalendarIcon } from "@vue-hero-icons/outline";
-import { BadgeCheckIcon } from "@vue-hero-icons/solid";
+import { BadgeCheckIcon, PencilIcon, XIcon, CheckIcon } from "@vue-hero-icons/solid";
+import HttpService from "../../../../common/http-service";
+import Vue from "vue";
 
 export default {
   name: "TorrentActionCard",
-  components: {DatabaseIcon, CalendarIcon, BadgeCheckIcon},
+  components: {DatabaseIcon, CalendarIcon, BadgeCheckIcon, PencilIcon, XIcon, CheckIcon},
   props: {
     torrent: {
       type: Object,
@@ -81,6 +107,38 @@ export default {
       default: () => {}
     }
   },
+  data: () => ({
+    States: {
+      viewing: 0,
+      editing: 1
+    },
+    state: 0,
+    changes: {
+      title: ''
+    },
+  }),
+  methods: {
+    startEditingTitle() {
+      this.changes.title = this.torrent.title;
+      this.state = this.States.editing;
+    },
+    saveChanges() {
+      HttpService.put(`/torrent/${this.torrent.torrent_id}`, {title: this.changes.title}, (res) => {
+        this.$emit('updated');
+        this.state = this.States.viewing;
+        Vue.notify({
+          title: 'Updated',
+          text: 'Torrent updated successfully.',
+          type: 'success',
+        })
+      })
+    }
+  },
+  computed: {
+    editRights() {
+      return this.$store.getters.isAdministrator || this.$store.state.user.username === this.torrent.uploader;
+    }
+  }
 }
 </script>
 

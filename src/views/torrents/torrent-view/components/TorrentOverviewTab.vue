@@ -1,12 +1,39 @@
 <template>
   <div class="flex flex-col">
     <div id="torrent-description" class="mb-10 flex flex-col">
-      <div class="mb-5 px-5 flex flex-col">
-        <h2 class="text-2xl text-left text-slate-200 font-medium">Description</h2>
+      <div class="mb-5 px-5 flex flex-row justify-between">
+        <h2 class="mr-1 text-2xl text-left text-slate-200 font-medium">Description</h2>
+        <button
+            v-if="editRights && state === States.viewing"
+            class="text-slate-400 hover:text-white duration-200"
+            @click="startEditingDescription"
+        >
+          <PencilIcon size="18" />
+        </button>
+        <div v-else-if="state === States.editing" class="flex flex-row flex-nowrap">
+          <button
+              class="mr-3 text-slate-400 hover:text-white duration-200"
+              @click="state = States.viewing"
+          >
+            <XIcon size="18" />
+          </button>
+          <button
+              class="text-slate-400 hover:text-white duration-200"
+              @click="saveChanges"
+          >
+            <CheckIcon size="18" />
+          </button>
+        </div>
       </div>
       <div class="w-full h-full flex flex-col">
         <div class="p-6 w-full h-full flex flex-col grow border border-slate-800 rounded-2xl">
-          <MarkdownItVue v-if="torrent.description" :content="torrent.description" class="md-body max-w-none prose-sm prose-blue" />
+          <template v-if="torrent.description && state === States.viewing">
+            <MarkdownItVue :content="torrent.description" class="md-body max-w-none prose-sm prose-blue"/>
+          </template>
+          <template v-else-if="state === States.editing">
+            <textarea rows="8" v-model="changes.description" class="mb-8 px-4 py-4 bg-transparent text-slate-200 border border-slate-800 rounded-2xl"></textarea>
+            <MarkdownItVue :content="changes.description" class="torrust-md px-4 py-4 max-h-64 overflow-auto md-body max-w-none prose-sm prose-blue bg-slate-800/50 rounded-2xl"/>
+          </template>
           <span v-else class="text-slate-400 italic">No description provided.</span>
         </div>
       </div>
@@ -17,10 +44,13 @@
 <script>
 import MarkdownItVue from "markdown-it-vue";
 import 'markdown-it-vue/dist/markdown-it-vue.css';
+import { PencilIcon, XIcon, CheckIcon } from "@vue-hero-icons/solid";
+import Vue from "vue";
+import HttpService from "../../../../common/http-service";
 
 export default {
   name: "TorrentOverviewTab",
-  components: {MarkdownItVue},
+  components: {MarkdownItVue, PencilIcon, XIcon, CheckIcon},
   props: {
     torrent: {
       type: Object,
@@ -28,6 +58,38 @@ export default {
       default: () => {}
     }
   },
+  data: () => ({
+    States: {
+      viewing: 0,
+      editing: 1
+    },
+    state: 0,
+    changes: {
+      description: ''
+    },
+  }),
+  methods: {
+    startEditingDescription() {
+      this.changes.description = this.torrent.description;
+      this.state = this.States.editing;
+    },
+    saveChanges() {
+      HttpService.put(`/torrent/${this.torrent.torrent_id}`, {description: this.changes.description}, (res) => {
+        this.$emit('updated');
+        this.state = this.States.viewing;
+        Vue.notify({
+          title: 'Updated',
+          text: 'Torrent updated successfully.',
+          type: 'success',
+        })
+      })
+    }
+  },
+  computed: {
+    editRights() {
+      return this.$store.getters.isAdministrator || this.$store.state.user.username === this.torrent.uploader;
+    }
+  }
 }
 </script>
 
