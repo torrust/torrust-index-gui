@@ -37,7 +37,7 @@
               <span class="mr-3 text-slate-500 font-semibold uppercase text-xs">Uploader:</span>
               <div class="flex flex-row flex-nowrap items-center">
                 <a class="mr-1 font-semibold text-sky-600">{{ torrent.uploader }}</a>
-                <BadgeCheckIcon class="text-yellow-500" size="16" />
+<!--                <BadgeCheckIcon class="text-yellow-500" size="16" />-->
               </div>
             </div>
           </div>
@@ -82,6 +82,11 @@
               >Download torrent</button>
             </div>
           </div>
+          <button
+              v-if="editRights"
+              class="mt-6 mx-6 px-4 h-12 bg-red-500 text-sm text-white font-medium rounded-2xl"
+              @click="deleteTorrent"
+          >Delete torrent</button>
         </div>
       </div>
     </template>
@@ -133,7 +138,17 @@ export default {
           type: 'success',
         })
       })
-    }
+    },
+    deleteTorrent() {
+      HttpService.delete(`/torrent/${this.torrent.torrent_id}`, {}, () => {
+        this.$emit('updated');
+        Vue.notify({
+          title: 'Deleted',
+          text: 'Torrent deleted successfully.',
+          type: 'success',
+        })
+      })
+    },
   },
   computed: {
     ...mapState({
