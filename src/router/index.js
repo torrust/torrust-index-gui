@@ -1,5 +1,5 @@
 import Layout from "../components/Layout.vue";
-import TorrentDetail from "../views/Torrent.vue";
+import TorrentDetail from "../views/torrents/torrent-view/Torrent.vue";
 import CategoryOverview from "../views/CategoryOverview.vue";
 import TorrentUpload from "../views/TorrentUpload.vue";
 import VueRouter from "vue-router";

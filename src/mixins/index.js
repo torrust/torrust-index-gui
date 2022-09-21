@@ -1,3 +1,5 @@
+import HttpService from "../common/http-service";
+
 export default {
     methods: {
         timeSince(date) {
@@ -42,14 +44,24 @@ export default {
             return str.toLowerCase().replace(' ', '-');
         },
         titleCase(str) {
-            var splitStr = str.toLowerCase().split('-');
-            for (var i = 0; i < splitStr.length; i++) {
+            const splitStr = str.toLowerCase().split('-');
+            for (let i = 0; i < splitStr.length; i++) {
                 // You do not need to check if i is larger than splitStr length, as your for does that for you
                 // Assign it back to the array
                 splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
             }
             // Directly return the joined string
             return splitStr.join(' ');
-        }
+        },
+        downloadTorrent(torrent_id, torrent_title) {
+            HttpService.getBlob(`/torrent/download/${torrent_id}`, (res) => {
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `${torrent_title}.torrent`);
+                document.body.appendChild(link);
+                link.click();
+            });
+        },
     }
 }

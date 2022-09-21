@@ -30,15 +30,18 @@
         class="origin-top-right absolute right-0 mt-4 z-10"
         :class="{hidden: !dropdownOpened}"
     >
-      <div @click.prevent="() => (dropdownOpened = false)" class="w-48 divide-y divide-gray-100 shadow bg-gray-700 rounded-2xl overflow-hidden">
-        <ul class="py-1 text-sm text-gray-200 font-medium duration-200" aria-labelledby="dropdownDefault">
+      <div @click.prevent="() => (dropdownOpened = false)" class="w-48 divide-y divide-slate-100 bg-slate-800 rounded-2xl overflow-hidden drop-shadow-md">
+        <ul class="px-2 py-2 text-sm text-slate-400 font-medium duration-200" aria-labelledby="dropdownDefault">
           <li v-if="$store.getters.isAdministrator">
-            <router-link to="/settings/general" replace class="h-10 inline-flex items-center py-2 px-6 w-full hover:bg-gray-600 hover:text-white duration-200">
+            <router-link to="/settings/general" replace class="h-10 inline-flex items-center py-2 px-4 w-full hover:bg-slate-700 hover:text-white duration-200 rounded-2xl">
               <span class="flex flex-nowrap whitespace-nowrap">Settings</span>
             </router-link>
           </li>
-          <li>
-            <a @click="$store.dispatch('logout')" class="h-10 inline-flex items-center py-2 px-6 w-full hover:bg-gray-600 text-red-300 text-left hover:text-red-400 cursor-pointer duration-200">Sign out</a>
+          <li class="mt-1">
+            <a
+                @click="$store.dispatch('logout')"
+                class="h-10 inline-flex items-center py-2 px-4 w-full hover:bg-red-600 hover:text-white text-left cursor-pointer duration-200 rounded-2xl"
+            >Sign out</a>
           </li>
         </ul>
       </div>
