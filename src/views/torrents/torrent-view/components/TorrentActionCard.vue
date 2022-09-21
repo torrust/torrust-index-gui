@@ -72,14 +72,26 @@
                   </div>
                 </div>
               </div>
-              <a
-                  class="mt-3 px-4 h-12 flex flex-col items-center justify-center bg-white text-sm text-black font-medium rounded-2xl"
-                  :href="torrent.magnet_link"
-              >Magnet link</a>
-              <button
-                  class="mt-3 px-4 h-12 bg-sky-500 text-sm text-white font-medium rounded-2xl"
-                  @click="downloadTorrent(torrent.torrent_id, torrent.title)"
-              >Download torrent</button>
+              <template v-if="showDownloadButtons">
+                <a
+                    class="mt-3 px-4 h-12 flex flex-col items-center justify-center bg-white text-sm text-black font-medium rounded-2xl"
+                    :href="torrent.magnet_link"
+                >Magnet link</a>
+                <button
+                    class="mt-3 px-4 h-12 bg-sky-500 text-sm text-white font-medium rounded-2xl"
+                    @click="downloadTorrent(torrent.torrent_id, torrent.title)"
+                >Download torrent</button>
+              </template>
+              <template v-else>
+                <button
+                    class="mt-3 px-4 h-12 bg-white text-sm text-black font-medium rounded-2xl"
+                    @click="$store.dispatch('openAuthModal')"
+                >Please sign in to download</button>
+                <button
+                    class="mt-3 px-4 h-12 bg-sky-500 text-sm text-white font-medium rounded-2xl"
+                    @click="$store.dispatch('openAuthModal')"
+                >Please sign in to download</button>
+              </template>
             </div>
           </div>
           <button
@@ -156,6 +168,9 @@ export default {
     }),
     editRights() {
       return this.$store.getters.isAdministrator || this.user.username === this.torrent.uploader;
+    },
+    showDownloadButtons() {
+      return this.$store.getters.isLoggedIn || this.$store.state.publicSettings.tracker_mode === "Public" || this.$store.state.publicSettings.tracker_mode === "Whitelisted"
     }
   }
 }
