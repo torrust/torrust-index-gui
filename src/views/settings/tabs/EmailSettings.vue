@@ -10,7 +10,7 @@
       </select>
     </div>
 
-    <div v-show="settings.mail.email_verification_enabled">
+    <template v-if="settings.mail.email_verification_enabled">
       <div>
         <label for="email-server" class="input-label">Email Server</label>
         <input type="text" id="email-server" class="input" v-model="settings.mail.server">
@@ -40,7 +40,7 @@
         <label for="email-server-reply-to" class="input-label">Email Server Reply To</label>
         <input type="text" id="email-server-reply-to" class="input" v-model="settings.mail.reply_to">
       </div>
-    </div>
+    </template>
 
   </div>
 </template>

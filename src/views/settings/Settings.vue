@@ -1,47 +1,53 @@
 <template>
-  <div class="w-full flex flex-col">
-    <h1 class="mb-14 text-4xl font-semibold text-slate-200">Settings</h1>
+  <div class="min-h-fit max-w-full flex flex-col grow">
+    <div class="max-w-full flex flex-col">
+      <div id="torrent-view" class="px-2 flex flex-col lg:flex-row">
+        <div class="hidden lg:flex flex-col basis-1/5 items-center">
+          <div class="flex flex-col items-start top-24 sticky max-w-md">
+            <h1 class="mb-6 text-left text-4xl font-semibold text-slate-200">Settings</h1>
+            <ul>
+              <li v-for="tab in Tabs" class="mb-1">
+                <router-link
+                    :to="tab.path"
+                    class="inline-flex py-2 font-medium text-2xl text-center text-slate-400 hover:text-slate-200 border-b-2 border-transparent duration-200"
+                    style="margin-bottom: -2px;"
+                    :class="{ 'active': $route.path === tab.path }"
+                >
+                  {{ tab.name }}
+                </router-link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div id="torrent-view-details" class="lg:ml-8 flex flex-col flex-auto items-center">
+          <div id="torrent-view-details-body" class="w-full flex flex-col grow">
+            <div class="flex flex-col items-center">
+              <div class="w-full flex flex-col">
+                <h1 class="block lg:hidden mb-14 text-4xl font-semibold text-slate-200">Settings</h1>
 
-    <Tabs
-        :tabs="[
-          { name: 'General', path: '/settings/general' },
-          { name: 'Tracker', path: '/settings/tracker' },
-          { name: 'Authentication', path: '/settings/authentication' },
-          { name: 'Database', path: '/settings/database' },
-          { name: 'Email', path: '/settings/email' },
-          ]"
-        class="mb-10"
-    />
+                <Tabs
+                    :tabs="Tabs"
+                    class="block lg:hidden mb-10"
+                />
 
-    <router-view
-        :settings="settings"
-        :settings-updated="settingsUpdated"
-    />
+                <router-view
+                    :settings="settings"
+                    :settings-updated="settingsUpdated"
+                />
 
-    <button
-        @click="saveSettings"
-        :disabled="settingsUpdated || savingSettings"
-        class="px-6 mt-8 h-12 inline-flex justify-center items-center self-start appearance-none bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-md cursor-pointer duration-200 disabled:opacity-50"
-    >
-      Save
-    </button>
-
-<!--        <label>Categories</label>-->
-<!--        <ul class="py-2">-->
-<!--          <li v-for="(category, index) in categoriesState" :key="index">-->
-<!--            <div class="py-2 px-4 mt-2 bg-slate-800 rounded-md flex flex-row">-->
-<!--              <span class="text-white">{{ category.name }} ({{ category.num_torrents }})</span>-->
-<!--              <svg xmlns="http://www.w3.org/2000/svg" @click="deleteCategory(category.name)" class="h-6 w-6 ml-auto px-1 rounded-lg bg-opacity-10 text-red-400 hover:text-red-500 text-center cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />-->
-<!--              </svg>-->
-<!--            </div>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--        <div class="mt-2 flex flex-row">-->
-<!--          <input v-model="newCategory" type='text' placeholder='Enter category'>-->
-<!--          <button @click="addCategory" :disabled="!newCategory" class="button ml-2 px-4 bg-sky-600 hover:bg-sky-500 text-white rounded-md disabled:opacity-50">Add</button>-->
-<!--        </div>-->
-<!--      </div>-->
+                <button
+                    @click="saveSettings"
+                    :disabled="settingsUpdated || savingSettings"
+                    class="px-6 mt-8 h-12 inline-flex justify-center items-center self-start appearance-none bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-2xl cursor-pointer duration-200 disabled:opacity-50"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -58,6 +64,13 @@ export default {
   data: () => ({
     TrackerMode: [{ name: "Public" }, { name: "Private" }, { name: "Whitelisted" }, { name: "PrivateWhitelisted" }],
     EmailOnSignup: [{ name: "Required" }, { name: "Optional" }, { name: "None" }],
+    Tabs: [
+      { name: 'General', path: '/settings/general' },
+      { name: 'Tracker', path: '/settings/tracker' },
+      { name: 'Authentication', path: '/settings/authentication' },
+      { name: 'Database', path: '/settings/database' },
+      { name: 'Email', path: '/settings/email' },
+    ],
     tab: 'general',
     newCategory: '',
     savingSettings: false,
@@ -150,6 +163,10 @@ export default {
 </script>
 
 <style scoped>
+.active {
+  @apply text-slate-200;
+}
+
 .category-tile {
   @apply bg-cover !important;
   @apply w-full rounded-3xl shadow-lg text-center py-16 relative;
