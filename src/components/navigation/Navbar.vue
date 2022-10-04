@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-slate-900/85 border-b lg:border-0 border-slate-800/50 z-50 max-w-full" style="backdrop-filter: blur(20px);">
+  <div class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-slate-900/90 border-b lg:border-0 border-slate-800/50 z-50 max-w-full" style="backdrop-filter: blur(20px);">
     <div class="px-4 md:px-8 flex flex-col w-full">
 
       <!-- MOBILE -->
@@ -18,7 +18,7 @@
         <div id="mobile-search-bar" v-if="mobileState === MobileStates.Search" class="block md:hidden grow">
           <div class="flex flex-col mr-3">
             <div class="flex flex-col">
-              <div class="px-3.5 bg-slate-800/60 border border-slate-600 focus:border-slate-400 rounded-2xl duration-200">
+              <div class="px-3.5 bg-slate-800/60 text-sm border border-slate-600 focus:border-slate-400 rounded-2xl duration-200">
                 <div class="flex flex-row items-center">
                   <div class="flex flex-col grow">
                     <input
@@ -95,7 +95,7 @@
         <div id="search-bar" class="hidden md:block mx-5 grow max-w-lg">
           <div class="flex flex-col">
             <div class="flex flex-col">
-              <div class="px-3.5 bg-slate-800/60 border border-transparent hover:border-slate-600 focus:border-slate-400 rounded-2xl duration-200">
+              <div class="px-3.5 bg-slate-800/60 text-sm border border-transparent hover:border-slate-600 focus:border-slate-400 rounded-2xl duration-200">
                 <div class="flex flex-row items-center">
                   <div class="mr-3 flex flex-col">
                     <SearchIcon size="18" class="text-slate-400" />
