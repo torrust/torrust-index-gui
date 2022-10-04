@@ -45,7 +45,7 @@
       <!-- DESKTOP -->
       <div id="desktop-menu" class="hidden md:flex flex-row items-center max-w-full">
         <div id="left-menu" class="hidden md:flex flex-row flex-1 justify-start">
-          <div id="site-name" class="mr-12 hidden md:flex flex-row">
+          <div id="site-name" class="hidden md:flex flex-row">
             <div class="flex flex-col">
               <router-link class="block text-2xl text-white duration-200" to="/">
                 <div class="flex flex-row flex-nowrap">
