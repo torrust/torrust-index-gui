@@ -117,8 +117,8 @@
         </div>
         <div id="extra-options" class="flex flex-row flex-1 ml-auto items-center justify-end">
           <Profile class="mr-3" />
-          <router-link to="/upload" class="px-6 h-10 inline-flex flex-nowrap justify-center items-center self-start appearance-none bg-sky-500 hover:bg-sky-600 text-sm text-white font-medium rounded-2xl cursor-pointer duration-200">
-            <UploadIcon size="24" class="mr-3" />
+          <router-link to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center self-start appearance-none bg-sky-500 hover:bg-sky-600 text-sm text-white font-medium rounded-2xl cursor-pointer duration-200">
+            <UploadIcon size="18" class="mr-3" />
             <span class="flex flex-nowrap whitespace-nowrap">Upload torrent</span>
           </router-link>
         </div>
