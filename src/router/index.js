@@ -3,7 +3,7 @@ import TorrentDetail from "../views/torrents/torrent-view/Torrent.vue";
 import CategoryOverview from "../views/CategoryOverview.vue";
 import TorrentUpload from "../views/TorrentUpload.vue";
 import VueRouter from "vue-router";
-import Torrents from "../views/Torrents.vue";
+import Torrents from "../views/torrents/Torrents.vue";
 import Welcome from "../views/Welcome.vue";
 import Settings from "../views/settings/Settings.vue";
 import GeneralSettings from "../views/settings/tabs/GeneralSettings.vue";
