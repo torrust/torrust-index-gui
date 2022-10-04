@@ -4,10 +4,47 @@
 
       <!-- MOBILE -->
       <div id="mobile-menu" class="flex md:hidden flex-row items-center max-w-full">
-        <div id="open-mobile-search-bar-toggle" v-if="mobileState === MobileStates.Navigate" class="px-3.5 h-10 mr-3 flex md:hidden flex-col justify-center items-center bg-white/5 border border-slate-600 rounded-2xl">
+        <div id="open-mobile-search-bar-toggle" v-if="mobileState === MobileStates.Navigate" class="px-3.5 h-10 mr-1 flex md:hidden flex-col justify-center items-center bg-white/5 border border-slate-600 rounded-2xl">
           <button class="flex flex-col" @click="mobileState = MobileStates.Search">
             <SearchIcon size="18" class="text-slate-400" />
           </button>
+        </div>
+        <div id="tabs" class="flex flex-row">
+          <div class="flex flex-col">
+              <span
+                  id="explore"
+                  class="px-6 h-10 flex flex-row flex-nowrap items-center appearance-none text-lg text-slate-200 hover:text-white font-medium cursor-pointer duration-200"
+                  @mouseover="dropdownOpened = true"
+                  @mouseleave="dropdownOpened = false"
+              >
+                <span>Explore</span>
+                <!--                <ChevronDownIcon size="18" class="ml-1"></ChevronDownIcon>-->
+                <div
+                    class="absolute -ml-4 pt-60 z-10"
+                    :class="{hidden: !dropdownOpened}"
+                >
+                  <div @click.prevent="dropdownOpened = false" class="w-48 divide-y divide-slate-100 bg-slate-800 rounded-2xl overflow-hidden drop-shadow">
+                    <ul class="text-sm text-slate-400 font-medium duration-200" aria-labelledby="dropdownDefault">
+                      <li class="p-4 w-full hover:bg-slate-700 hover:text-white duration-200">
+                        <router-link to="/torrents/trending" replace class="inline-flex items-center">
+                          <span class="flex flex-nowrap whitespace-nowrap">Trending Torrents</span>
+                        </router-link>
+                      </li>
+                      <li class="p-4 w-full hover:bg-slate-700 hover:text-white duration-200">
+                        <router-link to="/torrents/popular" replace class="inline-flex items-center">
+                          <span class="flex flex-nowrap whitespace-nowrap">Most Popular Torrents</span>
+                        </router-link>
+                      </li>
+                      <li class="p-4 w-full hover:bg-slate-700 hover:text-white duration-200">
+                        <router-link to="/torrents/recent" replace class="inline-flex items-center">
+                          <span class="flex flex-nowrap whitespace-nowrap">Most Recent Torrents</span>
+                        </router-link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </span>
+          </div>
         </div>
         <div id="extra-options" v-if="mobileState === MobileStates.Navigate" class="flex flex-row flex-1 ml-auto items-center justify-end">
           <Profile class="mr-3" />
