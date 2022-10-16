@@ -33,7 +33,7 @@ export default {
 
 <style>
 html {
-  @apply bg-slate-900;
+  @apply bg-slate-900 dark:bg-dark-900;
 }
 
 input.input, select.input {
