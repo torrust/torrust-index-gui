@@ -4,12 +4,12 @@
       <div id="torrent-view" class="px-2 flex flex-col lg:flex-row">
         <div class="hidden lg:flex flex-col basis-1/5 items-center">
           <div class="flex flex-col items-start top-24 sticky max-w-md">
-            <h1 class="mb-6 text-left text-4xl font-semibold text-slate-200">Settings</h1>
+            <h1 class="mb-6 text-left text-4xl font-semibold text-slate-200 dark:text-dark-200">Settings</h1>
             <ul>
               <li v-for="tab in Tabs" class="mb-1">
                 <router-link
                     :to="tab.path"
-                    class="inline-flex py-2 font-medium text-2xl text-center text-slate-400 hover:text-slate-200 border-b-2 border-transparent duration-200"
+                    class="inline-flex py-2 font-medium text-2xl text-center text-slate-400 dark:text-dark-400 hover:text-slate-200 dark:hover:text-dark-200 border-b-2 border-transparent duration-200"
                     style="margin-bottom: -2px;"
                     :class="{ 'active': $route.path === tab.path }"
                 >
@@ -23,7 +23,7 @@
           <div id="torrent-view-details-body" class="w-full flex flex-col grow">
             <div class="flex flex-col items-center">
               <div class="w-full flex flex-col">
-                <h1 class="block lg:hidden mb-14 text-4xl font-semibold text-slate-200">Settings</h1>
+                <h1 class="block lg:hidden mb-14 text-4xl font-semibold text-slate-200 dark:text-dark-200">Settings</h1>
 
                 <Tabs
                     :tabs="Tabs"
@@ -38,7 +38,7 @@
                 <button
                     @click="saveSettings"
                     :disabled="settingsUpdated || savingSettings"
-                    class="px-6 mt-8 h-12 inline-flex justify-center items-center self-start appearance-none bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-2xl cursor-pointer duration-200 disabled:opacity-50"
+                    class="px-6 mt-8 h-12 inline-flex justify-center items-center self-start appearance-none bg-sky-500 dark:bg-dark-accent-600 hover:bg-sky-600 dark:hover:bg-dark-accent-700 text-white font-medium rounded-2xl cursor-pointer duration-200 disabled:opacity-50"
                 >
                   Save
                 </button>
@@ -164,40 +164,6 @@ export default {
 
 <style scoped>
 .active {
-  @apply text-slate-200;
-}
-
-.category-tile {
-  @apply bg-cover !important;
-  @apply w-full rounded-3xl shadow-lg text-center py-16 relative;
-}
-
-label {
-  @apply mt-2 block text-gray-200;
-}
-
-h2 {
-  @apply mt-6 text-xl text-white;
-}
-
-h3 {
-  @apply mt-2 text-lg text-white;
-}
-
-.details {
-  @apply inline-flex;
-}
-
-.setting-input-container {
-  @apply py-1 flex flex-row;
-}
-
-button.changes {
-  @apply mt-2 py-2 px-4 text-white rounded-md;
-}
-
-input {
-  @apply py-2 px-4 w-full text-white bg-slate-800 border border-slate-700 rounded-md text-sm shadow-sm cursor-pointer placeholder-slate-400 hover:border-sky-500 focus:bg-slate-800
-  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition duration-200;
+  @apply text-slate-200 dark:text-dark-200;
 }
 </style>

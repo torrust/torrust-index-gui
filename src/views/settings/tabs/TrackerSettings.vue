@@ -1,7 +1,7 @@
 <template>
   <div id="tracker-settings" class="flex flex-col gap-6">
 
-    <h2 class="text-3xl font-medium text-slate-200">Tracker Settings</h2>
+    <h2 class="text-3xl font-medium text-slate-200 dark:text-dark-200">Tracker Settings</h2>
 
     <div>
       <label for="tracker-announce-url" class="input-label">Announce URL</label>
