@@ -155,8 +155,8 @@
         <div id="extra-options" class="flex flex-row flex-1 ml-auto items-center justify-end">
           <Profile class="mr-3" />
           <router-link to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center self-start appearance-none dark:bg-transparent text-sm text-white dark:text-neutral-400 dark:hover:text-white font-medium rounded-2xl cursor-pointer duration-200">
-            <UploadIcon size="18" class="mr-3" />
-            <span class="flex flex-nowrap whitespace-nowrap">Upload torrent</span>
+<!--            <UploadIcon size="18" class="mr-3" />-->
+            <span class="flex flex-nowrap whitespace-nowrap">Upload</span>
           </router-link>
         </div>
       </div>

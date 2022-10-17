@@ -9,7 +9,8 @@ module.exports = {
     },
     extend: {
       colors: {
-        dark: colors.neutral
+        dark: colors.neutral,
+        "dark-accent": colors.amber
       }
     },
   },
