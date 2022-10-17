@@ -1,7 +1,7 @@
 <template>
   <div id="general-settings" class="flex flex-col gap-6">
 
-    <h2 class="text-3xl font-medium text-slate-200">General Settings</h2>
+    <h2 class="text-3xl font-medium text-slate-200 dark:text-dark-200">General Settings</h2>
 
     <div>
       <label for="website-name" class="input-label">Name</label>
