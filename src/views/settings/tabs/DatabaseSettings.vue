@@ -1,7 +1,7 @@
 <template>
   <div id="database-settings" class="flex flex-col gap-6">
 
-    <h2 class="text-3xl font-medium text-slate-200">Database Settings</h2>
+    <h2 class="text-3xl font-medium text-slate-200 dark:text-dark-200">Database Settings</h2>
 
     <div>
       <label for="database-torrent-status-update-interval" class="input-label">Torrent Status Update Interval (seconds)</label>

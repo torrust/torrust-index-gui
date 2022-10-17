@@ -9,10 +9,10 @@
           <div id="torrent-view-details-body" class="w-full flex flex-col grow">
             <div class="flex flex-col items-center">
               <div id="details-switcher" class="mb-4 max-w-md h-12">
-                <ul class="flex flex-row border-b-2 border-slate-600">
+                <ul class="flex flex-row border-b-2 border-slate-600 dark:border-dark-600">
                   <li v-for="(option) in tabs">
                     <button
-                        class="inline-flex py-2 px-6 font-medium text-center text-slate-400 hover:text-slate-200 border-b-2 border-transparent duration-200"
+                        class="inline-flex py-2 px-6 font-medium text-center text-slate-400 dark:text-dark-200 hover:text-slate-200 border-b-2 border-transparent duration-200"
                         :class="{ 'active': option.tab === tab }"
                         style="margin-bottom: -2px;"
                         @click="tab = option.tab"
@@ -38,10 +38,10 @@
           <div id="torrent-view-details-body" class="w-full max-w-3xl flex flex-col grow">
             <div class="flex flex-col items-center">
               <div id="details-switcher" class="mb-4 max-w-md h-12">
-                <ul class="flex flex-row border-b-2 border-slate-600">
+                <ul class="flex flex-row border-b-2 border-slate-600 dark:border-white/5">
                   <li v-for="(option) in tabs">
                     <button
-                        class="inline-flex py-2 px-6 font-medium text-center text-slate-400 hover:text-slate-200 border-b-2 border-transparent duration-200"
+                        class="inline-flex py-2 px-6 font-medium text-center text-slate-400 dark:text-dark-200 hover:text-slate-200 dark:hover:text-white border-b-2 border-transparent dark:hover:border-white/10 duration-200"
                         :class="{ 'active': option.tab === tab }"
                         style="margin-bottom: -2px;"
                         @click="tab = option.tab"
@@ -132,13 +132,13 @@ export default {
 
 <style scoped>
 .active {
-  @apply text-slate-200 border-slate-200;
+  @apply text-slate-200 dark:text-white border-slate-200 dark:border-dark-accent-600;
 }
 </style>
 
 <style>
 .markdown-body {
-  @apply text-slate-400;
+  @apply text-slate-400 dark:text-dark-400;
 }
 
 .markdown-body a {
@@ -146,22 +146,22 @@ export default {
 }
 
 .markdown-body blockquote {
-  @apply text-slate-400 border-slate-600;
+  @apply text-slate-400 dark:text-dark-400 border-slate-600 dark:border-dark-600;
 }
 
 .markdown-body hr {
-  @apply bg-slate-200/50;
+  @apply bg-slate-200/50 dark:bg-white/5;
 }
 
 .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
-  @apply border-slate-200/50;
+  @apply border-slate-200/50 dark:border-white/5;
 }
 
 .markdown-body .highlight pre, .markdown-body pre {
-  @apply bg-slate-800 text-slate-400 rounded-md;
+  @apply bg-slate-800 dark:bg-dark-800 text-slate-400 dark:text-dark-400 rounded-md;
 }
 
 .markdown-body table tr, .markdown-body table td, .markdown-body table th {
-  @apply bg-slate-800 border-slate-700;
+  @apply bg-slate-800 dark:bg-dark-800 border-slate-700 dark:border-white/5;
 }
 </style>
