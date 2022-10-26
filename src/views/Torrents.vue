@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import TorrentList from "../components/TorrentList.vue";
+import TorrentList from "./torrents/TorrentList.vue";
 import Pagination from "../components/Pagination.vue";
 import PageSize from "../components/PageSize.vue";
 import HttpService from "@/common/http-service";
@@ -72,13 +72,21 @@ export default {
       this.sorting = sorting;
       this.loadTorrents(this.currentPage);
     },
+    updateCategories(categories) {
+      let filters = this.categoryFilters;
+      this.$store.commit('setCategoryFilters', filters);
+    },
     updatePageSize(pageSize) {
       this.pageSize = pageSize;
       this.loadTorrents(this.currentPage);
     }
   },
   computed: {
-    ...mapState(['categoryFilters']),
+    ...mapState({
+      user: state => state.auth.user,
+      categories: state => state.categories,
+      categoryFilters: state => state.categoryFilters
+    }),
     totalPages() {
       return Math.ceil(this.torrents.total / this.pageSize);
     },

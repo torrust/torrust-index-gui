@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-fit max-w-full flex flex-col grow">
-    <div class="max-w-full flex flex-col">
+  <div class="min-h-fit flex flex-col grow">
+    <div class="max-w-full flex flex-col items-center">
 
       <!-- MOBILE -->
       <div id="torrent-view" class="mb-8 max-w-full flex lg:hidden flex-col items-center">
@@ -33,7 +33,7 @@
       </div>
 
       <!-- DESKTOP -->
-      <div id="torrent-view" class="hidden mb-8 max-w-full lg:flex flex-row flex-nowrap items-start">
+      <div id="torrent-view" class="hidden mb-8 max-w-8xl lg:flex flex-row flex-nowrap items-start">
         <div id="torrent-view-details" class="mr-8 flex flex-col flex-auto items-center">
           <div id="torrent-view-details-body" class="w-full max-w-3xl flex flex-col grow">
             <div class="flex flex-col items-center">

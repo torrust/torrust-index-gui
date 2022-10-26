@@ -5,7 +5,7 @@
 
     <div class="flex flex-col w-full">
 
-      <div class="my-6 mx-auto py-0 px-3 md:px-8 flex flex-col grow w-full max-w-8xl">
+      <div class="my-6 mx-auto py-0 px-3 md:px-8 flex flex-col grow w-full">
         <router-view />
       </div>
 
