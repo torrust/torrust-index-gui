@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col grow">
     <div id="torrent-description" class="mb-10 flex flex-col">
       <div class="mb-5 px-5 flex flex-row justify-between">
         <h2 class="mr-1 text-2xl text-left text-slate-200 dark:text-dark-200 font-medium">Description</h2>
