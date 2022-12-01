@@ -11,7 +11,7 @@
         >
           <span class="text-slate-200 dark:text-dark-200 font-semibold">{{ file.name }}</span>
           <div class="px-3 flex flex-row flex-nowrap items-center justify-center text-slate-500 dark:text-dark-500 font-semibold">
-            <DatabaseIcon class="mr-1" size="18" />
+            <CircleStackIcon class="mr-1" size="18" />
             <span class="whitespace-nowrap">{{ fileSize(file.size) }}</span>
           </div>
         </div>
@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import { DatabaseIcon } from "@vue-hero-icons/outline"
+import { CircleStackIcon } from "@heroicons/vue/24/outline"
 
 export default {
   name: "TorrentFilesTab",
-  components: {DatabaseIcon},
+  components: {CircleStackIcon},
   props: {
     torrent: {
       type: Object,

@@ -1,4 +1,12 @@
-/node_modules/
-/dist/
-/.idea/
-/.env*
+.idea
+.env*
+node_modules
+*.log*
+.nuxt
+.nitro
+.cache
+.output
+.env
+dist
+api
+vue-2

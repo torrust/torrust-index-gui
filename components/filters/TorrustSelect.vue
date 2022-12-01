@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { ChevronDownIcon, CheckIcon } from "@vue-hero-icons/solid";
+import { ChevronDownIcon, CheckIcon } from "@heroicons/vue/24/solid";
 
 export default {
   name: "TorrustSelect",

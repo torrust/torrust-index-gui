@@ -1,8 +1,7 @@
 <template>
   <div class="relative inline-block text-left" v-click-outside="() => (dropdownOpened = false)">
-
     <span
-        v-if="$store.getters.isLoggedIn"
+        v-if="isUserLoggedIn()"
         id="profile-button"
         class="px-4 h-10 inline-flex justify-center items-center self-start appearance-none bg-slate-800 hover:bg-slate-700 dark:bg-white/5 dark:hover:bg-white/10 text-sm text-white font-medium rounded-2xl cursor-pointer duration-200"
         @click="dropdownOpened = !dropdownOpened"
@@ -43,32 +42,24 @@
     <button
         v-else
         id="sign-in-button"
-        class="px-4 h-10 inline-flex justify-center items-center self-start appearance-none bg-slate-800 dark:bg-white/5 hover:bg-slate-700 dark:hover:bg-white/10 text-sm text-white font-medium rounded-2xl cursor-pointer duration-200"
+        class="px-4 h-10 inline-flex justify-center items-center self-start appearance-none bg-gradient-to-bl from-tertiary to-secondary hover:bg-tertiary text-sm text-themeText/50 hover:text-themeText font-medium rounded-2xl shadow-lg shadow-transparent hover:shadow-secondary/50 cursor-pointer duration-1000"
         @click="$store.dispatch('openAuthModal')"
     >
-      <UserCircleIcon size="24" class="mr-3" />
+      <UserCircleIcon class="mr-3 w-5 h-5 text-themeText/50" />
       <span class="flex flex-nowrap whitespace-nowrap">Sign in</span>
     </button>
-
   </div>
 </template>
 
-<script>
-import { ChevronDownIcon, UserCircleIcon } from '@vue-hero-icons/solid'
-import {mapState} from "vuex";
+<script setup lang="ts">
+import {ChevronDownIcon, UserCircleIcon} from "@heroicons/vue/20/solid";
+import {ref} from "#imports";
+import {Ref} from "@vue/reactivity";
+import {isUserLoggedIn, useUser} from "~/store/user";
 
-export default {
-  name: "Profile",
-  components: {ChevronDownIcon, UserCircleIcon},
-  data: () => ({
-    dropdownOpened: false,
-  }),
-  computed: {
-    ...mapState({
-      user: state => state.auth.user,
-    })
-  }
-}
+const user = useUser();
+
+const dropdownOpened: Ref<boolean> = ref(false);
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
   <div class="relative inline-block text-left" v-click-outside="() => (dropdownOpened = false)">
     <button class="filter relative" @click="dropdownOpened = !dropdownOpened">
-      <AdjustmentsIcon size="16" class="mr-1 opacity-50" />
+      <AdjustmentsHorizontalIcon size="16" class="mr-1 opacity-50" />
       Categories
     </button>
     <div class="origin-top-left absolute left-0 mt-2 z-10" :class="{hidden: !dropdownOpened}">
@@ -24,13 +24,13 @@
 </template>
 
 <script>
-import {UserIcon} from "@vue-hero-icons/outline";
-import { AdjustmentsIcon } from '@vue-hero-icons/solid'
+import {UserIcon} from "@heroicons/vue/24/outline";
+import {AdjustmentsHorizontalIcon} from "@heroicons/vue/24/solid"
 import {mapState} from "vuex";
 
 export default {
   name: "FilterCategory",
-  components: {UserIcon, AdjustmentsIcon},
+  components: {UserIcon, AdjustmentsHorizontalIcon},
   data: () => ({
     dropdownOpened: false,
   }),
