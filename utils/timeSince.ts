@@ -1,8 +1,8 @@
-export function timeSince(date: number): string {
+export function timeSince(date: Date): string {
     // convert datetime to unix timestamp
-    date = Math.floor(new Date(date).getTime() / 1000);
+    let unix = Math.floor(date.getTime() / 1000);
 
-    const seconds = Math.floor(((+new Date() / 1000) - date));
+    const seconds = Math.floor(((+new Date() / 1000) - unix));
     let interval = Math.floor(seconds / 31536000);
     if (interval >= 1) {
         return `${interval} year${(interval > 1 ? 's' : '')}`;

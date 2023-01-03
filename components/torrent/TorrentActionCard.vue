@@ -55,25 +55,24 @@
           <div class="p-6 w-full h-full flex flex-col grow border-2 border-secondary rounded-2xl">
             <div class="flex flex-col">
               <div class="mb-1 flex flex-row gap-4 flex-nowrap justify-between">
-                <div class="px-2 py-3 flex flex-col items-center bg-slate-800/60 dark:bg-white/5 rounded-2xl w-1/2">
+                <div class="px-2 py-3 flex flex-col items-center bg-secondary rounded-2xl w-1/2">
                   <span class="px-2 w-full text-xs text-themeText/50 font-semibold text-left">Seeders</span>
                   <span id="seeders" class="px-2 w-full text-sm text-green-500/95 font-semibold">{{ Number(torrent.seeders).toLocaleString() }}</span>
                 </div>
-                <div class="px-2 py-3 flex flex-col items-center bg-slate-800/60 dark:bg-white/5 rounded-2xl w-1/2">
+                <div class="px-2 py-3 flex flex-col items-center bg-secondary rounded-2xl w-1/2">
                   <span class="px-2 w-full text-xs text-themeText/50 font-semibold text-left">Leechers</span>
                   <span id="seeders" class="px-2 w-full text-sm text-red-500/95 font-semibold">{{ Number(torrent.leechers).toLocaleString() }}</span>
                 </div>
               </div>
-              <template v-if="showDownloadButtons">
+              <div v-if="showDownloadButtons" class="mt-3 flex flex-row flex-nowrap items-center">
                 <button
-                    class="mt-3 px-4 h-12 bg-gradient-to-bl from-accent to-accent-dark hover:bg-tertiary text-sm text-themeText font-semibold rounded-2xl shadow-lg shadow-transparent hover:shadow-accent-dark/50 duration-1000"
+                    class="px-4 h-12 grow bg-gradient-to-bl from-accent to-accent-dark hover:bg-tertiary text-sm text-themeText font-semibold rounded-2xl shadow-lg shadow-transparent hover:shadow-accent-dark/50 duration-1000"
                     @click="downloadTorrent(torrent.torrent_id, torrent.title)"
                 >Download torrent</button>
-                <a
-                    class="mt-4 px-4 flex flex-col items-center justify-center text-sm text-themeText/50 hover:text-themeText font-medium rounded-2xl duration-200"
-                    :href="torrent.magnet_link"
-                >Download using magnet link</a>
-              </template>
+                <button class="ml-2 w-12 h-12 flex flex-col shrink-0 items-center justify-center text-themeText/50 hover:text-themeText bg-gradient-to-bl from-tertiary to-secondary hover:bg-tertiary rounded-2xl duration-1000">
+                  <LinkIcon class="w-6" />
+                </button>
+              </div>
               <template v-else>
                 <button
                     class="mt-3 px-4 h-12 bg-white text-sm text-black font-medium rounded-2xl"
@@ -102,7 +101,7 @@
 
 <script setup lang="ts">
 import {CalendarIcon, CircleStackIcon, UserCircleIcon} from "@heroicons/vue/20/solid";
-import {CheckIcon, PencilIcon, XMarkIcon} from "@heroicons/vue/24/solid";
+import {CheckIcon, PencilIcon, XMarkIcon, LinkIcon} from "@heroicons/vue/24/solid";
 import {isUserLoggedIn, useUser} from "~/store/user";
 import {isTrackerPublic, useSettings} from "~/store/settings";
 import {fileSize, downloadTorrent, ref} from "#imports";
@@ -135,9 +134,7 @@ const props = defineProps({
 })
 
 function hasEditRights(): boolean {
-  if (!user.value) return false;
-
-  console.log(user.value);
+  if (!isUserLoggedIn()) return false;
 
   return user.value.hasEditRightsForTorrent(props.torrent);
 }

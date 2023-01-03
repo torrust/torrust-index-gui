@@ -8,29 +8,32 @@
         <a
             v-for="(torrent, index) in torrents" :key="index"
             @click="$router.push(`/torrent/${torrent.torrent_id.toString()}`)"
-            class="flex rounded-2xl bg-transparent hover:bg-secondary/50 text-sm text-themeText hover:text-white cursor-pointer transition duration-200"
+            class="flex flex-col rounded-2xl bg-transparent hover:bg-secondary text-sm cursor-pointer duration-200 group"
         >
-          <div class="p-4 flex flex-row flex-nowrap justify-start rounded-2xl w-full">
+          <div class="px-4 pt-4 pb-4 group-hover:pb-2 flex flex-row flex-nowrap justify-start items-center rounded-2xl w-full">
             <div class="flex flex-col flex-nowrap justify-start items-center font-semibold overflow-hidden grow">
-              <span class="whitespace-nowrap text-ellipsis overflow-hidden w-full">{{ torrent.title }}</span>
+              <span class="whitespace-nowrap text-ellipsis group-hover:text-[0.95rem] text-themeText overflow-hidden w-full duration-200">{{ torrent.title }}</span>
               <div class="mt-1 flex flex-row flex-nowrap justify-start items-start w-full">
-                <span class="whitespace-nowrap text-accent-600 text-xs">{{ fileSize(torrent.file_size) }}</span>
-                <span class="ml-2 whitespace-nowrap text-themeText text-xs">{{ new Date(torrent.date_uploaded).toLocaleDateString() }} ({{ timeSince(torrent.date_uploaded) }}) ago</span>
-                <a class="ml-2 whitespace-nowrap text-accent-600 hover:text-accent-700 text-xs duration-200">u/{{ torrent.uploader }}</a>
+                <span class="whitespace-nowrap text-themeText/50 text-xs">{{ fileSize(torrent.file_size) }}</span>
+                <span class="ml-2 whitespace-nowrap text-themeText/50 text-xs">{{ new Date(torrent.date_uploaded).toLocaleDateString() }} ({{ timeSince(new Date(torrent.date_uploaded)) }}) ago</span>
+                <a class="ml-2 whitespace-nowrap text-xs text-accent">u/{{ torrent.uploader }}</a>
               </div>
             </div>
-            <div class="flex flex-col flex-nowrap">
+            <div class="flex flex-col flex-nowrap justify-center items-center">
               <div class="flex flex-row flex-nowrap text-center font-semibold rounded-2xl">
-                <div class="w-10 h-10 flex flex-col shrink-0 justify-center text-green-500 bg-green-500/10 rounded-2xl">{{ torrent.seeders }}</div>
-                <div class="ml-2 w-10 h-10 flex flex-col shrink-0 justify-center text-red-500 bg-red-500/10 rounded-2xl">{{ torrent.leechers }}</div>
-                <div class="ml-2 w-10 h-10 flex flex-col shrink-0 items-center justify-center text-white bg-secondary rounded-2xl duration-200">
-                  <ArrowDownTrayIcon size="18"/>
+                <div class="w-10 h-10 flex flex-col shrink-0 justify-center text-green-500 border-2 border-secondary group-hover:border-tertiary rounded-2xl duration-200">{{ torrent.seeders }}</div>
+                <div class="ml-2 w-10 h-10 flex flex-col shrink-0 justify-center text-red-500 border-2 border-secondary group-hover:border-tertiary rounded-2xl duration-200">{{ torrent.leechers }}</div>
+                <div class="ml-2 w-10 h-10 flex flex-col shrink-0 items-center justify-center text-themeText/50 hover:text-themeText bg-secondary group-hover:bg-tertiary rounded-2xl duration-200">
+                  <ArrowDownTrayIcon class="w-6"/>
                 </div>
-                <div class="ml-2 w-10 h-10 flex shrink-0 flex-col items-center justify-center text-black bg-white rounded-2xl duration-200">
-                  <ClipboardIcon size="18"/>
+                <div class="ml-2 w-10 h-10 flex flex-col shrink-0 items-center justify-center text-themeText/50 hover:text-themeText bg-secondary group-hover:bg-tertiary rounded-2xl duration-200">
+                  <LinkIcon class="w-6" />
                 </div>
               </div>
             </div>
+          </div>
+          <div class="px-4 pt-2 pb-4 hidden group-hover:flex flex-row flex-nowrap justify-start items-start w-full duration-1000">
+            <TorrentListTorrentDetails :torrent-id="torrent.torrent_id" />
           </div>
         </a>
       </div>
@@ -38,59 +41,39 @@
   </div>
 </template>
 
-<script>
-import { BarsArrowUpIcon, ArrowSmallDownIcon, CircleStackIcon, ArrowDownTrayIcon, ClipboardIcon } from "@heroicons/vue/24/outline";
-import {mapState} from "vuex";
+<script setup lang="ts">
+import { BarsArrowUpIcon, ChevronDownIcon, ChevronRightIcon, CircleStackIcon, ArrowDownTrayIcon, LinkIcon } from "@heroicons/vue/24/outline";
+import {Ref} from "@vue/reactivity";
+import {fileSize, timeSince, ref} from "#imports";
+import {PropType} from "@vue/runtime-core";
+import {TorrentCompact} from "~/types/torrent";
 
-export default {
-  name: "TorrentList",
-  components: {BarsArrowUpIcon, ArrowSmallDownIcon, CircleStackIcon, ArrowDownTrayIcon, ClipboardIcon},
-  props: {
-    torrents: Array,
-    updateSorting: Function,
-    sorting: Object,
-  },
-  data: () => ({
-    sort: {
-      name: 'uploaded',
-      direction: 'DESC'
-    },
-    table_columns: [
-      'name',
-      'seeders',
-      'leechers',
-      'uploaded',
-      'size',
-    ]
-  }),
-  computed: {
-    ...mapState(['categories']),
-  },
-  methods: {
-    changeSort(sort) {
-      let direction = 'ASC';
-      if (this.sorting.name === sort) {
-        if (this.sorting.direction === 'ASC') {
-          direction = 'DESC'
-        } else {
-          direction = 'ASC'
-        }
-      } else {
-        this.sorting.name = sort;
-        direction = 'DESC'
-      }
-      this.updateSorting({name: sort, direction});
-    }
-  }
+enum Direction {
+  ASC,
+  DESC
 }
+
+enum Sorting {
+  name,
+  seeders,
+  leechers,
+  uploaded,
+  size
+}
+
+type Sort = {
+  name: Sorting,
+  direction: Direction
+}
+
+const props = defineProps({
+  torrents: Array as PropType<Array<TorrentCompact>>,
+  updateSorting: Function,
+  sorting: Object,
+})
+
+const sort: Ref<Sort> = ref({
+  name: Sorting.uploaded,
+  direction: Direction.DESC
+});
 </script>
-
-<style scoped>
-td {
-  @apply px-4 py-4 whitespace-nowrap;
-}
-
-tbody tr {
-  @apply cursor-pointer bg-transparent hover:bg-gradient-to-r hover:from-slate-800/10 hover:via-slate-800/30 hover:to-slate-800/10 rounded-2xl transition duration-200;
-}
-</style>

@@ -1,7 +1,8 @@
 import {useState} from "#app";
 import {User} from "torrust-index-types-lib";
 
-export const useUser = () => useState<User>('user', () => new User())
+export const useUser = () => useState<User>('user', () => null)
+export const useToken = () => useState<string>('token', () => null)
 
 export function setUserWithObject(userObject: Object) {
     let user = new User();
@@ -9,6 +10,8 @@ export function setUserWithObject(userObject: Object) {
     Object.assign(user, userObject);
 
     useUser().value = user;
+
+    saveUserToLocalStorage();
 }
 
 export function loadUserFromLocalStorage(): boolean {
@@ -23,28 +26,15 @@ export function loadUserFromLocalStorage(): boolean {
     return true;
 }
 
-export function isUserLoggedIn(): boolean {
-    return !!useUser().value.username;
+export function saveUserToLocalStorage() {
+    localStorage.setItem('torrust_user', JSON.stringify(useUser().value));
 }
 
-// export async function login(data: any): Promise<boolean> {
-//     return await fetch('/user/login', {
-//         method: "POST",
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(data),
-//     })
-//         .then(async (data) => {
-//             data = await data.json();
-//
-//             if (data['data']) {
-//                 setUserWithObject(data['data']);
-//             }
-//
-//             return true;
-//         })
-//         .catch(err => {
-//             return false;
-//         });
-// }
+export function isUserLoggedIn(): boolean {
+    return !!useUser().value?.username;
+}
+
+export function logout() {
+    useUser().value = null;
+    saveUserToLocalStorage();
+}

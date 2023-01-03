@@ -96,16 +96,18 @@ const tab: Ref<Tab> = ref(Tab.Overview);
 const loadingTorrent: Ref<boolean> = ref(false);
 const torrent: Ref<Torrent> = ref(null);
 
+onMounted(async () => {
+  await getTorrentFromApi(Number(route.params.id));
+})
+
 function getTorrentFromApi(torrentId: number) {
   loadingTorrent.value = true;
 
   rest.torrent.getTorrent(config.public.apiBase, torrentId)
       .then((data) => {
-        console.log(data);
         torrent.value = data;
       })
       .catch((err) => {
-        console.error(err);
         loadingTorrent.value = false;
       });
 
@@ -115,10 +117,6 @@ function getTorrentFromApi(torrentId: number) {
 function reloadTorrent() {
   getTorrentFromApi(torrent.value.torrent_id);
 }
-
-onMounted(async () => {
-  await getTorrentFromApi(Number(route.params.id));
-})
 </script>
 
 <style scoped>

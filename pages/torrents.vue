@@ -3,25 +3,25 @@
     <div class="max-w-full flex flex-col">
       <div id="torrents-header" class="mb-6 px-6">
         <div class="flex flex-row flex-nowrap items-center">
-          <div class="text-3xl font-semibold text-white">Browse Torrents</div>
+          <div class="text-3xl font-semibold text-themeText">Browse Torrents</div>
           <div class="ml-auto">
-            <TorrustSelect :options="sortingOptions" :label="'Sort by'" @updated="updateSorting"/>
+            <FiltersTorrustSelect :options="sortingOptions" :label="'Sort by'" @updated="updateSorting"/>
           </div>
         </div>
       </div>
       <div id="torrents-body" class="flex flex-col">
         <div class="flex flex-row flex-nowrap items-start">
-          <div id="torrent-filters" class="mr-7 sticky w-full max-w-md">
+          <div id="torrent-filters" class="mr-7 sticky w-full max-w-xs">
             <div class="flex flex-col flex-nowrap w-full justify-between">
-              <TorrustSelect :options="categoryOptions" :label="'Category'" @updated="updateCategories" multiple/>
-              <TorrustSelect :options="categoryOptions" :label="'Tags'" multiple class="mt-4"/>
+              <FiltersTorrustSelect :options="categories" :label="'Category'" @updated="setCategoryFilters" multiple/>
+              <FiltersTorrustSelect :options="categories" :label="'Tags'" multiple class="mt-4"/>
             </div>
           </div>
           <div id="torrent-list" class="grow">
             <TorrentList
-                v-if="torrents.results.length > 0"
+                v-if="torrents?.results.length > 0"
                 :torrents="torrents.results"
-                :sorting="sorting"
+                :sorting="itemsSorting"
                 :update-sorting="updateSorting"
             />
             <span v-else class="text-themeText">No results.</span>
@@ -32,144 +32,155 @@
   </div>
 </template>
 
-<script lang="ts">
-import TorrentList from "~/components/torrent/TorrentList.vue";
-import {AdjustmentsHorizontalIcon, FunnelIcon} from "@heroicons/vue/24/outline";
-import {ChevronDownIcon} from '@heroicons/vue/24/solid'
-import TorrustSelect from "~/components/filters/TorrustSelect.vue";
+<script setup lang="ts">
 import {rest} from "~/api";
 import {useCategories} from "~/store";
 import {useRuntimeConfig} from "nuxt/app";
-import {Torrent} from "torrust-index-types-lib";
-import {ref} from "#imports";
+import {Torrent, TorrentCategory} from "torrust-index-types-lib";
+import {onBeforeMount, onMounted, ref, watch} from "#imports";
 import {Ref} from "@vue/reactivity";
+import {useRoute, useRouter} from "#app";
 
 type Torrents = {
   total: number;
   results: Array<Torrent>;
 }
 
-const config = useRuntimeConfig();
-const categories = useCategories();
+type SortingOption = {
+  name: string;
+  value: string;
+}
 
-// TODO: categoryFilters
+const pageSizeList = [20, 50, 100, 200];
 
-const torrents: Ref<Torrents> = ref(null);
-
-export default {
-  name: "Torrents",
-  components: {
-    TorrustSelect,
-    TorrentList,
-    AdjustmentsHorizontalIcon,
-    FunnelIcon,
-    ChevronDownIcon
-  },
-  data: () => ({
-    sorting: {name: 'Uploaded (Newest first)', value: 'UploadedDesc'},
-    sortingOptions: [
+// TODO: provide sorting options from backend.
+const sortingOptions: Array<SortingOption> = [
       {name: 'Uploaded (Newest first)', value: 'UploadedDesc'},
       {name: 'Uploaded (Oldest first)', value: 'UploadedAsc'},
       {name: 'Seeders (High to low)', value: 'SeedersDesc'},
       {name: 'Leechers (High to low)', value: 'LeechersDesc'},
-    ],
-    search: '',
-    currentPage: 1,
-    pageSize: 20,
-    pageSizeList: [20, 50, 100, 200]
-  }),
-  methods: {
-    loadTorrents(page: number) {
-      rest.torrent.getTorrents(config.public.apiBase, this.pageSize, page, this.sorting.value, this.categoryFilters, this.search)
-          .then((torrents) => {
-            this.torrents = torrents;
-          })
-    },
-    updateSortFromRoute() {
-      if (this.$route.params.sorting) {
-        let sort = this.$route.params.sorting;
-        switch (sort) {
-          case 'popular':
-            this.sorting = {name: 'Seeders (High to low)', value: 'SeedersDesc'};
-            break;
-          case 'recent':
-            this.sorting = {name: 'Uploaded (Newest first)', value: 'UploadedDesc'};
-            break;
-          default:
-            this.sorting = {name: 'Seeders (High to low)', value: 'SeedersDesc'};
-        }
+];
+
+const route = useRoute();
+const router = useRouter();
+const config = useRuntimeConfig();
+const categories = useCategories();
+
+// TODO: Set categoryFilters in view.
+const categoryFilters: Ref<Array<string>> = ref(new Array<string>())
+const pageSize: Ref<number> = ref(20);
+const torrents: Ref<Torrents> = ref(null);
+const searchQuery: Ref<string> = ref(null);
+const currentPage: Ref<number> = ref(1);
+const itemsSorting: Ref<SortingOption> = ref(sortingOptions[0]);
+
+watch([route], () => {
+  searchQuery.value = route.query.search as string ?? null;
+  loadTorrents();
+})
+
+onBeforeMount(() => {
+  rest.category.getCategories(config.public.apiBase)
+      .then((res) => {
+        categories.value = res;
+      })
+})
+
+onMounted(() => {
+  searchQuery.value = route.query.search as string ?? null;
+  updateSortFromRoute();
+  loadTorrents();
+})
+
+function loadTorrents() {
+  rest.torrent.getTorrents(
+      config.public.apiBase,
+      {
+        pageSize: pageSize.value,
+        page: currentPage.value,
+        sorting: itemsSorting.value.value,
+        categories: categoryFilters.value,
+        searchQuery: searchQuery.value
       }
-    },
-    clearSearch() {
-      this.$router.replace({query: {...this.$route.query, search: ''}})
-    },
-    updateSorting(sorting) {
-      //this.currentPage = Math.floor((this.currentPage - 1) * this.pageSize / pageSize) + 1;
-      this.currentPage = 1;
-      this.sorting = sorting;
-      this.loadTorrents(this.currentPage);
-    },
-    updateCategories(categories) {
-      let filters = [];
-
-      categories.forEach((category) => {
-        filters.push(category.name);
-      });
-
-      this.$store.commit('setCategoryFilters', filters);
-    },
-    updatePageSize(pageSize) {
-      this.pageSize = pageSize;
-      this.loadTorrents(this.currentPage);
-    }
-  },
-  computed: {
-    categoryOptions() {
-      let options = [];
-
-      this.categories.forEach((category) => {
-        options.push({name: category.name, value: category.name});
-      });
-
-      return options;
-    },
-    totalPages() {
-      return Math.ceil(this.torrents.total / this.pageSize);
-    },
-  },
-  watch: {
-    '$route.query.search': function (search) {
-      search ? this.search = search : this.search = '';
-      this.currentPage = 1;
-      this.loadTorrents(this.currentPage, this.sorting);
-    },
-    '$route.params.sorting': function () {
-      this.updateSortFromRoute();
-      this.loadTorrents(this.currentPage, this.sorting);
-    },
-    filters() {
-      this.loadTorrents(this.currentPage, this.sorting);
-    },
-    currentPage(newPage) {
-      this.loadTorrents(newPage, this.sorting);
-      document.getElementById("TorrentList").scrollIntoView({behavior: "smooth"});
-    },
-    categoryFilters() {
-      this.loadTorrents(this.currentPage, this.sorting);
-    }
-  },
-  mounted() {
-    this.$route.query.search ? this.search = this.$route.query.search : this.search = '';
-    this.updateSortFromRoute();
-    this.loadTorrents(this.currentPage, this.sorting);
-  },
-  created() {
-    rest.category.getCategories(config.public.apiBase)
-        .then((categories) => {
-          categories.value = categories;
-        })
-  },
+  )
+      .then((res) => {
+        torrents.value = res;
+      })
 }
+
+function updateSortFromRoute() {
+  if (route.query.sorting) {
+    switch (route.query.sorting) {
+      case "popular":
+        itemsSorting.value = sortingOptions[2];
+        break;
+      case 'recent':
+        itemsSorting.value = sortingOptions[0];
+        break;
+      default:
+        itemsSorting.value = sortingOptions[2];
+    }
+  }
+}
+
+function updateSorting(sorting: SortingOption) {
+  currentPage.value = 1;
+  itemsSorting.value = sorting;
+  loadTorrents();
+}
+
+function clearSearch() {
+  router.push({
+    replace: true,
+    query: {
+      ...route.query,
+      search: ""
+    }
+  });
+}
+
+function setCategoryFilters(categories: Array<TorrentCategory>) {
+  let filters: Array<string> = [];
+
+  categories.forEach((category) => {
+    filters.push(category.name);
+  });
+
+  categoryFilters.value = filters;
+}
+
+function setPageSize(size: number) {
+  pageSize.value = size;
+  loadTorrents();
+}
+
+function totalPages() {
+  return Math.ceil(torrents.value.total / pageSize.value);
+}
+
+// export default {
+//   watch: {
+//     '$route.query.search': function (search) {
+//       search ? this.search = search : this.search = '';
+//       this.currentPage = 1;
+//       this.loadTorrents(this.currentPage, this.sorting);
+//     },
+//     '$route.params.sorting': function () {
+//       this.updateSortFromRoute();
+//       this.loadTorrents(this.currentPage, this.sorting);
+//     },
+//     filters() {
+//       this.loadTorrents(this.currentPage, this.sorting);
+//     },
+//     currentPage(newPage) {
+//       this.loadTorrents(newPage, this.sorting);
+//       document.getElementById("TorrentList").scrollIntoView({behavior: "smooth"});
+//     },
+//     categoryFilters() {
+//       this.loadTorrents(this.currentPage, this.sorting);
+//     }
+//   },
+// }
 </script>
 
 <style scoped>

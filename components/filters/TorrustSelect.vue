@@ -1,35 +1,37 @@
 <template>
-  <div v-click-outside="() => (active = false)" class="flex flex-col grow relative overflow-visible" style="min-width: 128px;">
+  <div
+      class="flex flex-col grow relative overflow-visible" style="min-width: 128px;"
+  >
     <button
         @click="toggleDropdown"
-        class="px-6 py-2 relative flex flex-row items-center flex-nowrap w-full max-w-xl bg-transparent text-slate-200 dark:text-dark-200 placeholder-slate-400 dark:placeholder-dark-400 font-medium border-2 border-slate-800 dark:border-dark-800 hover:border-slate-600 dark:hover:border-dark-600 focus:border-slate-400 dark:focus:border-dark-400 text-sm rounded-2xl outline-0 transition duration-200 origin-bottom"
+        class="group px-4 py-2.5 relative flex flex-row items-center flex-nowrap w-full max-w-xl bg-secondary font-medium text-sm rounded-2xl duration-200 origin-bottom"
     >
-      <div class="mr-2 flex flex-col flex-nowrap text-left">
-        <span v-if="label" class="text-xs text-slate-400 dark:text-dark-accent-600">{{ label }}</span>
-        <div class="text-white flex flex-row flex-nowrap">
+      <div class="mr-4 flex flex-col flex-nowrap text-left">
+        <span v-if="label" class="text-xs text-accent">{{ label }}</span>
+        <div class="text-themeText flex flex-row flex-nowrap">
           <span v-if="selectedOptions.length === 0">None</span>
           <span v-else-if="selectedOptions.length > 1">Multiple</span>
           <span v-else>{{ selectedOptions[0].name }}</span>
         </div>
       </div>
-      <ChevronDownIcon class="ml-auto text-white opacity-50" :class="{ 'rotate-180': active }" size="24" />
+      <ChevronDownIcon class="ml-auto w-4 text-themeText/50 group-hover:text-themeText duration-200" :class="{ 'rotate-180': active }" />
     </button>
+
     <!-- Dropdown menu -->
-    <div v-if="active" class="z-50 mt-2 top-full absolute w-full">
-      <ul class="px-2 py-2 bg-dark-800 text-sm rounded-2xl">
+    <div v-if="active" class="z-50 mt-2 top-full absolute w-full drop-shadow-lg">
+      <ul class="px-3 py-3 bg-secondary text-sm rounded-2xl">
         <li class="flex w-full" v-for="(option, index) in options">
-          <button @click="toggleOption(option)" class="px-4 py-3 flex w-full items-center hover:bg-white/5 text-dark-400 hover:text-dark-200 transition duration-200 rounded-2xl">
-            <div class="font-semibold" :class="{ 'text-white': isSelectedOption(option) }">{{ option.name }}</div>
+          <button @click="toggleOption(option)" class="group px-3 py-3 flex w-full items-center hover:bg-tertiary transition rounded-2xl">
+            <div class="font-semibold text-themeText/50 group-hover:text-themeText duration-200" :class="{ 'text-themeText': isSelectedOption(option) }">{{ option.name }}</div>
             <div v-if="multiple" class="ml-auto flex flex-col items-center">
               <span v-if="isSelectedOption(option)" class="relative inline-flex">
-                <input type="checkbox" class="h-6 w-6 appearance-none bg-sky-500 dark:bg-dark-accent-600 border-2 border-sky-500 dark:border-dark-accent-600 rounded-md">
+                <input type="checkbox" class="h-6 w-6 appearance-none bg-accent border-2 border-accent rounded-md">
                 <CheckIcon
-                    class="absolute text-white"
-                    size="20"
+                    class="absolute text-themeText w-5"
                     style="top: 50%;left: 50%;transform: translate(-50%, -50%);"
                 />
               </span>
-              <input v-else type="checkbox" class="h-6 w-6 appearance-none border-2 border-dark-600 rounded-md">
+              <input v-else type="checkbox" class="h-6 w-6 appearance-none border-2 border-themeText/50 group-hover:border-themeText rounded-md duration-200">
             </div>
           </button>
         </li>
@@ -39,7 +41,8 @@
 </template>
 
 <script>
-import { ChevronDownIcon, CheckIcon } from "@heroicons/vue/24/solid";
+import { ChevronDownIcon } from "@heroicons/vue/24/solid";
+import { CheckIcon } from "@heroicons/vue/20/solid";
 
 export default {
   name: "TorrustSelect",

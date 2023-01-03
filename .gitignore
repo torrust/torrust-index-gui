@@ -8,5 +8,6 @@ node_modules
 .output
 .env
 dist
-api
+/api/
 vue-2
+types

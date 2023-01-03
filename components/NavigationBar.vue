@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-primary/50 border-b-2 lg:border-0 border-secondary z-50 max-w-full" style="backdrop-filter: blur(20px);">
+  <div class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-primary/50 border-b border-secondary z-40 max-w-full" style="backdrop-filter: blur(20px);">
     <div class="px-4 md:px-8 flex flex-col w-full">
 
       <!-- MOBILE -->
@@ -11,43 +11,43 @@
         </div>
         <div id="tabs" class="flex flex-row">
           <div class="flex flex-col">
-              <span
-                  id="explore"
-                  class="px-6 h-10 flex flex-row flex-nowrap items-center appearance-none text-lg text-slate-200 hover:text-white font-medium cursor-pointer duration-200"
-                  @mouseover="dropdownOpened = true"
-                  @mouseleave="dropdownOpened = false"
+            <span
+                id="explore"
+                class="px-6 h-10 flex flex-row flex-nowrap items-center appearance-none text-lg text-slate-200 hover:text-white font-medium cursor-pointer duration-200"
+                @mouseover="dropdownOpened = true"
+                @mouseleave="dropdownOpened = false"
+            >
+              <span>Explore</span>
+              <!--                <ChevronDownIcon size="18" class="ml-1"></ChevronDownIcon>-->
+              <div
+                  class="absolute -ml-4 pt-60 z-10"
+                  :class="{hidden: !dropdownOpened}"
               >
-                <span>Explore</span>
-                <!--                <ChevronDownIcon size="18" class="ml-1"></ChevronDownIcon>-->
-                <div
-                    class="absolute -ml-4 pt-60 z-10"
-                    :class="{hidden: !dropdownOpened}"
-                >
-                  <div @click.prevent="dropdownOpened = false" class="w-48 divide-y divide-slate-100 bg-slate-800 rounded-2xl overflow-hidden drop-shadow">
-                    <ul class="text-sm text-slate-400 font-medium duration-200" aria-labelledby="dropdownDefault">
-                      <li class="p-4 w-full hover:bg-slate-700 hover:text-white duration-200">
-                        <router-link to="/torrents/trending" replace class="inline-flex items-center">
-                          <span class="flex flex-nowrap whitespace-nowrap">Trending Torrents</span>
-                        </router-link>
-                      </li>
-                      <li class="p-4 w-full hover:bg-slate-700 hover:text-white duration-200">
-                        <router-link to="/torrents/popular" replace class="inline-flex items-center">
-                          <span class="flex flex-nowrap whitespace-nowrap">Most Popular Torrents</span>
-                        </router-link>
-                      </li>
-                      <li class="p-4 w-full hover:bg-slate-700 hover:text-white duration-200">
-                        <router-link to="/torrents/recent" replace class="inline-flex items-center">
-                          <span class="flex flex-nowrap whitespace-nowrap">Most Recent Torrents</span>
-                        </router-link>
-                      </li>
-                    </ul>
-                  </div>
+                <div @click.prevent="dropdownOpened = false" class="w-48 divide-y bg-secondary rounded-2xl overflow-hidden drop-shadow">
+                  <ul class="text-sm text-slate-400 font-medium duration-200" aria-labelledby="dropdownDefault">
+                    <li class="p-4 w-full hover:bg-slate-700 hover:text-white duration-200">
+                      <router-link to="/torrents/trending" replace class="inline-flex items-center">
+                        <span class="flex flex-nowrap whitespace-nowrap">Trending Torrents</span>
+                      </router-link>
+                    </li>
+                    <li class="p-4 w-full hover:bg-slate-700 hover:text-white duration-200">
+                      <router-link to="/torrents/popular" replace class="inline-flex items-center">
+                        <span class="flex flex-nowrap whitespace-nowrap">Most Popular Torrents</span>
+                      </router-link>
+                    </li>
+                    <li class="p-4 w-full hover:bg-slate-700 hover:text-white duration-200">
+                      <router-link to="/torrents/recent" replace class="inline-flex items-center">
+                        <span class="flex flex-nowrap whitespace-nowrap">Most Recent Torrents</span>
+                      </router-link>
+                    </li>
+                  </ul>
                 </div>
-              </span>
+              </div>
+            </span>
           </div>
         </div>
         <div id="extra-options" v-if="mobileState === MobileState.Navigate" class="flex flex-row flex-1 ml-auto items-center justify-end">
-          <Authenticator class="mr-3" />
+          <NavigationBarProfileButton class="mr-3" />
           <router-link to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center self-start appearance-none bg-sky-500 hover:bg-sky-600 text-sm text-white font-medium rounded-2xl cursor-pointer duration-200">
             <ArrowUpTrayIcon size="24" />
           </router-link>
@@ -124,26 +124,16 @@
                 @mouseleave="dropdownOpened = false"
             >
               <span class="font-semibold">Explore</span>
-              <ChevronDownIcon class="ml-1 w-4 h-4"></ChevronDownIcon>
+              <ChevronRightIcon class="ml-1 w-4 h-4 duration-200" :class="{ 'rotate-90': dropdownOpened }" />
               <div
-                  class="absolute -ml-4 pt-60 z-10"
+                  class="absolute -ml-4 pt-32 z-10"
                   :class="{hidden: !dropdownOpened}"
               >
-                <div @click.prevent="dropdownOpened = false" class="bg-secondary border-2 border-tertiary rounded-xl shadow-xl">
-                  <ul class="p-2 text-sm text-themeText/50 font-medium duration-200">
-                    <li class="p-4 w-full hover:bg-tertiary hover:text-themeText rounded-2xl duration-200">
-                      <router-link to="/torrents/trending" replace class="inline-flex items-center">
-                        <span class="flex flex-nowrap whitespace-nowrap">Trending Torrents</span>
-                      </router-link>
-                    </li>
-                    <li class="p-4 w-full hover:bg-tertiary hover:text-themeText rounded-2xl duration-200">
-                      <router-link to="/torrents/popular" replace class="inline-flex items-center">
-                        <span class="flex flex-nowrap whitespace-nowrap">Most Popular Torrents</span>
-                      </router-link>
-                    </li>
-                    <li class="p-4 w-full hover:bg-tertiary hover:text-themeText rounded-2xl duration-200">
-                      <router-link to="/torrents/recent" replace class="inline-flex items-center">
-                        <span class="flex flex-nowrap whitespace-nowrap">Most Recent Torrents</span>
+                <div @click.prevent="dropdownOpened = false" class="bg-secondary rounded-2xl drop-shadow-lg">
+                  <ul class="p-3 text-sm text-themeText/50 font-medium duration-200" style="min-width: 256px;">
+                    <li class="p-3 w-full hover:bg-tertiary hover:text-themeText rounded-2xl duration-200">
+                      <router-link to="/torrents" replace class="inline-flex items-center">
+                        <span class="flex flex-nowrap whitespace-nowrap">Torrents</span>
                       </router-link>
                     </li>
                   </ul>
@@ -153,7 +143,7 @@
           </div>
         </div>
         <div id="extra-options" class="flex flex-row flex-1 ml-auto items-center justify-end">
-          <Authenticator class="mr-3" />
+          <NavigationBarProfileButton class="mr-3" />
           <router-link to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-gradient-to-bl from-accent to-accent-dark hover:bg-tertiary text-sm text-themeText font-medium rounded-2xl cursor-pointer shadow-lg shadow-transparent hover:shadow-accent-dark/50 duration-1000">
             <ArrowUpTrayIcon class="mr-3 w-5 h-5 text-themeText/50" />
             <span class="flex flex-nowrap whitespace-nowrap">Upload</span>
@@ -166,14 +156,14 @@
 </template>
 
 <script setup lang="ts">
-import Authenticator from "~/components/Authenticator.vue";
-import {ArrowUpTrayIcon, XMarkIcon, ChevronDownIcon, MagnifyingGlassIcon} from "@heroicons/vue/24/solid"
+import {ArrowUpTrayIcon, XMarkIcon, ChevronRightIcon, MagnifyingGlassIcon} from "@heroicons/vue/24/solid"
 import {ref} from "#imports";
 import {Ref} from "@vue/reactivity";
-import {useRouter} from "#app";
+import {useRoute, useRouter} from "#app";
 import {useSettings} from "~/store/settings";
 
 const router = useRouter();
+const route = useRoute();
 const settings = useSettings();
 
 enum MobileState {
@@ -186,13 +176,12 @@ const searchQuery: Ref<string> = ref("");
 const dropdownOpened: Ref<boolean> = ref(false);
 
 function submitSearch() {
-  if (!!searchQuery.value) {
-    router.push({
-      query: {
-        search: searchQuery.value
-      },
-    })
-  }
+  router.push({
+    path: "/torrents",
+    query: {
+      search: searchQuery.value ?? null
+    }
+  });
 }
 </script>
 
