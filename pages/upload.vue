@@ -47,75 +47,13 @@
       </template>
     </form>
   </div>
-
-
-<!--  <div class="mt-10 flex flex-col w-full">-->
-<!--    <div class="w-full">-->
-<!--      <form class="space-y-4">-->
-<!--        <div>-->
-<!--          <label for="title" class="block font-medium text-gray-700">-->
-<!--            Title-->
-<!--          </label>-->
-<!--          <div class="mt-1">-->
-<!--            <input id="title" name="title" type="text" v-model="form.title" class="input">-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div>-->
-<!--          <label for="description" class="block font-medium text-gray-700">-->
-<!--            Description (Markdown supported)-->
-<!--          </label>-->
-<!--          <div class="mt-1">-->
-<!--            <textarea-->
-<!--                id="description"-->
-<!--                name="description"-->
-<!--                rows="8"-->
-<!--                v-model="form.description"-->
-<!--                class="input"-->
-<!--            ></textarea>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div v-if="form.description">-->
-<!--          <label>Markdown Preview</label>-->
-<!--&lt;!&ndash;          <MarkdownItVue :content="form.description" class="mt-1 px-4 py-4 max-h-64 overflow-auto md-body max-w-none prose-sm prose-blue bg-slate-800/50 rounded-md" />&ndash;&gt;-->
-<!--        </div>-->
-
-<!--        <div>-->
-<!--          <label class="block font-medium text-gray-700">-->
-<!--            Category-->
-<!--          </label>-->
-<!--          <FiltersTorrustSelect v-if="categories?.length > 0" class="py-1" :options="categories"/>-->
-<!--        </div>-->
-
-<!--        <div>-->
-<!--          <label class="block font-medium text-gray-700">-->
-<!--            Torrent-->
-<!--          </label>-->
-<!--&lt;!&ndash;          <FileUpload @onChange="setFile" sub-title="Only .torrent files allowed. BitTorrent v2 files are NOT supported." accept=".torrent" />&ndash;&gt;-->
-<!--        </div>-->
-
-<!--        <div class="py-3 flex flex-row justify-end">-->
-<!--          <button :disabled="!formValid || uploading" @click="submitForm" type="button" class="ml-2 px-3 py-2 flex flex-row bg-sky-500 text-sm text-white rounded-md transition duration-200 hover:shadow-lg hover:shadow-sky-500/25 disabled:shadow-none disabled:text-gray-100 disabled:bg-gray-400 disabled:hover:bg-gray-400">-->
-<!--            <svg v-if="uploading" class="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">-->
-<!--              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>-->
-<!--              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>-->
-<!--            </svg>-->
-<!--            Upload torrent-->
-<!--          </button>-->
-<!--        </div>-->
-<!--      </form>-->
-<!--    </div>-->
-<!--  </div>-->
 </template>
 
 <script setup lang="ts">
 import {Ref} from "@vue/reactivity";
-import {navigateTo, onBeforeMount, onMounted, ref, useRuntimeConfig} from "#imports";
-import {rest} from "~/api";
-import {useAuthenticationModal, useCategories} from "~/store";
+import {getCategories, navigateTo, onMounted, ref, useRestApi, useRuntimeConfig, useUser} from "#imports";
+import {useAuthenticationModal, useCategories} from "~/composables/states";
 import {notify} from "notiwind-ts";
-import {useUser, isUserLoggedIn} from "~/store/user";
 
 type FormUploadTorrent = {
   title: string;
@@ -128,6 +66,7 @@ const config = useRuntimeConfig();
 const categories = useCategories();
 const user = useUser();
 const authModalOpen = useAuthenticationModal();
+const rest = useRestApi()
 
 const uploading: Ref<boolean> = ref(false);
 const form: Ref<FormUploadTorrent> = ref({
@@ -138,10 +77,7 @@ const form: Ref<FormUploadTorrent> = ref({
 });
 
 onMounted(async () => {
-  rest.category.getCategories(config.public.apiBase)
-      .then((res) => {
-        categories.value = res;
-      });
+  getCategories()
 })
 
 function formValid() {
@@ -156,8 +92,7 @@ function submitForm() {
   if (formValid() && !uploading.value) {
     uploading.value = true;
 
-    rest.torrent.uploadTorrent(
-        config.public.apiBase,
+    rest.value.torrent.uploadTorrent(
         {
           title: form.value.title,
           category: form.value.category,

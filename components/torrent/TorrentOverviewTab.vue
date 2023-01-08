@@ -44,10 +44,10 @@
 <script setup lang="ts">
 import {marked} from "marked";
 import {CheckIcon, PencilIcon, XMarkIcon} from "@heroicons/vue/24/solid";
-import {isUserLoggedIn, useUser} from "~/store/user";
 import {Torrent} from "torrust-index-types-lib";
 import {Ref} from "@vue/reactivity";
-import {ref, useRuntimeConfig} from "#imports";
+import {canEditThisTorrent, isUserLoggedIn, ref, useRuntimeConfig, useUser} from "#imports";
+import {PropType} from "@vue/runtime-core";
 
 enum State {
   Viewing,
@@ -66,7 +66,7 @@ const emit = defineEmits([
 
 const props = defineProps({
   torrent: {
-    type: Torrent,
+    type: Object as PropType<Torrent>,
     required: true
   }
 })
@@ -76,9 +76,7 @@ function markdown(src: string) {
 }
 
 function hasEditRights(): boolean {
-  if (!isUserLoggedIn()) return false;
-
-  return user.value.hasEditRightsForTorrent(props.torrent);
+  return canEditThisTorrent(props.torrent)
 }
 
 function startEditingDescription() {

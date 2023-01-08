@@ -19,8 +19,8 @@
           </div>
           <div id="torrent-list" class="grow">
             <TorrentList
-                v-if="torrents?.results.length > 0"
-                :torrents="torrents.results"
+                v-if="torrents?.length > 0"
+                :torrents="torrents"
                 :sorting="itemsSorting"
                 :update-sorting="updateSorting"
             />
@@ -33,18 +33,12 @@
 </template>
 
 <script setup lang="ts">
-import {rest} from "~/api";
-import {useCategories} from "~/store";
+import {getCategories, useCategories, useRestApi} from "~/composables/states";
 import {useRuntimeConfig} from "nuxt/app";
-import {Torrent, TorrentCategory} from "torrust-index-types-lib";
+import {Torrent, TorrentCategory, TorrentCompact} from "torrust-index-types-lib";
 import {onBeforeMount, onMounted, ref, watch} from "#imports";
 import {Ref} from "@vue/reactivity";
 import {useRoute, useRouter} from "#app";
-
-type Torrents = {
-  total: number;
-  results: Array<Torrent>;
-}
 
 type SortingOption = {
   name: string;
@@ -65,11 +59,13 @@ const route = useRoute();
 const router = useRouter();
 const config = useRuntimeConfig();
 const categories = useCategories();
+const rest = useRestApi()
 
 // TODO: Set categoryFilters in view.
 const categoryFilters: Ref<Array<string>> = ref(new Array<string>())
 const pageSize: Ref<number> = ref(20);
-const torrents: Ref<Torrents> = ref(null);
+const torrents: Ref<Array<TorrentCompact>> = ref(null);
+const torrentsTotal = ref(0)
 const searchQuery: Ref<string> = ref(null);
 const currentPage: Ref<number> = ref(1);
 const itemsSorting: Ref<SortingOption> = ref(sortingOptions[0]);
@@ -79,22 +75,15 @@ watch([route], () => {
   loadTorrents();
 })
 
-onBeforeMount(() => {
-  rest.category.getCategories(config.public.apiBase)
-      .then((res) => {
-        categories.value = res;
-      })
-})
-
 onMounted(() => {
+  getCategories()
   searchQuery.value = route.query.search as string ?? null;
   updateSortFromRoute();
   loadTorrents();
 })
 
 function loadTorrents() {
-  rest.torrent.getTorrents(
-      config.public.apiBase,
+  rest.value.torrent.getTorrents(
       {
         pageSize: pageSize.value,
         page: currentPage.value,
@@ -103,8 +92,9 @@ function loadTorrents() {
         searchQuery: searchQuery.value
       }
   )
-      .then((res) => {
-        torrents.value = res;
+      .then((v) => {
+        torrentsTotal.value = v.total
+        torrents.value = v.results
       })
 }
 
@@ -155,7 +145,7 @@ function setPageSize(size: number) {
 }
 
 function totalPages() {
-  return Math.ceil(torrents.value.total / pageSize.value);
+  return Math.ceil(torrentsTotal.value / pageSize.value);
 }
 
 // export default {

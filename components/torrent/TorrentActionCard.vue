@@ -102,13 +102,21 @@
 <script setup lang="ts">
 import {CalendarIcon, CircleStackIcon, UserCircleIcon} from "@heroicons/vue/20/solid";
 import {CheckIcon, PencilIcon, XMarkIcon, LinkIcon} from "@heroicons/vue/24/solid";
-import {isUserLoggedIn, useUser} from "~/store/user";
-import {isTrackerPublic, useSettings} from "~/store/settings";
-import {fileSize, downloadTorrent, ref} from "#imports";
+import {
+  fileSize,
+  downloadTorrent,
+  ref,
+  useRestApi,
+  useSettings,
+  useUser,
+  isUserLoggedIn,
+  isTrackerPublic
+} from "#imports";
 import {Ref} from "@vue/reactivity";
-import {rest} from 'torrust-index-api-lib';
 import {Torrent} from "torrust-index-types-lib";
 import {useRuntimeConfig} from "#app";
+import {PropType} from "@vue/runtime-core";
+import {canEditThisTorrent} from "~/composables/helpers";
 
 enum State {
   Viewing,
@@ -116,6 +124,7 @@ enum State {
 }
 
 const config = useRuntimeConfig();
+const rest = useRestApi();
 const settings = useSettings();
 const user = useUser();
 
@@ -128,15 +137,13 @@ const emit = defineEmits([
 
 const props = defineProps({
   torrent: {
-    type: Torrent,
+    type: Object as PropType<Torrent>,
     required: true
   }
 })
 
 function hasEditRights(): boolean {
-  if (!isUserLoggedIn()) return false;
-
-  return user.value.hasEditRightsForTorrent(props.torrent);
+  return canEditThisTorrent(props.torrent)
 }
 
 function showDownloadButtons() {
@@ -155,7 +162,7 @@ function saveChanges() {
 }
 
 function deleteTorrent() {
-  rest.torrent.deleteTorrent(config.public.apiBase, props.torrent.torrent_id)
+  rest.value.torrent.deleteTorrent(props.torrent.torrent_id)
       .then(() => {
         emit('updated');
       });

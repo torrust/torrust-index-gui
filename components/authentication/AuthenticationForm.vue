@@ -82,13 +82,9 @@
 </template>
 
 <script setup lang="ts">
-import {useAuthenticationModal} from "~/store";
-import {useSettings} from "~/store/settings";
 import {Ref} from "@vue/reactivity";
-import {onMounted, ref, useRuntimeConfig} from "#imports";
+import {onMounted, ref, useAuthenticationModal, useRestApi, useRuntimeConfig, useSettings} from "#imports";
 import {Requirement} from "torrust-index-types-lib";
-import {rest} from "~/api";
-import {loginUser, registerUser} from "~/composables/api/user";
 import {notify} from "notiwind-ts";
 
 enum State {
@@ -103,9 +99,10 @@ type Form = {
   confirm_password: string
 }
 
+const config = useRuntimeConfig();
+const rest = useRestApi();
 const authModalOpen = useAuthenticationModal();
 const settings = useSettings();
-const config = useRuntimeConfig();
 
 const state: Ref<State> = ref(State.Login);
 const form: Ref<Form> = ref({
@@ -172,7 +169,12 @@ function login() {
 }
 
 function signup() {
-  registerUser(form.value.username, form.value.email, form.value.password)
+  rest.value.user.registerUser({
+    username: form.value.username,
+    email: form.value.email,
+    password: form.value.password,
+    confirm_password: form.value.confirm_password
+  })
       .then(() => {
         notify({
           group: "foo",

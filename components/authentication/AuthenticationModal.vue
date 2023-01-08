@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import {useAuthenticationModal} from "~/store";
+import {useAuthenticationModal} from "#imports";
 
 const authModalOpen = useAuthenticationModal();
 

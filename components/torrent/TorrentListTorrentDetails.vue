@@ -28,12 +28,12 @@
 <script setup lang="ts">
 import {ChevronRightIcon} from "@heroicons/vue/20/solid";
 import {Ref} from "@vue/reactivity";
-import {ref} from "#imports";
+import {ref, useRestApi} from "#imports";
 import {Torrent} from "torrust-index-types-lib";
 import {useRuntimeConfig} from "#app";
-import {rest} from "torrust-index-api-lib";
 
 const config = useRuntimeConfig();
+const rest = useRestApi();
 
 const opened: Ref<boolean> = ref(false);
 const torrent: Ref<Torrent> = ref(null);
@@ -47,7 +47,7 @@ function openDetails() {
 
   opened.value = true;
 
-  rest.torrent.getTorrent(config.public.apiBase, props.torrentId)
+  rest.value.torrent.getTorrent(props.torrentId)
       .then((data) => {
         torrent.value = data;
       })

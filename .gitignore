@@ -8,6 +8,7 @@ node_modules
 .output
 .env
 dist
-/api/
+/temp-package/api/
 vue-2
-types
+temp-package/types
+/temp-package/

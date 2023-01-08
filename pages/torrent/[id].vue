@@ -71,14 +71,14 @@ import TorrentActionCard from "~/components/torrent/TorrentActionCard.vue";
 import TorrentOverviewTab from "~/components/torrent/TorrentOverviewTab.vue";
 import TorrentFilesTab from "~/components/torrent/TorrentFilesTab.vue";
 import TorrentTrackersTab from "~/components/torrent/TorrentTrackersTab.vue";
-import {onMounted, ref} from "#imports";
+import {onMounted, ref, useRestApi} from "#imports";
 import {Ref} from "@vue/reactivity";
 import {useRoute, useRuntimeConfig} from "#app";
-import {rest} from "torrust-index-api-lib";
 import {Torrent} from "torrust-index-types-lib";
 
 const config = useRuntimeConfig();
 const route = useRoute();
+const rest = useRestApi()
 
 enum Tab {
   Overview,
@@ -103,11 +103,11 @@ onMounted(async () => {
 function getTorrentFromApi(torrentId: number) {
   loadingTorrent.value = true;
 
-  rest.torrent.getTorrent(config.public.apiBase, torrentId)
+  rest.value.torrent.getTorrent(torrentId)
       .then((data) => {
         torrent.value = data;
       })
-      .catch((err) => {
+      .catch(() => {
         loadingTorrent.value = false;
       });
 

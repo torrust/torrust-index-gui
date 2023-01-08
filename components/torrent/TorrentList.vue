@@ -42,11 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { BarsArrowUpIcon, ChevronDownIcon, ChevronRightIcon, CircleStackIcon, ArrowDownTrayIcon, LinkIcon } from "@heroicons/vue/24/outline";
+import {ArrowDownTrayIcon, LinkIcon} from "@heroicons/vue/24/outline";
 import {Ref} from "@vue/reactivity";
 import {fileSize, timeSince, ref} from "#imports";
 import {PropType} from "@vue/runtime-core";
-import {TorrentCompact} from "~/types/torrent";
+import {TorrentCompact} from "torrust-index-types-lib";
 
 enum Direction {
   ASC,

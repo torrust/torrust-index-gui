@@ -54,19 +54,10 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, useHead} from "#imports";
-import {useSettings} from "~/store/settings";
-import {loadUserFromLocalStorage} from "~/store/user";
+import {getSettings, onMounted} from "#imports";
 
-const settings = useSettings();
-
-useHead({
-  title: settings.value.website_name,
-  meta: []
-})
-
-onMounted(() => {
+onMounted(async () => {
   document.querySelector("html").classList.add("theme-dark", "bg-primary");
-  loadUserFromLocalStorage();
+  getSettings()
 })
 </script>
