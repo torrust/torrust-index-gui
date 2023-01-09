@@ -1,5 +1,9 @@
 <template>
-  <div class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-primary/50 border-b border-secondary z-40 max-w-full" style="backdrop-filter: blur(20px);">
+  <div
+      class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-primary/80 z-40 max-w-full"
+      style="backdrop-filter: blur(20px);"
+      @mouseleave="dropdownOpened = false"
+  >
     <div class="px-4 md:px-8 flex flex-col w-full">
       <!-- MOBILE -->
       <div id="mobile-menu" class="flex md:hidden flex-row items-center max-w-full">
@@ -75,29 +79,40 @@
             <div class="flex flex-col">
               <router-link class="block text-2xl text-themeText duration-200" to="/">
                 <div class="flex flex-row flex-nowrap">
-                  <span class="block w-full text-3xl font-semibold">{{ settings?.website_name || "Torrust" }}</span>
+                  <!-- Placeholder LOGO -->
+                  <div class="mr-3 w-8 h-8 flex flex-col items-center justify-center bg-gradient-to-bl from-accent to-accent-dark rounded-md shrink-0">
+                    <span class="font-bold text-2xl text-primary antialiased">T</span>
+                  </div>
+                  <span class="block w-full text-2xl font-semibold">{{ settings?.website_name || "Torrust" }}</span>
                 </div>
               </router-link>
             </div>
           </div>
         </div>
-        <div id="search-bar" class="ml-6 hidden md:block mx-5 grow max-w-md">
+        <div id="search-bar" class="ml-6 hidden md:block mx-5 grow max-w-sm">
           <div class="flex flex-col">
             <div class="flex flex-col">
-              <div class="px-3.5 bg-secondary/50 text-sm ring-2 ring-transparent hover:[&:not(:focus-within)]:ring-themeText/50 focus-within:ring-accent rounded-xl duration-200">
-                <div class="flex flex-row items-center">
-                  <div class="mr-3 flex flex-col">
-                    <MagnifyingGlassIcon class="w-5 h-5 text-themeText" />
-                  </div>
+              <div class="px-3.5 text-sm bg-tertiary/25 ring-1 ring-transparent ring-transparent hover:[&:not(:focus-within)]:ring-themeText/10 focus-within:ring-themeText/25 rounded-xl duration-200">
+                <div class="flex flex-row items-center group">
                   <div class="flex flex-col grow">
                     <input
                       v-model="searchQuery"
                       name="search"
                       type="text"
-                      class="h-10 bg-transparent outline-0 text-themeText font-medium placeholder-themeText/50"
-                      placeholder="Search by torrent, category or user"
+                      class="h-10 bg-transparent outline-0 text-themeText font-medium placeholder-themeText/40"
+                      :placeholder="`Search ${settings?.website_name ?? 'Torrust'}`"
                       @keyup.enter="submitSearch"
+                      @focusin="typingInSearch = true"
+                      @focusout="typingInSearch = false"
                     >
+                  </div>
+                  <div class="p-1 flex flex-col bg-themeText/10 font-medium text-themeText/50 rounded-lg">
+                    <template v-if="typingInSearch">
+                      <span class="px-1 text-xs">enter</span>
+                    </template>
+                    <template v-else>
+                      <MagnifyingGlassIcon class="w-4" />
+                    </template>
                   </div>
                 </div>
               </div>
@@ -105,30 +120,36 @@
           </div>
         </div>
         <div id="tabs" class="flex flex-row ml-3">
-          <div class="flex flex-col">
-            <span
-              id="explore"
-              class="h-10 flex flex-row flex-nowrap items-center text-themeText/50 hover:text-themeText cursor-pointer duration-200"
-              @mouseover="dropdownOpened = true"
-              @mouseleave="dropdownOpened = false"
-            >
-              <span class="font-semibold">Explore</span>
-              <ChevronRightIcon class="ml-1 w-4 h-4 duration-200" :class="{ 'rotate-90': dropdownOpened }" />
-              <div
-                class="absolute -ml-4 pt-32 z-10"
-                :class="{hidden: !dropdownOpened}"
+          <div class="relative inline-block text-left">
+            <div>
+              <button
+                class="font-bold text-themeText capitalize hover:text-themeText cursor-pointer"
+                :class="{ 'text-themeText/60': !dropdownOpened }"
+                @mouseover="dropdownOpened = true"
+                @click="dropdownOpened = !dropdownOpened"
               >
-                <div class="bg-secondary rounded-2xl drop-shadow-lg" @click.prevent="dropdownOpened = false">
-                  <ul class="p-3 text-sm text-themeText/50 font-medium duration-200" style="min-width: 256px;">
-                    <li class="p-3 w-full hover:bg-tertiary hover:text-themeText rounded-2xl duration-200">
-                      <router-link to="/torrents" replace class="inline-flex items-center">
-                        <span class="flex flex-nowrap whitespace-nowrap">Torrents</span>
-                      </router-link>
-                    </li>
+                explore
+              </button>
+            </div>
+
+            <transition
+              enter-active-class="transition ease-out duration-200"
+              enter-from-class="transform opacity-0 scale-95"
+              enter-to-class="transform opacity-100 scale-100"
+              leave-active-class="transition ease-in duration-100"
+              leave-from-class="transform opacity-100 scale-100"
+              leave-to-class="transform opacity-0 scale-95"
+            >
+              <template v-if="dropdownOpened">
+                <div class="absolute -left-6 top-10 z-10 mt-2 w-56 bg-secondary rounded-xl ring-1 ring-tertiary drop-shadow">
+                  <ul class="p-3 text-themeText font-medium">
+                    <router-link to="/torrents" replace class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl duration-200">
+                      <span class="flex flex-nowrap whitespace-nowrap">Torrents</span>
+                    </router-link>
                   </ul>
                 </div>
-              </div>
-            </span>
+              </template>
+            </transition>
           </div>
         </div>
         <div id="extra-options" class="flex flex-row flex-1 ml-auto items-center justify-end">
@@ -144,7 +165,7 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowUpTrayIcon, XMarkIcon, ChevronRightIcon, MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
+import { ArrowUpTrayIcon, XMarkIcon, ChevronRightIcon, MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { Ref } from "vue";
 import { useRoute, useRouter } from "#app";
 import { ref, useSettings } from "#imports";
@@ -161,6 +182,7 @@ enum MobileState {
 const mobileState: Ref<MobileState> = ref(MobileState.Navigate);
 const searchQuery: Ref<string> = ref("");
 const dropdownOpened: Ref<boolean> = ref(false);
+const typingInSearch = ref(false);
 
 function submitSearch () {
   router.push({
