@@ -1,26 +1,26 @@
 <template>
   <div id="general-settings" class="flex flex-col gap-6 max-w-lg">
-
-    <h2 class="text-3xl font-medium text-themeText">General Settings</h2>
+    <h2 class="text-3xl font-medium text-themeText">
+      General Settings
+    </h2>
 
     <div class="flex flex-col">
       <label for="website-name">Name</label>
-      <input type="text" id="website-name" class="input" v-model="settings.website.name">
+      <input id="website-name" v-model="settings.website.name" type="text" class="input">
     </div>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import {PropType} from "@vue/runtime-core";
-import {Settings} from "torrust-index-types-lib";
+import { PropType } from "vue";
+import { Settings } from "torrust-index-types-lib";
 
 const props = defineProps({
   settings: {
     type: Object as PropType<Settings>,
     required: true
   }
-})
+});
 </script>
 
 <style scoped>

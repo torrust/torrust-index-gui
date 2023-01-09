@@ -1,10 +1,11 @@
 <template>
   <div
-      class="flex flex-col grow relative overflow-visible" style="min-width: 128px;"
+    class="flex flex-col grow relative overflow-visible"
+    style="min-width: 128px;"
   >
     <button
-        @click="toggleDropdown"
-        class="group px-4 py-2.5 relative flex flex-row items-center flex-nowrap w-full max-w-xl bg-secondary font-medium text-sm rounded-2xl duration-200 origin-bottom"
+      class="group px-4 py-2.5 relative flex flex-row items-center flex-nowrap w-full max-w-xl bg-secondary font-medium text-sm rounded-2xl duration-200 origin-bottom"
+      @click="toggleDropdown"
     >
       <div class="mr-4 flex flex-col flex-nowrap text-left">
         <span v-if="label" class="text-xs text-accent">{{ label }}</span>
@@ -20,15 +21,17 @@
     <!-- Dropdown menu -->
     <div v-if="active" class="z-50 mt-2 top-full absolute w-full drop-shadow-lg">
       <ul class="px-3 py-3 bg-secondary text-sm rounded-2xl">
-        <li class="flex w-full" v-for="(option, index) in options">
-          <button @click="toggleOption(option)" class="group px-3 py-3 flex w-full items-center hover:bg-tertiary transition rounded-2xl">
-            <div class="font-semibold text-themeText/50 group-hover:text-themeText duration-200" :class="{ 'text-themeText': isSelectedOption(option) }">{{ option.name }}</div>
+        <li v-for="(option) in options" class="flex w-full">
+          <button class="group px-3 py-3 flex w-full items-center hover:bg-tertiary transition rounded-2xl" @click="toggleOption(option)">
+            <div class="font-semibold text-themeText/50 group-hover:text-themeText duration-200" :class="{ 'text-themeText': isSelectedOption(option) }">
+              {{ option.name }}
+            </div>
             <div v-if="multiple" class="ml-auto flex flex-col items-center">
               <span v-if="isSelectedOption(option)" class="relative inline-flex">
                 <input type="checkbox" class="h-6 w-6 appearance-none bg-accent border-2 border-accent rounded-md">
                 <CheckIcon
-                    class="absolute text-themeText w-5"
-                    style="top: 50%;left: 50%;transform: translate(-50%, -50%);"
+                  class="absolute text-themeText w-5"
+                  style="top: 50%;left: 50%;transform: translate(-50%, -50%);"
                 />
               </span>
               <input v-else type="checkbox" class="h-6 w-6 appearance-none border-2 border-themeText/50 group-hover:border-themeText rounded-md duration-200">
@@ -46,45 +49,46 @@ import { CheckIcon } from "@heroicons/vue/20/solid";
 
 export default {
   name: "TorrustSelect",
+  components: { ChevronDownIcon, CheckIcon },
   props: {
     options: Array,
     label: String,
     multiple: Boolean,
     update: Function
   },
-  components: {ChevronDownIcon, CheckIcon},
+  emits: ["updated"],
   data: () => ({
     active: false,
     selectedOptions: []
   }),
-  created() {
+  created () {
     if (!this.multiple) {
       this.toggleOption(this.options[0]);
     }
   },
   methods: {
-    toggleDropdown() {
+    toggleDropdown () {
       this.active = !this.active;
     },
-    isSelectedOption(option) {
-      return this.selectedOptions.indexOf(option) > -1;
+    isSelectedOption (option) {
+      return this.selectedOptions.includes(option);
     },
-    toggleOption(option) {
+    toggleOption (option) {
       if (this.multiple) {
         if (this.isSelectedOption(option)) {
-          this.selectedOptions.splice(this.selectedOptions.indexOf(option), 1)
+          this.selectedOptions.splice(this.selectedOptions.indexOf(option), 1);
         } else {
           this.selectedOptions.push(option);
         }
-        this.$emit('updated', this.selectedOptions);
+        this.$emit("updated", this.selectedOptions);
       } else {
         this.selectedOptions = [option];
         this.active = false;
-        this.$emit('updated', option);
+        this.$emit("updated", option);
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

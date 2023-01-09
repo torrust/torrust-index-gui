@@ -2,24 +2,26 @@
   <div class="flex flex-col grow">
     <div id="torrent-description" class="mb-10 flex flex-col">
       <div class="mb-5 px-5 flex flex-row justify-between">
-        <h2 class="mr-1 text-2xl text-left text-themeText font-medium">Description</h2>
+        <h2 class="mr-1 text-2xl text-left text-themeText font-medium">
+          Description
+        </h2>
         <button
-            v-if="hasEditRights() && state === State.Viewing"
-            class="text-slate-400 dark:text-dark-400 hover:text-white duration-200"
-            @click="startEditingDescription"
+          v-if="hasEditRights() && state === State.Viewing"
+          class="text-slate-400 dark:text-dark-400 hover:text-white duration-200"
+          @click="startEditingDescription"
         >
           <PencilIcon size="18" />
         </button>
         <div v-else-if="state === State.Editing" class="flex flex-row flex-nowrap">
           <button
-              class="mr-3 text-slate-400 dark:text-dark-400 hover:text-white duration-200"
-              @click="state = State.Viewing"
+            class="mr-3 text-slate-400 dark:text-dark-400 hover:text-white duration-200"
+            @click="state = State.Viewing"
           >
             <XMarkIcon size="18" />
           </button>
           <button
-              class="text-slate-400 dark:text-dark-400 hover:text-white duration-200"
-              @click="saveChanges"
+            class="text-slate-400 dark:text-dark-400 hover:text-white duration-200"
+            @click="saveChanges"
           >
             <CheckIcon size="18" />
           </button>
@@ -28,11 +30,11 @@
       <div class="w-full h-full flex flex-col">
         <div class="p-6 w-full h-full flex flex-col grow border-2 border-secondary rounded-2xl">
           <template v-if="torrent.description && state === State.Viewing">
-            <div v-html="sanitizedDescription()" class="md-body max-w-none prose-sm prose-blue"/>
+            <div class="md-body max-w-none prose-sm prose-blue" v-html="sanitizedDescription()" />
           </template>
           <template v-else-if="state === State.Editing">
-            <textarea rows="8" v-model="updatedDescription" class="mb-8 px-4 py-4 bg-transparent text-slate-200 dark:text-dark-200 border border-slate-800 dark:border-dark-800 rounded-2xl"></textarea>
-            <div v-html="markdown(updatedDescription)" class="torrust-md px-4 py-4 max-h-64 overflow-auto md-body max-w-none prose-sm prose-blue bg-slate-800/50 dark:bg-white/5 rounded-2xl"/>
+            <textarea v-model="updatedDescription" rows="8" class="mb-8 px-4 py-4 bg-transparent text-slate-200 dark:text-dark-200 border border-slate-800 dark:border-dark-800 rounded-2xl" />
+            <div class="torrust-md px-4 py-4 max-h-64 overflow-auto md-body max-w-none prose-sm prose-blue bg-slate-800/50 dark:bg-white/5 rounded-2xl" v-html="markdown(updatedDescription)" />
           </template>
           <span v-else class="text-slate-400 dark:text-dark-400 italic">No description provided.</span>
         </div>
@@ -42,12 +44,11 @@
 </template>
 
 <script setup lang="ts">
-import {marked} from "marked";
-import {CheckIcon, PencilIcon, XMarkIcon} from "@heroicons/vue/24/solid";
-import {Torrent} from "torrust-index-types-lib";
-import {Ref} from "@vue/reactivity";
-import {canEditThisTorrent, isUserLoggedIn, ref, useRuntimeConfig, useUser} from "#imports";
-import {PropType} from "@vue/runtime-core";
+import { marked } from "marked";
+import { CheckIcon, PencilIcon, XMarkIcon } from "@heroicons/vue/24/solid";
+import { Torrent } from "torrust-index-types-lib";
+import { Ref, PropType } from "vue";
+import { canEditThisTorrent, isUserLoggedIn, ref, useRuntimeConfig, useUser } from "#imports";
 
 enum State {
   Viewing,
@@ -61,41 +62,41 @@ const state: Ref<State> = ref(State.Viewing);
 const updatedDescription: Ref<string> = ref(null);
 
 const emit = defineEmits([
-  'updated'
-])
+  "updated"
+]);
 
 const props = defineProps({
   torrent: {
     type: Object as PropType<Torrent>,
     required: true
   }
-})
+});
 
-function markdown(src: string) {
+function markdown (src: string) {
   return marked(src, { sanitize: true });
 }
 
-function hasEditRights(): boolean {
-  return canEditThisTorrent(props.torrent)
+function hasEditRights (): boolean {
+  return canEditThisTorrent(props.torrent);
 }
 
-function startEditingDescription() {
+function startEditingDescription () {
   updatedDescription.value = props.torrent.description;
   state.value = State.Editing;
 }
 
-function saveChanges() {
+function saveChanges () {
   // TODO: Submit changes.
-  emit('updated');
+  emit("updated");
   state.value = State.Viewing;
 }
 
-function sanitizedDescription() {
-  let description = markdown(props.torrent.description);
+function sanitizedDescription () {
+  const description = markdown(props.torrent.description);
 
   // Proxy all images through the backend.
   return description.replace(/img src="(.*?)"/gi, (match, p1, p2): string => {
-    let proxied = `${config.public.apiBase}/proxy/image?url=${encodeURIComponent(p1)}`;
+    const proxied = `${config.public.apiBase}/proxy/image?url=${encodeURIComponent(p1)}`;
 
     return `img src="${proxied}"`;
   });

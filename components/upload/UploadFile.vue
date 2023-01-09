@@ -1,38 +1,55 @@
 <template>
-  <div class="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-accent/50 hover:border-accent border-dashed rounded-2xl duration-200"
-       :class="{'border-primary/50': filedrag, 'bg-primary/50': filedrag, 'border-red-500': error}"
-       @dragover="dragover"
-       @dragleave="dragleave"
-       @drop="dropFile"
+  <div
+    class="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-accent/50 hover:border-accent border-dashed rounded-2xl duration-200"
+    :class="{'border-primary/50': filedrag, 'bg-primary/50': filedrag, 'border-red-500': error}"
+    @dragover="dragover"
+    @dragleave="dragleave"
+    @drop="dropFile"
   >
+    <input
+      id="torrent-upload"
+      ref="file"
+      hidden
+      name="torrent-upload"
+      type="file"
+      class="sr-only"
+      :accept="accept"
+      @change="onChange"
+    >
 
-    <input hidden id="torrent-upload" name="torrent-upload" type="file" class="sr-only" :accept="accept"
-           ref="file" @change="onChange">
-
-    <div class="space-y-1 text-center" v-if="filelist.length === 0">
-      <DocumentPlusIcon v-if="type === 'file'" class="mx-auto w-12 h-12 text-themeText/50"/>
+    <div v-if="filelist.length === 0" class="space-y-1 text-center">
+      <DocumentPlusIcon v-if="type === 'file'" class="mx-auto w-12 h-12 text-themeText/50" />
       <div class="flex justify-center text-sm text-themeText">
         <a
-            @click="$refs.file.click()"
-            class="font-medium text-accent cursor-pointer"
+          class="font-medium text-accent cursor-pointer"
+          @click="$refs.file.click()"
         >
           <span>Manually upload a file</span>
         </a>
-        <p class="pl-1">or drag and drop here.</p>
+        <p class="pl-1">
+          or drag and drop here.
+        </p>
       </div>
       <p class="text-xs text-themeText/50">
         {{ subTitle }}
       </p>
     </div>
 
-    <ul v-if="this.filelist.length">
-      <li class="flex flex-col w-full justify-between items-center gap-2 text-sm" v-for="file in filelist" :key="file.name">
-        <img v-if="type === 'image'" :src="fileUrl(file)" :alt="file.name"
-             class="h-20 w-auto"
-        />
-        <p class="text-themeText/50 truncate">{{ file.name }}</p>
-        <a @click="$refs.file.click()"
-           class="font-medium text-accent">
+    <ul v-if="filelist.length">
+      <li v-for="file in filelist" :key="file.name" class="flex flex-col w-full justify-between items-center gap-2 text-sm">
+        <img
+          v-if="type === 'image'"
+          :src="fileUrl(file)"
+          :alt="file.name"
+          class="h-20 w-auto"
+        >
+        <p class="text-themeText/50 truncate">
+          {{ file.name }}
+        </p>
+        <a
+          class="font-medium text-accent"
+          @click="$refs.file.click()"
+        >
           <span>Upload a different file.</span>
         </a>
       </li>
@@ -41,51 +58,52 @@
 </template>
 
 <script>
-import {DocumentPlusIcon} from "@heroicons/vue/24/outline";
+import { DocumentPlusIcon } from "@heroicons/vue/24/outline";
 
 export default {
   name: "FileUpload",
-  components: {DocumentPlusIcon},
+  components: { DocumentPlusIcon },
   props: {
     type: {
       type: String,
-      default: () => 'file',
+      default: () => "file",
       validator: (value) => {
-        return ['file', 'image'].indexOf(value) !== -1;
+        return ["file", "image"].includes(value);
       }
     },
     accept: String,
     subTitle: String,
-    error: Boolean,
+    error: Boolean
   },
+  emits: ["onChange"],
   data: () => ({
     filedrag: false,
-    filelist: [],
+    filelist: []
   }),
   methods: {
-    dragover(event) {
+    dragover (event) {
       event.preventDefault();
       this.filedrag = true;
     },
-    dragleave() {
+    dragleave () {
       this.filedrag = false;
     },
-    dropFile(event) {
+    dropFile (event) {
       event.preventDefault();
       this.$refs.file.files = event.dataTransfer.files;
       this.onChange();
 
       this.filedrag = false;
     },
-    onChange() {
+    onChange () {
       this.filelist = [...this.$refs.file.files];
-      this.$emit('onChange', [...this.$refs.file.files]);
+      this.$emit("onChange", [...this.$refs.file.files]);
     },
-    fileUrl(file) {
+    fileUrl (file) {
       return URL.createObjectURL(file);
     }
-  },
-}
+  }
+};
 </script>
 
 <style scoped>

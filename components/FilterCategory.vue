@@ -1,5 +1,5 @@
 <template>
-  <div class="relative inline-block text-left" v-click-outside="() => (dropdownOpened = false)">
+  <div v-click-outside="() => (dropdownOpened = false)" class="relative inline-block text-left">
     <button class="filter relative" @click="dropdownOpened = !dropdownOpened">
       <AdjustmentsHorizontalIcon size="16" class="mr-1 opacity-50" />
       Categories
@@ -7,15 +7,19 @@
     <div class="origin-top-left absolute left-0 mt-2 z-10" :class="{hidden: !dropdownOpened}">
       <div class="py-2 px-2 w-48 flex flex-col bg-slate-800 text-sm rounded-md shadow-lg">
         <ul v-if="$route.name === 'Browse Torrents'" id="category-filters" class="">
-          <li v-for="category in categories"
-              @click="selectFilter(category.name)"
-              class="cursor-pointer text-slate-400 hover:text-white"
-              :key="category.name">
+          <li
+            v-for="category in categories"
+            :key="category.name"
+            class="cursor-pointer text-slate-400 hover:text-white"
+            @click="selectFilter(category.name)"
+          >
             <span class="">{{ titleCase(category.name) }} ({{ category.num_torrents }})</span>
             <input type="checkbox" class="" :checked="filterActive(category.name)">
           </li>
           <li v-if="categoryFilters.length > 0">
-            <button @click="clearFilters" class="py-1.5 w-full rounded-md bg-red-500 bg-opacity-10 text-red-400 transition duration-200 hover:text-red-500">Clear filters</button>
+            <button class="py-1.5 w-full rounded-md bg-red-500 bg-opacity-10 text-red-400 transition duration-200 hover:text-red-500" @click="clearFilters">
+              Clear filters
+            </button>
           </li>
         </ul>
       </div>
@@ -24,15 +28,14 @@
 </template>
 
 <script>
-import {UserIcon} from "@heroicons/vue/24/outline";
-import {AdjustmentsHorizontalIcon} from "@heroicons/vue/24/solid"
-import {mapState} from "vuex";
+import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/solid";
+import { mapState } from "vuex";
 
 export default {
   name: "FilterCategory",
-  components: {UserIcon, AdjustmentsHorizontalIcon},
+  components: { AdjustmentsHorizontalIcon },
   data: () => ({
-    dropdownOpened: false,
+    dropdownOpened: false
   }),
   computed: {
     ...mapState({
@@ -42,23 +45,23 @@ export default {
     })
   },
   methods: {
-    filterActive(category) {
-      return this.categoryFilters.indexOf(category) > -1
+    filterActive (category) {
+      return this.categoryFilters.includes(category);
     },
-    selectFilter(category) {
-      let filters = this.categoryFilters;
-      if (filters.indexOf(category) > -1) {
+    selectFilter (category) {
+      const filters = this.categoryFilters;
+      if (filters.includes(category)) {
         filters.splice(filters.indexOf(category), 1);
       } else {
         filters.push(category);
       }
-      this.$store.commit('setCategoryFilters', filters);
+      this.$store.commit("setCategoryFilters", filters);
     },
-    clearFilters() {
-      this.$store.commit('setCategoryFilters', []);
-    },
+    clearFilters () {
+      this.$store.commit("setCategoryFilters", []);
+    }
   }
-}
+};
 </script>
 
 <style scoped>

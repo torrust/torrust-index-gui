@@ -1,13 +1,13 @@
 <template>
   <div
-      @mouseleave="opened = false"
-      class="group/details flex flex-col items-center w-full rounded-2xl"
-      :class="{ 'bg-gradient-to-t from-tertiary/50 to-tertiary/25': opened }"
+    class="group/details flex flex-col items-center w-full rounded-2xl"
+    :class="{ 'bg-gradient-to-t from-tertiary/50 to-tertiary/25': opened }"
+    @mouseleave="opened = false"
   >
     <button
-        @mouseenter="openDetails"
-        class="flex flex-row items-center justify-center text-sm text-themeText/50 rounded-2xl duration-200"
-        :class="{ 'pt-4': opened, 'text-themeText': opened }"
+      class="flex flex-row items-center justify-center text-sm text-themeText/50 rounded-2xl duration-200"
+      :class="{ 'pt-4': opened, 'text-themeText': opened }"
+      @mouseenter="openDetails"
     >
       <span>Hover to see more</span>
       <ChevronRightIcon class="w-5 duration-200" :class="{ 'rotate-90': opened }" />
@@ -26,11 +26,11 @@
 </template>
 
 <script setup lang="ts">
-import {ChevronRightIcon} from "@heroicons/vue/20/solid";
-import {Ref} from "@vue/reactivity";
-import {ref, useRestApi} from "#imports";
-import {Torrent} from "torrust-index-types-lib";
-import {useRuntimeConfig} from "#app";
+import { ChevronRightIcon } from "@heroicons/vue/20/solid";
+import { Ref } from "vue";
+import { Torrent } from "torrust-index-types-lib";
+import { useRuntimeConfig } from "#app";
+import { ref, useRestApi } from "#imports";
 
 const config = useRuntimeConfig();
 const rest = useRestApi();
@@ -40,20 +40,17 @@ const torrent: Ref<Torrent> = ref(null);
 
 const props = defineProps({
   torrentId: Number
-})
+});
 
-function openDetails() {
-  if (opened.value) return;
+function openDetails () {
+  if (opened.value) { return; }
 
   opened.value = true;
 
   rest.value.torrent.getTorrent(props.torrentId)
-      .then((data) => {
-        torrent.value = data;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    .then((data) => {
+      torrent.value = data;
+    });
 }
 </script>
 

@@ -1,26 +1,26 @@
 <template>
   <div id="general-settings" class="flex flex-col gap-6 max-w-lg">
-
-    <h2 class="text-3xl font-medium text-themeText">Database Settings</h2>
+    <h2 class="text-3xl font-medium text-themeText">
+      Database Settings
+    </h2>
 
     <div class="flex flex-col">
       <label for="database-torrent-status-update-interval">Torrent Status Update Interval (seconds)</label>
-      <input type="number" id="database-torrent-status-update-interval" class="input" v-model="settings.database.torrent_info_update_interval">
+      <input id="database-torrent-status-update-interval" v-model="settings.database.torrent_info_update_interval" type="number" class="input">
     </div>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import {PropType} from "@vue/runtime-core";
-import {Settings} from "torrust-index-types-lib";
+import { PropType } from "vue";
+import { Settings } from "torrust-index-types-lib";
 
 const props = defineProps({
   settings: {
     type: Object as PropType<Settings>,
     required: true
   }
-})
+});
 </script>
 
 <style scoped>

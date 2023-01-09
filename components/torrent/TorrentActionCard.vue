@@ -7,25 +7,27 @@
             <div class="flex flex-col">
               <span class="mb-1 font-semibold text-accent capitalize">{{ torrent.category.name }}</span>
               <div class="flex flex-row justify-between">
-                <h2 v-if="state === State.Viewing" class="mb-1 text-themeText font-bold overflow-hidden break-words">{{ torrent.title }}</h2>
-                <input v-else-if="state === State.Editing" type="text" class="input mr-3" v-model="updatedTitle">
+                <h2 v-if="state === State.Viewing" class="mb-1 text-themeText font-bold overflow-hidden break-words">
+                  {{ torrent.title }}
+                </h2>
+                <input v-else-if="state === State.Editing" v-model="updatedTitle" type="text" class="input mr-3">
                 <button
-                    v-if="hasEditRights() && state === State.Viewing"
-                    class="ml-1 text-slate-400 dark:text-dark-400 hover:text-white duration-200"
-                    @click="startEditingTitle"
+                  v-if="hasEditRights() && state === State.Viewing"
+                  class="ml-1 text-slate-400 dark:text-dark-400 hover:text-white duration-200"
+                  @click="startEditingTitle"
                 >
                   <PencilIcon size="18" />
                 </button>
                 <div v-else-if="state === State.Editing" class="flex flex-row flex-nowrap">
                   <button
-                      class="mr-3 text-slate-400 dark:text-dark-400 hover:text-white duration-200"
-                      @click="state = State.Viewing"
+                    class="mr-3 text-slate-400 dark:text-dark-400 hover:text-white duration-200"
+                    @click="state = State.Viewing"
                   >
                     <XMarkIcon size="18" />
                   </button>
                   <button
-                      class="text-slate-400 dark:text-dark-400 hover:text-white duration-200"
-                      @click="saveChanges"
+                    class="text-slate-400 dark:text-dark-400 hover:text-white duration-200"
+                    @click="saveChanges"
                   >
                     <CheckIcon size="18" />
                   </button>
@@ -37,7 +39,7 @@
               </div>
             </div>
           </div>
-          <div class="mb-4 h-0.5 flex flex-col bg-secondary"></div>
+          <div class="mb-4 h-0.5 flex flex-col bg-secondary" />
           <div class="flex flex-row flex-nowrap justify-between">
             <div class="flex flex-row flex-nowrap text-themeText/50 text-sm">
               <div class="flex flex-row flex-nowrap items-center justify-center">
@@ -66,42 +68,53 @@
               </div>
               <div v-if="showDownloadButtons" class="mt-3 flex flex-row flex-nowrap items-center">
                 <button
-                    class="px-4 h-12 grow bg-gradient-to-bl from-accent to-accent-dark hover:bg-tertiary text-sm text-themeText font-semibold rounded-2xl shadow-lg shadow-transparent hover:shadow-accent-dark/50 duration-1000"
-                    @click="downloadTorrent(torrent.torrent_id, torrent.title)"
-                >Download torrent</button>
+                  class="px-4 h-12 grow bg-gradient-to-bl from-accent to-accent-dark hover:bg-tertiary text-sm text-themeText font-semibold rounded-2xl shadow-lg shadow-transparent hover:shadow-accent-dark/50 duration-1000"
+                  @click="downloadTorrent(torrent.torrent_id, torrent.title)"
+                >
+                  Download torrent
+                </button>
                 <button class="ml-2 w-12 h-12 flex flex-col shrink-0 items-center justify-center text-themeText/50 hover:text-themeText bg-gradient-to-bl from-tertiary to-secondary hover:bg-tertiary rounded-2xl duration-1000">
                   <LinkIcon class="w-6" />
                 </button>
               </div>
               <template v-else>
                 <button
-                    class="mt-3 px-4 h-12 bg-white text-sm text-black font-medium rounded-2xl"
-                    @click="$store.dispatch('openAuthModal')"
-                >Please sign in to download</button>
+                  class="mt-3 px-4 h-12 bg-white text-sm text-black font-medium rounded-2xl"
+                  @click="$store.dispatch('openAuthModal')"
+                >
+                  Please sign in to download
+                </button>
                 <button
-                    class="mt-3 px-4 h-12 bg-sky-500 text-sm text-white font-medium rounded-2xl"
-                    @click="$store.dispatch('openAuthModal')"
-                >Please sign in to download</button>
+                  class="mt-3 px-4 h-12 bg-sky-500 text-sm text-white font-medium rounded-2xl"
+                  @click="$store.dispatch('openAuthModal')"
+                >
+                  Please sign in to download
+                </button>
               </template>
             </div>
           </div>
           <button
-              v-if="hasEditRights()"
-              class="mt-6 mx-6 px-4 h-12 bg-red-500 text-sm text-white font-medium rounded-2xl"
-              @click="deleteTorrent"
-          >Delete torrent</button>
+            v-if="hasEditRights()"
+            class="mt-6 mx-6 px-4 h-12 bg-red-500 text-sm text-white font-medium rounded-2xl"
+            @click="deleteTorrent"
+          >
+            Delete torrent
+          </button>
         </div>
       </div>
     </template>
     <template v-else>
-      <div class="mb-1 h-24 bg-gray-700 animate-pulse rounded-2xl"/>
+      <div class="mb-1 h-24 bg-gray-700 animate-pulse rounded-2xl" />
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import {CalendarIcon, CircleStackIcon, UserCircleIcon} from "@heroicons/vue/20/solid";
-import {CheckIcon, PencilIcon, XMarkIcon, LinkIcon} from "@heroicons/vue/24/solid";
+import { CalendarIcon, CircleStackIcon, UserCircleIcon } from "@heroicons/vue/20/solid";
+import { CheckIcon, PencilIcon, XMarkIcon, LinkIcon } from "@heroicons/vue/24/solid";
+import { Ref, PropType } from "vue";
+import { Torrent } from "torrust-index-types-lib";
+import { useRuntimeConfig } from "#app";
 import {
   fileSize,
   downloadTorrent,
@@ -112,11 +125,7 @@ import {
   isUserLoggedIn,
   isTrackerPublic
 } from "#imports";
-import {Ref} from "@vue/reactivity";
-import {Torrent} from "torrust-index-types-lib";
-import {useRuntimeConfig} from "#app";
-import {PropType} from "@vue/runtime-core";
-import {canEditThisTorrent} from "~/composables/helpers";
+import { canEditThisTorrent } from "~/composables/helpers";
 
 enum State {
   Viewing,
@@ -132,39 +141,39 @@ const state: Ref<State> = ref(State.Viewing);
 const updatedTitle: Ref<String> = ref(null);
 
 const emit = defineEmits([
-  'updated'
-])
+  "updated"
+]);
 
 const props = defineProps({
   torrent: {
     type: Object as PropType<Torrent>,
     required: true
   }
-})
+});
 
-function hasEditRights(): boolean {
-  return canEditThisTorrent(props.torrent)
+function hasEditRights (): boolean {
+  return canEditThisTorrent(props.torrent);
 }
 
-function showDownloadButtons() {
-  return isUserLoggedIn() || isTrackerPublic()
+function showDownloadButtons () {
+  return isUserLoggedIn() || isTrackerPublic();
 }
 
-function startEditingTitle() {
+function startEditingTitle () {
   updatedTitle.value = props.torrent.title;
   state.value = State.Editing;
 }
 
-function saveChanges() {
+function saveChanges () {
   // TODO: Submit changes.
-  emit('updated');
+  emit("updated");
   state.value = State.Viewing;
 }
 
-function deleteTorrent() {
+function deleteTorrent () {
   rest.value.torrent.deleteTorrent(props.torrent.torrent_id)
-      .then(() => {
-        emit('updated');
-      });
+    .then(() => {
+      emit("updated");
+    });
 }
 </script>

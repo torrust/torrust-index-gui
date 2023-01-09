@@ -1,10 +1,9 @@
 <template>
   <div class="min-h-fit flex flex-col grow">
     <div class="max-w-full flex flex-col items-center">
-
       <!-- MOBILE -->
       <div id="torrent-view" class="mb-8 max-w-full flex lg:hidden flex-col items-center">
-        <TorrentActionCard v-if="torrent" class="mb-8 w-full" :torrent="torrent" @updated="reloadTorrent"/>
+        <TorrentActionCard v-if="torrent" class="mb-8 w-full" :torrent="torrent" @updated="reloadTorrent" />
         <div id="torrent-view-details" class="w-full flex flex-col flex-auto items-center">
           <div id="torrent-view-details-body" class="w-full flex flex-col grow">
             <div class="flex flex-col items-center">
@@ -12,10 +11,10 @@
                 <ul class="flex flex-row border-b-2 border-slate-600 dark:border-neutral-600">
                   <li v-for="(option) in tabs">
                     <button
-                        class="inline-flex py-2 px-6 font-medium text-center text-slate-400 dark:text-neutral-200 hover:text-slate-200 border-b-2 border-transparent duration-200"
-                        :class="{ 'active': option.tab === tab }"
-                        style="margin-bottom: -2px;"
-                        @click="tab = option.tab"
+                      class="inline-flex py-2 px-6 font-medium text-center text-slate-400 dark:text-neutral-200 hover:text-slate-200 border-b-2 border-transparent duration-200"
+                      :class="{ 'active': option.tab === tab }"
+                      style="margin-bottom: -2px;"
+                      @click="tab = option.tab"
                     >
                       {{ option.name }}
                     </button>
@@ -23,9 +22,9 @@
                 </ul>
               </div>
               <div v-if="torrent" class="mt-4 w-full flex flex-col flex-auto">
-                <TorrentOverviewTab v-if="tab === Tab.Overview" :torrent="torrent" @updated="reloadTorrent"/>
-                <TorrentFilesTab v-else-if="tab === Tab.Files" :torrent="torrent" @updated="reloadTorrent"/>
-                <TorrentTrackersTab v-else-if="tab === Tab.Trackers" :torrent="torrent" @updated="reloadTorrent"/>
+                <TorrentOverviewTab v-if="tab === Tab.Overview" :torrent="torrent" @updated="reloadTorrent" />
+                <TorrentFilesTab v-else-if="tab === Tab.Files" :torrent="torrent" @updated="reloadTorrent" />
+                <TorrentTrackersTab v-else-if="tab === Tab.Trackers" :torrent="torrent" @updated="reloadTorrent" />
               </div>
             </div>
           </div>
@@ -41,10 +40,10 @@
                 <ul class="flex flex-row border-b-2 border-slate-600 dark:border-white/5">
                   <li v-for="(option) in tabs">
                     <button
-                        class="inline-flex py-2 px-6 font-medium text-center text-themeText/50 hover:text-themeText border-b-2 border-transparent dark:hover:border-white/10 duration-200"
-                        :class="{ 'active': option.tab === tab }"
-                        style="margin-bottom: -2px;"
-                        @click="tab = option.tab"
+                      class="inline-flex py-2 px-6 font-medium text-center text-themeText/50 hover:text-themeText border-b-2 border-transparent dark:hover:border-white/10 duration-200"
+                      :class="{ 'active': option.tab === tab }"
+                      style="margin-bottom: -2px;"
+                      @click="tab = option.tab"
                     >
                       {{ option.name }}
                     </button>
@@ -52,33 +51,32 @@
                 </ul>
               </div>
               <div v-if="torrent" class="mt-4 w-full flex flex-col flex-auto">
-                <TorrentOverviewTab v-if="tab === Tab.Overview" :torrent="torrent" @updated="reloadTorrent"/>
-                <TorrentFilesTab v-else-if="tab === Tab.Files" :torrent="torrent" @updated="reloadTorrent"/>
-                <TorrentTrackersTab v-else-if="tab === Tab.Trackers" :torrent="torrent" @updated="reloadTorrent"/>
+                <TorrentOverviewTab v-if="tab === Tab.Overview" :torrent="torrent" @updated="reloadTorrent" />
+                <TorrentFilesTab v-else-if="tab === Tab.Files" :torrent="torrent" @updated="reloadTorrent" />
+                <TorrentTrackersTab v-else-if="tab === Tab.Trackers" :torrent="torrent" @updated="reloadTorrent" />
               </div>
             </div>
           </div>
         </div>
-        <TorrentActionCard class="top-24 sticky max-w-md" :torrent="torrent" @updated="reloadTorrent"/>
+        <TorrentActionCard class="top-24 sticky max-w-md" :torrent="torrent" @updated="reloadTorrent" />
       </div>
-
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Ref } from "vue";
+import { useRoute, useRuntimeConfig } from "#app";
+import { Torrent } from "torrust-index-types-lib";
 import TorrentActionCard from "~/components/torrent/TorrentActionCard.vue";
 import TorrentOverviewTab from "~/components/torrent/TorrentOverviewTab.vue";
 import TorrentFilesTab from "~/components/torrent/TorrentFilesTab.vue";
 import TorrentTrackersTab from "~/components/torrent/TorrentTrackersTab.vue";
-import {onMounted, ref, useRestApi} from "#imports";
-import {Ref} from "@vue/reactivity";
-import {useRoute, useRuntimeConfig} from "#app";
-import {Torrent} from "torrust-index-types-lib";
+import { onMounted, ref, useRestApi } from "#imports";
 
 const config = useRuntimeConfig();
 const route = useRoute();
-const rest = useRestApi()
+const rest = useRestApi();
 
 enum Tab {
   Overview,
@@ -87,9 +85,9 @@ enum Tab {
 }
 
 const tabs = [
-  { name: 'Overview', tab: 0 },
-  { name: 'Files', tab: 1 },
-  { name: 'Trackers', tab: 2 },
+  { name: "Overview", tab: 0 },
+  { name: "Files", tab: 1 },
+  { name: "Trackers", tab: 2 }
 ];
 
 const tab: Ref<Tab> = ref(Tab.Overview);
@@ -98,23 +96,23 @@ const torrent: Ref<Torrent> = ref(null);
 
 onMounted(async () => {
   await getTorrentFromApi(Number(route.params.id));
-})
+});
 
-function getTorrentFromApi(torrentId: number) {
+function getTorrentFromApi (torrentId: number) {
   loadingTorrent.value = true;
 
   rest.value.torrent.getTorrent(torrentId)
-      .then((data) => {
-        torrent.value = data;
-      })
-      .catch(() => {
-        loadingTorrent.value = false;
-      });
+    .then((data) => {
+      torrent.value = data;
+    })
+    .catch(() => {
+      loadingTorrent.value = false;
+    });
 
   // TODO: Set torrent title in URL.
 }
 
-function reloadTorrent() {
+function reloadTorrent () {
   getTorrentFromApi(torrent.value.torrent_id);
 }
 </script>

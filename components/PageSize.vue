@@ -1,5 +1,5 @@
 <template>
-  <div class="relative inline-block text-left spaced" v-click-outside="() => (dropdownOpened = false)">
+  <div v-click-outside="() => (dropdownOpened = false)" class="relative inline-block text-left spaced">
     <button class="filter relative" @click="dropdownOpened = !dropdownOpened">
       <AdjustmentsHorizontalIcon size="16" class="mr-1 opacity-50" />
       Page Size
@@ -7,10 +7,12 @@
     <div class="origin-top-left absolute left-0 mt-2 z-10" :class="{hidden: !dropdownOpened}">
       <div class="py-2 px-2 w-48 flex flex-col bg-slate-800 text-sm rounded-md shadow-lg">
         <ul v-if="$route.name === 'Browse Torrents'" id="category-filters" class="">
-          <li v-for="size in pageSizeList"
-              @click="updateSize(size)"
-              class="cursor-pointer text-slate-400 hover:text-white"
-              :key="size">
+          <li
+            v-for="size in pageSizeList"
+            :key="size"
+            class="cursor-pointer text-slate-400 hover:text-white"
+            @click="updateSize(size)"
+          >
             <span class="">{{ size }}</span>
           </li>
         </ul>
@@ -20,22 +22,21 @@
 </template>
 
 <script>
-import {UserIcon} from "@heroicons/vue/24/outline";
-import {AdjustmentsHorizontalIcon} from '@heroicons/vue/24/solid'
-import {mapState} from "vuex";
+import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/solid";
+import { mapState } from "vuex";
 
 export default {
   name: "ChangePageSize",
-  components: {UserIcon, AdjustmentsHorizontalIcon},
+  components: { AdjustmentsHorizontalIcon },
   props: {
-      updatePageSize: {
-        type: Function,
-        required: true
-      },
-      pageSizeList: {
-        type: Array,
-        required: true
-      }
+    updatePageSize: {
+      type: Function,
+      required: true
+    },
+    pageSizeList: {
+      type: Array,
+      required: true
+    }
   },
   data: () => ({
     dropdownOpened: false
@@ -46,12 +47,12 @@ export default {
     })
   },
   methods: {
-      updateSize(size) {
-          this.updatePageSize(size);
-          this.dropdownOpened = false;
-      }
+    updateSize (size) {
+      this.updatePageSize(size);
+      this.dropdownOpened = false;
+    }
   }
-}
+};
 </script>
 
 <style scoped>
