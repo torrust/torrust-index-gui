@@ -55,10 +55,12 @@
 </template>
 
 <script setup lang="ts">
-import { getSettings, onMounted } from "#imports";
+import { getSettings, getUser, onMounted } from "#imports";
 
-onMounted(async () => {
+onMounted(() => {
   document.querySelector("html").classList.add("theme-dark", "bg-primary");
-  await getSettings();
+
+  getUser();
+  getSettings();
 });
 </script>

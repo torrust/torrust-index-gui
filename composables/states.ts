@@ -38,18 +38,13 @@ export function logoutUser () {
   useRestApi().value.deleteToken();
 }
 
-export function downloadTorrent (torrentId: number, fileName?: string) {
-  if (fileName === undefined) {
-    fileName = "torrent";
+export async function getUser () {
+  if (!useRestApi().value.authToken) {
+    return;
   }
 
-  useRestApi().value.torrent.downloadTorrent(torrentId)
-    .then((blob) => {
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${fileName}.torrent`);
-      document.body.appendChild(link);
-      link.click();
+  return await useRestApi().value.user.renewToken()
+    .then((user) => {
+      useUser().value = user;
     });
 }

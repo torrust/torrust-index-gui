@@ -1,5 +1,5 @@
 import { Torrent, TrackerMode } from "torrust-index-types-lib";
-import { useSettings, useUser } from "~/composables/states";
+import { useRestApi, useSettings, useUser } from "~/composables/states";
 
 export function isTrackerPublic (): boolean {
   const settings = useSettings();
@@ -20,6 +20,22 @@ export function canEditThisTorrent (torrent: Torrent): boolean {
   }
 
   return user.admin || user.username === torrent.uploader;
+}
+
+export function downloadTorrent (torrentId: number, fileName?: string) {
+  if (fileName === undefined) {
+    fileName = "torrent";
+  }
+
+  useRestApi().value.torrent.downloadTorrent(torrentId)
+    .then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${fileName}.torrent`);
+      document.body.appendChild(link);
+      link.click();
+    });
 }
 
 export function fileSize (size: number): string {

@@ -25,7 +25,7 @@
     "@heroicons/vue": "^2.0.13",
     "marked": "^4.0.7",
     "notiwind-ts": "^2.0.2",
-    "torrust-index-api-lib": "^0.1.9",
+    "torrust-index-api-lib": "^0.1.10",
     "torrust-index-types-lib": "^0.1.3"
   }
 }
