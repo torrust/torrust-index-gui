@@ -40,7 +40,6 @@
           </div>
         </div>
         <div v-if="mobileState === MobileState.Navigate" id="extra-options" class="flex flex-row flex-1 ml-auto items-center justify-end">
-          <NavigationBarProfileButton class="mr-3" />
           <router-link to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center self-start appearance-none bg-sky-500 hover:bg-sky-600 text-sm text-white font-medium rounded-2xl cursor-pointer duration-200">
             <ArrowUpTrayIcon size="24" />
           </router-link>
@@ -181,7 +180,7 @@
                 <template v-if="userDropdown">
                   <div class="absolute right-0 top-10 z-10 mt-2 w-56 bg-secondary rounded-2xl drop-shadow">
                     <ul class="p-3 text-themeText font-medium">
-                      <NuxtLink v-if="user?.admin" to="/admin/settings/general" class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl cursor-pointer duration-200" @click="logoutUser()">
+                      <NuxtLink v-if="user?.admin" to="/admin/settings/general" class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl cursor-pointer duration-200">
                         <span class="flex flex-nowrap whitespace-nowrap">Settings</span>
                       </NuxtLink>
                       <li class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl cursor-pointer duration-200" @click="logoutUser()">
