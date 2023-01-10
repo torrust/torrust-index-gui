@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <div id="torrent-view" class="flex flex-col lg:flex-row">
       <div class="flex flex-col basis-1/6">
-        <div class="flex flex-col items-start top-24 sticky">
+        <div class="px-6 flex flex-col items-start top-24 sticky">
           <h1 class="mb-6 text-left text-3xl font-semibold text-themeText">
             Settings
           </h1>
