@@ -181,7 +181,10 @@
                 <template v-if="userDropdown">
                   <div class="absolute right-0 top-10 z-10 mt-2 w-56 bg-secondary rounded-2xl drop-shadow">
                     <ul class="p-3 text-themeText font-medium">
-                      <li class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl cursor-pointer duration-200" @click="logoutUser">
+                      <NuxtLink v-if="user?.admin" to="/admin/settings/general" class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl cursor-pointer duration-200" @click="logoutUser()">
+                        <span class="flex flex-nowrap whitespace-nowrap">Settings</span>
+                      </NuxtLink>
+                      <li class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl cursor-pointer duration-200" @click="logoutUser()">
                         <span class="flex flex-nowrap whitespace-nowrap">Logout</span>
                       </li>
                     </ul>
@@ -189,9 +192,9 @@
                 </template>
               </transition>
             </div>
-            <router-link to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-secondary font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500">
+            <NuxtLink to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-secondary font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500">
               <span class="flex flex-nowrap whitespace-nowrap">upload torrent</span>
-            </router-link>
+            </NuxtLink>
           </template>
           <template v-else>
             <button @click="login()" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-secondary font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500">
@@ -208,7 +211,7 @@
 import { ArrowUpTrayIcon, UserCircleIcon, XMarkIcon, MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { Ref } from "vue";
 import { useRouter } from "#app";
-import { ref, useAuthenticationModal, useSettings, useUser } from "#imports";
+import { ref, useAuthenticationModal, useSettings, useUser, logoutUser } from "#imports";
 
 const router = useRouter();
 const settings = useSettings();
