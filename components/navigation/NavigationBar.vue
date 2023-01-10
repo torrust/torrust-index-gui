@@ -92,7 +92,7 @@
         <div id="search-bar" class="ml-6 hidden md:block mx-5 grow max-w-sm">
           <div class="flex flex-col">
             <div class="flex flex-col">
-              <div class="px-3.5 text-sm bg-tertiary/25 ring-1 ring-transparent ring-transparent hover:[&:not(:focus-within)]:ring-themeText/10 focus-within:ring-themeText/25 rounded-xl duration-200">
+              <div class="px-3.5 text-sm bg-tertiary/25 ring-2 ring-transparent ring-transparent hover:[&:not(:focus-within)]:ring-themeText/10 focus-within:ring-themeText/25 rounded-xl duration-200">
                 <div class="flex flex-row items-center group">
                   <div class="flex flex-col grow">
                     <input
@@ -141,11 +141,11 @@
               leave-to-class="transform opacity-0 scale-95"
             >
               <template v-if="dropdownOpened">
-                <div class="absolute -left-6 top-10 z-10 mt-2 w-56 bg-secondary rounded-xl ring-1 ring-tertiary drop-shadow">
+                <div class="absolute -left-6 top-10 z-10 mt-2 w-56 bg-secondary rounded-2xl drop-shadow">
                   <ul class="p-3 text-themeText font-medium">
-                    <router-link to="/torrents" replace class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl duration-200">
-                      <span class="flex flex-nowrap whitespace-nowrap">Torrents</span>
-                    </router-link>
+                    <NuxtLink to="/torrents" replace class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl duration-200">
+                      <span class="flex flex-nowrap whitespace-nowrap">Browse all torrents</span>
+                    </NuxtLink>
                   </ul>
                 </div>
               </template>
@@ -154,9 +154,8 @@
         </div>
         <div id="extra-options" class="flex flex-row flex-1 ml-auto items-center justify-end">
           <NavigationBarProfileButton class="mr-3" />
-          <router-link to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-gradient-to-bl from-accent to-accent-dark hover:bg-tertiary text-sm text-themeText font-medium rounded-2xl cursor-pointer shadow-lg shadow-transparent hover:shadow-accent-dark/50 duration-1000">
-            <ArrowUpTrayIcon class="mr-3 w-5 h-5 text-themeText/50" />
-            <span class="flex flex-nowrap whitespace-nowrap">Upload</span>
+          <router-link to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-secondary font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500">
+            <span class="flex flex-nowrap whitespace-nowrap">upload torrent</span>
           </router-link>
         </div>
       </div>
