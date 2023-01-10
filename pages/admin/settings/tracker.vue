@@ -1,9 +1,5 @@
 <template>
   <div id="tracker-settings" class="flex flex-col gap-6 max-w-lg">
-    <h2 class="text-3xl font-medium text-themeText">
-      Tracker Settings
-    </h2>
-
     <div class="flex flex-col">
       <label for="tracker-announce-url">Announce URL</label>
       <input id="tracker-announce-url" v-model="settings.tracker.url" type="text" class="input">
@@ -51,7 +47,7 @@ const props = defineProps({
 
 <style scoped>
 label {
-  @apply p-2 w-full text-themeText/50;
+  @apply p-2 w-full font-medium text-themeText/50;
 }
 
 input, select {

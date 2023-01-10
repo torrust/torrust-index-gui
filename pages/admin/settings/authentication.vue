@@ -1,9 +1,5 @@
 <template>
   <div id="general-settings" class="flex flex-col gap-6 max-w-lg">
-    <h2 class="text-3xl font-medium text-themeText">
-      Authentication Settings
-    </h2>
-
     <div class="flex flex-col">
       <label for="authentication-email-signup">Email Requirement</label>
       <select id="authentication-email-signup" v-model="settings.auth.email_on_signup">
@@ -31,7 +27,7 @@ const props = defineProps({
 
 <style scoped>
 label {
-  @apply p-2 w-full text-themeText/50;
+  @apply p-2 w-full font-medium text-themeText/50;
 }
 
 input, select {

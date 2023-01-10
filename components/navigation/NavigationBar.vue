@@ -156,26 +156,26 @@
             <div class="relative inline-block text-left mr-3">
               <div>
                 <button
-                    class="group px-2 h-10 flex flex-row flex-nowrap justify-center items-center font-bold text-sm text-themeText capitalize border-tertiary rounded-xl cursor-pointer duration-500"
-                    :class="{ 'text-themeText/60': !userDropdown, 'border-tertiary/50': !userDropdown }"
-                    @click="userDropdown = !userDropdown"
-                    @mouseover="userDropdown = true"
+                  class="group px-2 h-10 flex flex-row flex-nowrap justify-center items-center font-bold text-sm text-themeText capitalize border-tertiary rounded-xl cursor-pointer duration-500"
+                  :class="{ 'text-themeText/60': !userDropdown, 'border-tertiary/50': !userDropdown }"
+                  @click="userDropdown = !userDropdown"
+                  @mouseover="userDropdown = true"
                 >
                   <UserCircleIcon
-                      class="ml-1 mr-1.5 w-5 text-themeText/40"
-                      aria-hidden="true"
+                    class="ml-1 mr-1.5 w-5 text-themeText/40"
+                    aria-hidden="true"
                   />
                   <span>{{ user.username }}</span>
                 </button>
               </div>
 
               <transition
-                  enter-active-class="transition ease-out duration-200"
-                  enter-from-class="transform opacity-0 scale-95"
-                  enter-to-class="transform opacity-100 scale-100"
-                  leave-active-class="transition ease-in duration-100"
-                  leave-from-class="transform opacity-100 scale-100"
-                  leave-to-class="transform opacity-0 scale-95"
+                enter-active-class="transition ease-out duration-200"
+                enter-from-class="transform opacity-0 scale-95"
+                enter-to-class="transform opacity-100 scale-100"
+                leave-active-class="transition ease-in duration-100"
+                leave-from-class="transform opacity-100 scale-100"
+                leave-to-class="transform opacity-0 scale-95"
               >
                 <template v-if="userDropdown">
                   <div class="absolute right-0 top-10 z-10 mt-2 w-56 bg-secondary rounded-2xl drop-shadow">
@@ -196,7 +196,7 @@
             </NuxtLink>
           </template>
           <template v-else>
-            <button @click="login()" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-secondary font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500">
+            <button class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-secondary font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500" @click="login()">
               <span class="flex flex-nowrap whitespace-nowrap">login</span>
             </button>
           </template>
