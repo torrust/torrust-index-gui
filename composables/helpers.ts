@@ -28,7 +28,7 @@ export function downloadTorrent (torrentId: number, fileName?: string) {
   }
 
   useRestApi().value.torrent.downloadTorrent(torrentId)
-    .then((blob) => {
+    .then((blob: Blob) => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;

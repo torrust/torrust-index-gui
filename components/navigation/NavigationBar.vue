@@ -1,8 +1,8 @@
 <template>
   <div
-      class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-primary/80 z-40 max-w-full"
-      style="backdrop-filter: blur(20px);"
-      @mouseleave="dropdownOpened = false"
+    class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-primary/80 z-40 max-w-full"
+    style="backdrop-filter: blur(20px);"
+    @mouseleave="closeDropdowns()"
   >
     <div class="px-4 md:px-8 flex flex-col w-full">
       <!-- MOBILE -->
@@ -17,16 +17,16 @@
             <span
               id="explore"
               class="px-6 h-10 flex flex-row flex-nowrap items-center appearance-none text-lg text-slate-200 hover:text-white font-medium cursor-pointer duration-200"
-              @mouseover="dropdownOpened = true"
-              @mouseleave="dropdownOpened = false"
+              @mouseover="exploreDropdown = true"
+              @mouseleave="exploreDropdown = false"
             >
               <span>Explore</span>
               <!--                <ChevronDownIcon size="18" class="ml-1"></ChevronDownIcon>-->
               <div
                 class="absolute -ml-4 pt-60 z-10"
-                :class="{hidden: !dropdownOpened}"
+                :class="{hidden: !exploreDropdown}"
               >
-                <div class="w-48 divide-y bg-secondary rounded-2xl overflow-hidden drop-shadow" @click.prevent="dropdownOpened = false">
+                <div class="w-48 divide-y bg-secondary rounded-2xl overflow-hidden drop-shadow" @click.prevent="exploreDropdown = false">
                   <ul class="text-sm text-slate-400 font-medium duration-200" aria-labelledby="dropdownDefault">
                     <li class="p-4 w-full hover:bg-slate-700 hover:text-white duration-200">
                       <router-link to="/torrents" replace class="inline-flex items-center">
@@ -124,9 +124,9 @@
             <div>
               <button
                 class="font-bold text-themeText capitalize hover:text-themeText cursor-pointer"
-                :class="{ 'text-themeText/60': !dropdownOpened }"
-                @mouseover="dropdownOpened = true"
-                @click="dropdownOpened = !dropdownOpened"
+                :class="{ 'text-themeText/60': !exploreDropdown }"
+                @mouseover="exploreDropdown = true"
+                @click="exploreDropdown = !exploreDropdown"
               >
                 explore
               </button>
@@ -140,7 +140,7 @@
               leave-from-class="transform opacity-100 scale-100"
               leave-to-class="transform opacity-0 scale-95"
             >
-              <template v-if="dropdownOpened">
+              <template v-if="exploreDropdown">
                 <div class="absolute -left-6 top-10 z-10 mt-2 w-56 bg-secondary rounded-2xl drop-shadow">
                   <ul class="p-3 text-themeText font-medium">
                     <NuxtLink to="/torrents" replace class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl duration-200">
@@ -153,10 +153,51 @@
           </div>
         </div>
         <div id="extra-options" class="flex flex-row flex-1 ml-auto items-center justify-end">
-          <NavigationBarProfileButton class="mr-3" />
-          <router-link to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-secondary font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500">
-            <span class="flex flex-nowrap whitespace-nowrap">upload torrent</span>
-          </router-link>
+          <template v-if="user?.username">
+            <div class="relative inline-block text-left mr-3">
+              <div>
+                <button
+                    class="group px-2 h-10 flex flex-row flex-nowrap justify-center items-center font-bold text-sm text-themeText capitalize border-tertiary rounded-xl cursor-pointer duration-500"
+                    :class="{ 'text-themeText/60': !userDropdown, 'border-tertiary/50': !userDropdown }"
+                    @click="userDropdown = !userDropdown"
+                    @mouseover="userDropdown = true"
+                >
+                  <UserCircleIcon
+                      class="ml-1 mr-1.5 w-5 text-themeText/40"
+                      aria-hidden="true"
+                  />
+                  <span>{{ user.username }}</span>
+                </button>
+              </div>
+
+              <transition
+                  enter-active-class="transition ease-out duration-200"
+                  enter-from-class="transform opacity-0 scale-95"
+                  enter-to-class="transform opacity-100 scale-100"
+                  leave-active-class="transition ease-in duration-100"
+                  leave-from-class="transform opacity-100 scale-100"
+                  leave-to-class="transform opacity-0 scale-95"
+              >
+                <template v-if="userDropdown">
+                  <div class="absolute right-0 top-10 z-10 mt-2 w-56 bg-secondary rounded-2xl drop-shadow">
+                    <ul class="p-3 text-themeText font-medium">
+                      <li class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl cursor-pointer duration-200" @click="logoutUser">
+                        <span class="flex flex-nowrap whitespace-nowrap">Logout</span>
+                      </li>
+                    </ul>
+                  </div>
+                </template>
+              </transition>
+            </div>
+            <router-link to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-secondary font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500">
+              <span class="flex flex-nowrap whitespace-nowrap">upload torrent</span>
+            </router-link>
+          </template>
+          <template v-else>
+            <button @click="login()" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-secondary font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500">
+              <span class="flex flex-nowrap whitespace-nowrap">login</span>
+            </button>
+          </template>
         </div>
       </div>
     </div>
@@ -164,14 +205,15 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowUpTrayIcon, XMarkIcon, ChevronRightIcon, MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
+import { ArrowUpTrayIcon, UserCircleIcon, XMarkIcon, MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { Ref } from "vue";
-import { useRoute, useRouter } from "#app";
-import { ref, useSettings } from "#imports";
+import { useRouter } from "#app";
+import { ref, useAuthenticationModal, useSettings, useUser } from "#imports";
 
 const router = useRouter();
-const route = useRoute();
 const settings = useSettings();
+const user = useUser();
+const authModalOpen = useAuthenticationModal();
 
 enum MobileState {
   Search,
@@ -180,7 +222,8 @@ enum MobileState {
 
 const mobileState: Ref<MobileState> = ref(MobileState.Navigate);
 const searchQuery: Ref<string> = ref("");
-const dropdownOpened: Ref<boolean> = ref(false);
+const exploreDropdown: Ref<boolean> = ref(false);
+const userDropdown: Ref<boolean> = ref(false);
 const typingInSearch = ref(false);
 
 function submitSearch () {
@@ -190,6 +233,15 @@ function submitSearch () {
       search: searchQuery.value ?? null
     }
   });
+}
+
+function login () {
+  authModalOpen.value = true;
+}
+
+function closeDropdowns () {
+  exploreDropdown.value = false;
+  userDropdown.value = false;
 }
 </script>
 
