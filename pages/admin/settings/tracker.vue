@@ -1,5 +1,5 @@
 <template>
-  <div id="tracker-settings" class="flex flex-col gap-6 max-w-lg">
+  <div id="tracker-settings" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="flex flex-col">
       <label for="tracker-announce-url">Announce URL</label>
       <input id="tracker-announce-url" v-model="settings.tracker.url" type="text" class="input">

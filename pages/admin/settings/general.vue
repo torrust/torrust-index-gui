@@ -1,5 +1,5 @@
 <template>
-  <div id="general-settings" class="flex flex-col gap-6 max-w-lg">
+  <div id="general-settings" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="flex flex-col">
       <label for="website-name">Name</label>
       <input id="website-name" v-model="settings.website.name" type="text" class="input">

@@ -1,10 +1,10 @@
 <template>
   <div
-    class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-primary/80 z-40 max-w-full"
+    class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-primary/80 z-40"
     style="backdrop-filter: blur(20px);"
     @mouseleave="closeDropdowns()"
   >
-    <div class="px-4 md:px-8 flex flex-col w-full">
+    <div class="flex flex-col w-full">
       <!-- MOBILE -->
       <div id="mobile-menu" class="flex md:hidden flex-row items-center max-w-full">
         <div v-if="mobileState === MobileState.Navigate" id="open-mobile-search-bar-toggle" class="px-3.5 h-10 mr-1 flex md:hidden flex-col justify-center items-center bg-white/5 border border-slate-600 rounded-2xl">
@@ -72,7 +72,7 @@
       </div>
 
       <!-- DESKTOP -->
-      <div id="desktop-menu" class="hidden md:flex flex-row items-center max-w-full">
+      <div id="desktop-menu" class="hidden md:flex flex-row items-center">
         <div id="left-menu" class="hidden md:flex flex-row justify-start">
           <div id="site-name" class="hidden md:flex flex-row">
             <div class="flex flex-col">

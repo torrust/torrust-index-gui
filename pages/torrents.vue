@@ -1,33 +1,27 @@
 <template>
-  <div class="min-h-fit max-w-full flex flex-col grow">
-    <div class="max-w-full flex flex-col">
-      <div id="torrents-header" class="mb-6 px-6">
-        <div class="flex flex-row flex-nowrap items-center">
-          <div class="text-3xl font-semibold text-themeText">
-            Browse Torrents
-          </div>
-          <div class="ml-auto">
-            <FiltersTorrustSelect :options="sortingOptions" :label="'Sort by'" @updated="updateSorting" />
-          </div>
-        </div>
+  <div class="flex flex-col">
+    <div class="flex flex-col">
+      <h2 class="text-2xl font-semibold text-themeText">
+        Browse Torrents
+      </h2>
+    </div>
+    <div class="mt-6 flex flex-row">
+      <div class="w-full flex flex-row flex-nowrap gap-3 overflow-x-auto">
+        <TorrustSelect class="grow-0" :options="categories" :label="'Category'" multiple @updated="setCategoryFilters" />
+        <TorrustSelect class="grow-0" :options="categories" :label="'Tags'" multiple />
+        <TorrustSelect class="ml-auto grow-0" :options="sortingOptions" :label="'Sort by'" @updated="updateSorting" />
       </div>
-      <div id="torrents-body" class="flex flex-col">
-        <div class="flex flex-row flex-nowrap items-start">
-          <div id="torrent-filters" class="mr-7 sticky w-full max-w-xs">
-            <div class="flex flex-col flex-nowrap w-full justify-between">
-              <FiltersTorrustSelect :options="categories" :label="'Category'" multiple @updated="setCategoryFilters" />
-              <FiltersTorrustSelect :options="categories" :label="'Tags'" multiple class="mt-4" />
-            </div>
-          </div>
-          <div id="torrent-list" class="grow">
-            <TorrentList
-              v-if="torrents?.length > 0"
-              :torrents="torrents"
-              :sorting="itemsSorting"
-              :update-sorting="updateSorting"
-            />
-            <span v-else class="text-themeText">No results.</span>
-          </div>
+    </div>
+    <div class="mt-6 flex flex-col">
+      <div class="flex flex-row flex-nowrap items-start">
+        <div class="grow">
+          <TorrentList
+            v-if="torrents?.length > 0"
+            :torrents="torrents"
+            :sorting="itemsSorting"
+            :update-sorting="updateSorting"
+          />
+          <span v-else class="text-themeText">No results.</span>
         </div>
       </div>
     </div>

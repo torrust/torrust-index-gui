@@ -1,29 +1,45 @@
 <template>
-  <div class="w-full flex flex-col items-center">
-    <div class="relative w-full h-auto flex flex-row lg:justify-center overflow-x-auto">
-      <div v-for="(option) in tabs" class="relative z-10">
-        <NuxtLink
-          :to="`/admin/settings/${option}`"
-          class="inline-block py-2 px-6 font-medium text-center text-themeText/50 capitalize hover:text-themeText border-b-2 border-transparent dark:hover:border-white/10 duration-200"
-        >
-          {{ option }}
-        </NuxtLink>
+  <div class="flex flex-col gap-10">
+    <div class="">
+      <h2 class="text-2xl font-semibold text-themeText capitalize">
+        admin settings
+      </h2>
+    </div>
+    <div class="w-full flex flex-col gap-10">
+      <div class="relative w-full h-auto flex flex-row overflow-x-auto">
+        <div v-for="(option) in tabs" class="relative z-10">
+          <NuxtLink
+            :to="`/admin/settings/${option}`"
+            class="inline-block py-2 px-6 font-medium text-center text-themeText/50 capitalize hover:text-themeText border-b-2 border-transparent dark:hover:border-white/10 duration-200"
+          >
+            {{ option }}
+          </NuxtLink>
+        </div>
+
+        <div class="min-w-full absolute bottom-0 border-b-2 border-secondary z-0" />
       </div>
 
-      <div class="min-w-full absolute bottom-0 border-b-2 border-secondary z-0" />
+      <template v-if="settings">
+        <NuxtPage :settings="settingsChanges" class="w-full" />
+      </template>
+
+      <div class="w-full flex flex-col gap-2">
+        <template v-if="madeChanges()">
+          <TorrustButton
+            label="save changes"
+            :disabled="!madeChanges() || updatingSettings"
+            @click="saveSettings()"
+          />
+
+          <TorrustButton
+            class="hover:bg-red-500/20 text-red-500"
+            label="clear changes"
+            :disabled="!madeChanges() || updatingSettings"
+            @click="clearChanges()"
+          />
+        </template>
+      </div>
     </div>
-
-    <template v-if="settings">
-      <NuxtPage :settings="settingsChanges" class="mt-6 w-full" />
-    </template>
-
-    <button
-      :disabled="!madeChanges() || updatingSettings"
-      class="px-6 mt-8 h-12 w-full max-w-lg inline-flex justify-center items-center appearance-none bg-secondary hover:bg-accent/20 font-bold text-sm text-accent capitalize rounded-2xl cursor-pointer duration-500 disabled:bg-tertiary disabled:text-themeText/50"
-      @click="saveSettings"
-    >
-      save changes
-    </button>
   </div>
 </template>
 
@@ -47,8 +63,7 @@ const settings: Ref<Settings> = ref(null);
 const settingsChanges: Ref<Settings> = ref(null);
 
 watch([settings], () => {
-  // This is how you clone without references in JS...
-  settingsChanges.value = JSON.parse(JSON.stringify(settings.value));
+  clearChanges();
 });
 
 onMounted(() => {
@@ -76,6 +91,11 @@ function saveSettings () {
     .catch(() => {
       updatingSettings.value = false;
     });
+}
+
+function clearChanges () {
+  // This is how you clone without references in JS...
+  settingsChanges.value = JSON.parse(JSON.stringify(settings.value));
 }
 
 function madeChanges (): boolean {

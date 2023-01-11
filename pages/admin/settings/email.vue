@@ -1,5 +1,5 @@
 <template>
-  <div id="general-settings" class="flex flex-col gap-6 max-w-lg">
+  <div id="general-settings" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="flex flex-col">
       <label for="database-torrent-status-update-interval">Torrent Status Update Interval (seconds)</label>
       <input id="database-torrent-status-update-interval" v-model="settings.database.torrent_info_update_interval" type="number">

@@ -41,12 +41,12 @@
       </div>
     </NotificationGroup>
 
-    <div class="flex flex-col w-full">
+    <div class="px-4 md:px-8 lg:px-24 flex flex-col w-full">
       <NavigationBar />
 
       <AuthenticationModal />
 
-      <div class="my-6 mx-auto py-0 px-3 md:px-8 flex flex-col grow w-full max-w-8xl">
+      <div class="my-6 flex flex-col">
         <NuxtPage />
       </div>
       <!-- Footer -->
