@@ -1,16 +1,11 @@
 <template>
   <div>
-    <div class="px-2 py-4 flex flex-row flex-nowrap text-themeText text-sm font-semibold border-2 border-transparent">
-      <div class="pl-4">
-        Torrent
-      </div>
-    </div>
     <div class="p-2 flex flex-col border-2 border-secondary rounded-2xl grow w-full">
       <div class="flex flex-col">
         <a
           v-for="(torrent, index) in torrents"
           :key="index"
-          class="flex flex-col rounded-2xl bg-transparent hover:bg-secondary text-sm cursor-pointer duration-200 group"
+          class="flex flex-col rounded-2xl hover:bg-gradient-to-t from-tertiary/30 to-tertiary/20 text-sm cursor-pointer duration-200 group"
           @click="$router.push(`/torrent/${torrent.torrent_id.toString()}`)"
         >
           <div class="px-4 pt-4 pb-4 group-hover:pb-2 flex flex-row flex-nowrap justify-start items-center rounded-2xl w-full">

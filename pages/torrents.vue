@@ -6,7 +6,7 @@
       </h2>
     </div>
     <div class="mt-6 flex flex-row">
-      <div class="w-full flex flex-row flex-nowrap gap-3 overflow-x-auto">
+      <div class="w-full flex flex-row flex-nowrap gap-3">
         <TorrustSelect class="grow-0" :options="categories" :label="'Category'" multiple @updated="setCategoryFilters" />
         <TorrustSelect class="grow-0" :options="categories" :label="'Tags'" multiple />
         <TorrustSelect class="ml-auto grow-0" :options="sortingOptions" :label="'Sort by'" @updated="updateSorting" />

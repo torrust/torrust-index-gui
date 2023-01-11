@@ -5,23 +5,34 @@
     @mouseleave="opened = false"
   >
     <button
-      class="flex flex-row items-center justify-center text-sm text-themeText/50 rounded-2xl duration-200"
+      class="flex flex-row items-center justify-center font-medium text-sm text-themeText/50 hover:text-themeText rounded-2xl duration-200"
       :class="{ 'pt-4': opened, 'text-themeText': opened }"
-      @mouseenter="openDetails"
+      @click.stop="openDetails"
     >
-      <span>Hover to see more</span>
+      <template v-if="!opened">
+        <span>Click to see more</span>
+      </template>
+      <template v-else>
+        <span>Click to close</span>
+      </template>
       <ChevronRightIcon class="w-5 duration-200" :class="{ 'rotate-90': opened }" />
     </button>
-    <div v-if="opened && !!torrent" class="p-4 w-full flex flex-col">
-      <div class="flex flex-row">
-        <div class="flex flex-col grow">
-          <div class="p-4 max-h-96 text-center text-themeText/50 border-2 border-themeText/10 rounded-2xl overflow-y-auto">
-            <span v-if="torrent.description">{{ torrent.description }}</span>
-            <span v-else class="italic">No description.</span>
+    <template v-if="opened && !!torrent">
+      <div class="p-4 w-full flex flex-col">
+        <div class="flex flex-row">
+          <div class="flex flex-col grow">
+            <div class="p-4 max-h-96 text-center text-themeText/50 border-2 border-themeText/10 rounded-2xl overflow-y-auto">
+              <template v-if="torrent.description">
+                <span>{{ torrent.description }}</span>
+              </template>
+              <template v-else>
+                <span class="italic">No description.</span>
+              </template>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -43,7 +54,10 @@ const props = defineProps({
 });
 
 function openDetails () {
-  if (opened.value) { return; }
+  if (opened.value) {
+    opened.value = false;
+    return;
+  }
 
   opened.value = true;
 

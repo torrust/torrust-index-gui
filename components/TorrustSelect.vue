@@ -28,7 +28,7 @@
       leave-to-class="transform opacity-0 scale-95"
     >
       <template v-if="active">
-        <div class="z-50 mt-2 top-full absolute w-full drop-shadow">
+        <div class="mt-2 top-full absolute w-full drop-shadow">
           <ul class="px-3 py-3 bg-secondary text-sm rounded-2xl">
             <li v-for="(option) in options" class="flex w-full">
               <button class="group px-3 py-3 flex w-full items-center hover:bg-tertiary/50 capitalize rounded-2xl duration-200" @click="toggleOption(option)">
