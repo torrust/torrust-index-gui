@@ -1,17 +1,14 @@
 <template>
-  <div class="px-6 py-6 text-themeText/50 rounded-2xl mx-auto w-full max-w-xl">
-    <h2 class="text-2xl mb-4 font-semibold text-center text-themeText">
-      Upload torrent
+  <div class="w-full flex flex-col items-center">
+    <h2 class="text-2xl font-semibold text-themeText">
+      Upload Torrent
     </h2>
-    <form
-      class="space-y-6"
-      @submit.prevent="submit"
-    >
-      <div class="mt-1">
+    <div class="w-full max-w-lg flex flex-col gap-6">
+      <div>
         <label for="title" class="px-2">Title</label>
         <input id="title" v-model="form.title" name="title" type="text" class="mt-1">
       </div>
-      <div class="mt-1">
+      <div>
         <label for="description" class="px-2">Description</label>
         <textarea
           id="description"
@@ -22,22 +19,24 @@
         />
       </div>
       <template v-if="categories?.length > 0">
-        <div class="mt-1">
+        <div>
           <label for="category" class="px-2">Category</label>
-          <FiltersTorrustSelect id="category" class="mt-1" :options="categories" @updated="(v) => { form.category = v.name; }" />
+          <select id="category" class="mt-1" v-model="form.category">
+            <template v-for="option in categories">
+              <option :value="option.name">{{ option.name }}</option>
+            </template>
+          </select>
         </div>
       </template>
-      <div class="mt-1">
+      <div>
         <UploadFile sub-title="Only .torrent files allowed. BitTorrent v2 files are NOT supported." accept=".torrent" @on-change="setFile" />
       </div>
       <template v-if="isUserLoggedIn()">
-        <button
+        <TorrustButton
+          label="submit"
           :disabled="!formValid() || uploading"
-          class="px-4 h-12 w-full bg-gradient-to-bl from-accent to-accent-dark disabled:from-gray-500 disabled:to-gray-500 text-themeText font-semibold rounded-2xl shadow-lg disabled:shadow-none shadow-transparent hover:shadow-accent-dark/50 duration-1000"
           @click="submitForm"
-        >
-          <span>Submit</span>
-        </button>
+        />
       </template>
       <template v-else>
         <button
@@ -47,7 +46,7 @@
           <span>Please sign in to upload</span>
         </button>
       </template>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -124,7 +123,11 @@ function login () {
 </script>
 
 <style scoped>
-input, textarea {
+label {
+  @apply p-2 w-full font-medium text-themeText/50;
+}
+
+input, select, textarea {
   @apply p-2.5 w-full bg-transparent text-themeText placeholder-themeText/50 border-2 border-secondary hover:border-tertiary rounded-2xl duration-200 cursor-pointer;
 }
 </style>
