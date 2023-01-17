@@ -1,15 +1,22 @@
 <template>
-  <div class="flex flex-col">
-    <div id="torrent-description" class="mb-10 flex flex-col">
-      <div class="mb-5 px-5 flex flex-row justify-between">
-        <h2 class="mr-1 text-2xl text-left text-themeText font-medium">
-          Files
-        </h2>
-      </div>
+  <div id="torrent-files" class="flex flex-col gap-6">
+    <div class="flex flex-row justify-between items-center">
+      <h2 class="mr-1 text-2xl text-left text-themeText/50 font-medium">
+        Files
+      </h2>
+
+      <button
+          class="w-10 h-10 flex flex-col items-center justify-center bg-secondary hover:bg-tertiary rounded-xl duration-200"
+          @click="collapsed = !collapsed"
+      >
+        <ChevronDownIcon class="text-themeText/50 w-6 duration-200" :class="{ 'rotate-90': collapsed }" />
+      </button>
+    </div>
+    <template v-if="!collapsed">
       <div class="w-full h-full flex flex-col">
         <div
-          v-for="file in files"
-          class="mb-3 p-6 w-full h-full flex flex-row grow justify-between items-center text-sm border border-slate-800 dark:border-white/5 rounded-2xl overflow-x-auto"
+            v-for="file in files()"
+            class="mb-3 p-6 w-full h-full flex flex-row grow justify-between items-center text-sm border-2 border-secondary rounded-2xl overflow-x-auto"
         >
           <span class="text-themeText font-semibold">{{ file.name }}</span>
           <div class="px-3 flex flex-row flex-nowrap items-center justify-center text-themeText/50 font-semibold">
@@ -18,47 +25,47 @@
           </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { CircleStackIcon } from "@heroicons/vue/24/outline";
+import { ChevronDownIcon } from "@heroicons/vue/24/solid";
+import { PropType } from "vue";
+import { Torrent } from "torrust-index-types-lib";
+import { ref, fileSize } from "#imports";
 
-export default {
-  name: "TorrentFilesTab",
-  components: { CircleStackIcon },
-  props: {
-    torrent: {
-      type: Object,
-      required: true,
-      default: () => {}
-    }
-  },
-  computed: {
-    files () {
-      const files = [];
+const collapsed = ref(true);
 
-      if (this.torrent.files) {
-        for (const file of this.torrent.files) {
-          let filename = "";
-          for (const [i, path] of file.path.entries()) {
-            filename += path;
-            if (i !== file.path.length - 1) {
-              filename += "/";
-            }
-          }
-          files.push({
-            name: filename,
-            size: file.length
-          });
+const props = defineProps({
+  torrent: {
+    type: Object as PropType<Torrent>,
+    required: true
+  }
+});
+
+function files () {
+  const files = [];
+
+  if (props.torrent.files) {
+    for (const file of props.torrent.files) {
+      let filename = "";
+      for (const [i, path] of file.path.entries()) {
+        filename += path;
+        if (i !== file.path.length - 1) {
+          filename += "/";
         }
       }
-
-      return files;
+      files.push({
+        name: filename,
+        size: file.length
+      });
     }
   }
-};
+
+  return files;
+}
 </script>
 
 <style scoped>

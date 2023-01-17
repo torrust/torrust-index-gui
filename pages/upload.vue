@@ -31,7 +31,7 @@
       <div>
         <UploadFile sub-title="Only .torrent files allowed. BitTorrent v2 files are NOT supported." accept=".torrent" @on-change="setFile" />
       </div>
-      <template v-if="isUserLoggedIn()">
+      <template v-if="user?.username">
         <TorrustButton
           label="submit"
           :disabled="!formValid() || uploading"
@@ -90,31 +90,29 @@ function setFile (file: any) {
 }
 
 function submitForm () {
-  if (formValid() && !uploading.value) {
-    uploading.value = true;
+  uploading.value = true;
 
-    rest.value.torrent.uploadTorrent(
-      {
-        title: form.value.title,
-        category: form.value.category,
-        description: form.value.description,
-        file: form.value.torrentFile
-      }
-    )
-      .then((torrent_id) => {
-        uploading.value = false;
-        navigateTo(`/torrent/${torrent_id}`, { replace: true });
-      })
-      .catch((err) => {
-        uploading.value = false;
+  rest.value.torrent.uploadTorrent(
+    {
+      title: form.value.title,
+      category: form.value.category,
+      description: form.value.description,
+      file: form.value.torrentFile
+    }
+  )
+    .then((torrent_id) => {
+      uploading.value = false;
+      navigateTo(`/torrent/${torrent_id}`, { replace: true });
+    })
+    .catch((err) => {
+      uploading.value = false;
 
-        notify({
-          group: "foo",
-          title: "Error",
-          text: err
-        }, 4000);
-      });
-  }
+      notify({
+        group: "foo",
+        title: "Error",
+        text: err
+      }, 4000);
+    });
 }
 
 function login () {

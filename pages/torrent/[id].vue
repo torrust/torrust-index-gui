@@ -1,70 +1,35 @@
 <template>
   <div class="min-h-fit flex flex-col grow">
     <div class="max-w-full flex flex-col items-center">
-      <!-- MOBILE -->
-      <div id="torrent-view" class="mb-8 max-w-full flex lg:hidden flex-col items-center">
-        <TorrentActionCard v-if="torrent" class="mb-8 w-full" :torrent="torrent" @updated="reloadTorrent" />
-        <div id="torrent-view-details" class="w-full flex flex-col flex-auto items-center">
+      <div id="torrent-view" class="mb-8 flex flex-col-reverse md:flex-row flex-nowrap items-start w-full">
+        <div id="torrent-view-details" class="mr-8 flex flex-col flex-auto items-center w-full">
           <div id="torrent-view-details-body" class="w-full flex flex-col grow">
-            <div class="flex flex-col items-center">
-              <div id="details-switcher" class="mb-4 max-w-md h-12">
-                <ul class="flex flex-row border-b-2 border-slate-600 dark:border-neutral-600">
-                  <li v-for="(option) in tabs">
-                    <button
-                      class="inline-flex py-2 px-6 font-medium text-center text-slate-400 dark:text-neutral-200 hover:text-slate-200 border-b-2 border-transparent duration-200"
-                      :class="{ 'active': option.tab === tab }"
-                      style="margin-bottom: -2px;"
-                      @click="tab = option.tab"
-                    >
-                      {{ option.name }}
-                    </button>
-                  </li>
-                </ul>
+            <div class="flex flex-col gap-6">
+              <div v-if="torrent" class="hidden md:flex flex-row flex-nowrap items-center gap-3">
+                <button
+                  class="w-10 h-10 flex flex-col items-center justify-center bg-secondary hover:bg-tertiary rounded-md duration-200"
+                  @click.prevent="this.$router.go(-1)"
+                >
+                  <ChevronLeftIcon class="text-themeText/50 w-6 duration-200" />
+                </button>
+                <h2 class="md:text-2xl font-semibold text-themeText">{{ torrent.title }}</h2>
               </div>
-              <div v-if="torrent" class="mt-4 w-full flex flex-col flex-auto">
-                <TorrentOverviewTab v-if="tab === Tab.Overview" :torrent="torrent" @updated="reloadTorrent" />
-                <TorrentFilesTab v-else-if="tab === Tab.Files" :torrent="torrent" @updated="reloadTorrent" />
-                <TorrentTrackersTab v-else-if="tab === Tab.Trackers" :torrent="torrent" @updated="reloadTorrent" />
+              <div v-if="torrent" class="w-full flex flex-col flex-auto gap-6">
+                <TorrentOverviewTab :torrent="torrent" @updated="reloadTorrent" />
+                <TorrentFilesTab :torrent="torrent" @updated="reloadTorrent" />
+                <TorrentTrackersTab :torrent="torrent" @updated="reloadTorrent" />
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- DESKTOP -->
-      <div id="torrent-view" class="hidden mb-8 max-w-8xl lg:flex flex-row flex-nowrap items-start grow w-full">
-        <div id="torrent-view-details" class="mr-8 flex flex-col flex-auto items-center grow w-full">
-          <div id="torrent-view-details-body" class="w-full max-w-3xl flex flex-col grow">
-            <div class="flex flex-col items-center">
-              <div v-if="torrent" id="details-switcher" class="mb-4 max-w-md h-12">
-                <ul class="flex flex-row border-b-2 border-slate-600 dark:border-white/5">
-                  <li v-for="(option) in tabs">
-                    <button
-                      class="inline-flex py-2 px-6 font-medium text-center text-themeText/50 hover:text-themeText border-b-2 border-transparent dark:hover:border-white/10 duration-200"
-                      :class="{ 'active': option.tab === tab }"
-                      style="margin-bottom: -2px;"
-                      @click="tab = option.tab"
-                    >
-                      {{ option.name }}
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              <div v-if="torrent" class="mt-4 w-full flex flex-col flex-auto">
-                <TorrentOverviewTab v-if="tab === Tab.Overview" :torrent="torrent" @updated="reloadTorrent" />
-                <TorrentFilesTab v-else-if="tab === Tab.Files" :torrent="torrent" @updated="reloadTorrent" />
-                <TorrentTrackersTab v-else-if="tab === Tab.Trackers" :torrent="torrent" @updated="reloadTorrent" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <TorrentActionCard class="top-24 sticky max-w-md" :torrent="torrent" @updated="reloadTorrent" />
+        <TorrentActionCard class="top-24 md:sticky max-w-md" :torrent="torrent" @updated="reloadTorrent" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import { Ref } from "vue";
 import { useRoute, useRuntimeConfig } from "#app";
 import { Torrent } from "torrust-index-types-lib";
@@ -85,7 +50,7 @@ enum Tab {
 }
 
 const tabs = [
-  { name: "Overview", tab: 0 },
+  { name: "Description", tab: 0 },
   { name: "Files", tab: 1 },
   { name: "Trackers", tab: 2 }
 ];
@@ -119,11 +84,15 @@ function reloadTorrent () {
 
 <style scoped>
 .active {
-  @apply text-themeText border-accent;
+  @apply bg-accent/20 text-accent;
 }
 </style>
 
 <style>
+img {
+  @apply rounded-2xl;
+}
+
 .markdown-body {
   @apply text-themeText;
 }

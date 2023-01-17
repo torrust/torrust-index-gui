@@ -1,34 +1,43 @@
 <template>
-  <div class="flex flex-col">
-    <div id="torrent-description" class="mb-10 flex flex-col">
-      <div class="mb-5 px-5 flex flex-row justify-between">
-        <h2 class="mr-1 text-2xl text-left text-themeText font-medium">
-          Trackers
-        </h2>
-      </div>
+  <div id="torrent-description" class="flex flex-col gap-6">
+    <div class="flex flex-row justify-between items-center">
+      <h2 class="mr-1 text-2xl text-left text-themeText/50 font-medium">
+        Trackers
+      </h2>
+      <button
+          class="w-10 h-10 flex flex-col items-center justify-center bg-secondary hover:bg-tertiary rounded-xl duration-200"
+          @click="collapsed = !collapsed"
+      >
+        <ChevronDownIcon class="text-themeText/50 w-6 duration-200" :class="{ 'rotate-90': collapsed }" />
+      </button>
+    </div>
+    <template v-if="!collapsed">
       <div class="w-full h-full flex flex-col">
         <div
-          v-for="tracker in torrent.trackers"
-          class="mb-3 p-6 w-full h-full flex flex-row grow justify-between items-center text-sm border border-slate-800 dark:border-white/5 rounded-2xl overflow-x-auto"
+            v-for="tracker in torrent.trackers"
+            class="mb-3 p-6 w-full h-full flex flex-row grow justify-between items-center text-sm border-2 border-secondary rounded-2xl overflow-x-auto"
         >
           <span class="text-themeText font-semibold">{{ tracker }}</span>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
-<script>
-export default {
-  name: "TorrentTrackersTab",
-  props: {
-    torrent: {
-      type: Object,
-      required: true,
-      default: () => {}
-    }
+<script setup lang="ts">
+import { ChevronDownIcon } from "@heroicons/vue/24/solid";
+import { PropType } from "vue";
+import { Torrent } from "torrust-index-types-lib";
+import { ref } from "#imports";
+
+const collapsed = ref(true);
+
+const props = defineProps({
+  torrent: {
+    type: Object as PropType<Torrent>,
+    required: true
   }
-};
+});
 </script>
 
 <style scoped>

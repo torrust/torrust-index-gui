@@ -15,7 +15,7 @@ export function isUserLoggedIn (): boolean {
 export function canEditThisTorrent (torrent: Torrent): boolean {
   const user = useUser().value;
 
-  if (!user) {
+  if (!user?.username) {
     return false;
   }
 
