@@ -61,48 +61,48 @@
 import { DocumentPlusIcon } from "@heroicons/vue/24/outline";
 
 export default {
-  name: "FileUpload",
-  components: { DocumentPlusIcon },
-  props: {
-    type: {
-      type: String,
-      default: () => "file",
-      validator: (value) => {
-        return ["file", "image"].includes(value);
-      }
+    name: "FileUpload",
+    components: { DocumentPlusIcon },
+    props: {
+        type: {
+            type: String,
+            default: () => "file",
+            validator: (value) => {
+                return ["file", "image"].includes(value);
+            }
+        },
+        accept: String,
+        subTitle: String,
+        error: Boolean
     },
-    accept: String,
-    subTitle: String,
-    error: Boolean
-  },
-  emits: ["onChange"],
-  data: () => ({
-    filedrag: false,
-    filelist: []
-  }),
-  methods: {
-    dragover (event) {
-      event.preventDefault();
-      this.filedrag = true;
-    },
-    dragleave () {
-      this.filedrag = false;
-    },
-    dropFile (event) {
-      event.preventDefault();
-      this.$refs.file.files = event.dataTransfer.files;
-      this.onChange();
+    emits: ["onChange"],
+    data: () => ({
+        filedrag: false,
+        filelist: []
+    }),
+    methods: {
+        dragover (event) {
+            event.preventDefault();
+            this.filedrag = true;
+        },
+        dragleave () {
+            this.filedrag = false;
+        },
+        dropFile (event) {
+            event.preventDefault();
+            this.$refs.file.files = event.dataTransfer.files;
+            this.onChange();
 
-      this.filedrag = false;
-    },
-    onChange () {
-      this.filelist = [...this.$refs.file.files];
-      this.$emit("onChange", [...this.$refs.file.files]);
-    },
-    fileUrl (file) {
-      return URL.createObjectURL(file);
+            this.filedrag = false;
+        },
+        onChange () {
+            this.filelist = [...this.$refs.file.files];
+            this.$emit("onChange", [...this.$refs.file.files]);
+        },
+        fileUrl (file) {
+            return URL.createObjectURL(file);
+        }
     }
-  }
 };
 </script>
 

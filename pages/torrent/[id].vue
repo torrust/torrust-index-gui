@@ -8,14 +8,16 @@
               <div v-if="torrent" class="hidden md:flex flex-row flex-nowrap items-center gap-3">
                 <button
                   class="w-10 h-10 flex flex-col items-center justify-center bg-secondary hover:bg-tertiary rounded-md duration-200"
-                  @click.prevent="this.$router.go(-1)"
+                  @click.prevent="$router.go(-1)"
                 >
                   <ChevronLeftIcon class="text-themeText/50 w-6 duration-200" />
                 </button>
-                <h2 class="md:text-2xl font-semibold text-themeText">{{ torrent.title }}</h2>
+                <h2 class="md:text-2xl font-semibold text-themeText">
+                  {{ torrent.title }}
+                </h2>
               </div>
               <div v-if="torrent" class="w-full flex flex-col flex-auto gap-6">
-                <TorrentOverviewTab :torrent="torrent" @updated="reloadTorrent" />
+                <TorrentDescriptionTab :torrent="torrent" @updated="reloadTorrent" />
                 <TorrentFilesTab :torrent="torrent" @updated="reloadTorrent" />
                 <TorrentTrackersTab :torrent="torrent" @updated="reloadTorrent" />
               </div>
@@ -34,51 +36,38 @@ import { Ref } from "vue";
 import { useRoute, useRuntimeConfig } from "#app";
 import { Torrent } from "torrust-index-types-lib";
 import TorrentActionCard from "~/components/torrent/TorrentActionCard.vue";
-import TorrentOverviewTab from "~/components/torrent/TorrentOverviewTab.vue";
+import TorrentDescriptionTab from "~/components/torrent/TorrentDescriptionTab.vue";
 import TorrentFilesTab from "~/components/torrent/TorrentFilesTab.vue";
 import TorrentTrackersTab from "~/components/torrent/TorrentTrackersTab.vue";
 import { onMounted, ref, useRestApi } from "#imports";
 
 const config = useRuntimeConfig();
 const route = useRoute();
-const rest = useRestApi();
+const rest = useRestApi().value;
 
-enum Tab {
-  Overview,
-  Files,
-  Trackers
-}
-
-const tabs = [
-  { name: "Description", tab: 0 },
-  { name: "Files", tab: 1 },
-  { name: "Trackers", tab: 2 }
-];
-
-const tab: Ref<Tab> = ref(Tab.Overview);
 const loadingTorrent: Ref<boolean> = ref(false);
 const torrent: Ref<Torrent> = ref(null);
 
 onMounted(async () => {
-  await getTorrentFromApi(Number(route.params.id));
+    await getTorrentFromApi(Number(route.params.id));
 });
 
 function getTorrentFromApi (torrentId: number) {
-  loadingTorrent.value = true;
+    loadingTorrent.value = true;
 
-  rest.value.torrent.getTorrent(torrentId)
-    .then((data) => {
-      torrent.value = data;
-    })
-    .catch(() => {
-      loadingTorrent.value = false;
-    });
+    rest.torrent.getTorrent(torrentId)
+        .then((data) => {
+            torrent.value = data;
+        })
+        .catch(() => {
+            loadingTorrent.value = false;
+        });
 
-  // TODO: Set torrent title in URL.
+    // TODO: Set torrent title in URL.
 }
 
 function reloadTorrent () {
-  getTorrentFromApi(torrent.value.torrent_id);
+    getTorrentFromApi(torrent.value.torrent_id);
 }
 </script>
 

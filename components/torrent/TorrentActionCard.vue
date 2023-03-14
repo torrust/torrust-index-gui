@@ -12,10 +12,10 @@
                 </h2>
               </div>
               <div class="mt-2 flex flex-row gap-4 flex-nowrap justify-between">
-                <div class="px-2 py-2 flex flex-col items-center justify-center bg-tertiary/25 w-1/2 rounded-md">
+                <div class="px-2 py-2 flex flex-col items-center justify-center w-1/2 border-2 border-secondary rounded-2xl">
                   <span id="seeders" class="px-2 text-green-500/95 font-semibold">{{ Number(torrent.seeders).toLocaleString() }}</span>
                 </div>
-                <div class="px-2 py-2 flex flex-col items-center justify-center bg-tertiary/25 w-1/2 rounded-md">
+                <div class="px-2 py-2 flex flex-col items-center justify-center w-1/2 border-2 border-secondary rounded-2xl">
                   <span id="leechers" class="px-2 text-red-500/95 font-semibold">{{ Number(torrent.leechers).toLocaleString() }}</span>
                 </div>
               </div>
@@ -65,14 +65,14 @@
               </button>
             </template>
           </div>
-<!--          <TorrustButton-->
-<!--            v-if="hasEditRights()"-->
-<!--            label="delete torrent"-->
-<!--            class="text-red-500 font-medium rounded-2xl"-->
-<!--            @click="deleteTorrent"-->
-<!--          >-->
-<!--            Delete torrent-->
-<!--          </TorrustButton>-->
+          <!--          <TorrustButton-->
+          <!--            v-if="hasEditRights()"-->
+          <!--            label="delete torrent"-->
+          <!--            class="text-red-500 font-medium rounded-2xl"-->
+          <!--            @click="deleteTorrent"-->
+          <!--          >-->
+          <!--            Delete torrent-->
+          <!--          </TorrustButton>-->
         </div>
       </div>
     </template>
@@ -89,14 +89,14 @@ import { Ref, PropType } from "vue";
 import { Torrent } from "torrust-index-types-lib";
 import { useRuntimeConfig } from "#app";
 import {
-  fileSize,
-  downloadTorrent,
-  ref,
-  useRestApi,
-  useSettings,
-  useUser,
-  isUserLoggedIn,
-  isTrackerPublic
+    fileSize,
+    downloadTorrent,
+    ref,
+    useRestApi,
+    useSettings,
+    useUser,
+    isUserLoggedIn,
+    isTrackerPublic
 } from "#imports";
 import { canEditThisTorrent } from "~/composables/helpers";
 
@@ -114,39 +114,39 @@ const state: Ref<State> = ref(State.Viewing);
 const updatedTitle: Ref<String> = ref(null);
 
 const emit = defineEmits([
-  "updated"
+    "updated"
 ]);
 
 const props = defineProps({
-  torrent: {
-    type: Object as PropType<Torrent>,
-    required: true
-  }
+    torrent: {
+        type: Object as PropType<Torrent>,
+        required: true
+    }
 });
 
 function hasEditRights (): boolean {
-  return canEditThisTorrent(props.torrent);
+    return canEditThisTorrent(props.torrent);
 }
 
 function showDownloadButtons () {
-  return isUserLoggedIn() || isTrackerPublic();
+    return isUserLoggedIn() || isTrackerPublic();
 }
 
 function startEditingTitle () {
-  updatedTitle.value = props.torrent.title;
-  state.value = State.Editing;
+    updatedTitle.value = props.torrent.title;
+    state.value = State.Editing;
 }
 
 function saveChanges () {
-  // TODO: Submit changes.
-  emit("updated");
-  state.value = State.Viewing;
+    // TODO: Submit changes.
+    emit("updated");
+    state.value = State.Viewing;
 }
 
 function deleteTorrent () {
-  rest.value.torrent.deleteTorrent(props.torrent.torrent_id)
-    .then(() => {
-      emit("updated");
-    });
+    rest.value.torrent.deleteTorrent(props.torrent.torrent_id)
+        .then(() => {
+            emit("updated");
+        });
 }
 </script>

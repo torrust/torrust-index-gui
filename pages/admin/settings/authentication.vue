@@ -18,10 +18,10 @@ import { PropType } from "vue";
 import { Settings, Requirement } from "torrust-index-types-lib";
 
 const props = defineProps({
-  settings: {
-    type: Object as PropType<Settings>,
-    required: true
-  }
+    settings: {
+        type: Object as PropType<Settings>,
+        required: true
+    }
 });
 </script>
 

@@ -58,46 +58,46 @@
 import { CheckIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
 
 export default {
-  name: "TorrustSelect",
-  components: { ChevronDownIcon, CheckIcon },
-  props: {
-    options: Array,
-    label: String,
-    multiple: Boolean,
-    update: Function
-  },
-  emits: ["updated"],
-  data: () => ({
-    active: false,
-    selectedOptions: []
-  }),
-  created () {
-    if (!this.multiple) {
-      this.toggleOption(this.options[0]);
-    }
-  },
-  methods: {
-    toggleDropdown () {
-      this.active = !this.active;
+    name: "TorrustSelect",
+    components: { ChevronDownIcon, CheckIcon },
+    props: {
+        options: Array,
+        label: String,
+        multiple: Boolean,
+        update: Function
     },
-    isSelectedOption (option) {
-      return this.selectedOptions.includes(option);
-    },
-    toggleOption (option) {
-      if (this.multiple) {
-        if (this.isSelectedOption(option)) {
-          this.selectedOptions.splice(this.selectedOptions.indexOf(option), 1);
-        } else {
-          this.selectedOptions.push(option);
+    emits: ["updated"],
+    data: () => ({
+        active: false,
+        selectedOptions: []
+    }),
+    created () {
+        if (!this.multiple) {
+            this.toggleOption(this.options[0]);
         }
-        this.$emit("updated", this.selectedOptions);
-      } else {
-        this.selectedOptions = [option];
-        this.active = false;
-        this.$emit("updated", option);
-      }
+    },
+    methods: {
+        toggleDropdown () {
+            this.active = !this.active;
+        },
+        isSelectedOption (option) {
+            return this.selectedOptions.includes(option);
+        },
+        toggleOption (option) {
+            if (this.multiple) {
+                if (this.isSelectedOption(option)) {
+                    this.selectedOptions.splice(this.selectedOptions.indexOf(option), 1);
+                } else {
+                    this.selectedOptions.push(option);
+                }
+                this.$emit("updated", this.selectedOptions);
+            } else {
+                this.selectedOptions = [option];
+                this.active = false;
+                this.$emit("updated", option);
+            }
+        }
     }
-  }
 };
 </script>
 

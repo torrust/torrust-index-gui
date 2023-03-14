@@ -58,9 +58,9 @@
 import { getSettings, getUser, onMounted } from "#imports";
 
 onMounted(() => {
-  document.querySelector("html").classList.add("theme-dark", "bg-primary");
+    document.querySelector("html").classList.add("theme-dark", "bg-primary");
 
-  getUser();
-  getSettings();
+    getUser();
+    getSettings();
 });
 </script>

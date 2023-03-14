@@ -21,26 +21,26 @@
 
 <script>
 export default {
-  name: "Breadcrumb",
-  computed: {
-    crumbs: function () {
-      const pathArray = this.$route.path.split("/");
-      pathArray.shift();
-      const breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
-        if (this.$route.matched[idx]) {
-          breadcrumbArray.push({
-            path,
-            to: breadcrumbArray[idx - 1]
-              ? "/" + breadcrumbArray[idx - 1].path + "/" + path
-              : "/" + path,
-            text: this.$route.matched[idx].meta.breadCrumb || path
-          });
+    name: "Breadcrumb",
+    computed: {
+        crumbs: function () {
+            const pathArray = this.$route.path.split("/");
+            pathArray.shift();
+            const breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
+                if (this.$route.matched[idx]) {
+                    breadcrumbArray.push({
+                        path,
+                        to: breadcrumbArray[idx - 1]
+                            ? "/" + breadcrumbArray[idx - 1].path + "/" + path
+                            : "/" + path,
+                        text: this.$route.matched[idx].meta.breadCrumb || path
+                    });
+                }
+                return breadcrumbArray;
+            }, []);
+            return breadcrumbs;
         }
-        return breadcrumbArray;
-      }, []);
-      return breadcrumbs;
     }
-  }
 };
 </script>
 

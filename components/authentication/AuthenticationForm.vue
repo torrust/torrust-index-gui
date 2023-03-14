@@ -109,89 +109,89 @@ const settings = useSettings();
 
 const state: Ref<State> = ref(State.Login);
 const form: Ref<Form> = ref({
-  username: "",
-  email: "",
-  password: "",
-  confirm_password: ""
+    username: "",
+    email: "",
+    password: "",
+    confirm_password: ""
 });
 
 const props = defineProps({
-  signup: Boolean
+    signup: Boolean
 });
 
 onMounted(() => {
-  if (props.signup) {
-    state.value = State.Signup;
-  }
+    if (props.signup) {
+        state.value = State.Signup;
+    }
 });
 
 function toggleState () {
-  switch (state.value) {
-  case State.Login:
-    state.value = State.Signup;
-    break;
-  case State.Signup:
-    state.value = State.Login;
-    break;
-  }
+    switch (state.value) {
+    case State.Login:
+        state.value = State.Signup;
+        break;
+    case State.Signup:
+        state.value = State.Login;
+        break;
+    }
 }
 
 function close () {
-  authModalOpen.value = false;
+    authModalOpen.value = false;
 }
 
 function submit () {
-  switch (state.value) {
-  case State.Login:
-    login();
-    break;
-  case State.Signup:
-    signup();
-    break;
-  }
+    switch (state.value) {
+    case State.Login:
+        login();
+        break;
+    case State.Signup:
+        signup();
+        break;
+    }
 }
 
 function login () {
-  loginUser(form.value.username, form.value.password)
-    .then(() => {
-      notify({
-        group: "foo",
-        title: "Success",
-        text: "You were logged in!"
-      }, 4000);
+    loginUser(form.value.username, form.value.password)
+        .then(() => {
+            notify({
+                group: "foo",
+                title: "Success",
+                text: "You were logged in!"
+            }, 4000);
 
-      authModalOpen.value = false;
-    })
-    .catch((err) => {
-      notify({
-        group: "foo",
-        title: "Error",
-        text: err.response.data.error
-      }, 4000); // 4s
-    });
+            authModalOpen.value = false;
+        })
+        .catch((err) => {
+            notify({
+                group: "foo",
+                title: "Error",
+                text: err.response.data.error
+            }, 4000); // 4s
+        });
 }
 
 function signup () {
-  rest.value.user.registerUser({
-    username: form.value.username,
-    email: form.value.email,
-    password: form.value.password,
-    confirm_password: form.value.confirm_password
-  })
-    .then(() => {
-      notify({
-        group: "foo",
-        title: "Success",
-        text: "Your account was registered!"
-      }, 4000); // 4s
+    rest.value.user.registerUser({
+        username: form.value.username,
+        email: form.value.email,
+        password: form.value.password,
+        confirm_password: form.value.confirm_password
     })
-    .catch((err) => {
-      notify({
-        group: "foo",
-        title: "Error",
-        text: err.response.data.error
-      }, 4000); // 4s
-    });
+        .then(() => {
+            notify({
+                group: "foo",
+                title: "Success",
+                text: "Your account was registered!"
+            }, 4000); // 4s
+        })
+        .catch((err) => {
+            notify({
+                group: "foo",
+                title: "Error",
+                text: err.response.data.error
+            }, 4000); // 4s
+        });
 }
 </script>
 

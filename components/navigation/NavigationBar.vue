@@ -229,21 +229,21 @@ const userDropdown: Ref<boolean> = ref(false);
 const typingInSearch = ref(false);
 
 function submitSearch () {
-  router.push({
-    path: "/torrents",
-    query: {
-      search: searchQuery.value ?? null
-    }
-  });
+    router.push({
+        path: "/torrents",
+        query: {
+            search: searchQuery.value ?? null
+        }
+    });
 }
 
 function login () {
-  authModalOpen.value = true;
+    authModalOpen.value = true;
 }
 
 function closeDropdowns () {
-  exploreDropdown.value = false;
-  userDropdown.value = false;
+    exploreDropdown.value = false;
+    userDropdown.value = false;
 }
 </script>
 

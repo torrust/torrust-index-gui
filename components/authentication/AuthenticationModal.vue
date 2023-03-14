@@ -17,7 +17,7 @@ import { useAuthenticationModal } from "#imports";
 const authModalOpen = useAuthenticationModal();
 
 function close () {
-  authModalOpen.value = false;
+    authModalOpen.value = false;
 }
 </script>
 

@@ -176,46 +176,46 @@
 
 <script>
 export default {
-  name: "Pagination",
-  props: {
-    currentPage: {
-      default: 1,
-      required: true
+    name: "Pagination",
+    props: {
+        currentPage: {
+            default: 1,
+            required: true
+        },
+        pageSize: {
+            default: 20,
+            required: true
+        },
+        totalPages: {
+            default: 10,
+            required: true
+        },
+        totalResults: {
+            default: 0,
+            required: true
+        }
     },
-    pageSize: {
-      default: 20,
-      required: true
-    },
-    totalPages: {
-      default: 10,
-      required: true
-    },
-    totalResults: {
-      default: 0,
-      required: true
-    }
-  },
-  methods: {
-    goToFirstPage () {
-      this.goToPage(1);
-    },
-    goToLastPage () {
-      this.goToPage(this.totalPages);
-    },
-    goToPrevPage () {
-      this.goToPage(this.currentPage - 1);
-    },
-    goToNextPage () {
-      this.goToPage(this.currentPage + 1);
-    },
-    goToPage (pageNum) {
-      if (pageNum > this.totalPages || pageNum < 1) {
-        return;
-      }
+    methods: {
+        goToFirstPage () {
+            this.goToPage(1);
+        },
+        goToLastPage () {
+            this.goToPage(this.totalPages);
+        },
+        goToPrevPage () {
+            this.goToPage(this.currentPage - 1);
+        },
+        goToNextPage () {
+            this.goToPage(this.currentPage + 1);
+        },
+        goToPage (pageNum) {
+            if (pageNum > this.totalPages || pageNum < 1) {
+                return;
+            }
 
-      this.$emit("update:currentPage", pageNum);
+            this.$emit("update:currentPage", pageNum);
+        }
     }
-  }
 };
 </script>
 

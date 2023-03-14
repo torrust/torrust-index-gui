@@ -32,35 +32,35 @@ import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/solid";
 import { mapState } from "vuex";
 
 export default {
-  name: "FilterCategory",
-  components: { AdjustmentsHorizontalIcon },
-  data: () => ({
-    dropdownOpened: false
-  }),
-  computed: {
-    ...mapState({
-      user: state => state.auth.user,
-      categories: state => state.categories,
-      categoryFilters: state => state.categoryFilters
-    })
-  },
-  methods: {
-    filterActive (category) {
-      return this.categoryFilters.includes(category);
+    name: "FilterCategory",
+    components: { AdjustmentsHorizontalIcon },
+    data: () => ({
+        dropdownOpened: false
+    }),
+    computed: {
+        ...mapState({
+            user: state => state.auth.user,
+            categories: state => state.categories,
+            categoryFilters: state => state.categoryFilters
+        })
     },
-    selectFilter (category) {
-      const filters = this.categoryFilters;
-      if (filters.includes(category)) {
-        filters.splice(filters.indexOf(category), 1);
-      } else {
-        filters.push(category);
-      }
-      this.$store.commit("setCategoryFilters", filters);
-    },
-    clearFilters () {
-      this.$store.commit("setCategoryFilters", []);
+    methods: {
+        filterActive (category) {
+            return this.categoryFilters.includes(category);
+        },
+        selectFilter (category) {
+            const filters = this.categoryFilters;
+            if (filters.includes(category)) {
+                filters.splice(filters.indexOf(category), 1);
+            } else {
+                filters.push(category);
+            }
+            this.$store.commit("setCategoryFilters", filters);
+        },
+        clearFilters () {
+            this.$store.commit("setCategoryFilters", []);
+        }
     }
-  }
 };
 </script>
 
