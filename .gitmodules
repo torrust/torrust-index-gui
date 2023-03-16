@@ -1,0 +1,3 @@
+[submodule "static-web-server"]
+	path = static-web-server
+	url = git@github.com:static-web-server/static-web-server.git
