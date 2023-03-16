@@ -1,0 +1,9 @@
+[general]
+
+#### Address & Root dir
+host = "::"
+port = 3000
+root = "./dist"
+
+#### Logging
+log-level = "debug"

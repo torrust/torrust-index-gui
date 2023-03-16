@@ -1,0 +1,9 @@
+[package]
+name = "torrust-index-frontend"
+version = "2.0.0-dev.1"
+authors = ["Jose Celano <josecelano@gmail.com>"]
+edition = "2021"
+
+[[bin]]
+name = "server"
+path = "server/main.rs"
