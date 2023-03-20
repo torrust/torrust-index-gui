@@ -1,84 +1,23 @@
-# Torrust Index Front End
+# Torrust Index Frontend
 
-![README HEADER](vue-2/img/Torrust_Repo_FrontEnd_Readme_Header-20220615.jpg)
+This repository contains the [vue-3](https://vuejs.org/) frontend web-application for the [Torrust Index](https://github.com/torrust/torrust-index) project.
 
-![Open Source](https://badgen.net/badge/Open%20Source/100%25/DA2CE7)
-![Cool](https://badgen.net/badge/Cool/100%25/FF7F50)
-
-![Nautilus Sponsored](https://badgen.net/badge/Sponsor/Nautilus%20Cyberneering/red)
-
----
-
-## 📢Important Updates 📢
-
-- None at the moment [ACCESS ALL UPDATES](https://github.com/torrust/torrust-index-frontend/wiki/Project-Updates)
-
----
----
-
-## Index
-
-- [PROJECT DESCRIPTION](#project-description)
-- [PROJECT ROADMAP](#project_roadmap)
-- [DOCUMENTATION](#documentation)
-- [INSTALLATION](#installation)
-- [CONTACT](#contact_and_contributing)
-- [CREDITS](#credits)
-
-## Project Description
-
-This repository serves as the frontend for the [Torrust Index](https://github.com/torrust/torrust-index) project.
-
-### Roadmap
-
-*Coming soon.*
+This frontend connects using the [Torrust Index Application Interface](https://github.com/torrust/torrust-index-api-lib) to our reference [Torrust Index Backend](https://github.com/torrust/torrust-index-backend).
 
 ## Documentation
 
 You can read the documentation [here](https://torrust.github.io/torrust-documentation/torrust-web-frontend/about/).
 
-## Installation
-
-1. Install prerequisites:
-    - [NodeJS/NPM](https://nodejs.org/) - NodeJS & Node Package Manager.
-
-2. Clone the repository:
-
-    ```bash
-    git clone https://github.com/torrust/torrust-index-frontend.git
-    ```
-
-3. Set the URL of the backend:
-    > Replace YOUR_BACKEND_URL
-
-    ```bash
-    echo "VITE_API_BASE_URL=YOUR_BACKEND_URL" > .env
-    ```
-
-4. Install node modules and build the frontend:
-
-    ```bash
-    npm i
-    npm run build
-    ```
-
-5. Serve the newly generated `dist` folder.
 
 ## Contact and Contributing
 
-Feel free to contact us via:
+We welcome new contributors. Please read our [contribution agreement](https://github.com/torrust/.github/blob/main/info/contributing.md).
 
-Message `Warm Beer#3352` on Discord or email `mick@dutchbits.nl`.
+Please report issues:
 
-or
+* Torrust Index Frontend specifically: [here](https://github.com/torrust/torrust-index-frontend/issues).
+* Torrust Index in general: [here](https://github.com/torrust/torrust-index/issues).
 
-Please make suggestions and report any **Torrust Index Front End** specific bugs you find to the issue tracker of this repository [here](https://github.com/torrust/torrust-index-frontend/issues)
-
-**Torrust Index Back End** specific issues can be submitted [here](https://github.com/torrust/torrust-index-backend/issues).
-
-Universal issues with the **Torrust Index** can be submitted [here](https://github.com/torrust/torrust-index/issues). Ideas and feature requests are welcome as well!
-
----
 
 ## Credits & Sponsors
 
