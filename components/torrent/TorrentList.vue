@@ -64,13 +64,13 @@ type Sort = {
 }
 
 const props = defineProps({
-    torrents: Array as PropType<Array<TorrentCompact>>,
-    updateSorting: Function,
-    sorting: Object
+  torrents: Array as PropType<Array<TorrentCompact>>,
+  updateSorting: Function,
+  sorting: Object
 });
 
 const sort: Ref<Sort> = ref({
-    name: Sorting.uploaded,
-    direction: Direction.DESC
+  name: Sorting.uploaded,
+  direction: Direction.DESC
 });
 </script>

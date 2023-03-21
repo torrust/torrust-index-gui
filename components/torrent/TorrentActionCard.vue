@@ -89,14 +89,14 @@ import { Ref, PropType } from "vue";
 import { Torrent } from "torrust-index-types-lib";
 import { useRuntimeConfig } from "#app";
 import {
-    fileSize,
-    downloadTorrent,
-    ref,
-    useRestApi,
-    useSettings,
-    useUser,
-    isUserLoggedIn,
-    isTrackerPublic
+  fileSize,
+  downloadTorrent,
+  ref,
+  useRestApi,
+  useSettings,
+  useUser,
+  isUserLoggedIn,
+  isTrackerPublic
 } from "#imports";
 import { canEditThisTorrent } from "~/composables/helpers";
 
@@ -114,39 +114,39 @@ const state: Ref<State> = ref(State.Viewing);
 const updatedTitle: Ref<String> = ref(null);
 
 const emit = defineEmits([
-    "updated"
+  "updated"
 ]);
 
 const props = defineProps({
-    torrent: {
-        type: Object as PropType<Torrent>,
-        required: true
-    }
+  torrent: {
+    type: Object as PropType<Torrent>,
+    required: true
+  }
 });
 
 function hasEditRights (): boolean {
-    return canEditThisTorrent(props.torrent);
+  return canEditThisTorrent(props.torrent);
 }
 
 function showDownloadButtons () {
-    return isUserLoggedIn() || isTrackerPublic();
+  return isUserLoggedIn() || isTrackerPublic();
 }
 
 function startEditingTitle () {
-    updatedTitle.value = props.torrent.title;
-    state.value = State.Editing;
+  updatedTitle.value = props.torrent.title;
+  state.value = State.Editing;
 }
 
 function saveChanges () {
-    // TODO: Submit changes.
-    emit("updated");
-    state.value = State.Viewing;
+  // TODO: Submit changes.
+  emit("updated");
+  state.value = State.Viewing;
 }
 
 function deleteTorrent () {
-    rest.value.torrent.deleteTorrent(props.torrent.torrent_id)
-        .then(() => {
-            emit("updated");
-        });
+  rest.value.torrent.deleteTorrent(props.torrent.torrent_id)
+    .then(() => {
+      emit("updated");
+    });
 }
 </script>

@@ -39,32 +39,32 @@ import { ref, fileSize } from "#imports";
 const collapsed = ref(true);
 
 const props = defineProps({
-    torrent: {
-        type: Object as PropType<Torrent>,
-        required: true
-    }
+  torrent: {
+    type: Object as PropType<Torrent>,
+    required: true
+  }
 });
 
 function files () {
-    const files = [];
+  const files = [];
 
-    if (props.torrent.files) {
-        for (const file of props.torrent.files) {
-            let filename = "";
-            for (const [i, path] of file.path.entries()) {
-                filename += path;
-                if (i !== file.path.length - 1) {
-                    filename += "/";
-                }
-            }
-            files.push({
-                name: filename,
-                size: file.length
-            });
+  if (props.torrent.files) {
+    for (const file of props.torrent.files) {
+      let filename = "";
+      for (const [i, path] of file.path.entries()) {
+        filename += path;
+        if (i !== file.path.length - 1) {
+          filename += "/";
         }
+      }
+      files.push({
+        name: filename,
+        size: file.length
+      });
     }
+  }
 
-    return files;
+  return files;
 }
 </script>
 

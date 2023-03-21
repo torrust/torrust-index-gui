@@ -49,11 +49,11 @@ import { Settings } from "torrust-index-types-lib";
 import { getSettings, onMounted, ref, useRestApi, useRoute, watch } from "#imports";
 
 const tabs = [
-    "general",
-    "tracker",
-    "authentication",
-    "database",
-    "email"
+  "general",
+  "tracker",
+  "authentication",
+  "database",
+  "email"
 ];
 
 const rest = useRestApi();
@@ -63,43 +63,43 @@ const settings: Ref<Settings> = ref(null);
 const settingsChanges: Ref<Settings> = ref(null);
 
 watch([settings], () => {
-    clearChanges();
+  clearChanges();
 });
 
 onMounted(() => {
-    getAdminSettings();
+  getAdminSettings();
 });
 
 function getAdminSettings () {
-    rest.value.settings.getSettings()
-        .then((v) => {
-            settings.value = v;
-        });
+  rest.value.settings.getSettings()
+    .then((v) => {
+      settings.value = v;
+    });
 }
 
 function saveSettings () {
-    updatingSettings.value = true;
+  updatingSettings.value = true;
 
-    rest.value.settings.updateSettings(settingsChanges.value)
-        .then((v) => {
-            settings.value = v;
+  rest.value.settings.updateSettings(settingsChanges.value)
+    .then((v) => {
+      settings.value = v;
 
-            updatingSettings.value = false;
+      updatingSettings.value = false;
 
-            getSettings();
-        })
-        .catch(() => {
-            updatingSettings.value = false;
-        });
+      getSettings();
+    })
+    .catch(() => {
+      updatingSettings.value = false;
+    });
 }
 
 function clearChanges () {
-    // This is how you clone without references in JS...
-    settingsChanges.value = JSON.parse(JSON.stringify(settings.value));
+  // This is how you clone without references in JS...
+  settingsChanges.value = JSON.parse(JSON.stringify(settings.value));
 }
 
 function madeChanges (): boolean {
-    return JSON.stringify(settingsChanges.value) !== JSON.stringify(settings.value);
+  return JSON.stringify(settingsChanges.value) !== JSON.stringify(settings.value);
 }
 </script>
 

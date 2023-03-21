@@ -33,10 +33,10 @@ import { ref } from "#imports";
 const collapsed = ref(true);
 
 const props = defineProps({
-    torrent: {
-        type: Object as PropType<Torrent>,
-        required: true
-    }
+  torrent: {
+    type: Object as PropType<Torrent>,
+    required: true
+  }
 });
 </script>
 

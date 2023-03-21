@@ -49,25 +49,25 @@ const loadingTorrent: Ref<boolean> = ref(false);
 const torrent: Ref<Torrent> = ref(null);
 
 onMounted(async () => {
-    await getTorrentFromApi(Number(route.params.id));
+  await getTorrentFromApi(Number(route.params.id));
 });
 
 function getTorrentFromApi (torrentId: number) {
-    loadingTorrent.value = true;
+  loadingTorrent.value = true;
 
-    rest.torrent.getTorrent(torrentId)
-        .then((data) => {
-            torrent.value = data;
-        })
-        .catch(() => {
-            loadingTorrent.value = false;
-        });
+  rest.torrent.getTorrent(torrentId)
+    .then((data) => {
+      torrent.value = data;
+    })
+    .catch(() => {
+      loadingTorrent.value = false;
+    });
 
-    // TODO: Set torrent title in URL.
+  // TODO: Set torrent title in URL.
 }
 
 function reloadTorrent () {
-    getTorrentFromApi(torrent.value.torrent_id);
+  getTorrentFromApi(torrent.value.torrent_id);
 }
 </script>
 

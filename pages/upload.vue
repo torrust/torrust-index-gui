@@ -62,6 +62,7 @@ type FormUploadTorrent = {
   title: string;
   category: string;
   description: string;
+  tags: Array<number>;
   torrentFile: any;
 }
 
@@ -73,52 +74,54 @@ const rest = useRestApi();
 
 const uploading: Ref<boolean> = ref(false);
 const form: Ref<FormUploadTorrent> = ref({
-    title: "",
-    category: "",
-    description: "",
-    torrentFile: ""
+  title: "",
+  category: "",
+  description: "",
+  tags: [],
+  torrentFile: ""
 });
 
 onMounted(() => {
-    getCategories();
+  getCategories();
 });
 
 function formValid () {
-    return form.value.title && form.value.category && form.value.torrentFile;
+  return form.value.title && form.value.category && form.value.torrentFile;
 }
 
 function setFile (file: any) {
-    [form.value.torrentFile] = file;
+  [form.value.torrentFile] = file;
 }
 
 function submitForm () {
-    uploading.value = true;
+  uploading.value = true;
 
-    rest.value.torrent.uploadTorrent(
-        {
-            title: form.value.title,
-            category: form.value.category,
-            description: form.value.description,
-            file: form.value.torrentFile
-        }
-    )
-        .then((torrent_id) => {
-            uploading.value = false;
-            navigateTo(`/torrent/${torrent_id}`, { replace: true });
-        })
-        .catch((err) => {
-            uploading.value = false;
+  rest.value.torrent.uploadTorrent(
+    {
+      title: form.value.title,
+      category: form.value.category,
+      description: form.value.description,
+      tags: form.value.tags,
+      file: form.value.torrentFile
+    }
+  )
+    .then((torrent_id) => {
+      uploading.value = false;
+      navigateTo(`/torrent/${torrent_id}`, { replace: true });
+    })
+    .catch((err) => {
+      uploading.value = false;
 
-            notify({
-                group: "foo",
-                title: "Error",
-                text: err
-            }, 4000);
-        });
+      notify({
+        group: "foo",
+        title: "Error",
+        text: err
+      }, 4000);
+    });
 }
 
 function login () {
-    authModalOpen.value = true;
+  authModalOpen.value = true;
 }
 </script>
 

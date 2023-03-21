@@ -45,10 +45,10 @@ const pageSizeList = [20, 50, 100, 200];
 
 // TODO: provide sorting options from backend.
 const sortingOptions: Array<SortingOption> = [
-    { name: "Uploaded (Newest first)", value: "UploadedDesc" },
-    { name: "Uploaded (Oldest first)", value: "UploadedAsc" },
-    { name: "Seeders (High to low)", value: "SeedersDesc" },
-    { name: "Leechers (High to low)", value: "LeechersDesc" }
+  { name: "Uploaded (Newest first)", value: "UploadedDesc" },
+  { name: "Uploaded (Oldest first)", value: "UploadedAsc" },
+  { name: "Seeders (High to low)", value: "SeedersDesc" },
+  { name: "Leechers (High to low)", value: "LeechersDesc" }
 ];
 
 const route = useRoute();
@@ -67,81 +67,81 @@ const currentPage: Ref<number> = ref(1);
 const itemsSorting: Ref<SortingOption> = ref(sortingOptions[0]);
 
 watch([route], () => {
-    searchQuery.value = route.query.search as string ?? null;
-    loadTorrents();
+  searchQuery.value = route.query.search as string ?? null;
+  loadTorrents();
 });
 
 onMounted(() => {
-    getCategories();
-    searchQuery.value = route.query.search as string ?? null;
-    updateSortFromRoute();
-    loadTorrents();
+  getCategories();
+  searchQuery.value = route.query.search as string ?? null;
+  updateSortFromRoute();
+  loadTorrents();
 });
 
 function loadTorrents () {
-    rest.value.torrent.getTorrents(
-        {
-            pageSize: pageSize.value,
-            page: currentPage.value,
-            sorting: itemsSorting.value.value,
-            categories: categoryFilters.value,
-            searchQuery: searchQuery.value
-        }
-    )
-        .then((v) => {
-            torrentsTotal.value = v.total;
-            torrents.value = v.results;
-        });
+  rest.value.torrent.getTorrents(
+    {
+      pageSize: pageSize.value,
+      page: currentPage.value,
+      sorting: itemsSorting.value.value,
+      categories: categoryFilters.value,
+      searchQuery: searchQuery.value
+    }
+  )
+    .then((v) => {
+      torrentsTotal.value = v.total;
+      torrents.value = v.results;
+    });
 }
 
 function updateSortFromRoute () {
-    if (route.query.sorting) {
-        switch (route.query.sorting) {
-        case "popular":
-            itemsSorting.value = sortingOptions[2];
-            break;
-        case "recent":
-            itemsSorting.value = sortingOptions[0];
-            break;
-        default:
-            itemsSorting.value = sortingOptions[2];
-        }
+  if (route.query.sorting) {
+    switch (route.query.sorting) {
+    case "popular":
+      itemsSorting.value = sortingOptions[2];
+      break;
+    case "recent":
+      itemsSorting.value = sortingOptions[0];
+      break;
+    default:
+      itemsSorting.value = sortingOptions[2];
     }
+  }
 }
 
 function updateSorting (sorting: SortingOption) {
-    currentPage.value = 1;
-    itemsSorting.value = sorting;
-    loadTorrents();
+  currentPage.value = 1;
+  itemsSorting.value = sorting;
+  loadTorrents();
 }
 
 function clearSearch () {
-    router.push({
-        replace: true,
-        query: {
-            ...route.query,
-            search: ""
-        }
-    });
+  router.push({
+    replace: true,
+    query: {
+      ...route.query,
+      search: ""
+    }
+  });
 }
 
 function setCategoryFilters (categories: Array<TorrentCategory>) {
-    const filters: Array<string> = [];
+  const filters: Array<string> = [];
 
-    categories.forEach((category) => {
-        filters.push(category.name);
-    });
+  categories.forEach((category) => {
+    filters.push(category.name);
+  });
 
-    categoryFilters.value = filters;
+  categoryFilters.value = filters;
 }
 
 function setPageSize (size: number) {
-    pageSize.value = size;
-    loadTorrents();
+  pageSize.value = size;
+  loadTorrents();
 }
 
 function totalPages () {
-    return Math.ceil(torrentsTotal.value / pageSize.value);
+  return Math.ceil(torrentsTotal.value / pageSize.value);
 }
 
 // export default {

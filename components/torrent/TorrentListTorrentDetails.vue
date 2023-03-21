@@ -50,21 +50,21 @@ const opened: Ref<boolean> = ref(false);
 const torrent: Ref<Torrent> = ref(null);
 
 const props = defineProps({
-    torrentId: Number
+  torrentId: Number
 });
 
 function openDetails () {
-    if (opened.value) {
-        opened.value = false;
-        return;
-    }
+  if (opened.value) {
+    opened.value = false;
+    return;
+  }
 
-    opened.value = true;
+  opened.value = true;
 
-    rest.value.torrent.getTorrent(props.torrentId)
-        .then((data) => {
-            torrent.value = data;
-        });
+  rest.value.torrent.getTorrent(props.torrentId)
+    .then((data) => {
+      torrent.value = data;
+    });
 }
 </script>
 

@@ -38,10 +38,10 @@ import { Settings, TrackerMode } from "torrust-index-types-lib";
 import { PropType } from "vue";
 
 const props = defineProps({
-    settings: {
-        type: Object as PropType<Settings>,
-        required: true
-    }
+  settings: {
+    type: Object as PropType<Settings>,
+    required: true
+  }
 });
 </script>
 

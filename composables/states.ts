@@ -9,42 +9,42 @@ export const useSettings = () => useState<PublicSettings>("public-settings", () 
 export const useUser = () => useState<User>("user", () => null);
 
 export function getSettings () {
-    useRestApi().value.settings.getPublicSettings()
-        .then((publicSettings) => {
-            useSettings().value = publicSettings;
-        });
+  useRestApi().value.settings.getPublicSettings()
+    .then((publicSettings) => {
+      useSettings().value = publicSettings;
+    });
 }
 
 export function getCategories () {
-    useRestApi().value.category.getCategories()
-        .then((res) => {
-            useCategories().value = res;
-        });
+  useRestApi().value.category.getCategories()
+    .then((res) => {
+      useCategories().value = res;
+    });
 }
 
 export async function loginUser (login: string, password: string) {
-    return await useRestApi().value.user.loginUser({
-        login,
-        password
-    })
-        .then((user) => {
-            useUser().value = user;
-        });
+  return await useRestApi().value.user.loginUser({
+    login,
+    password
+  })
+    .then((user) => {
+      useUser().value = user;
+    });
 }
 
 export function logoutUser () {
-    useUser().value = null;
+  useUser().value = null;
 
-    useRestApi().value.deleteToken();
+  useRestApi().value.deleteToken();
 }
 
 export async function getUser () {
-    if (!useRestApi().value.authToken) {
-        return;
-    }
+  if (!useRestApi().value.authToken) {
+    return;
+  }
 
-    return await useRestApi().value.user.renewToken()
-        .then((user) => {
-            useUser().value = user;
-        });
+  return await useRestApi().value.user.renewToken()
+    .then((user) => {
+      useUser().value = user;
+    });
 }

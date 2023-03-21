@@ -9,11 +9,11 @@
 
 <script setup lang="ts">
 const props = defineProps({
-    label: {
-        type: String,
-        required: true,
-        default: () => ""
-    }
+  label: {
+    type: String,
+    required: true,
+    default: () => ""
+  }
 });
 </script>
 

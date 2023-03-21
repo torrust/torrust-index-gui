@@ -26,32 +26,32 @@ import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/solid";
 import { mapState } from "vuex";
 
 export default {
-    name: "ChangePageSize",
-    components: { AdjustmentsHorizontalIcon },
-    props: {
-        updatePageSize: {
-            type: Function,
-            required: true
-        },
-        pageSizeList: {
-            type: Array,
-            required: true
-        }
+  name: "ChangePageSize",
+  components: { AdjustmentsHorizontalIcon },
+  props: {
+    updatePageSize: {
+      type: Function,
+      required: true
     },
-    data: () => ({
-        dropdownOpened: false
-    }),
-    computed: {
-        ...mapState({
-            user: state => state.auth.user
-        })
-    },
-    methods: {
-        updateSize (size) {
-            this.updatePageSize(size);
-            this.dropdownOpened = false;
-        }
+    pageSizeList: {
+      type: Array,
+      required: true
     }
+  },
+  data: () => ({
+    dropdownOpened: false
+  }),
+  computed: {
+    ...mapState({
+      user: state => state.auth.user
+    })
+  },
+  methods: {
+    updateSize (size) {
+      this.updatePageSize(size);
+      this.dropdownOpened = false;
+    }
+  }
 };
 </script>
 
