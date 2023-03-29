@@ -24,5 +24,24 @@ module.exports = {
       }
     }
   },
-  plugins: []
+  daisyui: {
+    themes: [
+      "halloween",
+      {
+        torrust: {
+          primary: "#f28c18",
+          "primary-content": "#ffecd3",
+          secondary: "#187EF2",
+          accent: "#51a800",
+          neutral: "#1b1d1d",
+          "base-100": "#212121",
+          info: "#2563eb",
+          success: "#16a34a",
+          warning: "#d97706",
+          error: "#dc2626",
+        }
+      }
+    ]
+  },
+  plugins: [require("daisyui")]
 };

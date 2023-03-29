@@ -1,20 +1,18 @@
 <template>
   <div class="min-h-fit flex flex-col grow">
     <div class="max-w-full flex flex-col items-center">
-      <div id="torrent-view" class="mb-8 flex flex-col-reverse md:flex-row flex-nowrap items-start w-full">
-        <div id="torrent-view-details" class="mr-8 flex flex-col flex-auto items-center w-full">
+      <div id="torrent-view" class="mb-8 flex flex-col-reverse md:flex-row flex-nowrap items-start w-full gap-3">
+        <div id="torrent-view-details" class="flex flex-col flex-auto items-center w-full">
           <div id="torrent-view-details-body" class="w-full flex flex-col grow">
             <div class="flex flex-col gap-6">
-              <div v-if="torrent" class="hidden md:flex flex-row flex-nowrap items-center gap-3">
+              <div class="hidden md:block">
                 <button
-                  class="w-10 h-10 flex flex-col items-center justify-center bg-secondary hover:bg-tertiary rounded-md duration-200"
+                  class="btn"
                   @click.prevent="$router.go(-1)"
                 >
-                  <ChevronLeftIcon class="text-themeText/50 w-6 duration-200" />
+                  <ChevronLeftIcon class="mr-2 w-5 text-base-content/50" />
+                  back
                 </button>
-                <h2 class="md:text-2xl font-semibold text-themeText">
-                  {{ torrent.title }}
-                </h2>
               </div>
               <div v-if="torrent" class="w-full flex flex-col flex-auto gap-6">
                 <TorrentDescriptionTab :torrent="torrent" @updated="reloadTorrent" />
@@ -25,6 +23,15 @@
           </div>
         </div>
         <TorrentActionCard class="top-24 md:sticky max-w-md" :torrent="torrent" @updated="reloadTorrent" />
+        <div class="block md:hidden">
+          <button
+            class="btn"
+            @click.prevent="$router.go(-1)"
+          >
+            <ChevronLeftIcon class="mr-2 w-5 text-base-content/50" />
+            back
+          </button>
+        </div>
       </div>
     </div>
   </div>

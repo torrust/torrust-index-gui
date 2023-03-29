@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-theme="torrust">
     <NotificationGroup group="foo">
       <div
         class="fixed inset-0 flex items-end justify-center p-6 px-4 py-6 pointer-events-none z-50"
@@ -58,8 +58,7 @@
 import { getSettings, getUser, onMounted } from "#imports";
 
 onMounted(() => {
-  document.querySelector("html").classList.add("theme-dark", "bg-primary");
-
+  document.querySelector("html").classList.add("bg-b1");
   getUser();
   getSettings();
 });

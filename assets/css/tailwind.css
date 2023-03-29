@@ -2,19 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-.theme-light {
-    --primary: 248 250 252;
-    --secondary: 226 232 240;
-    --tertiary: 203 213 225;
-    --text: 5 5 5;
-    --accent: 245 158 11;
-    --accent-dark: 217 119 6;
-}
-.theme-dark {
-    --primary: 23 23 23;
-    --secondary: 38 38 38;
-    --tertiary: 64 64 64;
-    --text: 245 245 245;
-    --accent: 245 158 11;
-    --accent-dark: 217 119 6;
-}
+/*.theme-light {*/
+/*    --primary: 248 250 252;*/
+/*    --secondary: 226 232 240;*/
+/*    --tertiary: 203 213 225;*/
+/*    --text: 5 5 5;*/
+/*    --accent: 245 158 11;*/
+/*    --accent-dark: 217 119 6;*/
+/*}*/
+/*.theme-dark {*/
+/*    --primary: 23 23 23;*/
+/*    --secondary: 38 38 38;*/
+/*    --tertiary: 64 64 64;*/
+/*    --text: 245 245 245;*/
+/*    --accent: 245 158 11;*/
+/*    --accent-dark: 217 119 6;*/
+/*}*/

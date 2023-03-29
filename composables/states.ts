@@ -1,9 +1,10 @@
 import { useRuntimeConfig, useState } from "#app";
-import { PublicSettings, TorrentCategory, User } from "torrust-index-types-lib";
+import { PublicSettings, TorrentCategory, User, TorrentTag } from "torrust-index-types-lib";
 import { Rest } from "torrust-index-api-lib";
 
 export const useRestApi = () => useState<Rest>("rest-api", () => new Rest(useRuntimeConfig().public.apiBase));
 export const useCategories = () => useState<Array<TorrentCategory>>("categories", () => new Array<TorrentCategory>());
+export const useTags = () => useState<Array<TorrentTag>>("tags", () => new Array<TorrentTag>());
 export const useAuthenticationModal = () => useState<boolean>("authentication-modal", () => false);
 export const useSettings = () => useState<PublicSettings>("public-settings", () => null);
 export const useUser = () => useState<User>("user", () => null);
@@ -19,6 +20,13 @@ export function getCategories () {
   useRestApi().value.category.getCategories()
     .then((res) => {
       useCategories().value = res;
+    });
+}
+
+export function getTags () {
+  useRestApi().value.torrent.getTags()
+    .then((res) => {
+      useTags().value = res;
     });
 }
 

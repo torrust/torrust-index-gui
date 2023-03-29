@@ -2,7 +2,7 @@
   <div id="torrent-files" class="flex flex-col gap-6">
     <div class="flex flex-row justify-between items-center">
       <h2 class="mr-1 text-2xl text-left text-themeText/50 font-medium">
-        Files
+        Files ({{ files().length }})
       </h2>
 
       <button
@@ -13,17 +13,26 @@
       </button>
     </div>
     <template v-if="!collapsed">
-      <div class="w-full h-full flex flex-col">
-        <div
-          v-for="file in files()"
-          class="mb-3 p-6 w-full h-full flex flex-row grow justify-between items-center text-sm border-2 border-secondary rounded-2xl overflow-x-auto"
-        >
-          <span class="text-themeText font-semibold">{{ file.name }}</span>
-          <div class="px-3 flex flex-row flex-nowrap items-center justify-center text-themeText/50 font-semibold">
-            <CircleStackIcon class="mr-1" size="18" />
-            <span class="whitespace-nowrap">{{ fileSize(file.size) }}</span>
-          </div>
-        </div>
+      <div class="overflow-x-auto">
+        <table class="table table-zebra w-full">
+          <!-- head -->
+          <thead>
+          <tr>
+            <th></th>
+            <th>file</th>
+            <th>size</th>
+          </tr>
+          </thead>
+          <tbody>
+          <template v-for="(file, index) in files()">
+            <tr>
+              <th>{{ index + 1 }}</th>
+              <td>{{ file.name }}</td>
+              <td>{{ fileSize(file.size) }}</td>
+            </tr>
+          </template>
+          </tbody>
+        </table>
       </div>
     </template>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-primary/80 z-40"
+    class="flex flex-col sticky top-0 h-16 md:h-20 justify-center bg-base-100/80 z-40"
     style="backdrop-filter: blur(20px);"
     @mouseleave="closeDropdowns()"
   >
@@ -26,7 +26,7 @@
                 class="absolute -ml-4 pt-60 z-10"
                 :class="{hidden: !exploreDropdown}"
               >
-                <div class="w-48 divide-y bg-secondary rounded-2xl overflow-hidden drop-shadow" @click.prevent="exploreDropdown = false">
+                <div class="w-48 divide-y bg-base-200 rounded-2xl overflow-hidden drop-shadow" @click.prevent="exploreDropdown = false">
                   <ul class="text-sm text-slate-400 font-medium duration-200" aria-labelledby="dropdownDefault">
                     <li class="p-4 w-full hover:bg-slate-700 hover:text-white duration-200">
                       <router-link to="/torrents" replace class="inline-flex items-center">
@@ -91,7 +91,7 @@
         <div id="search-bar" class="ml-6 hidden md:block mx-5 grow max-w-sm">
           <div class="flex flex-col">
             <div class="flex flex-col">
-              <div class="px-3.5 text-sm bg-tertiary/25 ring-2 ring-transparent ring-transparent hover:[&:not(:focus-within)]:ring-themeText/10 focus-within:ring-themeText/25 rounded-xl duration-200">
+              <div class="px-3.5 text-sm bg-base-200 ring-2 ring-transparent ring-transparent hover:[&:not(:focus-within)]:ring-primary/10 focus-within:ring-primary/25 rounded-xl duration-200">
                 <div class="flex flex-row items-center group">
                   <div class="flex flex-col grow">
                     <input
@@ -140,7 +140,7 @@
               leave-to-class="transform opacity-0 scale-95"
             >
               <template v-if="exploreDropdown">
-                <div class="absolute -left-6 top-10 z-10 mt-2 w-56 bg-secondary rounded-2xl drop-shadow">
+                <div class="absolute -left-6 top-10 z-10 mt-2 w-56 bg-base-200 rounded-2xl drop-shadow">
                   <ul class="p-3 text-themeText font-medium">
                     <NuxtLink to="/torrents" replace class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl duration-200">
                       <span class="flex flex-nowrap whitespace-nowrap">Browse all torrents</span>
@@ -178,7 +178,7 @@
                 leave-to-class="transform opacity-0 scale-95"
               >
                 <template v-if="userDropdown">
-                  <div class="absolute right-0 top-10 z-10 mt-2 w-56 bg-secondary rounded-2xl drop-shadow">
+                  <div class="absolute right-0 top-10 z-10 mt-2 w-56 bg-base-200 rounded-2xl drop-shadow">
                     <ul class="p-3 text-themeText font-medium">
                       <NuxtLink v-if="user?.admin" to="/admin/settings/general" class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl cursor-pointer duration-200">
                         <span class="flex flex-nowrap whitespace-nowrap">Settings</span>
@@ -191,12 +191,12 @@
                 </template>
               </transition>
             </div>
-            <NuxtLink to="/upload" class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-secondary font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500">
+            <NuxtLink to="/upload" class="btn btn-sm btn-secondary inline-flex flex-nowrap justify-center items-center">
               <span class="flex flex-nowrap whitespace-nowrap">upload torrent</span>
             </NuxtLink>
           </template>
           <template v-else>
-            <button class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-secondary font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500" @click="login()">
+            <button class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-base-200 font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500" @click="login()">
               <span class="flex flex-nowrap whitespace-nowrap">login</span>
             </button>
           </template>

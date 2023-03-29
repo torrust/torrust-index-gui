@@ -2,7 +2,7 @@
   <div id="torrent-description" class="flex flex-col gap-6">
     <div class="flex flex-row justify-between items-center">
       <h2 class="mr-1 text-2xl text-left text-themeText/50 font-medium">
-        Trackers
+        Trackers ({{ torrent.trackers.length }})
       </h2>
       <button
         class="w-10 h-10 flex flex-col items-center justify-center bg-secondary hover:bg-tertiary rounded-xl duration-200"
@@ -12,13 +12,26 @@
       </button>
     </div>
     <template v-if="!collapsed">
-      <div class="w-full h-full flex flex-col">
-        <div
-          v-for="tracker in torrent.trackers"
-          class="mb-3 p-6 w-full h-full flex flex-row grow justify-between items-center text-sm border-2 border-secondary rounded-2xl overflow-x-auto"
-        >
-          <span class="text-themeText font-semibold">{{ tracker }}</span>
-        </div>
+      <div class="overflow-x-auto">
+        <table class="table table-zebra w-full">
+          <!-- head -->
+          <thead>
+          <tr>
+            <th></th>
+            <th>tracker</th>
+            <th>seeders / leechers</th>
+          </tr>
+          </thead>
+          <tbody>
+          <template v-for="(tracker, index) in torrent.trackers">
+            <tr>
+              <th>{{ index + 1 }}</th>
+              <td>{{ tracker }}</td>
+              <td></td>
+            </tr>
+          </template>
+          </tbody>
+        </table>
       </div>
     </template>
   </div>

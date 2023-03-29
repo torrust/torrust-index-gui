@@ -1,79 +1,132 @@
 <template>
   <div class="w-full flex flex-col basis-full">
     <template v-if="torrent">
-      <div class="px-0 md:px-6 py-6 flex flex-col rounded-2xl">
-        <div class="mb-4 flex flex-col">
-          <div class="mb-4 flex flex-col">
-            <div class="flex flex-col gap-1">
-              <span class="font-semibold text-accent capitalize">{{ torrent.category.name }}</span>
-              <div class="flex flex-row justify-between">
-                <h2 v-if="state === State.Viewing" class="mb-1 text-themeText font-bold overflow-hidden break-words">
-                  {{ torrent.title }}
-                </h2>
-              </div>
-              <div class="mt-2 flex flex-row gap-4 flex-nowrap justify-between">
-                <div class="px-2 py-2 flex flex-col items-center justify-center w-1/2 border-2 border-secondary rounded-2xl">
-                  <span id="seeders" class="px-2 text-green-500/95 font-semibold">{{ Number(torrent.seeders).toLocaleString() }}</span>
-                </div>
-                <div class="px-2 py-2 flex flex-col items-center justify-center w-1/2 border-2 border-secondary rounded-2xl">
-                  <span id="leechers" class="px-2 text-red-500/95 font-semibold">{{ Number(torrent.leechers).toLocaleString() }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="p-6 w-full h-full flex flex-col border-2 border-secondary rounded-2xl">
-          <div class="flex flex-row flex-nowrap gap-3 font-medium text-sm text-themeText/50 text-sm">
-            <div class="flex flex-row flex-nowrap items-center justify-center">
-              <CalendarIcon class="mr-1 w-4" />
-              <span>{{ new Date(torrent.upload_date).toLocaleDateString() }}</span>
-            </div>
-            <div class="flex flex-row flex-nowrap items-center justify-center">
-              <CircleStackIcon class="mr-1 w-4" />
-              <span>{{ fileSize(torrent.file_size) }}</span>
-            </div>
-            <div class="flex flex-row flex-nowrap justify-start items-center text-sm">
-              <UserCircleIcon class="mr-1 w-4" />
-              <a class="mr-1 cursor-pointer">{{ torrent.uploader }}</a>
-            </div>
-          </div>
-          <div class="my-6 h-0.5 flex flex-col bg-secondary" />
-          <div class="flex flex-col">
-            <div v-if="showDownloadButtons" class="flex flex-row flex-nowrap items-center">
-              <TorrustButton
-                label="download torrent"
-                @click="downloadTorrent(torrent.torrent_id, torrent.title)"
-              >
-                Download torrent
-              </TorrustButton>
-              <button class="ml-2 w-12 h-12 flex flex-col shrink-0 items-center justify-center bg-secondary text-themeText/50 hover:text-themeText rounded-2xl duration-1000">
-                <LinkIcon class="w-6" />
-              </button>
-            </div>
-            <template v-else>
-              <button
-                class="mt-3 px-4 h-12 bg-white text-sm text-black font-medium rounded-2xl"
-                @click="$store.dispatch('openAuthModal')"
-              >
-                Please sign in to download
-              </button>
-              <button
-                class="mt-3 px-4 h-12 bg-sky-500 text-sm text-white font-medium rounded-2xl"
-                @click="$store.dispatch('openAuthModal')"
-              >
-                Please sign in to download
-              </button>
+      <div class="px-0 md:pl-12 flex flex-col gap-3">
+
+        <span class="text-lg font-bold capitalize truncate">{{ torrent.title }}</span>
+
+        <template v-if="torrent.tags.length">
+          <div class="flex flex-wrap space-x-2">
+            <template v-for="tag in torrent.tags">
+              <a class="px-2 py-1 bg-base-content/25 hover:bg-base-content/50 font-semibold capitalize text-xs rounded-lg cursor-pointer">{{ tag.name }}</a>
             </template>
           </div>
-          <!--          <TorrustButton-->
-          <!--            v-if="hasEditRights()"-->
-          <!--            label="delete torrent"-->
-          <!--            class="text-red-500 font-medium rounded-2xl"-->
-          <!--            @click="deleteTorrent"-->
-          <!--          >-->
-          <!--            Delete torrent-->
-          <!--          </TorrustButton>-->
+        </template>
+
+        <div/>
+
+        <div class="p-6 stats bg-base-300 flex flex-col gap-3 rounded-2xl">
+          <div class="flex flex-col items-center justify-between w-full">
+            <div class="w-full h-2 bg-transparent rounded-full overflow-hidden">
+              <template v-if="seedersPercentage() === 0 && leechersPercentage() === 0">
+                <div class="h-full bg-green-500 float-left" :style="{ width: '50%' }" />
+                <div class="h-full bg-red-500 float-right" :style="{ width: '50%' }" />
+              </template>
+              <template v-else>
+                <div class="h-full bg-green-500 float-left" :style="{ width: seedersPercentage() }" />
+                <div class="h-full bg-red-500 float-right" :style="{ width: leechersPercentage() }" />
+              </template>
+            </div>
+            <div class="mt-2 px-6 flex flex-row justify-between w-full">
+              <div class="mr-4 flex flex-col items-center">
+                <span class="stat-value text-green-500 font-bold">{{ torrent.seeders }}</span>
+                <span class="stat-title capitalize">seeders</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <span class="stat-value text-red-500 font-bold">{{ torrent.leechers }}</span>
+                <span class="stat-title capitalize">leechers</span>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div class="p-6 stats bg-base-300 flex flex-col rounded-2xl">
+          <div class="flex flex-col text-base-content/60 text-sm">
+            <div class="py-2 pt-0 flex flex-row">
+              <div class="flex flex-row w-1/2">
+                <TagIcon class="mr-2 w-4" />
+                <span>Category</span>
+              </div>
+              <div class="flex flex-row w-1/2">
+                <a class="link-primary capitalize">{{ torrent.category.name }}</a>
+              </div>
+            </div>
+            <div class="py-2 flex flex-row">
+              <div class="flex flex-row w-1/2">
+                <CalendarIcon class="mr-2 w-4" />
+                <span>Upload Date</span>
+              </div>
+              <div class="flex flex-row w-1/2">
+                <span>{{ new Date(torrent.upload_date).toLocaleDateString() }}</span>
+              </div>
+            </div>
+            <div class="py-2 flex flex-row">
+              <div class="flex flex-row w-1/2">
+                <CircleStackIcon class="mr-2 w-4" />
+                <span>File Size</span>
+              </div>
+              <div class="flex flex-row w-1/2">
+                <span>{{ fileSize(torrent.file_size) }}</span>
+              </div>
+            </div>
+            <div class="flex flex-row">
+              <div class="py-2 flex flex-row w-1/2">
+                <HashtagIcon class="mr-2 w-4" />
+                <span>Info Hash</span>
+              </div>
+              <div class="py-1 flex flex-row w-1/2">
+                <div class="relative border border-base-content/10 flex items-center max-w-full overflow-x-auto rounded-lg">
+                  <span class="px-2">{{ torrent.info_hash }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="py-2 pb-0 flex flex-row">
+              <div class="flex flex-row w-1/2">
+                <UserCircleIcon class="mr-2 w-4" />
+                <span>Uploader</span>
+              </div>
+              <div class="flex flex-row w-1/2">
+                <span>{{ torrent.uploader }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div/>
+
+        <div class="flex flex-row gap-3">
+          <template v-if="showDownloadButtons">
+            <button class="btn btn-primary grow" @click="downloadTorrent(torrent.torrent_id, torrent.title)">download torrent</button>
+            <button class="p-0 btn btn-primary w-12">
+              <LinkIcon class="w-6" />
+            </button>
+          </template>
+          <template v-else>
+            <button
+              class="mt-3 px-4 h-12 bg-white text-sm text-black font-medium rounded-2xl"
+              @click="$store.dispatch('openAuthModal')"
+            >
+              Please sign in to download
+            </button>
+            <button
+              class="mt-3 px-4 h-12 bg-sky-500 text-sm text-white font-medium rounded-2xl"
+              @click="$store.dispatch('openAuthModal')"
+            >
+              Please sign in to download
+            </button>
+          </template>
+        </div>
+
+        <div/>
+
+        <template v-if="hasEditRights()">
+          <button
+            class="btn btn-error"
+            @click="deleteTorrent"
+          >
+            delete torrent
+          </button>
+        </template>
       </div>
     </template>
     <template v-else>
@@ -83,8 +136,7 @@
 </template>
 
 <script setup lang="ts">
-import { CalendarIcon, CircleStackIcon, UserCircleIcon } from "@heroicons/vue/20/solid";
-import { CheckIcon, PencilIcon, XMarkIcon, LinkIcon } from "@heroicons/vue/24/solid";
+import { CheckIcon, PencilIcon, XMarkIcon, LinkIcon, CalendarIcon, CircleStackIcon, UserCircleIcon, HashtagIcon, TagIcon } from "@heroicons/vue/24/solid";
 import { Ref, PropType } from "vue";
 import { Torrent } from "torrust-index-types-lib";
 import { useRuntimeConfig } from "#app";
@@ -130,6 +182,16 @@ function hasEditRights (): boolean {
 
 function showDownloadButtons () {
   return isUserLoggedIn() || isTrackerPublic();
+}
+
+function seedersPercentage () {
+  const total = props.torrent.seeders + props.torrent.leechers;
+  return props.torrent.seeders > 0 ? `${(props.torrent.seeders / total) * 100}%` : 0;
+}
+
+function leechersPercentage () {
+  const total = props.torrent.seeders + props.torrent.leechers;
+  return props.torrent.leechers > 0 ? `${(props.torrent.leechers / total) * 100}%` : 0;
 }
 
 function startEditingTitle () {

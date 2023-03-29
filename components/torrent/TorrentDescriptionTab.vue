@@ -12,7 +12,7 @@
       </button>
     </div>
     <template v-if="!collapsed">
-      <div class="w-full h-full flex flex-col grow border-secondary rounded-2xl">
+      <div class="p-6 w-full h-full flex flex-col grow bg-base-300 rounded-2xl">
         <template v-if="torrent.description && state === State.Viewing">
           <div class="md-body max-w-none prose-sm prose-blue" v-html="sanitizedDescription" />
         </template>

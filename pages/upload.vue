@@ -30,6 +30,12 @@
           </select>
         </div>
       </template>
+      <template v-if="categories?.length > 0">
+        <div>
+          <label for="tags" class="px-2">Tags</label>
+          <TorrustSelect class="grow-0" :options="tags" multiple search @updated="setTags" />
+        </div>
+      </template>
       <div>
         <UploadFile sub-title="Only .torrent files allowed. BitTorrent v2 files are NOT supported." accept=".torrent" @on-change="setFile" />
       </div>
@@ -55,7 +61,18 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { notify } from "notiwind-ts";
-import { getCategories, navigateTo, onMounted, ref, useRestApi, useRuntimeConfig, useUser } from "#imports";
+import { TorrentTag } from "torrust-index-types-lib";
+import {
+  getCategories,
+  getTags,
+  navigateTo,
+  onMounted,
+  ref, toRaw,
+  useRestApi,
+  useRuntimeConfig,
+  useTags,
+  useUser
+} from "#imports";
 import { useAuthenticationModal, useCategories } from "~/composables/states";
 
 type FormUploadTorrent = {
@@ -68,6 +85,7 @@ type FormUploadTorrent = {
 
 const config = useRuntimeConfig();
 const categories = useCategories();
+const tags = useTags();
 const user = useUser();
 const authModalOpen = useAuthenticationModal();
 const rest = useRestApi();
@@ -83,10 +101,17 @@ const form: Ref<FormUploadTorrent> = ref({
 
 onMounted(() => {
   getCategories();
+  getTags();
 });
 
 function formValid () {
   return form.value.title && form.value.category && form.value.torrentFile;
+}
+
+function setTags (e: any) {
+  form.value.tags = toRaw(e).map((tag: TorrentTag) => {
+    return tag.tag_id;
+  });
 }
 
 function setFile (file: any) {
@@ -107,6 +132,7 @@ function submitForm () {
   )
     .then((torrent_id) => {
       uploading.value = false;
+
       navigateTo(`/torrent/${torrent_id}`, { replace: true });
     })
     .catch((err) => {
