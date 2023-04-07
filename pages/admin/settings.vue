@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-10">
     <div class="">
-      <h2 class="text-2xl font-semibold text-themeText capitalize">
+      <h2 class="text-2xl font-semibold text-neutral-content capitalize">
         admin settings
       </h2>
     </div>
@@ -10,13 +10,13 @@
         <div v-for="(option) in tabs" class="relative z-10">
           <NuxtLink
             :to="`/admin/settings/${option}`"
-            class="inline-block py-2 px-6 font-medium text-center text-themeText/50 capitalize hover:text-themeText border-b-2 border-transparent dark:hover:border-white/10 duration-200"
+            class="inline-block py-2 px-6 font-medium text-center text-neutral-content/50 capitalize hover:text-neutral-content border-b-2 border-transparent dark:hover:border-white/10 duration-200"
           >
             {{ option }}
           </NuxtLink>
         </div>
 
-        <div class="min-w-full absolute bottom-0 border-b-2 border-secondary z-0" />
+        <div class="min-w-full absolute bottom-0 border-b-2 border-base-content/20 z-0" />
       </div>
 
       <template v-if="settings">
@@ -105,6 +105,6 @@ function madeChanges (): boolean {
 
 <style scoped>
 .router-link-exact-active {
-  @apply text-themeText border-accent;
+  @apply text-neutral-content border-primary;
 }
 </style>

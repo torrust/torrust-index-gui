@@ -12,16 +12,6 @@ module.exports = {
     fontFamily: {
       display: ["Inter", "system-ui", "sans-serif"],
       body: ["Inter", "system-ui", "sans-serif"]
-    },
-    extend: {
-      colors: {
-        primary: "rgb(var(--primary) / <alpha-value>)",
-        secondary: "rgb(var(--secondary) / <alpha-value>)",
-        tertiary: "rgb(var(--tertiary) / <alpha-value>)",
-        themeText: "rgb(var(--text) / <alpha-value>)",
-        accent: "rgb(var(--accent) / <alpha-value>)",
-        "accent-dark": "rgb(var(--accent-dark) / <alpha-value>)"
-      }
     }
   },
   daisyui: {
@@ -30,7 +20,7 @@ module.exports = {
       {
         torrust: {
           primary: "#f28c18",
-          "primary-content": "#ffecd3",
+          "primary-content": "#fff7ee",
           secondary: "#187EF2",
           accent: "#51a800",
           neutral: "#1b1d1d",

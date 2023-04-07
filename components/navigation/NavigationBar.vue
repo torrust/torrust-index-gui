@@ -76,11 +76,11 @@
         <div id="left-menu" class="hidden md:flex flex-row justify-start">
           <div id="site-name" class="hidden md:flex flex-row">
             <div class="flex flex-col">
-              <router-link class="block text-2xl text-themeText duration-200" to="/">
+              <router-link class="block text-2xl text-neutral-content duration-200" to="/">
                 <div class="flex flex-row flex-nowrap">
                   <!-- Placeholder LOGO -->
-                  <div class="mr-3 w-8 h-8 flex flex-col items-center justify-center bg-gradient-to-bl from-accent to-accent-dark rounded-md shrink-0">
-                    <span class="font-bold text-2xl text-primary antialiased">T</span>
+                  <div class="mr-3 w-8 h-8 flex flex-col items-center justify-center bg-gradient-to-bl from-primary to-primary-focus rounded-md shrink-0">
+                    <span class="font-bold text-2xl text-base-100 antialiased">T</span>
                   </div>
                   <span class="block w-full text-2xl font-semibold">{{ settings?.website_name || "Torrust" }}</span>
                 </div>
@@ -91,21 +91,21 @@
         <div id="search-bar" class="ml-6 hidden md:block mx-5 grow max-w-sm">
           <div class="flex flex-col">
             <div class="flex flex-col">
-              <div class="px-3.5 text-sm bg-base-200 ring-2 ring-transparent ring-transparent hover:[&:not(:focus-within)]:ring-primary/10 focus-within:ring-primary/25 rounded-xl duration-200">
+              <div class="px-3.5 text-sm bg-base-200 ring-2 ring-base-content/25 hover:[&:not(:focus-within)]:ring-primary/50 focus-within:ring-primary rounded-xl duration-200">
                 <div class="flex flex-row items-center group">
                   <div class="flex flex-col grow">
                     <input
                       v-model="searchQuery"
                       name="search"
                       type="text"
-                      class="h-10 bg-transparent outline-0 text-themeText font-medium placeholder-themeText/40"
+                      class="h-10 bg-transparent outline-0 text-neutral-content font-medium placeholder-neutral-content/40"
                       :placeholder="`Search ${settings?.website_name ?? 'Torrust'}`"
                       @keyup.enter="submitSearch"
                       @focusin="typingInSearch = true"
                       @focusout="typingInSearch = false"
                     >
                   </div>
-                  <div class="p-1 flex flex-col bg-themeText/10 font-medium text-themeText/50 rounded-lg">
+                  <div class="p-1 flex flex-col bg-neutral-content/10 font-medium text-neutral-content/50 rounded-lg">
                     <template v-if="typingInSearch">
                       <span class="px-1 text-xs">enter</span>
                     </template>
@@ -118,85 +118,41 @@
             </div>
           </div>
         </div>
-        <div id="tabs" class="flex flex-row ml-3">
-          <div class="relative inline-block text-left">
-            <div>
-              <button
-                class="font-bold text-themeText capitalize hover:text-themeText cursor-pointer"
-                :class="{ 'text-themeText/60': !exploreDropdown }"
-                @mouseover="exploreDropdown = true"
-                @click="exploreDropdown = !exploreDropdown"
-              >
-                explore
-              </button>
-            </div>
-
-            <transition
-              enter-active-class="transition ease-out duration-200"
-              enter-from-class="transform opacity-0 scale-95"
-              enter-to-class="transform opacity-100 scale-100"
-              leave-active-class="transition ease-in duration-100"
-              leave-from-class="transform opacity-100 scale-100"
-              leave-to-class="transform opacity-0 scale-95"
-            >
-              <template v-if="exploreDropdown">
-                <div class="absolute -left-6 top-10 z-10 mt-2 w-56 bg-base-200 rounded-2xl drop-shadow">
-                  <ul class="p-3 text-themeText font-medium">
-                    <NuxtLink to="/torrents" replace class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl duration-200">
-                      <span class="flex flex-nowrap whitespace-nowrap">Browse all torrents</span>
-                    </NuxtLink>
-                  </ul>
-                </div>
-              </template>
-            </transition>
-          </div>
-        </div>
-        <div id="extra-options" class="flex flex-row flex-1 ml-auto items-center justify-end">
+        <ul class="menu menu-horizontal px-1">
+          <li tabindex="0">
+            <a>
+              Explore
+            </a>
+            <ul class="p-2 bg-base-100 shadow-2xl">
+              <li>
+                <NuxtLink to="/torrents" replace>Browse all torrents</NuxtLink>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <div id="extra-options" class="flex flex-row flex-1 ml-auto items-center justify-end gap-3">
           <template v-if="user?.username">
-            <div class="relative inline-block text-left mr-3">
-              <div>
-                <button
-                  class="group px-2 h-10 flex flex-row flex-nowrap justify-center items-center font-bold text-sm text-themeText capitalize border-tertiary rounded-xl cursor-pointer duration-500"
-                  :class="{ 'text-themeText/60': !userDropdown, 'border-tertiary/50': !userDropdown }"
-                  @click="userDropdown = !userDropdown"
-                  @mouseover="userDropdown = true"
-                >
-                  <UserCircleIcon
-                    class="ml-1 mr-1.5 w-5 text-themeText/40"
-                    aria-hidden="true"
-                  />
-                  <span>{{ user.username }}</span>
-                </button>
-              </div>
-
-              <transition
-                enter-active-class="transition ease-out duration-200"
-                enter-from-class="transform opacity-0 scale-95"
-                enter-to-class="transform opacity-100 scale-100"
-                leave-active-class="transition ease-in duration-100"
-                leave-from-class="transform opacity-100 scale-100"
-                leave-to-class="transform opacity-0 scale-95"
-              >
-                <template v-if="userDropdown">
-                  <div class="absolute right-0 top-10 z-10 mt-2 w-56 bg-base-200 rounded-2xl drop-shadow">
-                    <ul class="p-3 text-themeText font-medium">
-                      <NuxtLink v-if="user?.admin" to="/admin/settings/general" class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl cursor-pointer duration-200">
-                        <span class="flex flex-nowrap whitespace-nowrap">Settings</span>
-                      </NuxtLink>
-                      <li class="p-3 w-full inline-flex items-center hover:bg-tertiary/50 rounded-2xl cursor-pointer duration-200" @click="logoutUser()">
-                        <span class="flex flex-nowrap whitespace-nowrap">Logout</span>
-                      </li>
-                    </ul>
-                  </div>
-                </template>
-              </transition>
-            </div>
-            <NuxtLink to="/upload" class="btn btn-sm btn-secondary inline-flex flex-nowrap justify-center items-center">
+            <NuxtLink to="/upload" class="btn btn-sm btn-primary inline-flex flex-nowrap justify-center items-center">
               <span class="flex flex-nowrap whitespace-nowrap">upload torrent</span>
             </NuxtLink>
+            <div class="dropdown dropdown-end">
+              <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+                <div class="w-10 rounded-full">
+                  <UserCircleIcon />
+                </div>
+              </label>
+              <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 drop-shadow-2xl bg-base-100 rounded-box w-52">
+                <li v-if="user?.admin">
+                  <NuxtLink to="/admin/settings/general">Settings</NuxtLink>
+                </li>
+                <li>
+                  <a @click="logoutUser()">Logout</a>
+                </li>
+              </ul>
+            </div>
           </template>
           <template v-else>
-            <button class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-base-200 font-bold text-sm text-accent hover:bg-accent/20 capitalize rounded-xl cursor-pointer duration-500" @click="login()">
+            <button class="px-4 h-10 inline-flex flex-nowrap justify-center items-center bg-base-200 font-bold text-sm text-primary hover:bg-primary/20 capitalize rounded-xl cursor-pointer duration-500" @click="login()">
               <span class="flex flex-nowrap whitespace-nowrap">login</span>
             </button>
           </template>

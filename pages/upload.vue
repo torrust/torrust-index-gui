@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex flex-col items-center">
-    <h2 class="text-2xl font-semibold text-themeText">
+    <h2 class="text-2xl font-semibold text-neutral-content">
       Upload Torrent
     </h2>
     <div class="w-full max-w-lg flex flex-col gap-6">
@@ -48,7 +48,7 @@
       </template>
       <template v-else>
         <button
-          class="px-4 h-12 w-full bg-gradient-to-bl from-accent to-accent-dark disabled:from-gray-500 disabled:to-gray-500 text-themeText font-semibold rounded-2xl shadow-lg disabled:shadow-none shadow-transparent hover:shadow-accent-dark/50 duration-1000"
+          class="px-4 h-12 w-full bg-gradient-to-bl from-primary to-primary-dark disabled:from-gray-500 disabled:to-gray-500 text-neutral-content font-semibold rounded-2xl shadow-lg disabled:shadow-none shadow-transparent hover:shadow-primary-dark/50 duration-1000"
           @click="login"
         >
           <span>Please sign in to upload</span>
@@ -153,10 +153,10 @@ function login () {
 
 <style scoped>
 label {
-  @apply p-2 w-full font-medium text-themeText/50;
+  @apply p-2 w-full font-medium text-neutral-content/50;
 }
 
 input, select, textarea {
-  @apply p-2.5 w-full bg-transparent text-themeText placeholder-themeText/50 border-2 border-secondary hover:border-tertiary rounded-2xl duration-200 cursor-pointer;
+  @apply p-2.5 w-full bg-transparent text-neutral-content placeholder-neutral-content/50 border-2 border-base-content/20 rounded-2xl duration-200 cursor-pointer;
 }
 </style>

@@ -19,7 +19,7 @@
             <div
               v-for="notification in notifications"
               :key="notification.id"
-              class="flex w-full max-w-sm mx-auto mt-4 overflow-hidden bg-secondary rounded-2xl shadow-2xl"
+              class="flex w-full max-w-sm mx-auto mt-4 overflow-hidden bg-base-300 rounded-2xl shadow-2xl"
             >
               <div class="flex items-center justify-center w-12 bg-green-500">
                 <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
@@ -30,7 +30,7 @@
               <div class="px-4 py-2 -mx-3">
                 <div class="mx-3">
                   <span class="font-semibold text-green-500">{{ notification.title }}</span>
-                  <p class="text-sm text-themeText">
+                  <p class="text-sm text-neutral-content">
                     {{ notification.text }}
                   </p>
                 </div>
@@ -55,11 +55,13 @@
 </template>
 
 <script setup lang="ts">
-import { getSettings, getUser, onMounted } from "#imports";
+import { getCategories, getSettings, getTags, getUser, onMounted } from "#imports";
 
 onMounted(() => {
   document.querySelector("html").classList.add("bg-b1");
   getUser();
   getSettings();
+  getTags();
+  getCategories();
 });
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-accent/50 hover:border-accent border-dashed rounded-2xl duration-200"
+    class="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-primary/50 hover:border-primary border-dashed rounded-2xl duration-200"
     :class="{'border-primary/50': filedrag, 'bg-primary/50': filedrag, 'border-red-500': error}"
     @dragover="dragover"
     @dragleave="dragleave"
@@ -18,10 +18,10 @@
     >
 
     <div v-if="filelist.length === 0" class="space-y-1 text-center">
-      <DocumentPlusIcon v-if="type === 'file'" class="mx-auto w-12 h-12 text-themeText/50" />
-      <div class="flex justify-center text-sm text-themeText">
+      <DocumentPlusIcon v-if="type === 'file'" class="mx-auto w-12 h-12 text-neutral-content/50" />
+      <div class="flex justify-center text-sm text-neutral-content">
         <a
-          class="font-medium text-accent cursor-pointer"
+          class="font-medium text-primary cursor-pointer"
           @click="$refs.file.click()"
         >
           <span>Manually upload a file</span>
@@ -30,7 +30,7 @@
           or drag and drop here.
         </p>
       </div>
-      <p class="text-xs text-themeText/50">
+      <p class="text-xs text-neutral-content/50">
         {{ subTitle }}
       </p>
     </div>
@@ -43,11 +43,11 @@
           :alt="file.name"
           class="h-20 w-auto"
         >
-        <p class="text-themeText/50 truncate">
+        <p class="text-neutral-content/50 truncate">
           {{ file.name }}
         </p>
         <a
-          class="font-medium text-accent"
+          class="font-medium text-primary"
           @click="$refs.file.click()"
         >
           <span>Upload a different file.</span>

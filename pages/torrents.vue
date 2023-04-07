@@ -1,14 +1,14 @@
 <template>
   <div class="flex flex-col">
     <div class="flex flex-col">
-      <h2 class="text-2xl font-semibold text-themeText">
+      <h2 class="text-2xl font-semibold text-neutral-content">
         Browse Torrents
       </h2>
     </div>
     <div class="mt-6 flex flex-row">
       <div class="w-full flex flex-row flex-nowrap gap-3">
         <TorrustSelect class="grow-0" :options="categories" :label="'Category'" multiple @updated="setCategoryFilters" />
-        <TorrustSelect class="grow-0" :options="categories" :label="'Tags'" multiple />
+        <TorrustSelect class="grow-0" :options="tags" :label="'Tags'" multiple />
         <TorrustSelect class="ml-auto grow-0" :options="sortingOptions" :label="'Sort by'" @updated="updateSorting" />
       </div>
     </div>
@@ -21,7 +21,7 @@
             :sorting="itemsSorting"
             :update-sorting="updateSorting"
           />
-          <span v-else class="text-themeText">No results.</span>
+          <span v-else class="text-neutral-content">No results.</span>
         </div>
       </div>
     </div>
@@ -33,7 +33,7 @@ import { useRuntimeConfig } from "nuxt/app";
 import { Torrent, TorrentCategory, TorrentCompact } from "torrust-index-types-lib";
 import { Ref } from "vue";
 import { useRoute, useRouter } from "#app";
-import { onBeforeMount, onMounted, ref, watch } from "#imports";
+import { onBeforeMount, onMounted, ref, useTags, watch } from "#imports";
 import { getCategories, useCategories, useRestApi } from "~/composables/states";
 
 type SortingOption = {
@@ -55,6 +55,7 @@ const route = useRoute();
 const router = useRouter();
 const config = useRuntimeConfig();
 const categories = useCategories();
+const tags = useTags();
 const rest = useRestApi();
 
 // TODO: Set categoryFilters in view.

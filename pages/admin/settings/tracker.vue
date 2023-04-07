@@ -47,10 +47,10 @@ const props = defineProps({
 
 <style scoped>
 label {
-  @apply p-2 w-full font-medium text-themeText/50;
+  @apply p-2 w-full font-medium text-neutral-content/50;
 }
 
 input, select {
-  @apply p-2.5 w-full bg-secondary/25 text-themeText placeholder-themeText/50 border-2 border-secondary hover:border-tertiary rounded-2xl duration-200 cursor-pointer;
+  @apply p-2.5 w-full  text-neutral-content placeholder-neutral-content/50 border-2 border-base-content/20 rounded-2xl duration-200 cursor-pointer;
 }
 </style>

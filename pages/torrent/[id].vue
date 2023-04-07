@@ -7,7 +7,7 @@
             <div class="flex flex-col gap-6">
               <div class="hidden md:block">
                 <button
-                  class="btn"
+                  class="btn bg-base-200 border-none"
                   @click.prevent="$router.go(-1)"
                 >
                   <ChevronLeftIcon class="mr-2 w-5 text-base-content/50" />
@@ -25,7 +25,7 @@
         <TorrentActionCard class="top-24 md:sticky max-w-md" :torrent="torrent" @updated="reloadTorrent" />
         <div class="block md:hidden">
           <button
-            class="btn"
+            class="btn bg-base-200 border-none"
             @click.prevent="$router.go(-1)"
           >
             <ChevronLeftIcon class="mr-2 w-5 text-base-content/50" />
@@ -80,7 +80,7 @@ function reloadTorrent () {
 
 <style scoped>
 .active {
-  @apply bg-accent/20 text-accent;
+  @apply bg-primary/20 text-primary;
 }
 </style>
 
@@ -90,7 +90,7 @@ img {
 }
 
 .markdown-body {
-  @apply text-themeText;
+  @apply text-neutral-content;
 }
 
 .markdown-body a {

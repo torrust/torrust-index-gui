@@ -1,12 +1,12 @@
 <template>
   <div
     class="group/details flex flex-col items-center w-full rounded-2xl"
-    :class="{ 'bg-gradient-to-t from-tertiary/50 to-tertiary/25': opened }"
+    :class="{ 'bg-gradient-to-t from-base-300/50 to-base-300/25': opened }"
     @mouseleave="opened = false"
   >
     <button
-      class="flex flex-row items-center justify-center font-medium text-sm text-themeText/50 hover:text-themeText rounded-2xl duration-200"
-      :class="{ 'pt-4': opened, 'text-themeText': opened }"
+      class="flex flex-row items-center justify-center font-medium text-sm text-neutral-content/50 hover:text-neutral-content rounded-2xl duration-200"
+      :class="{ 'pt-4': opened, 'text-neutral-content': opened }"
       @click.stop="openDetails"
     >
       <template v-if="!opened">
@@ -21,7 +21,7 @@
       <div class="p-4 w-full flex flex-col">
         <div class="flex flex-row">
           <div class="flex flex-col grow">
-            <div class="p-4 max-h-96 text-center text-themeText/50 border-2 border-themeText/10 rounded-2xl overflow-y-auto">
+            <div class="p-4 max-h-96 text-center text-neutral-content/50 border-2 border-base-content/20 rounded-2xl overflow-y-auto">
               <template v-if="torrent.description">
                 <span>{{ torrent.description }}</span>
               </template>

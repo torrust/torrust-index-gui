@@ -1,14 +1,14 @@
 <template>
   <div id="torrent-description" class="flex flex-col gap-6">
     <div class="flex flex-row justify-between items-center">
-      <h2 class="mr-1 text-2xl text-left text-themeText/50 font-medium">
+      <h2 class="mr-1 text-2xl text-left text-neutral-content/50 font-medium">
         Trackers ({{ torrent.trackers.length }})
       </h2>
       <button
-        class="w-10 h-10 flex flex-col items-center justify-center bg-secondary hover:bg-tertiary rounded-xl duration-200"
+        class="w-10 h-10 flex flex-col items-center justify-center bg-base-200 rounded-xl duration-200"
         @click="collapsed = !collapsed"
       >
-        <ChevronDownIcon class="text-themeText/50 w-6 duration-200" :class="{ 'rotate-90': collapsed }" />
+        <ChevronDownIcon class="text-neutral-content/50 w-6 duration-200" :class="{ 'rotate-90': collapsed }" />
       </button>
     </div>
     <template v-if="!collapsed">

@@ -1,7 +1,7 @@
 <template>
   <div class="px-2 lg:px-0" @click.self="close">
-    <div class="px-6 py-6 text-themeText/50 rounded-2xl mx-auto w-auto max-w-md">
-      <h2 class="text-2xl mb-4 font-semibold text-center text-themeText">
+    <div class="px-6 py-6 text-neutral-content/50 rounded-2xl mx-auto w-auto max-w-md">
+      <h2 class="text-2xl mb-4 font-semibold text-center text-neutral-content">
         {{ state === State.Signup ? "Sign up" : "Sign in" }}
       </h2>
       <form
@@ -61,7 +61,7 @@
         </template>
         <button
           type="submit"
-          class="px-4 h-12 w-full bg-gradient-to-bl from-accent to-accent-dark hover:bg-tertiary text-themeText font-semibold rounded-2xl shadow-lg shadow-transparent hover:shadow-accent-dark/50 duration-1000"
+          class="px-4 h-12 w-full bg-gradient-to-bl from-primary to-primary-dark hover:bg-base-300 text-neutral-content font-semibold rounded-2xl shadow-lg shadow-transparent hover:shadow-primary-dark/50 duration-1000"
         >
           <span>Sign {{ state === State.Signup ? 'up' : 'in' }}</span>
         </button>
@@ -69,12 +69,12 @@
       <div class="relative mt-6">
         <div class="flex relative justify-center text-sm">
           <template v-if="state === State.Signup">
-            <button class="px-2 font-semibold text-themeText/50 hover:text-themeText duration-200" @click="toggleState">
+            <button class="px-2 font-semibold text-neutral-content/50 hover:text-neutral-content duration-200" @click="toggleState">
               Already have an account? Sign in
             </button>
           </template>
           <template v-else>
-            <button class="px-2 font-semibold text-themeText/50 hover:text-themeText duration-200" @click="toggleState">
+            <button class="px-2 font-semibold text-neutral-content/50 hover:text-neutral-content duration-200" @click="toggleState">
               Don't have an account? Sign up
             </button>
           </template>
@@ -197,6 +197,6 @@ function signup () {
 
 <style scoped>
 input {
-  @apply p-2.5 w-full bg-secondary/25 text-themeText placeholder-themeText/50 border-2 border-secondary hover:border-tertiary rounded-2xl duration-200 cursor-pointer;
+  @apply p-2.5 w-full  text-neutral-content placeholder-neutral-content/50 border-2 border-base-content/20 rounded-2xl duration-200 cursor-pointer;
 }
 </style>
