@@ -125,7 +125,9 @@
             </a>
             <ul class="p-2 bg-base-100 shadow-2xl">
               <li>
-                <NuxtLink to="/torrents" replace>Browse all torrents</NuxtLink>
+                <NuxtLink to="/torrents" replace>
+                  Browse all torrents
+                </NuxtLink>
               </li>
             </ul>
           </li>
@@ -143,7 +145,9 @@
               </label>
               <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 drop-shadow-2xl bg-base-100 rounded-box w-52">
                 <li v-if="user?.admin">
-                  <NuxtLink to="/admin/settings/general">Settings</NuxtLink>
+                  <NuxtLink to="/admin/settings/general">
+                    Settings
+                  </NuxtLink>
                 </li>
                 <li>
                   <a @click="logoutUser()">Logout</a>

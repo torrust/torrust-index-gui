@@ -16,20 +16,20 @@
         <table class="table table-zebra w-full">
           <!-- head -->
           <thead>
-          <tr>
-            <th></th>
-            <th>tracker</th>
-            <th>seeders / leechers</th>
-          </tr>
+            <tr>
+              <th />
+              <th>tracker</th>
+              <th>seeders / leechers</th>
+            </tr>
           </thead>
           <tbody>
-          <template v-for="(tracker, index) in torrent.trackers">
-            <tr>
-              <th>{{ index + 1 }}</th>
-              <td>{{ tracker }}</td>
-              <td></td>
-            </tr>
-          </template>
+            <template v-for="(tracker, index) in torrent.trackers">
+              <tr>
+                <th>{{ index + 1 }}</th>
+                <td>{{ tracker }}</td>
+                <td />
+              </tr>
+            </template>
           </tbody>
         </table>
       </div>

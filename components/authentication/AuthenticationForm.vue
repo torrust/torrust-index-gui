@@ -5,66 +5,18 @@
         {{ state === State.Signup ? "Sign up" : "Sign in" }}
       </h2>
       <form
-        class="space-y-6"
+        class="space-y-3"
         @submit.prevent="submit"
       >
-        <div class="mt-1">
-          <label for="username" class="px-2">Username</label>
-          <input
-            id="username"
-            v-model="form.username"
-            name="username"
-            type="text"
-            class="mt-1"
-            required
-          >
-        </div>
+        <FormInputText label="Username" v-model="form.username" required />
         <template v-if="state === State.Signup && settings.email_on_signup !== Requirement.None">
-          <div class="mt-1">
-            <label for="email" class="px-2">Email address</label>
-            <input
-              id="email"
-              v-model="form.email"
-              name="email"
-              type="text"
-              autocomplete="email"
-              class="mt-1"
-              :required="settings.email_on_signup === Requirement.Required"
-            >
-          </div>
+          <FormInputText label="Email" v-model="form.email" :required="settings.email_on_signup === Requirement.Required" />
         </template>
-        <div class="mt-1">
-          <label for="password" class="px-2">Password</label>
-          <input
-            id="password"
-            v-model="form.password"
-            name="password"
-            type="password"
-            class="mt-1"
-            :autocomplete="[state === State.Signup ? 'new-password' : 'current-password']"
-            required
-          >
-        </div>
+        <FormInputText :type="'password'" label="Password" v-model="form.password" required />
         <template v-if="state === State.Signup">
-          <div class="mt-1">
-            <label for="password" class="px-2">Confirm password</label>
-            <input
-              id="password-repeat"
-              v-model="form.confirm_password"
-              name="password-repeat"
-              type="password"
-              class="mt-1"
-              autocomplete="new-password"
-              required
-            >
-          </div>
+          <FormInputText label="Repeat password" v-model="form.confirm_password" required />
         </template>
-        <button
-          type="submit"
-          class="px-4 h-12 w-full bg-gradient-to-bl from-primary to-primary-dark hover:bg-base-300 text-neutral-content font-semibold rounded-2xl shadow-lg shadow-transparent hover:shadow-primary-dark/50 duration-1000"
-        >
-          <span>Sign {{ state === State.Signup ? 'up' : 'in' }}</span>
-        </button>
+        <button type="submit" class="btn btn-primary w-full">Sign {{ state === State.Signup ? 'up' : 'in' }}</button>
       </form>
       <div class="relative mt-6">
         <div class="flex relative justify-center text-sm">
@@ -196,7 +148,5 @@ function signup () {
 </script>
 
 <style scoped>
-input {
-  @apply p-2.5 w-full  text-neutral-content placeholder-neutral-content/50 border-2 border-base-content/20 rounded-2xl duration-200 cursor-pointer;
-}
+
 </style>

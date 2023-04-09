@@ -13,7 +13,7 @@
           </div>
         </template>
 
-        <div/>
+        <div />
 
         <div class="p-6 stats bg-base-300 flex flex-col gap-3 rounded-2xl">
           <div class="flex flex-col items-center justify-between w-full">
@@ -92,11 +92,13 @@
           </div>
         </div>
 
-        <div/>
+        <div />
 
         <div class="flex flex-row gap-3">
           <template v-if="showDownloadButtons">
-            <button class="btn btn-primary grow" @click="downloadTorrent(torrent.torrent_id, torrent.title)">download torrent</button>
+            <button class="btn btn-primary grow" @click="downloadTorrent(torrent.torrent_id, torrent.title)">
+              download torrent
+            </button>
             <button class="p-0 btn btn-primary w-12">
               <LinkIcon class="w-6" />
             </button>
@@ -117,7 +119,7 @@
           </template>
         </div>
 
-        <div/>
+        <div />
 
         <template v-if="hasEditRights()">
           <button

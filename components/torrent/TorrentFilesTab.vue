@@ -17,20 +17,20 @@
         <table class="table table-zebra w-full">
           <!-- head -->
           <thead>
-          <tr>
-            <th></th>
-            <th>file</th>
-            <th>size</th>
-          </tr>
+            <tr>
+              <th />
+              <th>file</th>
+              <th>size</th>
+            </tr>
           </thead>
           <tbody>
-          <template v-for="(file, index) in files()">
-            <tr>
-              <th>{{ index + 1 }}</th>
-              <td>{{ file.name }}</td>
-              <td>{{ fileSize(file.size) }}</td>
-            </tr>
-          </template>
+            <template v-for="(file, index) in files()">
+              <tr>
+                <th>{{ index + 1 }}</th>
+                <td>{{ file.name }}</td>
+                <td>{{ fileSize(file.size) }}</td>
+              </tr>
+            </template>
           </tbody>
         </table>
       </div>
