@@ -5,10 +5,10 @@
         Trackers ({{ torrent.trackers.length }})
       </h2>
       <button
-        class="w-10 h-10 flex flex-col items-center justify-center bg-base-200 rounded-xl duration-200"
+        class="w-10 h-10 flex flex-col items-center justify-center bg-transparent text-base-content/50 hover:text-base-content rounded-xl duration-200"
         @click="collapsed = !collapsed"
       >
-        <ChevronDownIcon class="text-neutral-content/50 w-6 duration-200" :class="{ 'rotate-90': collapsed }" />
+        <ChevronDownIcon class="w-6" :class="{ 'rotate-90': collapsed }" />
       </button>
     </div>
     <template v-if="!collapsed">

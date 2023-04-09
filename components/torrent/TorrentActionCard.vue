@@ -5,7 +5,7 @@
 
         <span class="text-lg font-bold capitalize truncate">{{ torrent.title }}</span>
 
-        <template v-if="torrent.tags.length">
+        <template v-if="torrent.tags?.length">
           <div class="flex flex-wrap space-x-2">
             <template v-for="tag in torrent.tags">
               <a class="px-2 py-1 bg-base-content/25 hover:bg-base-content/50 font-semibold capitalize text-xs rounded-lg cursor-pointer">{{ tag.name }}</a>
@@ -29,12 +29,12 @@
             </div>
             <div class="mt-2 px-6 flex flex-row justify-between w-full">
               <div class="mr-4 flex flex-col items-center">
-                <span class="stat-value text-green-500 font-bold">{{ torrent.seeders }}</span>
-                <span class="stat-title capitalize">seeders</span>
+                <span class="stat-value text-2xl text-green-500 font-bold">{{ torrent.seeders }}</span>
+                <span class="stat-title text-sm capitalize">seeders</span>
               </div>
               <div class="flex flex-col items-center">
-                <span class="stat-value text-red-500 font-bold">{{ torrent.leechers }}</span>
-                <span class="stat-title capitalize">leechers</span>
+                <span class="stat-value text-2xl text-red-500 font-bold">{{ torrent.leechers }}</span>
+                <span class="stat-title text-sm capitalize">leechers</span>
               </div>
             </div>
           </div>
@@ -130,9 +130,6 @@
           </button>
         </template>
       </div>
-    </template>
-    <template v-else>
-      <div class="mb-1 h-24 bg-gray-700 animate-pulse rounded-2xl" />
     </template>
   </div>
 </template>
