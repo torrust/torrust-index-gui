@@ -4,7 +4,7 @@
     style="min-width: 16rem;"
   >
     <div
-      class="group px-4 h-14 relative flex flex-row items-center flex-nowrap w-full max-w-xl bg-base-200 font-bold rounded-2xl duration-200 origin-bottom"
+      class="group px-4 h-14 relative flex flex-row items-center flex-nowrap w-full max-w-xl border-2 border-base-content/20 font-bold rounded-2xl duration-200 origin-bottom"
       @click="toggleDropdown"
     >
       <div class="mr-4 flex flex-col flex-nowrap text-left capitalize">
