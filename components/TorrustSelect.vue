@@ -1,90 +1,68 @@
 <template>
-  <div
-    class="max-w-lg flex flex-col grow relative overflow-visible cursor-pointer"
-    style="min-width: 16rem;"
-  >
-    <div
-      class="group px-4 h-14 relative flex flex-row items-center flex-nowrap w-full max-w-xl border-2 border-base-content/20 font-bold rounded-2xl duration-200 origin-bottom"
-      @click="toggleDropdown"
-    >
-      <div class="mr-4 flex flex-col flex-nowrap text-left capitalize">
-        <span v-if="label" class="font-medium text-xs link-primary">{{ label }}</span>
-        <div class="text-sm text-neutral-content flex flex-row flex-nowrap">
+  <div class="dropdown">
+    <label tabindex="0" class="select select-bordered items-center" :class="{ 'h-[3.5rem]': !!label }">
+      <div class="mr-1 flex flex-col flex-nowrap text-left capitalize">
+        <span v-if="label" class="text-xs link-primary">{{ label }}</span>
+        <div class="text-sm flex flex-row flex-nowrap">
           <span v-if="selectedOptions.length === 0">None</span>
           <span v-else-if="selectedOptions.length > 1">Multiple</span>
           <span v-else>{{ selectedOptions[0].name }}</span>
         </div>
       </div>
-      <ChevronDownIcon class="ml-auto w-5 text-neutral-content group-hover:text-neutral-content duration-200" :class="{ 'rotate-180': active }" />
-    </div>
-
-    <transition
-      enter-active-class="transition ease-out duration-200"
-      enter-from-class="transform opacity-0 scale-95"
-      enter-to-class="transform opacity-100 scale-100"
-      leave-active-class="transition ease-in duration-100"
-      leave-from-class="transform opacity-100 scale-100"
-      leave-to-class="transform opacity-0 scale-95"
-    >
-      <div
-        v-if="active"
-        class="mt-2 top-full absolute w-full bg-base-200 drop-shadow rounded-2xl"
-      >
-        <template v-if="props.search">
-          <div class="px-3 py-3">
-            <input
-              v-model="searchText"
-              class="block w-full px-4 py-2 bg-transparent placeholder-neutral-content/50 text-neutral-content rounded-2xl focus:outline-none border-2 border-base-100"
-              placeholder="Search"
-              @change="filterOptions()"
-            >
-          </div>
-        </template>
-        <template v-if="filteredOptions.length">
-          <ul class="max-h-64 overflow-auto px-3 py-3">
-            <li
-              v-for="(option) in filteredOptions"
-              :key="option.value"
-              class="flex w-full"
-            >
-              <button
-                class="group px-3 py-3 flex w-full items-center hover:bg-base-300/50 capitalize rounded-2xl duration-200"
-                @click="toggleOption(option)"
-              >
-                <div class="font-bold text-neutral-content">
-                  {{ option.name }}
-                </div>
-                <div v-if="multiple" class="ml-auto flex flex-col items-center">
-                  <span
-                    v-if="isSelectedOption(option)"
-                    class="relative inline-flex"
-                  >
-                    <input
-                      type="checkbox"
-                      class="h-6 w-6 appearance-none bg-primary border-2 border-primary rounded-md"
-                    >
-                    <CheckIcon
-                      class="absolute text-neutral-content w-5"
-                      style="top: 50%;left: 50%;transform: translate(-50%, -50%);"
-                    />
-                  </span>
+    </label>
+    <div tabindex="0" class="mt-3 dropdown-content border border-base-content/20 p-2 shadow bg-base-100 rounded-lg min-w-[14rem]">
+      <template v-if="props.search">
+        <div class="px-3 py-3">
+          <input
+            v-model="searchText"
+            class="input border-2 input-bordered rounded-2xl"
+            placeholder="Search"
+            @change="filterOptions()"
+          >
+        </div>
+      </template>
+      <template v-if="filteredOptions.length">
+        <ul class="menu">
+          <li
+            v-for="(option) in filteredOptions"
+            :key="option.value"
+            class="text-base-content text-sm"
+            @click="toggleOption(option)"
+          >
+            <div class="flex flex-row w-full rounded-lg">
+              <div class="font-bold text-neutral-content">
+                {{ option.name }}
+              </div>
+              <div v-if="multiple" class="ml-auto flex flex-col items-center">
+                <span
+                  v-if="isSelectedOption(option)"
+                  class="relative inline-flex"
+                >
                   <input
-                    v-else
                     type="checkbox"
-                    class="h-6 w-6 appearance-none border-2 border-base-content/20/20 rounded-md duration-200"
+                    class="h-6 w-6 appearance-none bg-primary border-2 border-primary rounded-md"
                   >
-                </div>
-              </button>
-            </li>
-          </ul>
-        </template>
-        <template v-else>
-          <div class="px-6 py-3">
-            <span class="text-neutral-content/50">No search results..</span>
-          </div>
-        </template>
-      </div>
-    </transition>
+                  <CheckIcon
+                    class="absolute text-neutral-content w-5"
+                    style="top: 50%;left: 50%;transform: translate(-50%, -50%);"
+                  />
+                </span>
+                <input
+                  v-else
+                  type="checkbox"
+                  class="h-6 w-6 appearance-none border-2 border-base-content/20 rounded-md duration-200"
+                >
+              </div>
+            </div>
+          </li>
+        </ul>
+      </template>
+      <template v-else>
+        <div class="px-6 py-3">
+          <span class="text-neutral-content/50">No results..</span>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 

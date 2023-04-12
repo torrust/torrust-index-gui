@@ -15,7 +15,7 @@
 
         <div />
 
-        <div class="p-6 stats bg-base-300 flex flex-col gap-3 rounded-2xl">
+        <div class="p-6 stats bg-base-100 flex flex-col gap-3 rounded-2xl">
           <div class="flex flex-col items-center justify-between w-full">
             <div class="w-full h-2 bg-transparent rounded-full overflow-hidden">
               <template v-if="seedersPercentage() === 0 && leechersPercentage() === 0">
@@ -40,7 +40,7 @@
           </div>
         </div>
 
-        <div class="p-6 stats bg-base-300 flex flex-col rounded-2xl">
+        <div class="p-6 stats bg-base-100 flex flex-col rounded-2xl">
           <div class="flex flex-col text-base-content/60 text-sm">
             <div class="py-2 pt-0 flex flex-row">
               <div class="flex flex-row w-1/2">

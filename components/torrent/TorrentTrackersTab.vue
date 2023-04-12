@@ -43,7 +43,7 @@ import { PropType } from "vue";
 import { Torrent } from "torrust-index-types-lib";
 import { ref } from "#imports";
 
-const collapsed = ref(true);
+const collapsed = ref(false);
 
 const props = defineProps({
   torrent: {

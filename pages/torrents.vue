@@ -7,14 +7,14 @@
     </div>
     <div class="mt-6 flex flex-row">
       <div class="w-full flex flex-row flex-nowrap gap-3">
-        <TorrustSelect class="grow-0" :options="categories" :label="'Category'" multiple @updated="setCategoryFilters" />
-        <TorrustSelect class="grow-0" :options="tags" :label="'Tags'" multiple />
-        <TorrustSelect class="ml-auto grow-0" :options="sortingOptions" :label="'Sort by'" @updated="updateSorting" />
+        <TorrustSelect :options="categories" :label="'Category'" multiple search @updated="setCategoryFilters" />
+        <TorrustSelect :options="tags" :label="'Tags'" multiple search />
+        <TorrustSelect class="ml-auto" :options="sortingOptions" :label="'Sort by'" @updated="updateSorting" />
       </div>
     </div>
     <div class="mt-6 flex flex-col">
       <div class="flex flex-row flex-nowrap items-start">
-        <div class="grow">
+        <div class="w-full">
           <TorrentList
             v-if="torrents?.length > 0"
             :torrents="torrents"
@@ -65,11 +65,21 @@ const torrents: Ref<Array<TorrentCompact>> = ref(null);
 const torrentsTotal = ref(0);
 const searchQuery: Ref<string> = ref(null);
 const currentPage: Ref<number> = ref(1);
-const itemsSorting: Ref<SortingOption> = ref(sortingOptions[0]);
+const itemsSorting: Ref<string> = ref(sortingOptions[0].value);
 
 watch([route], () => {
   searchQuery.value = route.query.search as string ?? null;
+
   loadTorrents();
+});
+
+watch([itemsSorting], () => {
+  router.push({
+    query: {
+      sorting: itemsSorting.value,
+      search: searchQuery.value
+    }
+  });
 });
 
 onMounted(() => {
@@ -84,7 +94,7 @@ function loadTorrents () {
     {
       pageSize: pageSize.value,
       page: currentPage.value,
-      sorting: itemsSorting.value.value,
+      sorting: itemsSorting.value,
       categories: categoryFilters.value,
       searchQuery: searchQuery.value
     }
@@ -97,22 +107,13 @@ function loadTorrents () {
 
 function updateSortFromRoute () {
   if (route.query.sorting) {
-    switch (route.query.sorting) {
-    case "popular":
-      itemsSorting.value = sortingOptions[2];
-      break;
-    case "recent":
-      itemsSorting.value = sortingOptions[0];
-      break;
-    default:
-      itemsSorting.value = sortingOptions[2];
-    }
+    itemsSorting.value = route.query.sorting as string;
   }
 }
 
 function updateSorting (sorting: SortingOption) {
   currentPage.value = 1;
-  itemsSorting.value = sorting;
+  itemsSorting.value = sorting.value;
   loadTorrents();
 }
 
@@ -134,6 +135,8 @@ function setCategoryFilters (categories: Array<TorrentCategory>) {
   });
 
   categoryFilters.value = filters;
+
+  loadTorrents();
 }
 
 function setPageSize (size: number) {
