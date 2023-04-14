@@ -1,0 +1,18 @@
+[package]
+name = "torrust-index-frontend-server"
+description = "A Rust static web server to serve the Torrust Index Frontend."
+license = "AGPL-3.0"
+version = "3.0.0-alpha.1"
+authors = ["Jose Celano <josecelano@gmail.com>"]
+edition = "2021"
+include = [
+    "dist/",
+    "LICENSE"
+]
+
+[[bin]]
+name = "server"
+path = "server/main.rs"
+
+[dependencies]
+static-web-server = "2.15.1-beta.0"
