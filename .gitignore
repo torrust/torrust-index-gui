@@ -1,4 +1,6 @@
-/node_modules/
-/dist/
+/.env
 /.idea/
-/.env*
+/dist/
+/node_modules/
+/target/
+config.toml

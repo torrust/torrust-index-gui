@@ -29,6 +29,10 @@
 
 This repository serves as the frontend for the [Torrust Index](https://github.com/torrust/torrust-index) project.
 
+### Server
+
+This repository also contains a [static web server](./server/README.md) written in Rust to serve the Vue app. It is based on the [rust-static-server](https://github.com/static-web-server/static-web-server).
+
 ### Roadmap
 
 *Coming soon.*
