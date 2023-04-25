@@ -4,14 +4,19 @@
       <a
         v-for="(torrent, index) in torrents"
         :key="index"
-        class="flex flex-col rounded-2xl bg-base-100 text-sm cursor-pointer group"
+        class="flex flex-col rounded-2xl bg-base-100 text-sm cursor-pointer"
         @click="toggleOpen(index)"
       >
-        <div class="px-4 pt-4 pb-4 flex flex-row flex-nowrap justify-start items-center rounded-2xl w-full">
+        <div class="group px-4 pt-4 pb-4 flex flex-row flex-nowrap justify-start items-center rounded-2xl w-full">
           <div class="flex flex-col flex-nowrap justify-start items-center font-semibold overflow-hidden grow">
             <div class="flex flex-row gap-1 items-center w-full">
               <span class="whitespace-nowrap text-ellipsis text-neutral-content overflow-hidden">{{ torrent.title }}</span>
-              <ChevronRightIcon class="w-5 text-base-content/50 group-hover:text-base-content" :class="{ 'rotate-90': isOpenList[index] }" />
+              <template v-if="isOpenList[index]">
+                <ChevronDownIcon class="group-hover:animate-bounce w-5 text-base-content/50 group-hover:text-base-content"/>
+              </template>
+              <template v-else>
+                <ChevronRightIcon class="group-hover:animate-bounce w-5 text-base-content/50 group-hover:text-base-content"/>
+              </template>
             </div>
             <div class="mt-1 flex flex-row flex-nowrap justify-start items-start w-full">
               <span class="whitespace-nowrap text-neutral-content/50 text-xs">{{ fileSize(torrent.file_size) }}</span>
@@ -44,7 +49,7 @@
 
 <script setup lang="ts">
 import { ArrowDownTrayIcon, LinkIcon } from "@heroicons/vue/24/outline";
-import { ChevronRightIcon } from "@heroicons/vue/20/solid";
+import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { Ref, PropType } from "vue";
 import { TorrentCompact } from "torrust-index-types-lib";
 import { fileSize, timeSince, ref } from "#imports";
