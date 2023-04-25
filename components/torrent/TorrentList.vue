@@ -12,10 +12,10 @@
             <div class="flex flex-row gap-1 items-center w-full">
               <span class="whitespace-nowrap text-ellipsis text-neutral-content overflow-hidden">{{ torrent.title }}</span>
               <template v-if="isOpenList[index]">
-                <ChevronDownIcon class="group-hover:animate-bounce w-5 text-base-content/50 group-hover:text-base-content"/>
+                <ChevronDownIcon class="group-hover:animate-bounce w-5 text-base-content/50 group-hover:text-base-content" />
               </template>
               <template v-else>
-                <ChevronRightIcon class="group-hover:animate-bounce w-5 text-base-content/50 group-hover:text-base-content"/>
+                <ChevronRightIcon class="group-hover:animate-bounce w-5 text-base-content/50 group-hover:text-base-content" />
               </template>
             </div>
             <div class="mt-1 flex flex-row flex-nowrap justify-start items-start w-full">

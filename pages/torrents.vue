@@ -15,13 +15,17 @@
     <div class="mt-6 flex flex-col">
       <div class="flex flex-row flex-nowrap items-start">
         <div class="w-full">
-          <TorrentList
-            v-if="torrents?.length > 0"
-            :torrents="torrents"
-            :sorting="itemsSorting"
-            :update-sorting="updateSorting"
-          />
-          <span v-else class="text-neutral-content">No results.</span>
+          <template v-if="torrents?.length > 0">
+            <TorrentList
+              :torrents="torrents"
+              :sorting="itemsSorting"
+              :update-sorting="updateSorting"
+            />
+            <Pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :total-results="torrentsTotal" />
+          </template>
+          <template v-else>
+            <span class="text-neutral-content">No results.</span>
+          </template>
         </div>
       </div>
     </div>
@@ -30,18 +34,16 @@
 
 <script setup lang="ts">
 import { useRuntimeConfig } from "nuxt/app";
-import { Torrent, TorrentCategory, TorrentCompact } from "torrust-index-types-lib";
+import { TorrentCategory, TorrentCompact } from "torrust-index-types-lib";
 import { Ref } from "vue";
 import { useRoute, useRouter } from "#app";
-import { onBeforeMount, onMounted, ref, useTags, watch } from "#imports";
+import { onMounted, ref, useTags, watch } from "#imports";
 import { getCategories, useCategories, useRestApi } from "~/composables/states";
 
 type SortingOption = {
   name: string;
   value: string;
 }
-
-const pageSizeList = [20, 50, 100, 200];
 
 // TODO: provide sorting options from backend.
 const sortingOptions: Array<SortingOption> = [
@@ -58,28 +60,28 @@ const categories = useCategories();
 const tags = useTags();
 const rest = useRestApi();
 
+const defaultPageSize = 20;
+const queryPageSize = parseInt(route.query?.pageSize as string, 10);
+const pageSize: Ref<number> = ref(isNaN(queryPageSize) ? defaultPageSize : queryPageSize);
+
 // TODO: Set categoryFilters in view.
 const categoryFilters: Ref<Array<string>> = ref(new Array<string>());
-const pageSize: Ref<number> = ref(20);
 const torrents: Ref<Array<TorrentCompact>> = ref(null);
 const torrentsTotal = ref(0);
 const searchQuery: Ref<string> = ref(null);
 const currentPage: Ref<number> = ref(1);
 const itemsSorting: Ref<string> = ref(sortingOptions[0].value);
 
-watch([route], () => {
-  searchQuery.value = route.query.search as string ?? null;
-
-  loadTorrents();
-});
-
-watch([itemsSorting], () => {
+watch([itemsSorting, pageSize, currentPage, categoryFilters], () => {
   router.push({
     query: {
+      search: searchQuery.value,
       sorting: itemsSorting.value,
-      search: searchQuery.value
+      pageSize: pageSize.value
     }
   });
+
+  loadTorrents();
 });
 
 onMounted(() => {
@@ -138,39 +140,6 @@ function setCategoryFilters (categories: Array<TorrentCategory>) {
 
   loadTorrents();
 }
-
-function setPageSize (size: number) {
-  pageSize.value = size;
-  loadTorrents();
-}
-
-function totalPages () {
-  return Math.ceil(torrentsTotal.value / pageSize.value);
-}
-
-// export default {
-//   watch: {
-//     '$route.query.search': function (search) {
-//       search ? this.search = search : this.search = '';
-//       this.currentPage = 1;
-//       this.loadTorrents(this.currentPage, this.sorting);
-//     },
-//     '$route.params.sorting': function () {
-//       this.updateSortFromRoute();
-//       this.loadTorrents(this.currentPage, this.sorting);
-//     },
-//     filters() {
-//       this.loadTorrents(this.currentPage, this.sorting);
-//     },
-//     currentPage(newPage) {
-//       this.loadTorrents(newPage, this.sorting);
-//       document.getElementById("TorrentList").scrollIntoView({behavior: "smooth"});
-//     },
-//     categoryFilters() {
-//       this.loadTorrents(this.currentPage, this.sorting);
-//     }
-//   },
-// }
 </script>
 
 <style scoped>

@@ -1,16 +1,34 @@
 <template>
   <div class="py-6 flex items-center justify-between">
-    <div class="flex-1 flex items-center sm:justify-between justify-end">
-      <div class="hidden sm:block">
-        <p class="text-sm text-slate-400">
-          Showing
-          <span class="font-medium">{{ (currentPage * pageSize) - pageSize }}</span>
-          to
-          <span class="font-medium">{{ Math.min(currentPage * pageSize, totalResults) }}</span>
-          of
-          <span class="font-medium">{{ totalResults }}</span>
-          results
-        </p>
+    <div class="flex-1 flex flex-col md:flex-row items-center sm:justify-between justify-end gap-3">
+      <div class="flex items-center gap-3">
+        <div>
+          <select :value="pageSize" @change="(e) => updatePageSize(parseInt(e.target.value, 10))" class="px-2 py-1 bg-base-100">
+            <option value="1">
+              1
+            </option>
+            <option value="20">
+              20
+            </option>
+            <option value="50">
+              50
+            </option>
+            <option value="100">
+              100
+            </option>
+          </select>
+        </div>
+        <div>
+          <p class="text-sm text-base-content/50">
+            Showing
+            <span class="font-medium">{{ (currentPage * pageSize) - pageSize }}</span>
+            to
+            <span class="font-medium">{{ Math.min(currentPage * pageSize, totalResults) }}</span>
+            of
+            <span class="font-medium">{{ totalResults }}</span>
+            results
+          </p>
+        </div>
       </div>
       <div>
         <nav class="relative z-0 inline-flex -space-x-px" aria-label="Pagination">
@@ -19,7 +37,6 @@
             @click="goToFirstPage"
           >
             <span class="sr-only">Previous</span>
-            <!-- Heroicon name: solid/chevron-double-left -->
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path
                 fill-rule="evenodd"
@@ -33,7 +50,6 @@
             @click="goToPrevPage"
           >
             <span class="sr-only">Previous</span>
-            <!-- Heroicon name: solid/chevron-left -->
             <svg
               class="h-5 w-5"
               xmlns="http://www.w3.org/2000/svg"
@@ -50,9 +66,9 @@
           </button>
 
           <!--show all page buttons-->
-          <template v-if="totalPages < 7">
+          <template v-if="totalPages() < 7">
             <button
-              v-for="i in totalPages"
+              v-for="i in totalPages()"
               :key="i"
               :disabled="i === currentPage"
               class="page-button"
@@ -73,28 +89,28 @@
               {{ i }}
             </button>
             <span
-              v-if="totalPages > 7"
+              v-if="totalPages()> 7"
               class="page-button"
             >
               ...
             </span>
           </template>
 
-          <template v-else-if="currentPage > totalPages - 4">
+          <template v-else-if="currentPage > totalPages() - 4">
             <span
-              v-if="totalPages > 7"
+              v-if="totalPages()> 7"
               class="page-button"
             >
               ...
             </span>
             <button
               v-for="i in 5"
-              :key="totalPages - 5 + i"
-              :disabled="totalPages - 5 + i === currentPage"
+              :key="totalPages() - 5 + i"
+              :disabled="totalPages() - 5 + i === currentPage"
               class="page-button"
-              @click="goToPage(totalPages - 5 + i)"
+              @click="goToPage(totalPages() - 5 + i)"
             >
-              {{ totalPages - 5 + i }}
+              {{ totalPages() - 5 + i }}
             </button>
           </template>
 
@@ -134,7 +150,6 @@
             @click="goToNextPage()"
           >
             <span class="sr-only">Next</span>
-            <!-- Heroicon name: solid/chevron-right -->
             <svg
               class="h-5 w-5"
               xmlns="http://www.w3.org/2000/svg"
@@ -154,7 +169,6 @@
             @click="goToLastPage"
           >
             <span class="sr-only">Next</span>
-            <!-- Heroicon name: solid/chevron-double-right -->
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path
                 fill-rule="evenodd"
@@ -174,58 +188,69 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Pagination",
-  props: {
-    currentPage: {
-      default: 1,
-      required: true
-    },
-    pageSize: {
-      default: 20,
-      required: true
-    },
-    totalPages: {
-      default: 10,
-      required: true
-    },
-    totalResults: {
-      default: 0,
-      required: true
-    }
-  },
-  methods: {
-    goToFirstPage () {
-      this.goToPage(1);
-    },
-    goToLastPage () {
-      this.goToPage(this.totalPages);
-    },
-    goToPrevPage () {
-      this.goToPage(this.currentPage - 1);
-    },
-    goToNextPage () {
-      this.goToPage(this.currentPage + 1);
-    },
-    goToPage (pageNum) {
-      if (pageNum > this.totalPages || pageNum < 1) {
-        return;
-      }
+<script setup lang="ts">
+import { defineProps, defineEmits } from "vue";
 
-      this.$emit("update:currentPage", pageNum);
-    }
+const props = defineProps({
+  currentPage: {
+    type: Number,
+    default: 1,
+    required: true
+  },
+  pageSize: {
+    type: Number,
+    default: 20,
+    required: true
+  },
+  totalResults: {
+    type: Number,
+    default: 0,
+    required: true
   }
-};
+});
+
+const emits = defineEmits(["update:currentPage", "update:pageSize"]);
+
+function goToFirstPage () {
+  goToPage(1);
+}
+
+function goToLastPage () {
+  goToPage(totalPages());
+}
+
+function goToPrevPage () {
+  goToPage(props.currentPage - 1);
+}
+
+function goToNextPage () {
+  goToPage(props.currentPage + 1);
+}
+
+function goToPage (pageNum: number) {
+  if (pageNum > totalPages() || pageNum < 1) {
+    return;
+  }
+
+  emits("update:currentPage", pageNum);
+}
+
+function updatePageSize (pageSize: number) {
+  emits("update:pageSize", pageSize);
+}
+
+function totalPages () {
+  return Math.ceil(props.totalResults / props.pageSize);
+}
 </script>
 
 <style scoped>
 
 .page-button {
-  @apply relative inline-flex items-center px-4 py-2 text-sm font-medium text-slate-400 hover:text-slate-200 outline-none;
+  @apply relative inline-flex items-center px-4 py-2 text-sm font-medium text-base-content/50 hover:text-base-content outline-none;
 }
 
 .page-button[disabled] {
-  @apply text-sky-500;
+  @apply text-primary;
 }
 </style>
