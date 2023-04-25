@@ -38,7 +38,7 @@ import { TorrentCategory, TorrentCompact } from "torrust-index-types-lib";
 import { Ref } from "vue";
 import { useRoute, useRouter } from "#app";
 import { onMounted, ref, useTags, watch } from "#imports";
-import { getCategories, useCategories, useRestApi } from "~/composables/states";
+import { useCategories, useRestApi } from "~/composables/states";
 
 type SortingOption = {
   name: string;
@@ -85,7 +85,6 @@ watch([itemsSorting, pageSize, currentPage, categoryFilters], () => {
 });
 
 onMounted(() => {
-  getCategories();
   searchQuery.value = route.query.search as string ?? null;
   updateSortFromRoute();
   loadTorrents();

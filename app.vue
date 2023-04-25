@@ -55,13 +55,16 @@
 </template>
 
 <script setup lang="ts">
-import { getCategories, getSettings, getTags, getUser, onMounted } from "#imports";
+import { getCategories, getSettings, getTags, getUser, onBeforeMount, onMounted } from "#imports";
 
-onMounted(() => {
-  document.querySelector("html").classList.add("bg-base-300");
+onBeforeMount(() => {
   getUser();
   getSettings();
   getTags();
   getCategories();
+});
+
+onMounted(() => {
+  document.querySelector("html").classList.add("bg-base-300");
 });
 </script>

@@ -50,37 +50,12 @@
 <script setup lang="ts">
 import { ArrowDownTrayIcon, LinkIcon } from "@heroicons/vue/24/outline";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
-import { Ref, PropType } from "vue";
+import { PropType } from "vue";
 import { TorrentCompact } from "torrust-index-types-lib";
 import { fileSize, timeSince, ref } from "#imports";
 
-enum Direction {
-  ASC,
-  DESC
-}
-
-enum Sorting {
-  name,
-  seeders,
-  leechers,
-  uploaded,
-  size
-}
-
-type Sort = {
-  name: Sorting,
-  direction: Direction
-}
-
 const props = defineProps({
-  torrents: Array as PropType<Array<TorrentCompact>>,
-  updateSorting: Function,
-  sorting: Object
-});
-
-const sort: Ref<Sort> = ref({
-  name: Sorting.uploaded,
-  direction: Direction.DESC
+  torrents: Array as PropType<Array<TorrentCompact>>
 });
 
 const isOpenList = ref([]);

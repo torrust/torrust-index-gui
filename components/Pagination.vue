@@ -3,7 +3,7 @@
     <div class="flex-1 flex flex-col md:flex-row items-center sm:justify-between justify-end gap-3">
       <div class="flex items-center gap-3">
         <div>
-          <select :value="pageSize" @change="(e) => updatePageSize(parseInt(e.target.value, 10))" class="px-2 py-1 bg-base-100">
+          <select :value="pageSize" class="px-2 py-1 bg-base-100" @change="(e) => updatePageSize(parseInt(e.target.value, 10))">
             <option value="1">
               1
             </option>

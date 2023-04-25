@@ -17,14 +17,13 @@
             v-model="searchText"
             class="input border-2 input-bordered rounded-2xl"
             placeholder="Search"
-            @change="filterOptions()"
           >
         </div>
       </template>
-      <template v-if="filteredOptions.length">
+      <template v-if="filteredOptions().length > 0">
         <ul class="menu">
           <li
-            v-for="(option) in filteredOptions"
+            v-for="(option) in filteredOptions()"
             :key="option.value"
             class="text-base-content text-sm"
             @click="toggleOption(option)"
@@ -82,7 +81,6 @@ const emit = defineEmits(["updated"]);
 
 const active = ref(false);
 const selectedOptions = ref([]);
-const filteredOptions = ref([]);
 const searchText = ref("");
 
 onMounted(() => {
@@ -91,10 +89,6 @@ onMounted(() => {
 
 if (!props.multiple) {
   toggleOption(props.options[0]);
-}
-
-function toggleDropdown () {
-  active.value = !active.value;
 }
 
 function isSelectedOption (option) {
@@ -116,17 +110,15 @@ function toggleOption (option) {
   }
 }
 
-function filterOptions () {
-  if (searchText.value === "") {
-    filteredOptions.value = props.options;
-  } else {
-    filteredOptions.value = props.options.filter(option =>
-      option.name.toLowerCase().includes(searchText.value.toLowerCase())
-    );
-  }
-}
+function filteredOptions () {
+  let filteredOptions = Array.from(props.options);
 
-watch(searchText, filterOptions);
+  if (searchText.value !== "") {
+    filteredOptions = filteredOptions.filter(option => option.name.toLowerCase().includes(searchText.value.toLowerCase()));
+  }
+
+  return filteredOptions;
+}
 </script>
 
 <style scoped>
