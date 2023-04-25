@@ -72,7 +72,13 @@ const searchQuery: Ref<string> = ref(null);
 const currentPage: Ref<number> = ref(1);
 const itemsSorting: Ref<string> = ref(sortingOptions[0].value);
 
-watch([itemsSorting, pageSize, currentPage, categoryFilters], () => {
+watch([route], () => {
+  if (route.query.search !== searchQuery.value) {
+    searchQuery.value = route.query.search as string;
+  }
+});
+
+watch([searchQuery, itemsSorting, pageSize, currentPage, categoryFilters], () => {
   router.push({
     query: {
       search: searchQuery.value,
