@@ -123,6 +123,12 @@
 
         <template v-if="hasEditRights()">
           <button
+            class="btn btn-secondary"
+            @click="editTorrent"
+          >
+            edit torrent
+          </button>
+          <button
             class="btn btn-error"
             @click="deleteTorrent"
           >
@@ -147,7 +153,7 @@ import {
   useSettings,
   useUser,
   isUserLoggedIn,
-  isTrackerPublic
+  isTrackerPublic, navigateTo
 } from "#imports";
 import { canEditThisTorrent } from "~/composables/helpers";
 
@@ -193,15 +199,8 @@ function leechersPercentage () {
   return props.torrent.leechers > 0 ? `${(props.torrent.leechers / total) * 100}%` : 0;
 }
 
-function startEditingTitle () {
-  updatedTitle.value = props.torrent.title;
-  state.value = State.Editing;
-}
-
-function saveChanges () {
-  // TODO: Submit changes.
-  emit("updated");
-  state.value = State.Viewing;
+function editTorrent () {
+  navigateTo(`/torrent/edit/${props.torrent.torrent_id}`, { replace: true });
 }
 
 function deleteTorrent () {
