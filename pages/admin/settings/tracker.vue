@@ -51,6 +51,6 @@ label {
 }
 
 input, select {
-  @apply p-2.5 w-full  text-neutral-content placeholder-neutral-content/50 border-2 border-base-content/20 rounded-2xl duration-200 cursor-pointer;
+  @apply p-2.5 w-full text-neutral-content placeholder-neutral-content/50 border-2 border-base-content/20 rounded-2xl duration-200 cursor-pointer;
 }
 </style>

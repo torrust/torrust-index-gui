@@ -25,18 +25,17 @@
 
       <div class="w-full flex flex-col gap-2">
         <template v-if="madeChanges()">
-          <TorrustButton
-            label="save changes"
+          <button
+            class="btn btn-secondary"
             :disabled="!madeChanges() || updatingSettings"
             @click="saveSettings()"
-          />
+          >save changes</button>
 
-          <TorrustButton
-            class="hover:bg-red-500/20 text-red-500"
-            label="clear changes"
+          <button
+            class="btn btn-error"
             :disabled="!madeChanges() || updatingSettings"
             @click="clearChanges()"
-          />
+          >clear changes</button>
         </template>
       </div>
     </div>
@@ -53,7 +52,8 @@ const tabs = [
   "tracker",
   "authentication",
   "database",
-  "email"
+  "email",
+  "categories"
 ];
 
 const rest = useRestApi();
