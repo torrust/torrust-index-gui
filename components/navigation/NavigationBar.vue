@@ -12,14 +12,14 @@
           v-model="searchQuery"
           name="search"
           type="text"
-          class="input border-2 input-bordered rounded-2xl"
+          class="input border-2 input-bordered rounded-2xl placeholder-neutral-content"
           :placeholder="`Search ${settings?.website_name ?? 'Torrust'}`"
           @keyup.enter="submitSearch"
           @focusin="typingInSearch = true"
           @focusout="typingInSearch = false"
         >
       </div>
-      <div class="px-2 dropdown dropdown-hover hidden md:inline-block">
+      <div class="px-2 dropdown dropdown-hover hidden md:inline-block text-base-content/75 hover:text-base-content">
         <label tabindex="0" class="px-1">
           <NuxtLink to="/torrents" class="flex">
             Torrents
