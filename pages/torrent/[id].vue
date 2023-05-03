@@ -22,7 +22,7 @@
             </div>
           </div>
         </div>
-        <TorrentActionCard class="top-24 md:sticky max-w-md" :torrent="torrent" @updated="reloadTorrent" />
+        <TorrentActionCard class="top-8 md:sticky max-w-md" :torrent="torrent" @updated="reloadTorrent" />
         <div class="block md:hidden">
           <button
             class="btn bg-base-200 border-none"
