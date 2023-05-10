@@ -4,18 +4,18 @@
       <div class="mr-1 flex flex-col flex-nowrap text-left capitalize">
         <span v-if="label" class="text-xs link-primary">{{ label }}</span>
         <div class="text-sm flex flex-row flex-nowrap">
-          <span v-if="selectedOptions.length === 0">None</span>
-          <span v-else-if="selectedOptions.length > 1">Multiple</span>
-          <span v-else>{{ selectedOptions[0].name }}</span>
+          <span v-if="props.selected.length === 0">None</span>
+          <span v-else-if="props.selected.length > 1">Multiple</span>
+          <span v-else>{{ getOptionNameByValue(props.selected[0]) }}</span>
         </div>
       </div>
     </label>
-    <div tabindex="0" class="mt-3 dropdown-content border border-base-content/20 p-2 shadow bg-base-100 rounded-lg min-w-[14rem]">
+    <div tabindex="0" class="mt-3 flex flex-col gap-2 dropdown-content border border-base-content/20 p-2 shadow bg-base-100 rounded-lg min-w-[14rem]">
       <template v-if="props.search">
-        <div class="px-3 py-3">
+        <div class="">
           <input
             v-model="searchText"
-            class="input border-2 input-bordered rounded-2xl"
+            class="input border-2 placeholder-base-content text-sm input-bordered rounded-2xl"
             placeholder="Search"
           >
         </div>
@@ -32,7 +32,7 @@
               <div class="font-bold text-neutral-content">
                 {{ option.name }}
               </div>
-              <div v-if="multiple" class="ml-auto flex flex-col items-center">
+              <div v-if="props.multiple" class="ml-auto flex flex-col items-center">
                 <span
                   v-if="isSelectedOption(option)"
                   class="relative inline-flex"
@@ -61,53 +61,84 @@
           <span class="text-neutral-content/50">No results..</span>
         </div>
       </template>
+      <template v-if="props.selected.length > 1">
+        <button @click="emit('update:selected', [])" class="p-2 bg-primary/10 text-primary text-sm w-full rounded-lg">Clear all</button>
+      </template>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref, watch } from "vue";
+<script setup lang="ts">
+import { ref, watch, PropType, defineProps, defineEmits } from "vue";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { onMounted } from "../.nuxt/imports";
 
+export interface TorrustSelectOption {
+  name: string;
+  value: string;
+}
+
 const props = defineProps({
-  options: Array,
-  label: String,
-  multiple: Boolean,
-  search: Boolean
+  options: {
+    type: Array as PropType<Array<TorrustSelectOption>>,
+    required: true
+  },
+  label: {
+    type: String,
+    default: ""
+  },
+  search: {
+    type: Boolean,
+    default: true
+  },
+  selected: {
+    type: Array as PropType<string[]>,
+    default: () => []
+  },
+  multiple: {
+    type: Boolean,
+    default: false
+  }
 });
 
-const emit = defineEmits(["updated"]);
+const emit = defineEmits(["update:selected"]);
 
 const active = ref(false);
-const selectedOptions = ref([]);
 const searchText = ref("");
 
-onMounted(() => {
-  filteredOptions.value = props.options;
-});
-
-if (!props.multiple) {
-  toggleOption(props.options[0]);
+function isSelectedOption (option: TorrustSelectOption) {
+  return props.selected.includes(option.value);
 }
 
-function isSelectedOption (option) {
-  return selectedOptions.value.includes(option);
+function getOptionNameByValue (value: string): string {
+  let name: string;
+
+  props.options.forEach((option) => {
+    if (option.value === value) {
+      name = option.name;
+    }
+  });
+
+  return name;
 }
 
-function toggleOption (option) {
+function toggleOption (option: TorrustSelectOption) {
+  let value: string[] = [];
+
   if (props.multiple) {
     if (isSelectedOption(option)) {
-      selectedOptions.value.splice(selectedOptions.value.indexOf(option), 1);
+      value = props.selected.filter(item => item !== option.value);
     } else {
-      selectedOptions.value.push(option);
+      value = props.selected.concat([option.value]);
     }
-    emit("updated", selectedOptions.value);
   } else {
-    selectedOptions.value = [option];
     active.value = false;
-    emit("updated", option);
+    value = [option.value];
   }
+
+  console.log(value);
+
+  emit("update:selected", value);
 }
 
 function filteredOptions () {

@@ -32,7 +32,7 @@
       <!--      </template>-->
       <div>
         <label for="tags" class="px-2">Tags</label>
-        <TorrustSelect class="grow-0" :options="tags" multiple search @updated="setTags" />
+        <!--        <TorrustSelect class="grow-0" :options="tags" multiple search @updated="setTags" />-->
       </div>
       <template v-if="user?.username">
         <button

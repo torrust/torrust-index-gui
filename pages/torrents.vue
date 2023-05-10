@@ -7,9 +7,15 @@
     </div>
     <div class="mt-6 flex flex-row">
       <div class="w-full flex flex-row flex-nowrap gap-3">
-        <TorrustSelect :options="categories" :label="'Category'" multiple search @updated="setCategoryFilters" />
-        <TorrustSelect :options="tags" :label="'Tags'" multiple search />
-        <TorrustSelect class="ml-auto" :options="sortingOptions" :label="'Sort by'" @updated="updateSorting" />
+        <TorrustSelect
+          v-model:selected="categoryFilters"
+          :options="categories.map(entry => ({ name: entry.name, value: entry.name }))"
+          :label="'Category'"
+          :multiple="true"
+          search
+        />
+        <!--        <TorrustSelect :options="tags" :label="'Tags'" multiple search />-->
+        <TorrustSelect v-model:selected="selectedSorting" class="ml-auto" :options="sortingOptions" :label="'Sort by'" />
       </div>
     </div>
     <div class="mt-6 flex flex-col">
@@ -18,8 +24,6 @@
           <template v-if="torrents?.length > 0">
             <TorrentList
               :torrents="torrents"
-              :sorting="itemsSorting"
-              :update-sorting="updateSorting"
             />
             <Pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :total-results="torrentsTotal" />
           </template>
@@ -34,19 +38,15 @@
 
 <script setup lang="ts">
 import { useRuntimeConfig } from "nuxt/app";
-import { TorrentCategory, TorrentCompact } from "torrust-index-types-lib";
+import { TorrentCompact } from "torrust-index-types-lib";
 import { Ref } from "vue";
 import { useRoute, useRouter } from "#app";
-import { onMounted, ref, useTags, watch } from "#imports";
+import { computed, onMounted, ref, useTags, watch } from "#imports";
 import { useCategories, useRestApi } from "~/composables/states";
-
-type SortingOption = {
-  name: string;
-  value: string;
-}
+import { TorrustSelectOption } from "~/components/TorrustSelect.vue";
 
 // TODO: provide sorting options from backend.
-const sortingOptions: Array<SortingOption> = [
+const sortingOptions: Array<TorrustSelectOption> = [
   { name: "Uploaded (Newest first)", value: "UploadedDesc" },
   { name: "Uploaded (Oldest first)", value: "UploadedAsc" },
   { name: "Seeders (High to low)", value: "SeedersDesc" },
@@ -63,14 +63,13 @@ const rest = useRestApi();
 const defaultPageSize = 20;
 const queryPageSize = parseInt(route.query?.pageSize as string, 10);
 const pageSize: Ref<number> = ref(isNaN(queryPageSize) ? defaultPageSize : queryPageSize);
-
-// TODO: Set categoryFilters in view.
-const categoryFilters: Ref<Array<string>> = ref(new Array<string>());
+const queryCategoryFilters = route.query?.categoryFilters as string[] || [];
+const categoryFilters: Ref<string[]> = ref(Array.isArray(queryCategoryFilters) ? queryCategoryFilters : [queryCategoryFilters]);
 const torrents: Ref<Array<TorrentCompact>> = ref(null);
 const torrentsTotal = ref(0);
 const searchQuery: Ref<string> = ref(null);
 const currentPage: Ref<number> = ref(1);
-const itemsSorting: Ref<string> = ref(sortingOptions[0].value);
+const itemsSorting: Ref<string> = ref(route.query?.itemsSorting as string || sortingOptions[0].value);
 
 watch([route], () => {
   if (route.query.search !== searchQuery.value) {
@@ -83,17 +82,27 @@ watch([searchQuery, itemsSorting, pageSize, currentPage, categoryFilters], () =>
     query: {
       search: searchQuery.value,
       sorting: itemsSorting.value,
-      pageSize: pageSize.value
+      pageSize: pageSize.value,
+      categoryFilters: categoryFilters.value
     }
   });
 
+  currentPage.value = 1;
   loadTorrents();
 });
 
 onMounted(() => {
   searchQuery.value = route.query.search as string ?? null;
-  updateSortFromRoute();
   loadTorrents();
+});
+
+const selectedSorting = computed({
+  get () {
+    return [itemsSorting.value];
+  },
+  set (value) {
+    itemsSorting.value = value[0];
+  }
 });
 
 function loadTorrents () {
@@ -110,40 +119,6 @@ function loadTorrents () {
       torrentsTotal.value = v.total;
       torrents.value = v.results;
     });
-}
-
-function updateSortFromRoute () {
-  if (route.query.sorting) {
-    itemsSorting.value = route.query.sorting as string;
-  }
-}
-
-function updateSorting (sorting: SortingOption) {
-  currentPage.value = 1;
-  itemsSorting.value = sorting.value;
-  loadTorrents();
-}
-
-function clearSearch () {
-  router.push({
-    replace: true,
-    query: {
-      ...route.query,
-      search: ""
-    }
-  });
-}
-
-function setCategoryFilters (categories: Array<TorrentCategory>) {
-  const filters: Array<string> = [];
-
-  categories.forEach((category) => {
-    filters.push(category.name);
-  });
-
-  categoryFilters.value = filters;
-
-  loadTorrents();
 }
 </script>
 

@@ -33,7 +33,7 @@
       <template v-if="categories?.length > 0">
         <div>
           <label for="tags" class="px-2">Tags</label>
-          <TorrustSelect class="grow-0" :options="tags" multiple search @updated="setTags" />
+          <!--          <TorrustSelect class="grow-0" :options="tags" multiple search @updated="setTags" />-->
         </div>
       </template>
       <div>
