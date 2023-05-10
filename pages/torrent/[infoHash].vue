@@ -46,23 +46,29 @@ import TorrentActionCard from "~/components/torrent/TorrentActionCard.vue";
 import TorrentDescriptionTab from "~/components/torrent/TorrentDescriptionTab.vue";
 import TorrentFilesTab from "~/components/torrent/TorrentFilesTab.vue";
 import TorrentTrackersTab from "~/components/torrent/TorrentTrackersTab.vue";
-import { onMounted, ref, useRestApi } from "#imports";
+import { navigateTo, onMounted, ref, useRestApi } from "#imports";
 
 const config = useRuntimeConfig();
 const route = useRoute();
 const rest = useRestApi().value;
 
+const infoHash = route.params.infoHash as string;
+
 const loadingTorrent: Ref<boolean> = ref(false);
 const torrent: Ref<Torrent> = ref(null);
 
-onMounted(async () => {
-  await getTorrentFromApi(Number(route.params.id));
+onMounted(() => {
+  if (!infoHash) {
+    navigateTo("/", { replace: true });
+  }
+
+  getTorrentFromApi(infoHash);
 });
 
-function getTorrentFromApi (torrentId: number) {
+function getTorrentFromApi (infoHash: string) {
   loadingTorrent.value = true;
 
-  rest.torrent.getTorrent(torrentId)
+  rest.torrent.getTorrent(infoHash)
     .then((data) => {
       torrent.value = data;
     })
@@ -74,7 +80,7 @@ function getTorrentFromApi (torrentId: number) {
 }
 
 function reloadTorrent () {
-  getTorrentFromApi(torrent.value.torrent_id);
+  getTorrentFromApi(torrent.value.info_hash);
 }
 </script>
 

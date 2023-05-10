@@ -1,7 +1,7 @@
 <template>
   <div
     class="group/details flex flex-col items-center w-full rounded-2xl"
-    @click.stop="$router.push(`/torrent/${props.torrentId}`)"
+    @click.stop="$router.push(`/torrent/${props.infoHash}`)"
   >
     <div class="p-4 max-h-96 border-2 border-base-content/20 hover:border-primary text-center text-base-content/75 rounded-2xl overflow-y-auto w-full duration-500">
       <template v-if="torrent?.description">
@@ -26,11 +26,14 @@ const rest = useRestApi();
 const torrent: Ref<Torrent> = ref(null);
 
 const props = defineProps({
-  torrentId: Number
+  infoHash: {
+    type: String,
+    required: true
+  }
 });
 
 onMounted(() => {
-  rest.value.torrent.getTorrent(props.torrentId)
+  rest.value.torrent.getTorrent(props.infoHash)
     .then((data) => {
       torrent.value = data;
     });

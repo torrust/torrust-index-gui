@@ -118,6 +118,7 @@ function setFile (file: any) {
   [form.value.torrentFile] = file;
 }
 
+// TODO: replace torrent_id with info_hash.
 function submitForm () {
   uploading.value = true;
 

@@ -96,7 +96,7 @@
 
         <div class="flex flex-row gap-3">
           <template v-if="showDownloadButtons">
-            <button class="btn btn-primary grow" @click="downloadTorrent(torrent.torrent_id, torrent.title)">
+            <button class="btn btn-primary grow" @click="downloadTorrent(torrent.info_hash, torrent.title)">
               download torrent
             </button>
             <button class="p-0 btn btn-primary w-12">
@@ -200,11 +200,11 @@ function leechersPercentage () {
 }
 
 function editTorrent () {
-  navigateTo(`/torrent/edit/${props.torrent.torrent_id}`, { replace: true });
+  navigateTo(`/torrent/edit/${props.torrent.info_hash}`, { replace: true });
 }
 
 function deleteTorrent () {
-  rest.value.torrent.deleteTorrent(props.torrent.torrent_id)
+  rest.value.torrent.deleteTorrent(props.torrent.info_hash)
     .then(() => {
       emit("updated");
     });

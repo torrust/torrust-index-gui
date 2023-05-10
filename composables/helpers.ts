@@ -22,12 +22,12 @@ export function canEditThisTorrent (torrent: Torrent): boolean {
   return user.admin || user.username === torrent.uploader;
 }
 
-export function downloadTorrent (torrentId: number, fileName?: string) {
+export function downloadTorrent (infoHash: string, fileName?: string) {
   if (fileName === undefined) {
     fileName = "torrent";
   }
 
-  useRestApi().value.torrent.downloadTorrent(torrentId)
+  useRestApi().value.torrent.downloadTorrent(infoHash)
     .then((blob: Blob) => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");

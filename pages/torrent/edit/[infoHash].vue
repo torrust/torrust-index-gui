@@ -82,7 +82,7 @@ const user = useUser();
 const rest = useRestApi();
 const route = useRoute();
 
-const torrentId = Number(route.params.id);
+const infoHash = route.params.infoHash as string;
 
 const loadingTorrent = ref(true);
 const torrent: Ref<Torrent> = ref(null);
@@ -95,17 +95,17 @@ const form: Ref<FormEditTorrent> = ref({
 });
 
 onMounted(() => {
-  if (isNaN(torrentId)) {
+  if (!infoHash) {
     navigateTo("/", { replace: true });
   }
 
-  getTorrentFromApi(torrentId);
+  getTorrentFromApi(infoHash);
 });
 
-function getTorrentFromApi (torrentId: number) {
+function getTorrentFromApi (infoHash: string) {
   loadingTorrent.value = true;
 
-  rest.value.torrent.getTorrent(torrentId)
+  rest.value.torrent.getTorrent(infoHash)
     .then((data) => {
       torrent.value = data;
 
@@ -140,7 +140,7 @@ function submitForm () {
 
   rest.value.torrent.updateTorrent(uploadTorrent)
     .then((torrentResponse) => {
-      navigateTo(`/torrent/${torrentId}`, { replace: true });
+      navigateTo(`/torrent/${infoHash}`, { replace: true });
     })
     .catch((err) => {
       notify({
@@ -155,7 +155,7 @@ function submitForm () {
 }
 
 function cancelChanges () {
-  navigateTo(`/torrent/${torrentId}`, { replace: true });
+  navigateTo(`/torrent/${infoHash}`, { replace: true });
 }
 </script>
 
