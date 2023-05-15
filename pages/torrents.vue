@@ -15,16 +15,20 @@
           search
         />
         <!--        <TorrustSelect :options="tags" :label="'Tags'" multiple search />-->
-        <TorrustSelect v-model:selected="selectedSorting" class="ml-auto" :options="sortingOptions" :label="'Sort by'" />
+        <TorrustSelect v-model:selected="selectedLayout" :options="layoutOptions" label="Layout" />
+        <TorrustSelect v-model:selected="selectedSorting" class="ml-auto" :options="sortingOptions" label="Sort by" />
       </div>
     </div>
     <div class="mt-6 flex flex-col">
       <div class="flex flex-row flex-nowrap items-start">
         <div class="w-full">
-          <template v-if="torrents?.length > 0">
-            <TorrentList
-              :torrents="torrents"
-            />
+          <template v-if="torrents.length > 0">
+            <template v-if="layout === 'default'">
+              <TorrentList :torrents="torrents" />
+            </template>
+            <template v-else-if="layout === 'table'">
+              <TorrentTable :torrents="torrents" />
+            </template>
             <Pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :total-results="torrentsTotal" />
           </template>
           <template v-else>
@@ -53,6 +57,11 @@ const sortingOptions: Array<TorrustSelectOption> = [
   { name: "Leechers (High to low)", value: "LeechersDesc" }
 ];
 
+const layoutOptions: Array<TorrustSelectOption> = [
+  { name: "Default", value: "default" },
+  { name: "Table", value: "table" }
+];
+
 const route = useRoute();
 const router = useRouter();
 const config = useRuntimeConfig();
@@ -65,36 +74,12 @@ const queryPageSize = parseInt(route.query?.pageSize as string, 10);
 const pageSize: Ref<number> = ref(isNaN(queryPageSize) ? defaultPageSize : queryPageSize);
 const queryCategoryFilters = route.query?.categoryFilters as string[] || [];
 const categoryFilters: Ref<string[]> = ref(Array.isArray(queryCategoryFilters) ? queryCategoryFilters : [queryCategoryFilters]);
-const torrents: Ref<Array<TorrentCompact>> = ref(null);
+const torrents: Ref<Array<TorrentCompact>> = ref([]);
 const torrentsTotal = ref(0);
 const searchQuery: Ref<string> = ref(null);
-const currentPage: Ref<number> = ref(1);
-const itemsSorting: Ref<string> = ref(route.query?.itemsSorting as string || sortingOptions[0].value);
-
-watch([route], () => {
-  if (route.query.search !== searchQuery.value) {
-    searchQuery.value = route.query.search as string;
-  }
-});
-
-watch([searchQuery, itemsSorting, pageSize, currentPage, categoryFilters], () => {
-  router.push({
-    query: {
-      search: searchQuery.value,
-      sorting: itemsSorting.value,
-      pageSize: pageSize.value,
-      categoryFilters: categoryFilters.value
-    }
-  });
-
-  currentPage.value = 1;
-  loadTorrents();
-});
-
-onMounted(() => {
-  searchQuery.value = route.query.search as string ?? null;
-  loadTorrents();
-});
+const currentPage: Ref<number> = ref(Number(route.query?.page as string) || 1);
+const itemsSorting: Ref<string> = ref(route.query?.sorting as string || sortingOptions[0].value);
+const layout = ref(route.query?.layout as string || "default");
 
 const selectedSorting = computed({
   get () {
@@ -102,7 +87,43 @@ const selectedSorting = computed({
   },
   set (value) {
     itemsSorting.value = value[0];
+    currentPage.value = 1;
   }
+});
+
+const selectedLayout = computed({
+  get () {
+    return [layout.value];
+  },
+  set (value) {
+    layout.value = value[0];
+  }
+});
+
+watch([route], () => {
+  if (route.query.search !== searchQuery.value) {
+    searchQuery.value = route.query.search as string;
+  }
+});
+
+watch([searchQuery, itemsSorting, pageSize, currentPage, layout, categoryFilters], () => {
+  router.push({
+    query: {
+      search: searchQuery.value,
+      sorting: itemsSorting.value,
+      pageSize: pageSize.value,
+      page: currentPage.value,
+      layout: layout.value,
+      categoryFilters: categoryFilters.value
+    }
+  });
+
+  loadTorrents();
+});
+
+onMounted(() => {
+  searchQuery.value = route.query.search as string ?? null;
+  loadTorrents();
 });
 
 function loadTorrents () {

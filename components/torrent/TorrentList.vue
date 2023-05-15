@@ -20,7 +20,7 @@
             </div>
             <div class="mt-1 flex flex-row flex-nowrap justify-start items-start w-full">
               <span class="whitespace-nowrap text-neutral-content/50 text-xs">{{ fileSize(torrent.file_size) }}</span>
-              <span class="ml-2 whitespace-nowrap text-neutral-content/50 text-xs">{{ new Date(torrent.date_uploaded).toLocaleDateString() }} ({{ timeSince(new Date(torrent.date_uploaded)) }}) ago</span>
+              <span class="ml-2 whitespace-nowrap text-neutral-content/50 text-xs">{{ new Date(torrent.date_uploaded).toLocaleDateString() }} ({{ timeSince(new Date(torrent.date_uploaded)) }} ago)</span>
               <a class="ml-2 whitespace-nowrap text-neutral-content/50 text-xs">u/{{ torrent.uploader }}</a>
             </div>
           </div>

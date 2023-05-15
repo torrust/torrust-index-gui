@@ -21,7 +21,7 @@
         <div>
           <p class="text-sm text-base-content/50">
             Showing
-            <span class="font-medium">{{ (currentPage * pageSize) - pageSize }}</span>
+            <span class="font-medium">{{ (currentPage * pageSize) - pageSize + 1}}</span>
             to
             <span class="font-medium">{{ Math.min(currentPage * pageSize, totalResults) }}</span>
             of
@@ -209,7 +209,7 @@ const props = defineProps({
   }
 });
 
-const emits = defineEmits(["update:currentPage", "update:pageSize"]);
+const emit = defineEmits(["update:currentPage", "update:pageSize"]);
 
 function goToFirstPage () {
   goToPage(1);
@@ -232,11 +232,13 @@ function goToPage (pageNum: number) {
     return;
   }
 
-  emits("update:currentPage", pageNum);
+  console.log(pageNum);
+
+  emit("update:currentPage", pageNum);
 }
 
 function updatePageSize (pageSize: number) {
-  emits("update:pageSize", pageSize);
+  emit("update:pageSize", pageSize);
 }
 
 function totalPages () {

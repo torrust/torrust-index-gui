@@ -89,7 +89,7 @@ const props = defineProps({
   },
   search: {
     type: Boolean,
-    default: true
+    default: false
   },
   selected: {
     type: Array as PropType<string[]>,
