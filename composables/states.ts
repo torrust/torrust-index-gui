@@ -24,7 +24,7 @@ export function getCategories () {
 }
 
 export function getTags () {
-  useRestApi().value.torrent.getTags()
+  useRestApi().value.tag.getTags()
     .then((res) => {
       useTags().value = res;
     });

@@ -53,7 +53,8 @@ const tabs = [
   "authentication",
   "database",
   "email",
-  "categories"
+  "categories",
+  "tags"
 ];
 
 const rest = useRestApi();

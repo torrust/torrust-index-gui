@@ -32,7 +32,13 @@
       <!--      </template>-->
       <div>
         <label for="tags" class="px-2">Tags</label>
-        <!--        <TorrustSelect class="grow-0" :options="tags" multiple search @updated="setTags" />-->
+        <TorrustSelect
+          v-model:selected="form.tags"
+          :options="tags.map(entry => ({ name: entry.name, value: entry.tag_id }))"
+          :label="'Tags'"
+          :multiple="true"
+          search
+        />
       </div>
       <template v-if="user?.username">
         <button
@@ -58,6 +64,7 @@ import { Ref } from "vue";
 import { notify } from "notiwind-ts";
 import { Torrent, TorrentTag } from "../../../../torrust-index-types-lib";
 import {
+  computed,
   navigateTo,
   onMounted,
   ref, toRaw,
@@ -70,9 +77,8 @@ import { useCategories } from "~/composables/states";
 
 type FormEditTorrent = {
   title: string;
-  category: string;
   description: string;
-  // tags: Array<number>;
+  tags: Array<string>;
 }
 
 const config = useRuntimeConfig();
@@ -90,8 +96,8 @@ const updatingTorrent: Ref<boolean> = ref(false);
 
 const form: Ref<FormEditTorrent> = ref({
   title: "",
-  category: "",
-  description: ""
+  description: "",
+  tags: []
 });
 
 onMounted(() => {
@@ -111,7 +117,13 @@ function getTorrentFromApi (infoHash: string) {
 
       form.value.title = data.title;
       form.value.description = data.description;
-      form.value.category = data.category.name;
+      form.value.tags = data.tags.map((tag) => {
+        if (typeof tag === "object" && "tag_id" in tag) {
+          return tag.tag_id;
+        } else {
+          return tag;
+        }
+      });
     })
     .finally(() => {
       loadingTorrent.value = false;
@@ -121,24 +133,25 @@ function getTorrentFromApi (infoHash: string) {
 }
 
 function formValid () {
-  return form.value.title && form.value.category && (form.value.title + form.value.description + form.value.category) !== (torrent.value.title + torrent.value.description + torrent.value.category.name);
-}
-
-function setTags (e: any) {
-  form.value.tags = toRaw(e).map((tag: TorrentTag) => {
-    return tag.tag_id;
-  });
+  return form.value.title && (form.value.title + form.value.description) !== (torrent.value.title + torrent.value.description + torrent.value.category.name);
 }
 
 function submitForm () {
   updatingTorrent.value = true;
 
-  const uploadTorrent = torrent.value;
+  const uploadTorrent = {
+    title: form.value.title,
+    description: form.value.description,
+    tags: form.value.tags.map((tag) => {
+      if (typeof tag === "object" && "tag_id" in tag) {
+        return tag.tag_id;
+      } else {
+        return tag;
+      }
+    })
+  };
 
-  uploadTorrent.title = form.value.title;
-  uploadTorrent.description = form.value.description;
-
-  rest.value.torrent.updateTorrent(uploadTorrent)
+  rest.value.torrent.updateTorrent(infoHash, uploadTorrent)
     .then((torrentResponse) => {
       navigateTo(`/torrent/${infoHash}`, { replace: true });
     })

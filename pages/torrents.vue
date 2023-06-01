@@ -14,7 +14,13 @@
           :multiple="true"
           search
         />
-        <!--        <TorrustSelect :options="tags" :label="'Tags'" multiple search />-->
+        <TorrustSelect
+          v-model:selected="tagFilters"
+          :options="tags.map(entry => ({ name: entry.name, value: entry.name }))"
+          :label="'Tags'"
+          :multiple="true"
+          search
+        />
         <TorrustSelect v-model:selected="selectedLayout" :options="layoutOptions" label="Layout" />
         <TorrustSelect v-model:selected="selectedSorting" class="ml-auto" :options="sortingOptions" label="Sort by" />
       </div>
@@ -74,6 +80,8 @@ const queryPageSize = parseInt(route.query?.pageSize as string, 10);
 const pageSize: Ref<number> = ref(isNaN(queryPageSize) ? defaultPageSize : queryPageSize);
 const queryCategoryFilters = route.query?.categoryFilters as string[] || [];
 const categoryFilters: Ref<string[]> = ref(Array.isArray(queryCategoryFilters) ? queryCategoryFilters : [queryCategoryFilters]);
+const queryTagFilters = route.query?.tagFilters as string[] || [];
+const tagFilters: Ref<string[]> = ref(Array.isArray(queryTagFilters) ? queryTagFilters : [queryTagFilters]);
 const torrents: Ref<Array<TorrentCompact>> = ref([]);
 const torrentsTotal = ref(0);
 const searchQuery: Ref<string> = ref(null);
@@ -106,7 +114,7 @@ watch([route], () => {
   }
 });
 
-watch([searchQuery, itemsSorting, pageSize, currentPage, layout, categoryFilters], () => {
+watch([searchQuery, itemsSorting, pageSize, currentPage, layout, categoryFilters, tagFilters], () => {
   router.push({
     query: {
       search: searchQuery.value,
@@ -114,7 +122,8 @@ watch([searchQuery, itemsSorting, pageSize, currentPage, layout, categoryFilters
       pageSize: pageSize.value,
       page: currentPage.value,
       layout: layout.value,
-      categoryFilters: categoryFilters.value
+      categoryFilters: categoryFilters.value,
+      tagFilters: tagFilters.value
     }
   });
 
@@ -133,6 +142,7 @@ function loadTorrents () {
       page: currentPage.value,
       sorting: itemsSorting.value,
       categories: categoryFilters.value,
+      tags: tagFilters.value,
       searchQuery: searchQuery.value
     }
   )
