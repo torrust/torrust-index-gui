@@ -134,13 +134,19 @@ function submitForm () {
     .then((torrent_id) => {
       uploading.value = false;
 
+      notify({
+        group: "success",
+        title: "Success",
+        text: "Torrent uploaded!"
+      }, 4000);
+
       navigateTo(`/torrent/${torrent_id}`, { replace: true });
     })
     .catch((err) => {
       uploading.value = false;
 
       notify({
-        group: "foo",
+        group: "error",
         title: "Error",
         text: err
       }, 4000);

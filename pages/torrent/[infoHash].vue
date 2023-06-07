@@ -7,7 +7,7 @@
             <div class="flex flex-col gap-6">
               <div class="hidden md:block">
                 <button
-                  class="btn bg-base-100 hover:bg-base-100 pl-2 pr-4 border-none text-base-content/50 hover:text-base-content"
+                  class="btn bg-base-100 hover:bg-base-100 pl-2 pr-4 border-none text-base-content/75 hover:text-base-content"
                   @click.prevent="$router.go(-1)"
                 >
                   <ChevronLeftIcon class="mr-2 w-5" />

@@ -42,7 +42,7 @@
 import { Ref } from "vue";
 import { Requirement } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
-import { onMounted, ref, useAuthenticationModal, useRestApi, useRuntimeConfig, useSettings } from "#imports";
+import { loginUser, onMounted, ref, useAuthenticationModal, useRestApi, useRuntimeConfig, useSettings } from "#imports";
 
 enum State {
   Login,
@@ -109,18 +109,18 @@ function login () {
   loginUser(form.value.username, form.value.password)
     .then(() => {
       notify({
-        group: "foo",
+        group: "success",
         title: "Success",
-        text: "You were logged in!"
+        text: "You were signed in!"
       }, 4000);
 
       authModalOpen.value = false;
     })
     .catch((err) => {
       notify({
-        group: "foo",
+        group: "error",
         title: "Error",
-        text: err.response.data.error
+        text: err.message
       }, 4000); // 4s
     });
 }
@@ -134,16 +134,16 @@ function signup () {
   })
     .then(() => {
       notify({
-        group: "foo",
+        group: "success",
         title: "Success",
         text: "Your account was registered!"
       }, 4000); // 4s
     })
     .catch((err) => {
       notify({
-        group: "foo",
+        group: "error",
         title: "Error",
-        text: err.response.data.error
+        text: err.message
       }, 4000); // 4s
     });
 }

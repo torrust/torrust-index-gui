@@ -153,14 +153,20 @@ function submitForm () {
 
   rest.value.torrent.updateTorrent(infoHash, uploadTorrent)
     .then((torrentResponse) => {
+      notify({
+        group: "success",
+        title: "Success",
+        text: "Torrent updated!"
+      }, 4000);
+
       navigateTo(`/torrent/${infoHash}`, { replace: true });
     })
     .catch((err) => {
       notify({
-        group: "foo",
+        group: "error",
         title: "Error",
-        text: err
-      }, 4000);
+        text: err.message
+      }, 4000); // 4s
     })
     .finally(() => {
       updatingTorrent.value = false;
