@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-4 px-4 md:pb-0 md:px-8 lg:px-24 flex flex-col bg-base-200">
+  <div class="px-4 md:pb-0 md:px-8 lg:px-24 flex flex-col bg-base-200">
     <div class="p-0 navbar gap-2">
       <button class="flex md:hidden btn btn-square btn-ghost" @click="mobileCollapsed = !mobileCollapsed">
         <Bars3Icon class="w-8" />
@@ -62,8 +62,8 @@
       </div>
     </div>
     <template v-if="!mobileCollapsed">
-      <div class="md:hidden items-center justify-between w-full">
-        <div class="mt-2 flex flex-row gap-2">
+      <div class="py-4 md:hidden items-center justify-between w-full">
+        <div class="flex flex-row gap-2">
           <div class="form-control w-full">
             <input
               v-model="searchQuery"
