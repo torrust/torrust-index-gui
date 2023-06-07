@@ -3,9 +3,9 @@
     class="group/details flex flex-col items-center w-full rounded-2xl"
     @click.stop="$router.push(`/torrent/${props.infoHash}`)"
   >
-    <div class="p-4 max-h-96 border-2 border-base-content/20 hover:border-primary text-center text-base-content/75 rounded-2xl overflow-y-auto w-full duration-500">
+    <div class="p-4 max-h-96 flex justify-center border-2 border-base-content/20 hover:border-primary text-base-content/75 rounded-2xl overflow-y-auto w-full duration-500">
       <template v-if="torrent?.description">
-        <span>{{ torrent.description }}</span>
+        <Markdown :source="torrent.description" />
       </template>
       <template v-else>
         <span class="italic">No description.</span>

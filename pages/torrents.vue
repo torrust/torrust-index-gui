@@ -1,11 +1,11 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col gap-6">
     <div class="flex flex-col">
       <h2 class="text-2xl font-semibold text-neutral-content">
         Browse Torrents
       </h2>
     </div>
-    <div class="mt-6 flex w-full">
+    <div class="flex w-full">
       <div class="w-full flex flex-wrap justify-between gap-2">
         <div class="flex flex-wrap gap-2">
           <TorrustSelect
@@ -22,14 +22,19 @@
             :multiple="true"
             search
           />
-          <TorrustSelect v-model:selected="selectedLayout" :options="layoutOptions" label="Layout" />
         </div>
         <div>
           <TorrustSelect v-model:selected="selectedSorting" class="ml-auto" :options="sortingOptions" label="Sort by" />
         </div>
       </div>
     </div>
-    <div class="mt-6 flex flex-col">
+    <div class="flex">
+      <label class="label cursor-pointer flex gap-2">
+        <span class="label-text font-bold">Table</span>
+        <input type="checkbox" class="toggle" v-model="layoutTableCheckbox" />
+      </label>
+    </div>
+    <div class="flex flex-col">
       <div class="flex flex-row flex-nowrap items-start">
         <div class="w-full">
           <template v-if="torrents.length > 0">
@@ -67,11 +72,6 @@ const sortingOptions: Array<TorrustSelectOption> = [
   { name: "Leechers (High to low)", value: "LeechersDesc" }
 ];
 
-const layoutOptions: Array<TorrustSelectOption> = [
-  { name: "Default", value: "default" },
-  { name: "Table", value: "table" }
-];
-
 const route = useRoute();
 const router = useRouter();
 const config = useRuntimeConfig();
@@ -92,6 +92,7 @@ const searchQuery: Ref<string> = ref(null);
 const currentPage: Ref<number> = ref(Number(route.query?.page as string) || 1);
 const itemsSorting: Ref<string> = ref(route.query?.sorting as string || sortingOptions[0].value);
 const layout = ref(route.query?.layout as string || "default");
+const layoutTableCheckbox = ref(layout.value === "table");
 
 const selectedSorting = computed({
   get () {
@@ -100,15 +101,6 @@ const selectedSorting = computed({
   set (value) {
     itemsSorting.value = value[0];
     currentPage.value = 1;
-  }
-});
-
-const selectedLayout = computed({
-  get () {
-    return [layout.value];
-  },
-  set (value) {
-    layout.value = value[0];
   }
 });
 
@@ -132,6 +124,14 @@ watch([searchQuery, itemsSorting, pageSize, currentPage, layout, categoryFilters
   });
 
   loadTorrents();
+});
+
+watch([layoutTableCheckbox], () => {
+  if (layoutTableCheckbox.value) {
+    layout.value = "table";
+  } else {
+    layout.value = "default";
+  }
 });
 
 onMounted(() => {
