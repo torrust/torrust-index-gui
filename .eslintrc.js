@@ -27,6 +27,7 @@ module.exports = {
     "vue/multi-word-component-names": "off",
     "vue/multiline-html-element-content-newline": "off",
     "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/brace-style": "off",
     camelcase: "off",
     quotes: [
       "error",
@@ -42,6 +43,7 @@ module.exports = {
     ],
     "no-multi-spaces": [
       "error"
-    ]
+    ],
+    "brace-style": "off"
   }
 };

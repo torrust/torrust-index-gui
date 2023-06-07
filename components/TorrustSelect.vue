@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown">
+  <div class="dropdown" :class="dropdownAlignment">
     <label tabindex="0" class="select select-bordered items-center" :class="{ 'h-[3.5rem]': !!label }">
       <div class="mr-1 flex flex-col flex-nowrap text-left capitalize">
         <span v-if="label" class="text-xs link-primary">{{ label }}</span>
@@ -10,7 +10,7 @@
         </div>
       </div>
     </label>
-    <div tabindex="0" class="mt-3 flex flex-col gap-2 dropdown-content border border-base-content/20 p-2 shadow bg-base-100 rounded-lg min-w-[14rem]">
+    <div tabindex="0" class="mt-3 flex flex-col gap-2 dropdown-content border border-base-content/20 p-2 shadow bg-base-100 rounded-lg" ref="dropdownContent">
       <template v-if="props.search">
         <div class="">
           <input
@@ -62,14 +62,14 @@
         </div>
       </template>
       <template v-if="props.selected.length > 1">
-        <button @click="emit('update:selected', [])" class="p-2 bg-primary/10 text-primary text-sm w-full rounded-lg">Clear all</button>
+        <button class="p-2 bg-primary/10 text-primary text-sm w-full rounded-lg" @click="emit('update:selected', [])">Clear all</button>
       </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, PropType, defineProps, defineEmits } from "vue";
+import { ref, watch, PropType, defineProps, defineEmits, onBeforeUnmount, computed } from "vue";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { onMounted } from "../.nuxt/imports";
 
@@ -103,8 +103,8 @@ const props = defineProps({
 
 const emit = defineEmits(["update:selected"]);
 
-const active = ref(false);
 const searchText = ref("");
+const dropdownContent = ref(null);
 
 function isSelectedOption (option: TorrustSelectOption) {
   return props.selected.includes(option.value);
@@ -132,7 +132,6 @@ function toggleOption (option: TorrustSelectOption) {
       value = props.selected.concat([option.value]);
     }
   } else {
-    active.value = false;
     value = [option.value];
   }
 
@@ -150,6 +149,33 @@ function filteredOptions () {
 
   return filteredOptions;
 }
+
+const dropdownAlignment = computed(() => {
+  const dropdownElement = dropdownContent.value;
+
+  if (dropdownElement) {
+    const dropdownRect = dropdownElement.getBoundingClientRect();
+    const dropdownLeft = dropdownRect.left;
+    const dropdownRight = dropdownRect.right;
+    const viewportWidth = window.innerWidth;
+
+    // Check if the dropdown is off-screen at the left
+    if (dropdownLeft < 0) {
+      return ["dropdown-start"];
+    }
+    // Check if the dropdown is off-screen at the right
+    else if (dropdownRight > viewportWidth) {
+      return ["dropdown-end"];
+    }
+    // Reset the dropdown position if it's within the viewport
+    else {
+      return ["dropdown-start"];
+    }
+  } else {
+    return ["dropdown-start"];
+  }
+});
+
 </script>
 
 <style scoped>

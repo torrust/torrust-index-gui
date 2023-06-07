@@ -7,7 +7,7 @@
     <div class="bg-base-300 px-4 md:px-8 lg:px-24 flex flex-col w-full">
       <AuthenticationModal />
 
-      <div class="my-6 flex flex-col">
+      <div class="my-6 flex flex-col" style="max-width: 100vw;">
         <NuxtPage />
       </div>
       <!-- Footer -->

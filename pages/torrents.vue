@@ -5,24 +5,28 @@
         Browse Torrents
       </h2>
     </div>
-    <div class="mt-6 flex flex-row">
-      <div class="w-full flex flex-row flex-nowrap gap-3">
-        <TorrustSelect
-          v-model:selected="categoryFilters"
-          :options="categories.map(entry => ({ name: entry.name, value: entry.name }))"
-          :label="'Category'"
-          :multiple="true"
-          search
-        />
-        <TorrustSelect
-          v-model:selected="tagFilters"
-          :options="tags.map(entry => ({ name: entry.name, value: entry.name }))"
-          :label="'Tags'"
-          :multiple="true"
-          search
-        />
-        <TorrustSelect v-model:selected="selectedLayout" :options="layoutOptions" label="Layout" />
-        <TorrustSelect v-model:selected="selectedSorting" class="ml-auto" :options="sortingOptions" label="Sort by" />
+    <div class="mt-6 flex w-full">
+      <div class="w-full flex flex-wrap justify-between gap-2">
+        <div class="flex flex-wrap gap-2">
+          <TorrustSelect
+            v-model:selected="categoryFilters"
+            :options="categories.map(entry => ({ name: entry.name, value: entry.name }))"
+            :label="'Category'"
+            :multiple="true"
+            search
+          />
+          <TorrustSelect
+            v-model:selected="tagFilters"
+            :options="tags.map(entry => ({ name: entry.name, value: entry.name }))"
+            :label="'Tags'"
+            :multiple="true"
+            search
+          />
+          <TorrustSelect v-model:selected="selectedLayout" :options="layoutOptions" label="Layout" />
+        </div>
+        <div>
+          <TorrustSelect v-model:selected="selectedSorting" class="ml-auto" :options="sortingOptions" label="Sort by" />
+        </div>
       </div>
     </div>
     <div class="mt-6 flex flex-col">
@@ -75,7 +79,7 @@ const categories = useCategories();
 const tags = useTags();
 const rest = useRestApi();
 
-const defaultPageSize = 20;
+const defaultPageSize = 50;
 const queryPageSize = parseInt(route.query?.pageSize as string, 10);
 const pageSize: Ref<number> = ref(isNaN(queryPageSize) ? defaultPageSize : queryPageSize);
 const queryCategoryFilters = route.query?.categoryFilters as string[] || [];
