@@ -1,8 +1,8 @@
 <template>
-  <div class="dropdown" :class="dropdownAlignment">
-    <label tabindex="0" class="select select-bordered items-center" :class="{ 'h-[3.5rem]': !!label }">
+  <div class="group dropdown" :class="dropdownAlignment">
+    <label tabindex="0" class="select select-bordered group-hover:border-amber-500 items-center duration-200" :class="{ 'h-[3.5rem]': !!label }">
       <div class="mr-1 flex flex-col flex-nowrap text-left capitalize">
-        <span v-if="label" class="text-xs link-primary">{{ label }}</span>
+        <span v-if="label" class="text-xs text-primary">{{ label }}</span>
         <div class="text-sm flex flex-row flex-nowrap">
           <span v-if="props.selected.length === 0">None</span>
           <span v-else-if="props.selected.length > 1">Multiple</span>

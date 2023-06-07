@@ -35,7 +35,6 @@
         <TorrustSelect
           v-model:selected="form.tags"
           :options="tags.map(entry => ({ name: entry.name, value: entry.tag_id }))"
-          :label="'Tags'"
           :multiple="true"
           search
         />
