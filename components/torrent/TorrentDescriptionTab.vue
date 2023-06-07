@@ -14,13 +14,11 @@
     <template v-if="!collapsed">
       <div class="p-6 w-full h-full flex flex-col grow bg-base-100 rounded-2xl">
         <template v-if="torrent.description && state === State.Viewing">
-          <div class="md-body max-w-none prose-sm prose-blue" v-html="sanitizedDescription" />
+          <div class="prose" v-html="sanitizedDescription" />
         </template>
-        <template v-else-if="state === State.Editing">
-          <textarea v-model="updatedDescription" rows="8" class="mb-8 px-4 py-4 bg-transparent text-slate-200 dark:text-dark-200 border border-slate-800 dark:border-dark-800 rounded-2xl" />
-          <div class="torrust-md px-4 py-4 max-h-64 overflow-auto md-body max-w-none prose-sm prose-blue bg-slate-800/50 dark:bg-white/5 rounded-2xl" v-html="markdown(updatedDescription)" />
+        <template v-else>
+          <span class="text-neutral-content italic">No description provided.</span>
         </template>
-        <span v-else class="text-slate-400 dark:text-dark-400 italic">No description provided.</span>
       </div>
     </template>
   </div>
