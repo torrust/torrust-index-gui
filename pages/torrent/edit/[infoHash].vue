@@ -10,13 +10,24 @@
       </div>
       <div>
         <label for="description" class="px-2">Description</label>
-        <textarea
-          id="description"
-          v-model="form.description"
-          name="description"
-          rows="8"
-          class="mt-1"
-        />
+        <div class="my-2 tabs tabs-boxed w-fit">
+          <button class="tab" :class="{ 'tab-active': descriptionView === 'edit' }" @click="descriptionView = 'edit'">Edit</button>
+          <button class="tab" :class="{ 'tab-active': descriptionView === 'preview' }" @click="descriptionView = 'preview'">Preview</button>
+        </div>
+        <template v-if="descriptionView === 'edit'">
+          <textarea
+            id="description"
+            v-model="form.description"
+            name="description"
+            rows="8"
+            class="mt-1"
+          />
+        </template>
+        <template v-else>
+          <div class="mt-1 p-6 h-[16rem] border-2 border-base-content/20 rounded-2xl overflow-y-auto">
+            <Markdown :source="form.description" />
+          </div>
+        </template>
       </div>
       <!--      <template v-if="categories?.length > 0">-->
       <!--        <div>-->
@@ -92,6 +103,7 @@ const infoHash = route.params.infoHash as string;
 const loadingTorrent = ref(true);
 const torrent: Ref<Torrent> = ref(null);
 const updatingTorrent: Ref<boolean> = ref(false);
+const descriptionView = ref("edit");
 
 const form: Ref<FormEditTorrent> = ref({
   title: "",
