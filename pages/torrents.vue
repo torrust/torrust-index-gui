@@ -29,10 +29,10 @@
       </div>
     </div>
     <div class="flex">
-      <label class="label cursor-pointer flex gap-2">
-        <span class="label-text font-bold">Table</span>
-        <input type="checkbox" class="toggle" v-model="layoutTableCheckbox" />
-      </label>
+      <div class="my-2 tabs tabs-boxed w-fit border border-base-content/20">
+        <button class="tab" :class="{ 'tab-active': layout === 'default' }" @click="layout = 'default'">Default</button>
+        <button class="tab" :class="{ 'tab-active': layout === 'table' }" @click="layout = 'table'">Table</button>
+      </div>
     </div>
     <div class="flex flex-col">
       <div class="flex flex-row flex-nowrap items-start">
@@ -92,7 +92,6 @@ const searchQuery: Ref<string> = ref(null);
 const currentPage: Ref<number> = ref(Number(route.query?.page as string) || 1);
 const itemsSorting: Ref<string> = ref(route.query?.sorting as string || sortingOptions[0].value);
 const layout = ref(route.query?.layout as string || "default");
-const layoutTableCheckbox = ref(layout.value === "table");
 
 const selectedSorting = computed({
   get () {
@@ -124,14 +123,6 @@ watch([searchQuery, itemsSorting, pageSize, currentPage, layout, categoryFilters
   });
 
   loadTorrents();
-});
-
-watch([layoutTableCheckbox], () => {
-  if (layoutTableCheckbox.value) {
-    layout.value = "table";
-  } else {
-    layout.value = "default";
-  }
 });
 
 onMounted(() => {

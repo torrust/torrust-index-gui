@@ -26,6 +26,7 @@ module.exports = {
     "vue/require-default-prop": "off",
     "vue/multi-word-component-names": "off",
     "vue/multiline-html-element-content-newline": "off",
+    "vue/valid-v-for": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/brace-style": "off",
     camelcase: "off",

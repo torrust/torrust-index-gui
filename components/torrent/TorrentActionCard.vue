@@ -1,14 +1,14 @@
 <template>
   <div class="w-full flex flex-col basis-full">
     <template v-if="torrent">
-      <div class="px-0 md:pl-12 flex flex-col gap-3">
+      <div class="md:px-6 flex flex-col gap-3">
 
         <span class="text-lg font-bold capitalize truncate">{{ torrent.title }}</span>
 
         <template v-if="torrent.tags?.length">
           <div class="flex flex-wrap space-x-2">
             <template v-for="tag in torrent.tags">
-              <a class="px-2 py-1 bg-base-content/25 hover:bg-base-content/50 font-semibold capitalize text-xs rounded-lg cursor-pointer">{{ tag.name }}</a>
+              <NuxtLink :to="`/torrents?tagFilters=${tag.name}`" class="px-2 py-1 bg-base-content/25 hover:bg-base-content/50 font-semibold capitalize text-xs rounded-lg cursor-pointer">{{ tag.name }}</NuxtLink>
             </template>
           </div>
         </template>
@@ -48,7 +48,9 @@
                 <span>Category</span>
               </div>
               <div class="flex flex-row w-1/2">
-                <a class="link-primary capitalize">{{ torrent.category.name }}</a>
+                <NuxtLink :to="`/torrents?categoryFilters=${torrent.category.name}`" class="link-primary capitalize">
+                  {{ torrent.category.name }}
+                </NuxtLink>
               </div>
             </div>
             <div class="py-2 flex flex-row">

@@ -3,14 +3,14 @@
     <h2 class="text-2xl font-semibold text-neutral-content">
       Upload Torrent
     </h2>
-    <div class="w-full max-w-lg flex flex-col gap-6">
+    <div class="w-full max-w-xl flex flex-col gap-6">
       <div>
         <label for="title" class="px-2">Title</label>
         <input id="title" v-model="form.title" name="title" type="text" class="mt-1">
       </div>
       <div>
         <label for="description" class="px-2">Description</label>
-        <div class="my-2 tabs tabs-boxed w-fit">
+        <div class="my-2 tabs tabs-boxed w-fit border border-base-content/20">
           <button class="tab" :class="{ 'tab-active': descriptionView === 'edit' }" @click="descriptionView = 'edit'">Edit</button>
           <button class="tab" :class="{ 'tab-active': descriptionView === 'preview' }" @click="descriptionView = 'preview'">Preview</button>
         </div>
