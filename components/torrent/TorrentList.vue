@@ -28,11 +28,13 @@
             <div class="flex flex-row flex-nowrap text-center font-semibold rounded-2xl">
               <div class="w-10 h-10 flex flex-col shrink-0 justify-center text-green-500 rounded-2xl">{{ torrent.seeders }}</div>
               <div class="ml-2 w-10 h-10 flex flex-col shrink-0 justify-center text-red-500 rounded-2xl">{{ torrent.leechers }}</div>
-              <div class="ml-2 w-10 h-10 text-base-content/50 hover:text-base-content flex flex-col shrink-0 items-center justify-center rounded-2xl duration-500">
+              <div class="ml-2 w-10 h-10 text-base-content/50 hover:text-base-content flex flex-col shrink-0 items-center justify-center rounded-2xl duration-500 cursor-pointer" @click.stop="downloadTorrent(torrent.info_hash, torrent.title)">
                 <ArrowDownTrayIcon class="w-6" />
               </div>
-              <div class="ml-2 w-10 h-10 text-base-content/50 hover:text-base-content flex flex-col shrink-0 items-center justify-center rounded-2xl duration-500">
-                <LinkIcon class="w-6" />
+              <div class="ml-2 w-10 h-10 text-base-content/50 hover:text-base-content flex flex-col shrink-0 items-center justify-center rounded-2xl duration-500 cursor-pointer">
+                <a class="flex items-center" :href="`magnet:?xt=urn:btih:${torrent.info_hash}`" @click.stop>
+                  <LinkIcon class="w-6" />
+                </a>
               </div>
             </div>
           </div>
@@ -53,6 +55,7 @@ import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { PropType } from "vue";
 import { TorrentCompact } from "torrust-index-types-lib";
 import { fileSize, timeSince, ref } from "#imports";
+import { downloadTorrent } from "#imports";
 
 const props = defineProps({
   torrents: Array as PropType<Array<TorrentCompact>>

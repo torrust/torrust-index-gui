@@ -100,7 +100,9 @@
               download torrent
             </button>
             <button class="p-0 btn btn-primary w-12">
-              <LinkIcon class="w-6" />
+              <a class="flex items-center" :href="torrent.magnet_link">
+                <LinkIcon class="w-6" />
+              </a>
             </button>
           </template>
           <template v-else>

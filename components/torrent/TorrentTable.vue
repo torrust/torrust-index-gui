@@ -23,11 +23,13 @@
           <td class="text-red-500">{{ torrent.leechers }}</td>
           <td>
             <div class="flex flex-row flex-nowrap items-center justify-center font-semibold">
-              <div class="ml-2 w-10 h-10 text-base-content/50 hover:text-base-content flex flex-col shrink-0 items-center justify-center duration-500">
+              <div class="ml-2 w-10 h-10 text-base-content/50 hover:text-base-content flex flex-col shrink-0 items-center justify-center duration-500 cursor-pointer" @click.stop="downloadTorrent(torrent.info_hash, torrent.title)">
                 <ArrowDownTrayIcon class="w-5" />
               </div>
-              <div class="ml-2 w-10 h-10 text-base-content/50 hover:text-base-content flex flex-col shrink-0 items-center justify-center duration-500">
-                <LinkIcon class="w-5" />
+              <div class="ml-2 w-10 h-10 text-base-content/50 hover:text-base-content flex flex-col shrink-0 items-center justify-center duration-500 cursor-pointer">
+                <a class="flex items-center" :href="`magnet:?xt=urn:btih:${torrent.info_hash}`">
+                  <LinkIcon class="w-5" />
+                </a>
               </div>
             </div>
           </td>
@@ -40,10 +42,10 @@
 
 <script setup lang="ts">
 import { ArrowDownTrayIcon, LinkIcon } from "@heroicons/vue/24/outline";
-import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { PropType } from "vue";
 import { TorrentCompact } from "torrust-index-types-lib";
 import { fileSize, timeSince, ref } from "#imports";
+import { downloadTorrent } from "#imports";
 
 const props = defineProps({
   torrents: Array as PropType<Array<TorrentCompact>>
