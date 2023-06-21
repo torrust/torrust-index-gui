@@ -54,8 +54,7 @@ import { ArrowDownTrayIcon, LinkIcon } from "@heroicons/vue/24/outline";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { PropType } from "vue";
 import { TorrentCompact } from "torrust-index-types-lib";
-import { fileSize, timeSince, ref } from "#imports";
-import { downloadTorrent } from "#imports";
+import { fileSize, timeSince, ref, downloadTorrent } from "#imports";
 
 const props = defineProps({
   torrents: Array as PropType<Array<TorrentCompact>>

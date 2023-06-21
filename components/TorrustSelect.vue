@@ -1,21 +1,21 @@
 <template>
   <div class="group dropdown" :class="dropdownAlignment">
-    <label tabindex="0" class="select select-bordered group-hover:border-amber-500 items-center duration-200" :class="{ 'h-[3.5rem]': !!label }">
-      <div class="mr-1 flex flex-col flex-nowrap text-left capitalize">
+    <label tabindex="0" class="items-center duration-200 select select-bordered group-hover:border-amber-500" :class="{ 'h-[3.5rem]': !!label }">
+      <div class="flex flex-col mr-1 text-left capitalize flex-nowrap">
         <span v-if="label" class="text-xs text-primary">{{ label }}</span>
-        <div class="text-sm flex flex-row flex-nowrap">
+        <div class="flex flex-row text-sm flex-nowrap">
           <span v-if="props.selected.length === 0">None</span>
           <span v-else-if="props.selected.length > 1">Multiple</span>
           <span v-else>{{ getOptionNameByValue(props.selected[0]) }}</span>
         </div>
       </div>
     </label>
-    <div tabindex="0" class="mt-3 flex flex-col gap-2 dropdown-content border border-base-content/20 p-2 shadow bg-base-100 rounded-lg" ref="dropdownContent">
+    <div ref="dropdownContent" tabindex="0" class="flex flex-col gap-2 p-2 mt-3 border rounded-lg shadow dropdown-content border-base-content/20 bg-base-100">
       <template v-if="props.search">
         <div class="">
           <input
             v-model="searchText"
-            class="input border-2 placeholder-base-content text-sm input-bordered rounded-2xl"
+            class="text-sm border-2 input placeholder-base-content input-bordered rounded-2xl"
             placeholder="Search"
           >
         </div>
@@ -25,31 +25,31 @@
           <li
             v-for="(option) in filteredOptions()"
             :key="option.value"
-            class="text-base-content text-sm"
+            class="text-sm text-base-content"
             @click="toggleOption(option)"
           >
             <div class="flex flex-row w-full rounded-lg">
               <div class="font-bold text-neutral-content">
                 {{ option.name }}
               </div>
-              <div v-if="props.multiple" class="ml-auto flex flex-col items-center">
+              <div v-if="props.multiple" class="flex flex-col items-center ml-auto">
                 <span
                   v-if="isSelectedOption(option)"
                   class="relative inline-flex"
                 >
                   <input
                     type="checkbox"
-                    class="h-6 w-6 appearance-none bg-primary border-2 border-primary rounded-md"
+                    class="w-6 h-6 border-2 rounded-md appearance-none bg-primary border-primary"
                   >
                   <CheckIcon
-                    class="absolute text-neutral-content w-5"
+                    class="absolute w-5 text-neutral-content"
                     style="top: 50%;left: 50%;transform: translate(-50%, -50%);"
                   />
                 </span>
                 <input
                   v-else
                   type="checkbox"
-                  class="h-6 w-6 appearance-none border-2 border-base-content/20 rounded-md duration-200"
+                  class="w-6 h-6 duration-200 border-2 rounded-md appearance-none border-base-content/20"
                 >
               </div>
             </div>
@@ -62,7 +62,9 @@
         </div>
       </template>
       <template v-if="props.selected.length > 1">
-        <button class="p-2 bg-primary/10 text-primary text-sm w-full rounded-lg" @click="emit('update:selected', [])">Clear all</button>
+        <button class="w-full p-2 text-sm rounded-lg bg-primary/10 text-primary" @click="emit('update:selected', [])">
+          Clear all
+        </button>
       </template>
     </div>
   </div>
@@ -134,8 +136,6 @@ function toggleOption (option: TorrustSelectOption) {
   } else {
     value = [option.value];
   }
-
-  console.log(value);
 
   emit("update:selected", value);
 }

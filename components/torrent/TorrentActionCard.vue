@@ -8,7 +8,9 @@
         <template v-if="torrent.tags?.length">
           <div class="flex flex-wrap space-x-2">
             <template v-for="tag in torrent.tags">
-              <NuxtLink :to="`/torrents?tagFilters=${tag.name}`" class="px-2 py-1 bg-base-content/25 hover:bg-base-content/50 font-semibold capitalize text-xs rounded-lg cursor-pointer">{{ tag.name }}</NuxtLink>
+              <NuxtLink :to="`/torrents?tagFilters=${tag.name}`" class="px-2 py-1 bg-base-content/25 hover:bg-base-content/50 font-semibold capitalize text-xs rounded-lg cursor-pointer">
+                {{ tag.name }}
+              </NuxtLink>
             </template>
           </div>
         </template>
