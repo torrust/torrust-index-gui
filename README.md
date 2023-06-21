@@ -1,6 +1,6 @@
 # Torrust Index Frontend
 
-This repository serves as the backend for the [Torrust Index](https://github.com/torrust/torrust-index) project.
+This repository serves as the frontend for the [Torrust Index](https://github.com/torrust/torrust-index) project.
 
 It contains the [vue-3](https://vuejs.org/) frontend web application for the [Torrust Index](https://github.com/torrust/torrust-index).
 
