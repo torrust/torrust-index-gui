@@ -30,8 +30,12 @@
     </div>
     <div class="flex">
       <div class="my-2 tabs tabs-boxed w-fit border border-base-content/20">
-        <button class="tab" :class="{ 'tab-active': layout === 'default' }" @click="layout = 'default'">Default</button>
-        <button class="tab" :class="{ 'tab-active': layout === 'table' }" @click="layout = 'table'">Table</button>
+        <button class="tab" :class="{ 'tab-active': layout === 'default' }" @click="layout = 'default'">
+          Default
+        </button>
+        <button class="tab" :class="{ 'tab-active': layout === 'table' }" @click="layout = 'table'">
+          Table
+        </button>
       </div>
     </div>
     <div class="flex flex-col">

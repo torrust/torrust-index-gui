@@ -1,6 +1,6 @@
 <template>
-  <div class="py-6 flex items-center justify-between">
-    <div class="flex-1 flex flex-col md:flex-row items-center sm:justify-between justify-end gap-3">
+  <div class="flex items-center justify-between py-6">
+    <div class="flex flex-col items-center justify-end flex-1 gap-3 md:flex-row sm:justify-between">
       <div class="flex items-center gap-3">
         <div>
           <select :value="pageSize" class="px-2 py-1 bg-base-100" @change="(e) => updatePageSize(parseInt(e.target.value, 10))">
@@ -18,7 +18,7 @@
         <div>
           <p class="text-sm text-base-content/50">
             Showing
-            <span class="font-medium">{{ (currentPage * pageSize) - pageSize + 1}}</span>
+            <span class="font-medium">{{ (currentPage * pageSize) - pageSize + 1 }}</span>
             to
             <span class="font-medium">{{ Math.min(currentPage * pageSize, totalResults) }}</span>
             of
@@ -30,7 +30,7 @@
       <div>
         <nav class="relative z-0 inline-flex -space-x-px" aria-label="Pagination">
           <a
-            class="page-button rounded-l-lg"
+            class="rounded-l-lg page-button"
             @click="goToFirstPage"
           >
             <span class="sr-only">Previous</span>
@@ -48,7 +48,7 @@
           >
             <span class="sr-only">Previous</span>
             <svg
-              class="h-5 w-5"
+              class="w-5 h-5"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -148,7 +148,7 @@
           >
             <span class="sr-only">Next</span>
             <svg
-              class="h-5 w-5"
+              class="w-5 h-5"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -162,7 +162,7 @@
             </svg>
           </button>
           <button
-            class="page-button rounded-r-lg"
+            class="rounded-r-lg page-button"
             @click="goToLastPage"
           >
             <span class="sr-only">Next</span>
@@ -228,9 +228,6 @@ function goToPage (pageNum: number) {
   if (pageNum > totalPages() || pageNum < 1) {
     return;
   }
-
-  console.log(pageNum);
-
   emit("update:currentPage", pageNum);
 }
 

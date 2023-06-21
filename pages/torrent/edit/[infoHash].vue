@@ -11,8 +11,12 @@
       <div>
         <label for="description" class="px-2">Description</label>
         <div class="my-2 tabs tabs-boxed w-fit border border-base-content/20">
-          <button class="tab" :class="{ 'tab-active': descriptionView === 'edit' }" @click="descriptionView = 'edit'">Edit</button>
-          <button class="tab" :class="{ 'tab-active': descriptionView === 'preview' }" @click="descriptionView = 'preview'">Preview</button>
+          <button class="tab" :class="{ 'tab-active': descriptionView === 'edit' }" @click="descriptionView = 'edit'">
+            Edit
+          </button>
+          <button class="tab" :class="{ 'tab-active': descriptionView === 'preview' }" @click="descriptionView = 'preview'">
+            Preview
+          </button>
         </div>
         <template v-if="descriptionView === 'edit'">
           <textarea
