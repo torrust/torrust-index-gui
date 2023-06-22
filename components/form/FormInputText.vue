@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-col items-center">
-    <label class="label w-full">
-      <span class="label-text self-start">{{ props.label }}</span>
+    <label class="w-full label">
+      <span class="self-start label-text">{{ props.label }}</span>
     </label>
     <input
       :type="props.type"
       :placeholder="props.placeholder"
       :value="modelValue"
-      class="input input-bordered border-2 rounded-2xl w-full"
+      class="w-full border-2 input input-bordered rounded-2xl"
       :required="props.required"
       @input="$emit('update:modelValue', $event.target.value)"
     >
@@ -15,6 +15,10 @@
 </template>
 
 <script setup lang="ts">
+import { defineProps, defineEmits } from "vue";
+
+const emit = defineEmits(["update:modelValue"]);
+
 const props = defineProps({
   type: {
     type: String,

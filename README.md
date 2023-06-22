@@ -1,5 +1,7 @@
 # Torrust Index Frontend
 
+[![Test](https://github.com/torrust/torrust-index-frontend/actions/workflows/test.yml/badge.svg)](https://github.com/torrust/torrust-index-frontend/actions/workflows/test.yml)
+
 This repository serves as the frontend for the [Torrust Index](https://github.com/torrust/torrust-index) project.
 
 It contains the [vue-3](https://vuejs.org/) frontend web application for the [Torrust Index](https://github.com/torrust/torrust-index).
