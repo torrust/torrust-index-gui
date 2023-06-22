@@ -60,10 +60,9 @@
 </template>
 
 <script setup lang="ts">
-import { useRuntimeConfig } from "nuxt/app";
+import { useRuntimeConfig, useRoute, useRouter } from "nuxt/app";
 import { TorrentCompact } from "torrust-index-types-lib";
 import { Ref } from "vue";
-import { useRoute, useRouter } from "#app";
 import { computed, onMounted, ref, useTags, watch } from "#imports";
 import { useCategories, useRestApi } from "~/composables/states";
 import { TorrustSelectOption } from "~/components/TorrustSelect.vue";
