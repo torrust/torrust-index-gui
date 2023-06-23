@@ -1,16 +1,16 @@
 <template>
-  <div class="w-full flex flex-col items-center">
+  <div class="flex flex-col items-center w-full">
     <h2 class="text-2xl font-semibold text-neutral-content">
       Upload Torrent
     </h2>
-    <div class="w-full max-w-xl flex flex-col gap-6">
+    <div class="flex flex-col w-full max-w-xl gap-6">
       <div>
         <label for="title" class="px-2">Title</label>
         <input id="title" v-model="form.title" name="title" type="text" class="mt-1">
       </div>
       <div>
         <label for="description" class="px-2">Description</label>
-        <div class="my-2 tabs tabs-boxed w-fit border border-base-content/20">
+        <div class="my-2 border tabs tabs-boxed w-fit border-base-content/20">
           <button class="tab" :class="{ 'tab-active': descriptionView === 'edit' }" @click="descriptionView = 'edit'">
             Edit
           </button>
@@ -63,7 +63,7 @@
       </template>
       <template v-else>
         <button
-          class="px-4 h-12 w-full bg-gradient-to-bl from-primary to-primary-dark disabled:from-gray-500 disabled:to-gray-500 text-neutral-content font-semibold rounded-2xl shadow-lg disabled:shadow-none shadow-transparent hover:shadow-primary-dark/50 duration-1000"
+          class="w-full h-12 px-4 font-semibold duration-1000 shadow-lg bg-gradient-to-bl from-primary to-primary-dark disabled:from-gray-500 disabled:to-gray-500 text-neutral-content rounded-2xl disabled:shadow-none shadow-transparent hover:shadow-primary-dark/50"
           @click="login"
         >
           <span>Please sign in to upload</span>
@@ -134,7 +134,6 @@ function setFile (file: any) {
   [form.value.torrentFile] = file;
 }
 
-// TODO: replace torrent_id with info_hash.
 function submitForm () {
   uploading.value = true;
 
@@ -147,7 +146,7 @@ function submitForm () {
       file: form.value.torrentFile
     }
   )
-    .then((torrent_id) => {
+    .then((new_torrent) => {
       uploading.value = false;
 
       notify({
@@ -156,7 +155,7 @@ function submitForm () {
         text: "Torrent uploaded!"
       }, 4000);
 
-      navigateTo(`/torrent/${torrent_id}`, { replace: true });
+      navigateTo(`/torrent/${new_torrent.info_hash}`, { replace: true });
     })
     .catch((err) => {
       uploading.value = false;

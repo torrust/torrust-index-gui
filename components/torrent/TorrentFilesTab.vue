@@ -1,12 +1,12 @@
 <template>
   <div id="torrent-files" class="flex flex-col gap-6">
-    <div class="flex flex-row justify-between items-center">
-      <h2 class="mr-1 text-2xl text-left text-neutral-content/50 font-medium">
+    <div class="flex flex-row items-center justify-between">
+      <h2 class="mr-1 text-2xl font-medium text-left text-neutral-content/50">
         Files ({{ files().length }})
       </h2>
 
       <button
-        class="w-10 h-10 flex flex-col items-center justify-center bg-transparent text-base-content/50 hover:text-base-content rounded-xl duration-200"
+        class="flex flex-col items-center justify-center w-10 h-10 duration-200 bg-transparent text-base-content/50 hover:text-base-content rounded-xl"
         @click="collapsed = !collapsed"
       >
         <ChevronDownIcon class="w-6" :class="{ 'rotate-90': collapsed }" />
@@ -14,7 +14,7 @@
     </div>
     <template v-if="!collapsed">
       <div class="overflow-x-auto">
-        <table class="table table-zebra w-full">
+        <table class="table w-full table-zebra">
           <!-- head -->
           <thead>
             <tr>
@@ -42,14 +42,14 @@
 import { CircleStackIcon } from "@heroicons/vue/24/outline";
 import { ChevronDownIcon } from "@heroicons/vue/24/solid";
 import { PropType } from "vue";
-import { Torrent } from "torrust-index-types-lib";
+import { TorrentResponse } from "torrust-index-types-lib";
 import { ref, fileSize } from "#imports";
 
 const collapsed = ref(false);
 
 const props = defineProps({
   torrent: {
-    type: Object as PropType<Torrent>,
+    type: Object as PropType<TorrentResponse>,
     required: true
   }
 });

@@ -1,16 +1,16 @@
 <template>
-  <div class="w-full flex flex-col items-center">
+  <div class="flex flex-col items-center w-full">
     <h2 class="text-2xl font-semibold text-neutral-content">
       Edit Torrent
     </h2>
-    <div class="w-full max-w-xl flex flex-col gap-6">
+    <div class="flex flex-col w-full max-w-xl gap-6">
       <div>
         <label for="title" class="px-2">Title</label>
         <input id="title" v-model="form.title" name="title" type="text" class="mt-1">
       </div>
       <div>
         <label for="description" class="px-2">Description</label>
-        <div class="my-2 tabs tabs-boxed w-fit border border-base-content/20">
+        <div class="my-2 border tabs tabs-boxed w-fit border-base-content/20">
           <button class="tab" :class="{ 'tab-active': descriptionView === 'edit' }" @click="descriptionView = 'edit'">
             Edit
           </button>
@@ -76,7 +76,7 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { notify } from "notiwind-ts";
-import { Torrent, TorrentTag } from "../../../../torrust-index-types-lib";
+import { TorrentResponse } from "torrust-index-types-lib";
 import {
   computed,
   navigateTo,
@@ -105,7 +105,7 @@ const route = useRoute();
 const infoHash = route.params.infoHash as string;
 
 const loadingTorrent = ref(true);
-const torrent: Ref<Torrent> = ref(null);
+const torrent: Ref<TorrentResponse> = ref(null);
 const updatingTorrent: Ref<boolean> = ref(false);
 const descriptionView = ref("edit");
 
@@ -126,7 +126,7 @@ onMounted(() => {
 function getTorrentFromApi (infoHash: string) {
   loadingTorrent.value = true;
 
-  rest.value.torrent.getTorrent(infoHash)
+  rest.value.torrent.getTorrentInfo(infoHash)
     .then((data) => {
       torrent.value = data;
 

@@ -1,7 +1,7 @@
 <template>
   <div class="px-2 lg:px-0" @click.self="close">
-    <div class="px-6 py-6 text-neutral-content/50 rounded-2xl mx-auto w-auto max-w-md">
-      <h2 class="text-2xl mb-4 font-semibold text-center text-neutral-content">
+    <div class="w-auto max-w-md px-6 py-6 mx-auto text-neutral-content/50 rounded-2xl">
+      <h2 class="mb-4 text-2xl font-semibold text-center text-neutral-content">
         {{ state === State.Signup ? "Sign up" : "Sign in" }}
       </h2>
       <form
@@ -9,26 +9,26 @@
         @submit.prevent="submit"
       >
         <FormInputText v-model="form.username" label="Username" required />
-        <template v-if="state === State.Signup && settings.email_on_signup !== Requirement.None">
-          <FormInputText v-model="form.email" label="Email" :required="settings.email_on_signup === Requirement.Required" />
+        <template v-if="state === State.Signup && settings.email_on_signup !== EmailOnSignup.None">
+          <FormInputText v-model="form.email" label="Email" :required="settings.email_on_signup === EmailOnSignup.Required" />
         </template>
         <FormInputText v-model="form.password" :type="'password'" label="Password" required />
         <template v-if="state === State.Signup">
           <FormInputText v-model="form.confirm_password" label="Repeat password" required />
         </template>
-        <button type="submit" class="btn btn-primary w-full">
+        <button type="submit" class="w-full btn btn-primary">
           Sign {{ state === State.Signup ? 'up' : 'in' }}
         </button>
       </form>
       <div class="relative mt-6">
-        <div class="flex relative justify-center text-sm">
+        <div class="relative flex justify-center text-sm">
           <template v-if="state === State.Signup">
-            <button class="px-2 font-semibold text-neutral-content/50 hover:text-neutral-content duration-200" @click="toggleState">
+            <button class="px-2 font-semibold duration-200 text-neutral-content/50 hover:text-neutral-content" @click="toggleState">
               Already have an account? Sign in
             </button>
           </template>
           <template v-else>
-            <button class="px-2 font-semibold text-neutral-content/50 hover:text-neutral-content duration-200" @click="toggleState">
+            <button class="px-2 font-semibold duration-200 text-neutral-content/50 hover:text-neutral-content" @click="toggleState">
               Don't have an account? Sign up
             </button>
           </template>
@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { Ref } from "vue";
-import { Requirement } from "torrust-index-types-lib";
+import { EmailOnSignup } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
 import { loginUser, onMounted, ref, useAuthenticationModal, useRestApi, useRuntimeConfig, useSettings } from "#imports";
 

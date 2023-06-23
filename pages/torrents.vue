@@ -6,7 +6,7 @@
       </h2>
     </div>
     <div class="flex w-full">
-      <div class="w-full flex flex-wrap justify-between gap-2">
+      <div class="flex flex-wrap justify-between w-full gap-2">
         <div class="flex flex-wrap gap-2">
           <TorrustSelect
             v-model:selected="categoryFilters"
@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="flex">
-      <div class="my-2 tabs tabs-boxed w-fit border border-base-content/20">
+      <div class="my-2 border tabs tabs-boxed w-fit border-base-content/20">
         <button class="tab" :class="{ 'tab-active': layout === 'default' }" @click="layout = 'default'">
           Default
         </button>
@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="flex flex-row flex-nowrap items-start">
+      <div class="flex flex-row items-start flex-nowrap">
         <div class="w-full">
           <template v-if="torrents.length > 0">
             <template v-if="layout === 'default'">
@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import { useRuntimeConfig, useRoute, useRouter } from "nuxt/app";
-import { TorrentCompact } from "torrust-index-types-lib";
+import { TorrentListing } from "torrust-index-types-lib";
 import { Ref } from "vue";
 import { computed, onMounted, ref, useTags, watch } from "#imports";
 import { useCategories, useRestApi } from "~/composables/states";
@@ -89,7 +89,7 @@ const queryCategoryFilters = route.query?.categoryFilters as string[] || [];
 const categoryFilters: Ref<string[]> = ref(Array.isArray(queryCategoryFilters) ? queryCategoryFilters : [queryCategoryFilters]);
 const queryTagFilters = route.query?.tagFilters as string[] || [];
 const tagFilters: Ref<string[]> = ref(Array.isArray(queryTagFilters) ? queryTagFilters : [queryTagFilters]);
-const torrents: Ref<Array<TorrentCompact>> = ref([]);
+const torrents: Ref<Array<TorrentListing>> = ref([]);
 const torrentsTotal = ref(0);
 const searchQuery: Ref<string> = ref(null);
 const currentPage: Ref<number> = ref(Number(route.query?.page as string) || 1);

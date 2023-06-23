@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col border-base-content/20 rounded-2xl grow w-full rounded-lg overflow-hidden">
+  <div class="flex flex-col w-full overflow-hidden rounded-lg border-base-content/20 rounded-2xl grow">
     <div class="flex flex-col overflow-x-auto whitespace-nowrap">
-      <table class="table-auto text-center bg-base-200">
+      <table class="text-center table-auto bg-base-200">
         <thead>
           <tr class="text-sm text-base-content/75">
             <th class="py-2">
@@ -16,9 +16,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(torrent, index) in torrents" :key="index" class="bg-base-100 text-sm">
-            <td class="pl-6 text-left font-bold">
-              <span class="cursor-pointer hover:text-amber-500 duration-200" @click.stop="$router.push(`/torrent/${torrent.info_hash}`)">{{ torrent.title }}</span>
+          <tr v-for="(torrent, index) in torrents" :key="index" class="text-sm bg-base-100">
+            <td class="pl-6 font-bold text-left">
+              <span class="duration-200 cursor-pointer hover:text-amber-500" @click.stop="$router.push(`/torrent/${torrent.info_hash}`)">{{ torrent.title }}</span>
             </td>
             <td class="px-2">
               {{ fileSize(torrent.file_size) }}
@@ -32,11 +32,11 @@
               {{ torrent.leechers }}
             </td>
             <td>
-              <div class="flex flex-row flex-nowrap items-center justify-center font-semibold">
-                <div class="ml-2 w-10 h-10 text-base-content/50 hover:text-base-content flex flex-col shrink-0 items-center justify-center duration-500 cursor-pointer" @click.stop="downloadTorrent(torrent.info_hash, torrent.title)">
+              <div class="flex flex-row items-center justify-center font-semibold flex-nowrap">
+                <div class="flex flex-col items-center justify-center w-10 h-10 ml-2 duration-500 cursor-pointer text-base-content/50 hover:text-base-content shrink-0" @click.stop="downloadTorrent(torrent.info_hash, torrent.title)">
                   <ArrowDownTrayIcon class="w-5" />
                 </div>
-                <div class="ml-2 w-10 h-10 text-base-content/50 hover:text-base-content flex flex-col shrink-0 items-center justify-center duration-500 cursor-pointer">
+                <div class="flex flex-col items-center justify-center w-10 h-10 ml-2 duration-500 cursor-pointer text-base-content/50 hover:text-base-content shrink-0">
                   <a class="flex items-center" :href="`magnet:?xt=urn:btih:${torrent.info_hash}`">
                     <LinkIcon class="w-5" />
                   </a>
@@ -53,11 +53,11 @@
 <script setup lang="ts">
 import { ArrowDownTrayIcon, LinkIcon } from "@heroicons/vue/24/outline";
 import { PropType } from "vue";
-import { TorrentCompact } from "torrust-index-types-lib";
+import { TorrentListing } from "torrust-index-types-lib";
 import { fileSize, timeSince, ref, downloadTorrent } from "#imports";
 
 const props = defineProps({
-  torrents: Array as PropType<Array<TorrentCompact>>
+  torrents: Array as PropType<Array<TorrentListing>>
 });
 
 const isOpenList = ref([]);

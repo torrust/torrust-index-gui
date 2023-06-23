@@ -1,4 +1,4 @@
-import { Torrent, TrackerMode } from "torrust-index-types-lib";
+import { TorrentResponse, TrackerMode } from "torrust-index-types-lib";
 import { useRestApi, useSettings, useUser } from "~/composables/states";
 
 export function isTrackerPublic (): boolean {
@@ -12,7 +12,7 @@ export function isUserLoggedIn (): boolean {
   return !!useUser().value?.username;
 }
 
-export function canEditThisTorrent (torrent: Torrent): boolean {
+export function canEditThisTorrent (torrent: TorrentResponse): boolean {
   const user = useUser().value;
 
   if (!user?.username) {
