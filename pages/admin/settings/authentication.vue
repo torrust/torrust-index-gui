@@ -1,9 +1,9 @@
 <template>
-  <div id="general-settings" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div id="general-settings" class="grid grid-cols-1 gap-6 lg:grid-cols-2">
     <div class="flex flex-col">
       <label for="authentication-email-signup">Email Requirement</label>
       <select id="authentication-email-signup" v-model="settings.auth.email_on_signup">
-        <template v-for="option in Requirement">
+        <template v-for="option in EmailOnSignup">
           <option v-if="isNaN(option)" :value="option">
             {{ option }}
           </option>
@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { PropType } from "vue";
-import { Settings, Requirement } from "torrust-index-types-lib";
+import { Settings, EmailOnSignup } from "torrust-index-types-lib";
 
 const props = defineProps({
   settings: {

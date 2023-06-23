@@ -1,37 +1,37 @@
 <template>
-  <div class="flex flex-col border-base-content/20 rounded-2xl grow w-full">
+  <div class="flex flex-col w-full border-base-content/20 rounded-2xl grow">
     <div class="flex flex-col gap-3">
       <a
         v-for="(torrent, index) in torrents"
         :key="index"
-        class="flex flex-col rounded-2xl bg-base-100 text-sm cursor-pointer"
+        class="flex flex-col text-sm cursor-pointer rounded-2xl bg-base-100"
         @click="toggleOpen(index)"
       >
-        <div class="group px-4 pt-4 pb-4 flex flex-row flex-nowrap justify-start items-center rounded-2xl w-full">
-          <div class="flex flex-col flex-nowrap justify-start items-center font-semibold overflow-hidden grow">
-            <div class="flex flex-row gap-1 items-center w-full">
-              <span class="whitespace-nowrap text-ellipsis text-neutral-content overflow-hidden">{{ torrent.title }}</span>
+        <div class="flex flex-row items-center justify-start w-full px-4 pt-4 pb-4 group flex-nowrap rounded-2xl">
+          <div class="flex flex-col items-center justify-start overflow-hidden font-semibold flex-nowrap grow">
+            <div class="flex flex-row items-center w-full gap-1">
+              <span class="overflow-hidden whitespace-nowrap text-ellipsis text-neutral-content">{{ torrent.title }}</span>
               <template v-if="isOpenList[index]">
-                <ChevronDownIcon class="group-hover:animate-bounce w-5 text-base-content/50 group-hover:text-base-content" />
+                <ChevronDownIcon class="w-5 group-hover:animate-bounce text-base-content/50 group-hover:text-base-content" />
               </template>
               <template v-else>
-                <ChevronRightIcon class="group-hover:animate-bounce w-5 text-base-content/50 group-hover:text-base-content" />
+                <ChevronRightIcon class="w-5 group-hover:animate-bounce text-base-content/50 group-hover:text-base-content" />
               </template>
             </div>
-            <div class="mt-1 flex flex-row flex-nowrap justify-start items-start w-full">
-              <span class="whitespace-nowrap text-neutral-content/50 text-xs">{{ fileSize(torrent.file_size) }}</span>
-              <span class="ml-2 whitespace-nowrap text-neutral-content/50 text-xs">{{ new Date(torrent.date_uploaded).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) }} ({{ timeSince(new Date(torrent.date_uploaded)) }} ago)</span>
-              <a class="ml-2 whitespace-nowrap text-neutral-content/50 text-xs">u/{{ torrent.uploader }}</a>
+            <div class="flex flex-row items-start justify-start w-full mt-1 flex-nowrap">
+              <span class="text-xs whitespace-nowrap text-neutral-content/50">{{ fileSize(torrent.file_size) }}</span>
+              <span class="ml-2 text-xs whitespace-nowrap text-neutral-content/50">{{ new Date(torrent.date_uploaded).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) }} ({{ timeSince(new Date(torrent.date_uploaded)) }} ago)</span>
+              <a class="ml-2 text-xs whitespace-nowrap text-neutral-content/50">u/{{ torrent.uploader }}</a>
             </div>
           </div>
-          <div class="flex flex-col flex-nowrap justify-center items-center">
-            <div class="flex flex-row flex-nowrap text-center font-semibold rounded-2xl">
-              <div class="w-10 h-10 flex flex-col shrink-0 justify-center text-green-500 rounded-2xl">{{ torrent.seeders }}</div>
-              <div class="ml-2 w-10 h-10 flex flex-col shrink-0 justify-center text-red-500 rounded-2xl">{{ torrent.leechers }}</div>
-              <div class="ml-2 w-10 h-10 text-base-content/50 hover:text-base-content flex flex-col shrink-0 items-center justify-center rounded-2xl duration-500 cursor-pointer" @click.stop="downloadTorrent(torrent.info_hash, torrent.title)">
+          <div class="flex flex-col items-center justify-center flex-nowrap">
+            <div class="flex flex-row font-semibold text-center flex-nowrap rounded-2xl">
+              <div class="flex flex-col justify-center w-10 h-10 text-green-500 shrink-0 rounded-2xl">{{ torrent.seeders }}</div>
+              <div class="flex flex-col justify-center w-10 h-10 ml-2 text-red-500 shrink-0 rounded-2xl">{{ torrent.leechers }}</div>
+              <div class="flex flex-col items-center justify-center w-10 h-10 ml-2 duration-500 cursor-pointer text-base-content/50 hover:text-base-content shrink-0 rounded-2xl" @click.stop="downloadTorrent(torrent.info_hash, torrent.title)">
                 <ArrowDownTrayIcon class="w-6" />
               </div>
-              <div class="ml-2 w-10 h-10 text-base-content/50 hover:text-base-content flex flex-col shrink-0 items-center justify-center rounded-2xl duration-500 cursor-pointer">
+              <div class="flex flex-col items-center justify-center w-10 h-10 ml-2 duration-500 cursor-pointer text-base-content/50 hover:text-base-content shrink-0 rounded-2xl">
                 <a class="flex items-center" :href="`magnet:?xt=urn:btih:${torrent.info_hash}`" @click.stop>
                   <LinkIcon class="w-6" />
                 </a>
@@ -40,7 +40,7 @@
           </div>
         </div>
         <template v-if="isOpenList[index]">
-          <div class="px-4 pt-2 pb-4 flex flex-row flex-nowrap justify-start items-start w-full duration-1000">
+          <div class="flex flex-row items-start justify-start w-full px-4 pt-2 pb-4 duration-1000 flex-nowrap">
             <TorrentListTorrentDetails :info-hash="torrent.info_hash" />
           </div>
         </template>
@@ -53,11 +53,11 @@
 import { ArrowDownTrayIcon, LinkIcon } from "@heroicons/vue/24/outline";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { PropType } from "vue";
-import { TorrentCompact } from "torrust-index-types-lib";
+import { TorrentListing } from "torrust-index-types-lib";
 import { fileSize, timeSince, ref, downloadTorrent } from "#imports";
 
 const props = defineProps({
-  torrents: Array as PropType<Array<TorrentCompact>>
+  torrents: Array as PropType<Array<TorrentListing>>
 });
 
 const isOpenList = ref([]);

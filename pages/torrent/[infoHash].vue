@@ -1,20 +1,20 @@
 <template>
-  <div class="min-h-fit flex flex-col grow">
-    <div class="max-w-full flex flex-col items-center">
-      <div id="torrent-view" class="mb-8 flex flex-col-reverse md:flex-row flex-nowrap items-start w-full gap-3">
-        <div id="torrent-view-details" class="flex flex-col flex-auto items-center w-full">
-          <div id="torrent-view-details-body" class="w-full flex flex-col grow">
+  <div class="flex flex-col min-h-fit grow">
+    <div class="flex flex-col items-center max-w-full">
+      <div id="torrent-view" class="flex flex-col-reverse items-start w-full gap-3 mb-8 md:flex-row flex-nowrap">
+        <div id="torrent-view-details" class="flex flex-col items-center flex-auto w-full">
+          <div id="torrent-view-details-body" class="flex flex-col w-full grow">
             <div class="flex flex-col gap-6">
               <div class="hidden md:block">
                 <button
-                  class="btn bg-base-100 hover:bg-base-100 pl-2 pr-4 border-none text-base-content/75 hover:text-base-content"
+                  class="pl-2 pr-4 border-none btn bg-base-100 hover:bg-base-100 text-base-content/75 hover:text-base-content"
                   @click.prevent="$router.go(-1)"
                 >
-                  <ChevronLeftIcon class="mr-2 w-5" />
+                  <ChevronLeftIcon class="w-5 mr-2" />
                   back
                 </button>
               </div>
-              <div v-if="torrent" class="w-full flex flex-col flex-auto gap-6">
+              <div v-if="torrent" class="flex flex-col flex-auto w-full gap-6">
                 <TorrentDescriptionTab :torrent="torrent" @updated="reloadTorrent" />
                 <TorrentFilesTab :torrent="torrent" @updated="reloadTorrent" />
                 <TorrentTrackersTab :torrent="torrent" @updated="reloadTorrent" />
@@ -22,13 +22,13 @@
             </div>
           </div>
         </div>
-        <TorrentActionCard class="top-8 md:sticky max-w-md" :torrent="torrent" @updated="reloadTorrent" />
+        <TorrentActionCard class="max-w-md top-8 md:sticky" :torrent="torrent" @updated="reloadTorrent" />
         <div class="block md:hidden">
           <button
-            class="btn bg-base-200 border-none"
+            class="border-none btn bg-base-200"
             @click.prevent="$router.go(-1)"
           >
-            <ChevronLeftIcon class="mr-2 w-5 text-base-content/50" />
+            <ChevronLeftIcon class="w-5 mr-2 text-base-content/50" />
             back
           </button>
         </div>
@@ -41,7 +41,7 @@
 import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import { Ref } from "vue";
 import { useRoute, useRuntimeConfig } from "#app";
-import { Torrent } from "torrust-index-types-lib";
+import { TorrentResponse } from "torrust-index-types-lib";
 import TorrentActionCard from "~/components/torrent/TorrentActionCard.vue";
 import TorrentDescriptionTab from "~/components/torrent/TorrentDescriptionTab.vue";
 import TorrentFilesTab from "~/components/torrent/TorrentFilesTab.vue";
@@ -55,7 +55,7 @@ const rest = useRestApi().value;
 const infoHash = route.params.infoHash as string;
 
 const loadingTorrent: Ref<boolean> = ref(false);
-const torrent: Ref<Torrent> = ref(null);
+const torrent: Ref<TorrentResponse> = ref(null);
 
 onMounted(() => {
   if (!infoHash) {
@@ -68,7 +68,7 @@ onMounted(() => {
 function getTorrentFromApi (infoHash: string) {
   loadingTorrent.value = true;
 
-  rest.torrent.getTorrent(infoHash)
+  rest.torrent.getTorrentInfo(infoHash)
     .then((data) => {
       torrent.value = data;
     })

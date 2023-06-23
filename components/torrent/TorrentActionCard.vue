@@ -1,14 +1,14 @@
 <template>
-  <div class="w-full flex flex-col basis-full">
+  <div class="flex flex-col w-full basis-full">
     <template v-if="torrent">
-      <div class="md:px-6 flex flex-col gap-3">
+      <div class="flex flex-col gap-3 md:px-6">
 
         <span class="text-lg font-bold capitalize truncate">{{ torrent.title }}</span>
 
         <template v-if="torrent.tags?.length">
           <div class="flex flex-wrap space-x-2">
             <template v-for="tag in torrent.tags">
-              <NuxtLink :to="`/torrents?tagFilters=${tag.name}`" class="px-2 py-1 bg-base-content/25 hover:bg-base-content/50 font-semibold capitalize text-xs rounded-lg cursor-pointer">
+              <NuxtLink :to="`/torrents?tagFilters=${tag.name}`" class="px-2 py-1 text-xs font-semibold capitalize rounded-lg cursor-pointer bg-base-content/25 hover:bg-base-content/50">
                 {{ tag.name }}
               </NuxtLink>
             </template>
@@ -17,56 +17,56 @@
 
         <div />
 
-        <div class="p-6 stats bg-base-100 flex flex-col gap-3 rounded-2xl">
+        <div class="flex flex-col gap-3 p-6 stats bg-base-100 rounded-2xl">
           <div class="flex flex-col items-center justify-between w-full">
-            <div class="w-full h-2 bg-transparent rounded-full overflow-hidden">
+            <div class="w-full h-2 overflow-hidden bg-transparent rounded-full">
               <template v-if="seedersPercentage() === 0 && leechersPercentage() === 0">
-                <div class="h-full bg-green-500 float-left" :style="{ width: '50%' }" />
-                <div class="h-full bg-red-500 float-right" :style="{ width: '50%' }" />
+                <div class="float-left h-full bg-green-500" :style="{ width: '50%' }" />
+                <div class="float-right h-full bg-red-500" :style="{ width: '50%' }" />
               </template>
               <template v-else>
-                <div class="h-full bg-green-500 float-left" :style="{ width: seedersPercentage() }" />
-                <div class="h-full bg-red-500 float-right" :style="{ width: leechersPercentage() }" />
+                <div class="float-left h-full bg-green-500" :style="{ width: seedersPercentage() }" />
+                <div class="float-right h-full bg-red-500" :style="{ width: leechersPercentage() }" />
               </template>
             </div>
-            <div class="mt-2 px-6 flex flex-row justify-between w-full">
-              <div class="mr-4 flex flex-col items-center">
-                <span class="stat-value text-2xl text-green-500 font-bold">{{ torrent.seeders }}</span>
-                <span class="stat-title text-sm capitalize">seeders</span>
+            <div class="flex flex-row justify-between w-full px-6 mt-2">
+              <div class="flex flex-col items-center mr-4">
+                <span class="text-2xl font-bold text-green-500 stat-value">{{ torrent.seeders }}</span>
+                <span class="text-sm capitalize stat-title">seeders</span>
               </div>
               <div class="flex flex-col items-center">
-                <span class="stat-value text-2xl text-red-500 font-bold">{{ torrent.leechers }}</span>
-                <span class="stat-title text-sm capitalize">leechers</span>
+                <span class="text-2xl font-bold text-red-500 stat-value">{{ torrent.leechers }}</span>
+                <span class="text-sm capitalize stat-title">leechers</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="p-6 stats bg-base-100 flex flex-col rounded-2xl">
-          <div class="flex flex-col text-base-content/60 text-sm">
-            <div class="py-2 pt-0 flex flex-row">
+        <div class="flex flex-col p-6 stats bg-base-100 rounded-2xl">
+          <div class="flex flex-col text-sm text-base-content/60">
+            <div class="flex flex-row py-2 pt-0">
               <div class="flex flex-row w-1/2">
-                <TagIcon class="mr-2 w-4" />
+                <TagIcon class="w-4 mr-2" />
                 <span>Category</span>
               </div>
               <div class="flex flex-row w-1/2">
-                <NuxtLink :to="`/torrents?categoryFilters=${torrent.category.name}`" class="link-primary capitalize">
+                <NuxtLink :to="`/torrents?categoryFilters=${torrent.category.name}`" class="capitalize link-primary">
                   {{ torrent.category.name }}
                 </NuxtLink>
               </div>
             </div>
-            <div class="py-2 flex flex-row">
+            <div class="flex flex-row py-2">
               <div class="flex flex-row w-1/2">
-                <CalendarIcon class="mr-2 w-4" />
+                <CalendarIcon class="w-4 mr-2" />
                 <span>Upload Date</span>
               </div>
               <div class="flex flex-row w-1/2">
                 <span>{{ new Date(torrent.upload_date).toLocaleDateString() }}</span>
               </div>
             </div>
-            <div class="py-2 flex flex-row">
+            <div class="flex flex-row py-2">
               <div class="flex flex-row w-1/2">
-                <CircleStackIcon class="mr-2 w-4" />
+                <CircleStackIcon class="w-4 mr-2" />
                 <span>File Size</span>
               </div>
               <div class="flex flex-row w-1/2">
@@ -74,19 +74,19 @@
               </div>
             </div>
             <div class="flex flex-row">
-              <div class="py-2 flex flex-row w-1/2">
-                <HashtagIcon class="mr-2 w-4" />
+              <div class="flex flex-row w-1/2 py-2">
+                <HashtagIcon class="w-4 mr-2" />
                 <span>Info Hash</span>
               </div>
-              <div class="py-1 flex flex-row w-1/2">
-                <div class="relative border border-base-content/10 flex items-center max-w-full overflow-x-auto rounded-lg">
+              <div class="flex flex-row w-1/2 py-1">
+                <div class="relative flex items-center max-w-full overflow-x-auto border rounded-lg border-base-content/10">
                   <span class="px-2">{{ torrent.info_hash }}</span>
                 </div>
               </div>
             </div>
-            <div class="py-2 pb-0 flex flex-row">
+            <div class="flex flex-row py-2 pb-0">
               <div class="flex flex-row w-1/2">
-                <UserCircleIcon class="mr-2 w-4" />
+                <UserCircleIcon class="w-4 mr-2" />
                 <span>Uploader</span>
               </div>
               <div class="flex flex-row w-1/2">
@@ -103,7 +103,7 @@
             <button class="btn btn-primary grow" @click="downloadTorrent(torrent.info_hash, torrent.title)">
               download torrent
             </button>
-            <button class="p-0 btn btn-primary w-12">
+            <button class="w-12 p-0 btn btn-primary">
               <a class="flex items-center" :href="torrent.magnet_link">
                 <LinkIcon class="w-6" />
               </a>
@@ -111,13 +111,13 @@
           </template>
           <template v-else>
             <button
-              class="mt-3 px-4 h-12 bg-white text-sm text-black font-medium rounded-2xl"
+              class="h-12 px-4 mt-3 text-sm font-medium text-black bg-white rounded-2xl"
               @click="$store.dispatch('openAuthModal')"
             >
               Please sign in to download
             </button>
             <button
-              class="mt-3 px-4 h-12 bg-sky-500 text-sm text-white font-medium rounded-2xl"
+              class="h-12 px-4 mt-3 text-sm font-medium text-white bg-sky-500 rounded-2xl"
               @click="$store.dispatch('openAuthModal')"
             >
               Please sign in to download
@@ -149,7 +149,7 @@
 <script setup lang="ts">
 import { CheckIcon, PencilIcon, XMarkIcon, LinkIcon, CalendarIcon, CircleStackIcon, UserCircleIcon, HashtagIcon, TagIcon } from "@heroicons/vue/24/solid";
 import { Ref, PropType } from "vue";
-import { Torrent } from "torrust-index-types-lib";
+import { TorrentResponse } from "torrust-index-types-lib";
 import { useRuntimeConfig } from "#app";
 import {
   fileSize,
@@ -182,7 +182,7 @@ const emit = defineEmits([
 
 const props = defineProps({
   torrent: {
-    type: Object as PropType<Torrent>,
+    type: Object as PropType<TorrentResponse>,
     required: true
   }
 });

@@ -1,9 +1,9 @@
 <template>
   <div
-    class="group/details flex flex-col items-center w-full rounded-2xl"
+    class="flex flex-col items-center w-full group/details rounded-2xl"
     @click.stop="$router.push(`/torrent/${props.infoHash}`)"
   >
-    <div class="p-4 max-h-96 flex justify-center border-2 border-base-content/20 hover:border-primary text-base-content/75 rounded-2xl overflow-y-auto w-full duration-500">
+    <div class="flex justify-center w-full p-4 overflow-y-auto duration-500 border-2 max-h-96 border-base-content/20 hover:border-primary text-base-content/75 rounded-2xl">
       <template v-if="torrent?.description">
         <Markdown :source="torrent.description" />
       </template>
@@ -16,14 +16,14 @@
 
 <script setup lang="ts">
 import { Ref } from "vue";
-import { Torrent } from "torrust-index-types-lib";
+import { TorrentResponse } from "torrust-index-types-lib";
 import { useRuntimeConfig } from "#app";
 import { onMounted, ref, useRestApi } from "#imports";
 
 const config = useRuntimeConfig();
 const rest = useRestApi();
 
-const torrent: Ref<Torrent> = ref(null);
+const torrent: Ref<TorrentResponse> = ref(null);
 
 const props = defineProps({
   infoHash: {
@@ -33,7 +33,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
-  rest.value.torrent.getTorrent(props.infoHash)
+  rest.value.torrent.getTorrentInfo(props.infoHash)
     .then((data) => {
       torrent.value = data;
     });
