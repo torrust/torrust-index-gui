@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.13",
-    "daisyui": "^2.51.5",
+    "daisyui": "^3.1.6",
     "marked": "^4.0.7",
     "notiwind-ts": "^2.0.2",
     "torrust-index-api-lib": "^0.2.0",
