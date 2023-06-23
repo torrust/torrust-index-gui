@@ -23,7 +23,7 @@
     "vite-plugin-eslint": "^1.8.1"
   },
   "dependencies": {
-    "@heroicons/vue": "^2.0.13",
+    "@heroicons/vue": "^2.0.18",
     "daisyui": "^2.51.5",
     "marked": "^4.0.7",
     "notiwind-ts": "^2.0.2",
