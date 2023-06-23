@@ -48,7 +48,12 @@
       <template v-if="categories?.length > 0">
         <div>
           <label for="tags" class="px-2">Tags</label>
-          <TorrustSelect class="grow-0" :options="tags" multiple search @updated="setTags" />
+          <TorrustSelect
+            v-model:selected="form.tags"
+            :options="tags.map(entry => ({ name: entry.name, value: entry.tag_id }))"
+            :multiple="true"
+            search
+          />
         </div>
       </template>
       <div>
