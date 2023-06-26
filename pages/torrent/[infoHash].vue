@@ -22,7 +22,7 @@
             </div>
           </div>
         </div>
-        <TorrentActionCard class="max-w-md top-8 md:sticky" :torrent="torrent" @updated="reloadTorrent" />
+        <TorrentActionCard class="max-w-md top-8 md:sticky" :torrent="torrent" @updated="reloadTorrent" @deleted="navigateToTorrentList" />
         <div class="block md:hidden">
           <button
             class="border-none btn bg-base-200"
@@ -81,6 +81,10 @@ function getTorrentFromApi (infoHash: string) {
 
 function reloadTorrent () {
   getTorrentFromApi(torrent.value.info_hash);
+}
+
+function navigateToTorrentList () {
+  navigateTo("/torrents", { replace: true });
 }
 </script>
 
