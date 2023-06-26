@@ -70,11 +70,11 @@ const form: Ref<Form> = ref({
 });
 
 const props = defineProps({
-  signup: Boolean
+  isSignupForm: Boolean
 });
 
 onMounted(() => {
-  if (props.signup) {
+  if (props.isSignupForm) {
     state.value = State.Signup;
   }
 });

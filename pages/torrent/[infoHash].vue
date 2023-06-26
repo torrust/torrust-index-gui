@@ -40,8 +40,8 @@
 <script setup lang="ts">
 import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import { Ref } from "vue";
-import { useRoute, useRuntimeConfig } from "#app";
 import { TorrentResponse } from "torrust-index-types-lib";
+import { useRoute, useRuntimeConfig } from "#app";
 import TorrentActionCard from "~/components/torrent/TorrentActionCard.vue";
 import TorrentDescriptionTab from "~/components/torrent/TorrentDescriptionTab.vue";
 import TorrentFilesTab from "~/components/torrent/TorrentFilesTab.vue";

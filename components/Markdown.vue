@@ -18,6 +18,11 @@ const rest = useRestApi().value;
 
 const sanitizedDescription = ref("");
 
+const options = {
+  headerIds: false,
+  mangle: false
+};
+
 watch([props.source], () => {
   sanitizeDescription();
 });
@@ -27,7 +32,7 @@ onMounted(() => {
 });
 
 function markdown (src: string) {
-  return marked(src, {});
+  return marked(src, options);
 }
 
 async function sanitizeDescription () {
