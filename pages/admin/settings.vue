@@ -20,24 +20,9 @@
       </div>
 
       <template v-if="settings">
-        <NuxtPage :settings="settingsChanges" class="w-full" />
+        <NuxtPage :settings="settings" class="w-full" />
       </template>
 
-      <div class="flex flex-col w-full gap-2">
-        <template v-if="madeChanges()">
-          <button
-            class="btn btn-secondary"
-            :disabled="!madeChanges() || updatingSettings"
-            @click="saveSettings()"
-          >save changes</button>
-
-          <button
-            class="btn btn-error"
-            :disabled="!madeChanges() || updatingSettings"
-            @click="clearChanges()"
-          >clear changes</button>
-        </template>
-      </div>
     </div>
   </div>
 </template>
@@ -55,13 +40,7 @@ const tabs = [
 
 const rest = useRestApi();
 
-const updatingSettings: Ref<Boolean> = ref(false);
 const settings: Ref<Settings> = ref(null);
-const settingsChanges: Ref<Settings> = ref(null);
-
-watch([settings], () => {
-  clearChanges();
-});
 
 onMounted(() => {
   getAdminSettings();
@@ -74,30 +53,6 @@ function getAdminSettings () {
     });
 }
 
-function saveSettings () {
-  updatingSettings.value = true;
-
-  rest.value.settings.updateSettings(settingsChanges.value)
-    .then((v) => {
-      settings.value = v;
-
-      updatingSettings.value = false;
-
-      getSettings();
-    })
-    .catch(() => {
-      updatingSettings.value = false;
-    });
-}
-
-function clearChanges () {
-  // This is how you clone without references in JS...
-  settingsChanges.value = JSON.parse(JSON.stringify(settings.value));
-}
-
-function madeChanges (): boolean {
-  return JSON.stringify(settingsChanges.value) !== JSON.stringify(settings.value);
-}
 </script>
 
 <style scoped>
