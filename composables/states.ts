@@ -7,7 +7,7 @@ export const useCategories = () => useState<Array<Category>>("categories", () =>
 export const useTags = () => useState<Array<TorrentTag>>("tags", () => new Array<TorrentTag>());
 export const useAuthenticationModal = () => useState<boolean>("authentication-modal", () => false);
 export const useSettings = () => useState<PublicSettings>("public-settings", () => null);
-export const useUser = () => useState<User>("user", () => null);
+export const useUser = () => useState<TokenResponse>("user", () => null);
 
 export function getSettings () {
   useRestApi().value.settings.getPublicSettings()

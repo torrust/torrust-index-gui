@@ -92,7 +92,7 @@ import { useCategories } from "~/composables/states";
 type FormEditTorrent = {
   title: string;
   description: string;
-  tags: Array<string>;
+  tags: Array<number>;
 }
 
 const config = useRuntimeConfig();

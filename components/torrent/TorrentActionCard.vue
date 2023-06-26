@@ -147,37 +147,23 @@
 </template>
 
 <script setup lang="ts">
-import { CheckIcon, PencilIcon, XMarkIcon, LinkIcon, CalendarIcon, CircleStackIcon, UserCircleIcon, HashtagIcon, TagIcon } from "@heroicons/vue/24/solid";
-import { Ref, PropType } from "vue";
+import { LinkIcon, CalendarIcon, CircleStackIcon, UserCircleIcon, HashtagIcon, TagIcon } from "@heroicons/vue/24/solid";
+import { PropType } from "vue";
 import { TorrentResponse } from "torrust-index-types-lib";
-import { useRuntimeConfig } from "#app";
 import {
   fileSize,
   downloadTorrent,
-  ref,
   useRestApi,
-  useSettings,
-  useUser,
   isUserLoggedIn,
   isTrackerPublic, navigateTo
 } from "#imports";
 import { canEditThisTorrent } from "~/composables/helpers";
 
-enum State {
-  Viewing,
-  Editing
-}
-
-const config = useRuntimeConfig();
 const rest = useRestApi();
-const settings = useSettings();
-const user = useUser();
-
-const state: Ref<State> = ref(State.Viewing);
-const updatedTitle: Ref<String> = ref(null);
 
 const emit = defineEmits([
-  "updated"
+  "updated",
+  "deleted"
 ]);
 
 const props = defineProps({
@@ -212,7 +198,7 @@ function editTorrent () {
 function deleteTorrent () {
   rest.value.torrent.deleteTorrent(props.torrent.info_hash)
     .then(() => {
-      emit("updated");
+      emit("deleted");
     });
 }
 </script>

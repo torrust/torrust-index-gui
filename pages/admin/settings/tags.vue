@@ -1,8 +1,8 @@
 <template>
-  <div class="mx-auto flex flex-col gap-2 max-w-md">
+  <div class="flex flex-col max-w-md gap-2 mx-auto">
     <div class="flex flex-col gap-2">
       <template v-for="tag in tags">
-        <div class="p-2 flex justify-between bg-base-100 rounded">
+        <div class="flex justify-between p-2 rounded bg-base-100">
           <span class="text-base-content">{{ tag.name }}</span>
           <button class="text-error-content hover:text-error" @click="deleteTag(tag)">
             Delete
@@ -11,7 +11,7 @@
       </template>
     </div>
     <div class="flex gap-2">
-      <input v-model="newTag" class="input input-bordered w-full" type="text">
+      <input v-model="newTag" class="w-full input input-bordered" type="text">
       <button class="btn btn-primary" :class="{ 'loading': addingTag }" :disabled="addingTag || !newTag" @click="addTag">
         Add tag
       </button>
@@ -21,8 +21,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { TorrentTag } from "torrust-index-types-lib";
 import { computed, getTags, useRestApi, useTags } from "#imports";
-import { TorrentTag } from "~/torrust-index-types-lib";
 
 const tags = useTags();
 const rest = useRestApi().value;

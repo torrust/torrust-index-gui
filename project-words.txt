@@ -1,3 +1,7 @@
+composables
+heroicons
+notiwind
 Nuxt
 nuxtjs
 proxied
+vuex
