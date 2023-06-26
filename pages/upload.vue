@@ -45,7 +45,7 @@
           </select>
         </div>
       </template>
-      <template v-if="categories?.length > 0">
+      <template v-if="tags?.length > 0">
         <div>
           <label for="tags" class="px-2">Tags</label>
           <TorrustSelect
@@ -114,8 +114,8 @@ const uploading: Ref<boolean> = ref(false);
 const descriptionView = ref("edit");
 const form: Ref<FormUploadTorrent> = ref({
   title: "",
-  category: "",
   description: "",
+  category: "",
   tags: [],
   torrentFile: ""
 });
@@ -145,8 +145,8 @@ function submitForm () {
   rest.value.torrent.uploadTorrent(
     {
       title: form.value.title,
-      category: form.value.category,
       description: form.value.description,
+      category: form.value.category,
       tags: form.value.tags,
       file: form.value.torrentFile
     }

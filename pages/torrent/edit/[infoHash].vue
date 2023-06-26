@@ -33,18 +33,18 @@
           </div>
         </template>
       </div>
-      <!--      <template v-if="categories?.length > 0">-->
-      <!--        <div>-->
-      <!--          <label for="category" class="px-2">Category</label>-->
-      <!--          <select id="category" v-model="form.category" class="mt-1">-->
-      <!--            <template v-for="option in categories">-->
-      <!--              <option :value="option.name">-->
-      <!--                {{ option.name }}-->
-      <!--              </option>-->
-      <!--            </template>-->
-      <!--          </select>-->
-      <!--        </div>-->
-      <!--      </template>-->
+      <template v-if="categories?.length > 0">
+        <div>
+          <label for="category" class="px-2">Category</label>
+          <select id="category" v-model="form.category" class="mt-1">
+            <template v-for="option in categories">
+              <option :value="option.category_id">
+                {{ option.name }}
+              </option>
+            </template>
+          </select>
+        </div>
+      </template>
       <div>
         <label for="tags" class="px-2">Tags</label>
         <TorrustSelect
@@ -78,12 +78,10 @@ import { Ref } from "vue";
 import { notify } from "notiwind-ts";
 import { TorrentResponse } from "torrust-index-types-lib";
 import {
-  computed,
   navigateTo,
   onMounted,
-  ref, toRaw,
+  ref,
   useRestApi, useRoute,
-  useRuntimeConfig,
   useTags,
   useUser
 } from "#imports";
@@ -92,10 +90,10 @@ import { useCategories } from "~/composables/states";
 type FormEditTorrent = {
   title: string;
   description: string;
+  category: number;
   tags: Array<number>;
 }
 
-const config = useRuntimeConfig();
 const categories = useCategories();
 const tags = useTags();
 const user = useUser();
@@ -112,6 +110,7 @@ const descriptionView = ref("edit");
 const form: Ref<FormEditTorrent> = ref({
   title: "",
   description: "",
+  category: null,
   tags: []
 });
 
@@ -132,6 +131,7 @@ function getTorrentFromApi (infoHash: string) {
 
       form.value.title = data.title;
       form.value.description = data.description;
+      form.value.category = data.category.category_id;
       form.value.tags = data.tags.map((tag) => {
         if (typeof tag === "object" && "tag_id" in tag) {
           return tag.tag_id;
@@ -154,19 +154,16 @@ function formValid () {
 function submitForm () {
   updatingTorrent.value = true;
 
-  const uploadTorrent = {
+  const updateTorrentInfo = {
     title: form.value.title,
     description: form.value.description,
+    category: form.value.category,
     tags: form.value.tags.map((tag) => {
-      if (typeof tag === "object" && "tag_id" in tag) {
-        return tag.tag_id;
-      } else {
-        return tag;
-      }
+      return tag;
     })
   };
 
-  rest.value.torrent.updateTorrent(infoHash, uploadTorrent)
+  rest.value.torrent.updateTorrent(infoHash, updateTorrentInfo)
     .then((torrentResponse) => {
       notify({
         group: "success",
