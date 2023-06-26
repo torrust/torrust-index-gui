@@ -1,29 +1,29 @@
 <template>
   <div class="flex flex-col gap-10">
     <div class="">
-      <h2 class="text-2xl font-semibold text-neutral-content capitalize">
+      <h2 class="text-2xl font-semibold capitalize text-neutral-content">
         admin settings
       </h2>
     </div>
-    <div class="w-full flex flex-col gap-10">
-      <div class="relative w-full h-auto flex flex-row overflow-x-auto">
+    <div class="flex flex-col w-full gap-10">
+      <div class="relative flex flex-row w-full h-auto overflow-x-auto">
         <div v-for="(option) in tabs" class="relative z-10">
           <NuxtLink
             :to="`/admin/settings/${option}`"
-            class="inline-block py-2 px-6 font-medium text-center text-neutral-content/50 capitalize hover:text-neutral-content border-b-2 border-transparent dark:hover:border-white/10 duration-200"
+            class="inline-block px-6 py-2 font-medium text-center capitalize duration-200 border-b-2 border-transparent text-neutral-content/50 hover:text-neutral-content dark:hover:border-white/10"
           >
             {{ option }}
           </NuxtLink>
         </div>
 
-        <div class="min-w-full absolute bottom-0 border-b-2 border-base-content/20 z-0" />
+        <div class="absolute bottom-0 z-0 min-w-full border-b-2 border-base-content/20" />
       </div>
 
       <template v-if="settings">
         <NuxtPage :settings="settingsChanges" class="w-full" />
       </template>
 
-      <div class="w-full flex flex-col gap-2">
+      <div class="flex flex-col w-full gap-2">
         <template v-if="madeChanges()">
           <button
             class="btn btn-secondary"
@@ -48,11 +48,7 @@ import { Settings } from "torrust-index-types-lib";
 import { getSettings, onMounted, ref, useRestApi, useRoute, watch } from "#imports";
 
 const tabs = [
-  "general",
-  "tracker",
-  "authentication",
-  "database",
-  "email",
+  "backend",
   "categories",
   "tags"
 ];

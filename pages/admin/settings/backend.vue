@@ -1,8 +1,10 @@
 <template>
-  <div id="general-settings" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div id="general-settings" class="grid grid-cols-1 gap-6 lg:grid-cols-2">
     <div class="flex flex-col">
-      <label for="website-name">Name</label>
-      <input id="website-name" v-model="settings.website.name" type="text" class="input">
+      <pre><code>{{ settings }}</code></pre>
+    </div>
+    <div class="flex flex-col">
+      <span>Read-only view for the backend configuration. See <a target="_blank" href="https://docs.rs/torrust-index-backend">the backend documentation</a> for more information.</span>
     </div>
   </div>
 </template>
