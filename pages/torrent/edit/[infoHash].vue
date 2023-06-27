@@ -45,15 +45,17 @@
           </select>
         </div>
       </template>
-      <div>
-        <label for="tags" class="px-2">Tags</label>
-        <TorrustSelect
-          v-model:selected="form.tags"
-          :options="tags.map(entry => ({ name: entry.name, value: entry.tag_id }))"
-          :multiple="true"
-          search
-        />
-      </div>
+      <template v-if="tags?.length > 0">
+        <div>
+          <label for="tags" class="px-2">Tags</label>
+          <TorrustSelect
+            v-model:selected="form.tags"
+            :options="tags.map(entry => ({ name: entry.name, value: entry.tag_id }))"
+            :multiple="true"
+            search
+          />
+        </div>
+      </template>
       <template v-if="user?.username">
         <button
           class="btn btn-primary"
@@ -131,7 +133,13 @@ function getTorrentFromApi (infoHash: string) {
 
       form.value.title = data.title;
       form.value.description = data.description;
-      form.value.category = data.category.category_id;
+
+      if (data.category === null) {
+        form.value.category = null;
+      } else {
+        form.value.category = data.category.category_id;
+      }
+
       form.value.tags = data.tags.map((tag) => {
         if (typeof tag === "object" && "tag_id" in tag) {
           return tag.tag_id;
@@ -148,7 +156,7 @@ function getTorrentFromApi (infoHash: string) {
 }
 
 function formValid () {
-  return form.value.title && (form.value.title + form.value.description) !== (torrent.value.title + torrent.value.description + torrent.value.category.name);
+  return form.value.title && form.value.description;
 }
 
 function submitForm () {
