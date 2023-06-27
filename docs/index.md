@@ -1,5 +1,51 @@
 # Documentation
 
+- [User guide](#user-guide)
+  - [Upload a torrent](#upload-a-torrent)
+- [Development](#development)
+  - [Run the tracker](#run-the-tracker)
+  - [Run the backend](#run-the-backend)
+  - [Run the frontend](#run-the-frontend)  
+
+## User guide
+
+### Roles
+
+There are only three roles:
+
+- Guest: unauthenticated user.
+- User: authenticated user.
+- Admin: authenticated user with admin privileges.
+
+> **NOTICE**: there is only one "admin" and it's the account of the first registered user.
+
+### Upload a torrent
+
+The torrent description supports markdown syntax. You can use it to add links, images, etc.
+
+> **NOTICE** Only PNG images are supported at the moment.
+
+You can add a PNG image with:
+
+```text
+![alternative description for the image](https://raw.githubusercontent.com/torrust/torrust-index-frontend//develop/docs/media/torrust_logo.png)
+```
+
+The image will be proxied by the backend. This means that the image will be downloaded by the backend and served by the backend itself. The backend will cache the image but
+you have to make sure that the image is available at the URL you provided.
+
+### Categories
+
+Torrents can have only one category. You have to assign a category to your torrent when you upload it.
+
+If the "admin" deletes the category sued by a torrent, the torrent category will be set to `null`.
+
+### Tags
+
+Torrents can have multiple tags. You can assign tags to your torrent when you upload it. Tags are created by the "admin" and users can only choose from the existing tags.
+
+If the "admin" deletes a tag, the tag will be removed from all the torrents that use it.
+
 ## Development
 
 This is a guide to run the Torrust Index in development mode. It is not intended to be used in production.
@@ -133,7 +179,7 @@ For the requirements please refer to the [Tracker documentation](https://github.
 git clone git@github.com:torrust/torrust-index-backend.git
 cd torrust-index-backend/
 ./bin/install.sh
-cargo run
+TORRUST_IDX_BACK_CORS_PERMISSIVE=true cargo run
 ```
 
 By default, the backend has the most restrictive CORS policy. This means that the frontend cannot access the backend API, because they are running on different ports. If you run the backend as it is, you will see the following error in the browser console.
@@ -142,28 +188,7 @@ By default, the backend has the most restrictive CORS policy. This means that th
 Access to fetch at 'http://localhost:3000/v1/torrents?page_size=50&page=0&sort=UploadedDesc&categories=&tags=' from origin 'http://localhost:3001' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
 ```
 
-You need to enable the Cors layer with the permissive option in [routes.rs](https://github.com/torrust/torrust-index-backend/blob/develop/src/web/api/v1/routes.rs#L38) before running the tracker. You only need to uncomment two lines.
-
-```rust
-// ...
-use tower_http::cors::CorsLayer;
-
-pub fn router(app_data: Arc<AppData>) -> Router {
-
-    // ...
-
-    Router::new()
-        .route("/", get(about_page_handler).with_state(app_data))
-        .nest(&format!("/{API_VERSION_URL_PREFIX}"), v1_api_routes)
-    // For development purposes only.
-    //
-    .layer(CorsLayer::permissive()) // Uncomment this line and the `use` import.
-    //
-    // It allows calling the API on a different port. For example
-    // API: http://localhost:3000/v1
-    // Webapp: http://localhost:8080
-}
-```
+You need to enable the Cors layer with the permissive option setting the environment variable `TORRUST_IDX_BACK_CORS_PERMISSIVE` to `true`.
 
 Please refer to the [Index Backend documentation](https://github.com/torrust/torrust-index-backend) for more information.
 
