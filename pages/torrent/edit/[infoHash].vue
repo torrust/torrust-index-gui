@@ -131,7 +131,13 @@ function getTorrentFromApi (infoHash: string) {
 
       form.value.title = data.title;
       form.value.description = data.description;
-      form.value.category = data.category.category_id;
+
+      if (typeof data.category === "object" && "category_id" in data.category) {
+        form.value.category = data.category.category_id;
+      } else {
+        form.value.category = null;
+      }
+
       form.value.tags = data.tags.map((tag) => {
         if (typeof tag === "object" && "tag_id" in tag) {
           return tag.tag_id;

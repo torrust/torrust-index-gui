@@ -44,7 +44,7 @@
 
         <div class="flex flex-col p-6 stats bg-base-100 rounded-2xl">
           <div class="flex flex-col text-sm text-base-content/60">
-            <div class="flex flex-row py-2 pt-0">
+            <div v-if="torrent.category !== null" class="flex flex-row py-2 pt-0">
               <div class="flex flex-row w-1/2">
                 <TagIcon class="w-4 mr-2" />
                 <span>Category</span>
