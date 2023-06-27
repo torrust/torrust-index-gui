@@ -4,6 +4,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { marked } from "marked";
 import { onMounted, ref, useRestApi, watch } from "#imports";
 
@@ -23,7 +24,9 @@ const options = {
   mangle: false
 };
 
-watch([props.source], () => {
+const source = computed(() => props.source);
+
+watch(source, () => {
   sanitizeDescription();
 });
 
