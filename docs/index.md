@@ -185,7 +185,7 @@ TORRUST_IDX_BACK_CORS_PERMISSIVE=true cargo run
 By default, the backend has the most restrictive CORS policy. This means that the frontend cannot access the backend API, because they are running on different ports. If you run the backend as it is, you will see the following error in the browser console.
 
 ```s
-Access to fetch at 'http://localhost:3000/v1/torrents?page_size=50&page=0&sort=UploadedDesc&categories=&tags=' from origin 'http://localhost:3001' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+Access to fetch at 'http://localhost:3001/v1/torrents?page_size=50&page=0&sort=UploadedDesc&categories=&tags=' from origin 'http://localhost:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
 ```
 
 You need to enable the Cors layer with the permissive option setting the environment variable `TORRUST_IDX_BACK_CORS_PERMISSIVE` to `true`.
@@ -205,16 +205,22 @@ cd torrust-index-frontend/
 npm run dev
 ```
 
+**NOTICE** Make sure the `.env` file is present in the root directory of the frontend. And contains the API URL.
+
+```s
+API_BASE_URL=http://localhost:3001/v1
+```
+
 After running `npm run dev` you should see something like this in the console.
 
 ```s
 Nuxi 3.0.0
 Nuxt 3.0.0 with Nitro 1.0.0
-  > Local:    http://localhost:3001/ 
-  > Network:  http://192.168.1.88:3001/
+  > Local:    http://localhost:3000/ 
+  > Network:  http://192.168.1.88:3000/
 
 ℹ Using Tailwind CSS from ~/assets/css/tailwind.css
-ℹ Tailwind Viewer: http://localhost:3001/_tailwind/
+ℹ Tailwind Viewer: http://localhost:3000/_tailwind/
 🌼 daisyUI components 2.51.5  https://daisyui.com
 ✔︎ Including:  base, components, 2 themes, utilities
 ❤︎ Support daisyUI:  https://opencollective.com/daisyui
@@ -229,3 +235,11 @@ WARN  Browserslist: caniuse-lite is outdated. Please run:
 ```
 
 You only need to follow the instructions and run `npx update-browserslist-db@latest`.
+
+If you want to run the frontend like int production you can run the following command.
+
+```s
+npm run build && npm run preview
+```
+
+More information about the [nuxt]https://nuxt.com/) command can be found [here](https://nuxt.com/docs/api/commands/add).
