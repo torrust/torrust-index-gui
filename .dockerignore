@@ -1,0 +1,12 @@
+/.env
+/.env.local
+/.git
+/.git-blame-ignore
+/.github
+/.gitignore
+/.vscode
+/bin/
+/cspell.json
+/docker/
+/project-words.txt
+/README.md
