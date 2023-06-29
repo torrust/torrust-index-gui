@@ -10,5 +10,6 @@
 /temp-package/api/
 dist
 node_modules
+storage
 temp-package/types
 vue-2

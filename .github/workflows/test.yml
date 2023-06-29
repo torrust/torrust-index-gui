@@ -23,4 +23,6 @@ jobs:
       - name: Generate
         run: npm run generate
 
+      - name: E2E Tests
+        run: ./docker/bin/run-e2e-tests.sh
 
