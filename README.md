@@ -1,6 +1,6 @@
 # Torrust Index Frontend
 
-[![Test](https://github.com/torrust/torrust-index-frontend/actions/workflows/test.yml/badge.svg)](https://github.com/torrust/torrust-index-frontend/actions/workflows/test.yml)
+[![Test](https://github.com/torrust/torrust-index-frontend/actions/workflows/test.yml/badge.svg)](https://github.com/torrust/torrust-index-frontend/actions/workflows/test.yml) [![Test Docker build](https://github.com/torrust/torrust-index-frontend/actions/workflows/test_docker_build.yml/badge.svg)](https://github.com/torrust/torrust-index-frontend/actions/workflows/test_docker_build.yml) [![Publish Docker Image](https://github.com/torrust/torrust-index-frontend/actions/workflows/publish_docker_image.yml/badge.svg)](https://github.com/torrust/torrust-index-frontend/actions/workflows/publish_docker_image.yml)
 
 This repository serves as the frontend for the [Torrust Index](https://github.com/torrust/torrust-index) project.
 
