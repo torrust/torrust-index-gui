@@ -10,7 +10,7 @@ RUN npm install-clean
 
 FROM base as development
 WORKDIR /app
-ARG UID=1000
+ARG UID=1001
 ARG RUN_AS_USER=appuser
 ARG IDX_FRONT_PORT=3000
 ARG API_BASE_URL=http://localhost:3001/v1
@@ -18,6 +18,10 @@ ARG API_BASE_URL=http://localhost:3001/v1
 ENV USER=appuser
 ENV UID=$UID
 RUN adduser --uid "${UID}" "${USER}"
+# Build the app
+COPY . .
+ENV API_BASE_URL=$API_BASE_URL
+RUN npm run build
 USER $RUN_AS_USER:$RUN_AS_USER
 EXPOSE $IDX_FRONT_PORT/tcp
 CMD ["npm", "run", "dev"]
