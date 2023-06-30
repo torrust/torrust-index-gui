@@ -18,12 +18,12 @@ function random_user_id (): number {
   return Math.floor(Math.random() * 1000000);
 }
 
-describe("Regarding user registration", () => {
+describe("A guest", () => {
   beforeEach(() => {
     cy.visit("/");
   });
 
-  it("a guest user should be able to sign up", () => {
+  it("should be able to sign up", () => {
     // Go to sign up form
     cy.contains("Login").click();
     cy.contains("Don't have an account? Sign up").click();
