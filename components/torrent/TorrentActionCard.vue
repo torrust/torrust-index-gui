@@ -150,6 +150,7 @@
 import { LinkIcon, CalendarIcon, CircleStackIcon, UserCircleIcon, HashtagIcon, TagIcon } from "@heroicons/vue/24/solid";
 import { PropType } from "vue";
 import { TorrentResponse } from "torrust-index-types-lib";
+import { notify } from "notiwind-ts";
 import {
   fileSize,
   downloadTorrent,
@@ -199,6 +200,13 @@ function deleteTorrent () {
   rest.value.torrent.deleteTorrent(props.torrent.info_hash)
     .then(() => {
       emit("deleted");
+    })
+    .catch((err) => {
+      notify({
+        group: "error",
+        title: "Error",
+        text: `Trying to delete the torrent. ${err.message}.`
+      }, 10000);
     });
 }
 </script>

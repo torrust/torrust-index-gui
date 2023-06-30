@@ -22,7 +22,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { TorrentTag } from "torrust-index-types-lib";
-import { computed, getTags, useRestApi, useTags } from "#imports";
+import { notify } from "notiwind-ts";
+import { getTags, useRestApi, useTags } from "#imports";
 
 const tags = useTags();
 const rest = useRestApi().value;
@@ -38,6 +39,13 @@ function addTag () {
       .then(() => {
         getTags();
       })
+      .catch((err) => {
+        notify({
+          group: "error",
+          title: "Error",
+          text: `Trying to add the tag. ${err.message}.`
+        }, 10000);
+      })
       .finally(() => {
         addingTag.value = false;
       });
@@ -49,6 +57,13 @@ function deleteTag (tag: TorrentTag) {
     rest.tag.deleteTag(tag.tag_id)
       .then(() => {
         getTags();
+      })
+      .catch((err) => {
+        notify({
+          group: "error",
+          title: "Error",
+          text: `Trying to delete the tag. ${err.message}.`
+        }, 10000);
       });
   }
 }
