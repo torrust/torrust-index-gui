@@ -8,15 +8,15 @@
         class="space-y-3"
         @submit.prevent="submit"
       >
-        <FormInputText v-model="form.username" label="Username" required />
+        <FormInputText v-model="form.username" label="Username" name="username" required />
         <template v-if="state === State.Signup && settings.email_on_signup !== EmailOnSignup.None">
-          <FormInputText v-model="form.email" label="Email" :required="settings.email_on_signup === EmailOnSignup.Required" />
+          <FormInputText v-model="form.email" label="Email" name="email" :required="settings.email_on_signup === EmailOnSignup.Required" />
         </template>
-        <FormInputText v-model="form.password" :type="'password'" label="Password" required />
+        <FormInputText v-model="form.password" :type="'password'" label="Password" name="password" required />
         <template v-if="state === State.Signup">
-          <FormInputText v-model="form.confirm_password" label="Repeat password" required />
+          <FormInputText v-model="form.confirm_password" label="Repeat password" name="confirm_password" required />
         </template>
-        <button type="submit" class="w-full btn btn-primary">
+        <button type="submit" name="submit" data-cy="submit" class="w-full btn btn-primary">
           Sign {{ state === State.Signup ? 'up' : 'in' }}
         </button>
       </form>

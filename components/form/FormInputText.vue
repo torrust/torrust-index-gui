@@ -6,7 +6,9 @@
     <input
       :type="props.type"
       :placeholder="props.placeholder"
+      :name="props.name"
       :value="modelValue"
+      :data-cy="props.name"
       class="w-full border-2 input input-bordered rounded-2xl"
       :required="props.required"
       @input="$emit('update:modelValue', $event.target.value)"
@@ -26,6 +28,11 @@ const props = defineProps({
   label: {
     type: String,
     required: true,
+    default: () => ""
+  },
+  name: {
+    type: String,
+    required: false,
     default: () => ""
   },
   placeholder: {

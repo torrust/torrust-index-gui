@@ -53,7 +53,7 @@ sleep 20s
 docker ps
 
 # Run E2E tests with shared app instance
-# todo
+npm run cypress:run || exit 1
 
 # Stop E2E testing environment
 ./docker/bin/e2e-env-down.sh
