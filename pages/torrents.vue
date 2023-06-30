@@ -63,6 +63,7 @@
 import { useRuntimeConfig, useRoute, useRouter } from "nuxt/app";
 import { TorrentListing } from "torrust-index-types-lib";
 import { Ref } from "vue";
+import { notify } from "notiwind-ts";
 import { computed, onMounted, ref, useTags, watch } from "#imports";
 import { useCategories, useRestApi } from "~/composables/states";
 import { TorrustSelectOption } from "~/components/TorrustSelect.vue";
@@ -77,7 +78,6 @@ const sortingOptions: Array<TorrustSelectOption> = [
 
 const route = useRoute();
 const router = useRouter();
-const config = useRuntimeConfig();
 const categories = useCategories();
 const tags = useTags();
 const rest = useRestApi();
@@ -147,6 +147,13 @@ function loadTorrents () {
     .then((v) => {
       torrentsTotal.value = v.total;
       torrents.value = v.results;
+    })
+    .catch((err) => {
+      notify({
+        group: "error",
+        title: "Error",
+        text: `Trying to get the information for the torrents. ${err.message}.`
+      }, 10000);
     });
 }
 </script>

@@ -42,13 +42,13 @@ import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import { Ref } from "vue";
 import { TorrentResponse } from "torrust-index-types-lib";
 import { useRoute, useRuntimeConfig } from "#app";
+import { notify } from "notiwind-ts";
 import TorrentActionCard from "~/components/torrent/TorrentActionCard.vue";
 import TorrentDescriptionTab from "~/components/torrent/TorrentDescriptionTab.vue";
 import TorrentFilesTab from "~/components/torrent/TorrentFilesTab.vue";
 import TorrentTrackersTab from "~/components/torrent/TorrentTrackersTab.vue";
 import { navigateTo, onMounted, ref, useRestApi } from "#imports";
 
-const config = useRuntimeConfig();
 const route = useRoute();
 const rest = useRestApi().value;
 
@@ -72,8 +72,13 @@ function getTorrentFromApi (infoHash: string) {
     .then((data) => {
       torrent.value = data;
     })
-    .catch(() => {
+    .catch((err) => {
       loadingTorrent.value = false;
+      notify({
+        group: "error",
+        title: "Error",
+        text: `Trying to get the torrent information. ${err.message}.`
+      }, 10000);
     });
 
   // TODO: Set torrent title in URL.

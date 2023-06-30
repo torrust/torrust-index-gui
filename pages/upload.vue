@@ -89,7 +89,6 @@ import {
   onMounted,
   ref, toRaw,
   useRestApi,
-  useRuntimeConfig,
   useTags,
   useUser
 } from "#imports";
@@ -103,7 +102,6 @@ type FormUploadTorrent = {
   torrentFile: any;
 }
 
-const config = useRuntimeConfig();
 const categories = useCategories();
 const tags = useTags();
 const user = useUser();
@@ -168,8 +166,8 @@ function submitForm () {
       notify({
         group: "error",
         title: "Error",
-        text: err
-      }, 4000);
+        text: `Trying to upload the torrent. ${err.message}.`
+      }, 10000);
     });
 }
 

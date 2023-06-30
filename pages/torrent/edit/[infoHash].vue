@@ -148,6 +148,14 @@ function getTorrentFromApi (infoHash: string) {
         }
       });
     })
+    .catch((err) => {
+      loadingTorrent.value = false;
+      notify({
+        group: "error",
+        title: "Error",
+        text: `Trying to get the torrent info. ${err.message}.`
+      }, 10000);
+    })
     .finally(() => {
       loadingTorrent.value = false;
     });
@@ -182,11 +190,12 @@ function submitForm () {
       navigateTo(`/torrent/${infoHash}`, { replace: true });
     })
     .catch((err) => {
+      loadingTorrent.value = false;
       notify({
         group: "error",
         title: "Error",
-        text: err.message
-      }, 4000); // 4s
+        text: `Trying to update torrent info. ${err.message}.`
+      }, 10000);
     })
     .finally(() => {
       updatingTorrent.value = false;

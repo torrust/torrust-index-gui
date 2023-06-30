@@ -17,10 +17,9 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { TorrentResponse } from "torrust-index-types-lib";
-import { useRuntimeConfig } from "#app";
+import { notify } from "notiwind-ts";
 import { onMounted, ref, useRestApi } from "#imports";
 
-const config = useRuntimeConfig();
 const rest = useRestApi();
 
 const torrent: Ref<TorrentResponse> = ref(null);
@@ -36,6 +35,13 @@ onMounted(() => {
   rest.value.torrent.getTorrentInfo(props.infoHash)
     .then((data) => {
       torrent.value = data;
+    })
+    .catch((err) => {
+      notify({
+        group: "error",
+        title: "Error",
+        text: `Trying to get the torrent information. ${err.message}.`
+      }, 10000);
     });
 });
 </script>

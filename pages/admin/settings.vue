@@ -30,7 +30,8 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { Settings } from "torrust-index-types-lib";
-import { getSettings, onMounted, ref, useRestApi, useRoute, watch } from "#imports";
+import { notify } from "notiwind-ts";
+import { onMounted, ref, useRestApi } from "#imports";
 
 const tabs = [
   "backend",
@@ -50,6 +51,13 @@ function getAdminSettings () {
   rest.value.settings.getSettings()
     .then((v) => {
       settings.value = v;
+    })
+    .catch((err) => {
+      notify({
+        group: "error",
+        title: "Error",
+        text: `Trying to get the backend settings. ${err.message}.`
+      }, 10000);
     });
 }
 

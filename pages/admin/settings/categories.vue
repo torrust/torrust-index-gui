@@ -1,8 +1,8 @@
 <template>
-  <div class="mx-auto flex flex-col gap-2 max-w-md">
+  <div class="flex flex-col max-w-md gap-2 mx-auto">
     <div class="flex flex-col gap-2">
       <template v-for="category in categories">
-        <div class="p-2 flex justify-between bg-base-100 rounded">
+        <div class="flex justify-between p-2 rounded bg-base-100">
           <span class="text-base-content">{{ category.name }} ({{ category.num_torrents }})</span>
           <button class="text-error-content hover:text-error" @click="deleteCategory(category.name)">
             Delete
@@ -11,7 +11,7 @@
       </template>
     </div>
     <div class="flex gap-2">
-      <input v-model="newCategory" class="input input-bordered w-full" type="text">
+      <input v-model="newCategory" class="w-full input input-bordered" type="text">
       <button class="btn btn-primary" :class="{ 'loading': addingCategory }" :disabled="addingCategory || !newCategory" @click="addCategory">
         Add category
       </button>
@@ -21,6 +21,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { notify } from "notiwind-ts";
 import { getCategories, useCategories, useRestApi } from "#imports";
 
 const categories = useCategories();
@@ -37,6 +38,13 @@ function addCategory () {
       .then(() => {
         getCategories();
       })
+      .catch((err) => {
+        notify({
+          group: "error",
+          title: "Error",
+          text: `Trying to add the category. ${err.message}.`
+        }, 10000);
+      })
       .finally(() => {
         addingCategory.value = false;
       });
@@ -48,6 +56,13 @@ function deleteCategory (category: string) {
     rest.category.deleteCategory(category)
       .then(() => {
         getCategories();
+      })
+      .catch((err) => {
+        notify({
+          group: "error",
+          title: "Error",
+          text: `Trying to delete the category. ${err.message}.`
+        }, 10000);
       });
   }
 }

@@ -56,7 +56,6 @@ type Form = {
   confirm_password: string
 }
 
-const config = useRuntimeConfig();
 const rest = useRestApi();
 const authModalOpen = useAuthenticationModal();
 const settings = useSettings();
@@ -120,8 +119,8 @@ function login () {
       notify({
         group: "error",
         title: "Error",
-        text: err.message
-      }, 4000); // 4s
+        text: `Login failed. ${err.message}.`
+      }, 10000);
     });
 }
 
@@ -143,8 +142,8 @@ function signup () {
       notify({
         group: "error",
         title: "Error",
-        text: err.message
-      }, 4000); // 4s
+        text: `Registration failed. ${err.message}.`
+      }, 10000);
     });
 }
 </script>
