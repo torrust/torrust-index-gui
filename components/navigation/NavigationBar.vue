@@ -50,7 +50,7 @@
               <li v-if="user.admin"><NuxtLink to="/admin/settings/backend">
                 Admin Settings
               </NuxtLink></li>
-              <li><a @click="logoutUser()">Logout</a></li>
+              <li><a @click="logoutUser()">Logout {{ user.username }}</a></li>
             </ul>
           </div>
         </template>
