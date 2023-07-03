@@ -14,7 +14,7 @@
         </template>
         <FormInputText
           v-model="form.password"
-          :type="'password'"
+          :type="revealPasswords ? 'text' : 'password'"
           label="Password"
           name="password"
           data-cy="registration-form-password"
@@ -22,12 +22,18 @@
         />
         <FormInputText
           v-model="form.confirm_password"
-          :type="'password'"
+          :type="revealPasswords ? 'text' : 'password'"
           label="Repeat password"
           name="confirm_password"
           data-cy="registration-form-confirm-password"
           required
         />
+        <div class="form-control">
+          <label class="cursor-pointer label">
+            <span class="label-text">Reveal passwords</span>
+            <input type="checkbox" class="toggle" @click="toggleState">
+          </label>
+        </div>
         <button type="submit" name="submit" data-cy="registration-form-submit" class="w-full btn btn-primary">
           Sign Up
         </button>
@@ -49,6 +55,8 @@ import { EmailOnSignup } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
 import { ref, useAuthenticationModal, useRegistrationModal, useRestApi, useSettings } from "#imports";
 
+const revealPasswords: Ref<Boolean> = ref(false);
+
 type Form = {
   username: string,
   email: string,
@@ -67,6 +75,14 @@ const form: Ref<Form> = ref({
   password: "",
   confirm_password: ""
 });
+
+function toggleState () {
+  if (revealPasswords.value) {
+    revealPasswords.value = false;
+  } else {
+    revealPasswords.value = true;
+  }
+}
 
 function goToLogin () {
   close();
