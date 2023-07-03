@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2 lg:px-0" @click.self="close">
+  <div class="px-2 lg:px-0">
     <div class="w-auto max-w-md px-6 py-6 mx-auto text-neutral-content/50 rounded-2xl">
       <h2 class="mb-4 text-2xl font-semibold text-center text-neutral-content">
         Sign in
@@ -21,6 +21,11 @@
           Sign In
         </button>
       </form>
+      <div class="relative mt-3">
+        <button class="w-full btn btn-secondary" @click="close">
+          Close
+        </button>
+      </div>
       <div class="relative mt-6">
         <div class="relative flex justify-center text-sm">
           <button class="px-2 font-semibold duration-200 text-neutral-content/50 hover:text-neutral-content" @click="goToSignUp">
