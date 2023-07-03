@@ -1,23 +1,23 @@
 <template>
   <div
     class="fixed top-0 left-0 z-30 flex flex-col justify-center w-full min-h-screen bg-base-100/50"
-    :class="{hidden: !authenticationModalOpen}"
+    :class="{hidden: !registrationModalOpen}"
     style="backdrop-filter: blur(20px);"
     @click.self="close"
   >
     <div>
-      <AuthenticationForm />
+      <RegistrationForm />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useAuthenticationModal } from "#imports";
+import { useRegistrationModal } from "#imports";
 
-const authenticationModalOpen = useAuthenticationModal();
+const registrationModalOpen = useRegistrationModal();
 
 function close () {
-  authenticationModalOpen.value = false;
+  registrationModalOpen.value = false;
 }
 </script>
 

@@ -25,19 +25,18 @@ describe("A guest", () => {
 
   it("should be able to sign up", () => {
     // Go to sign up form
-    cy.contains("Login").click();
-    cy.contains("Don't have an account? Sign up").click();
+    cy.contains("Sign Up").click();
 
     const registration_form = random_user_registration_form();
 
     // See Cypress Docs -> Best Practices -> Selecting Elements
     // https://docs.cypress.io/guides/references/best-practices#Selecting-Elements
-    cy.get("input[data-cy=\"username\"]").type(registration_form.username);
-    cy.get("input[data-cy=\"email\"]").type(registration_form.email);
-    cy.get("input[data-cy=\"password\"]").type(registration_form.password);
-    cy.get("input[data-cy=\"confirm_password\"]").type(registration_form.confirm_password);
+    cy.get("input[data-cy=\"registration-form-username\"]").type(registration_form.username);
+    cy.get("input[data-cy=\"registration-form-email\"]").type(registration_form.email);
+    cy.get("input[data-cy=\"registration-form-password\"]").type(registration_form.password);
+    cy.get("input[data-cy=\"registration-form-confirm-password\"]").type(registration_form.confirm_password);
 
-    cy.get("button[data-cy=\"submit\"]").click();
+    cy.get("button[data-cy=\"registration-form-submit\"]").click();
 
     cy.contains("Success");
   });

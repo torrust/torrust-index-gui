@@ -3,10 +3,12 @@ import { Rest } from "torrust-index-api-lib";
 import { useRuntimeConfig, useState } from "#app";
 import { notify } from "notiwind-ts";
 
+export const useAuthenticationModal = () => useState<boolean>("authentication-modal", () => false);
+export const useRegistrationModal = () => useState<boolean>("registration-modal", () => false);
+
 export const useRestApi = () => useState<Rest>("rest-api", () => new Rest(useRuntimeConfig().public.apiBase));
 export const useCategories = () => useState<Array<Category>>("categories", () => new Array<Category>());
 export const useTags = () => useState<Array<TorrentTag>>("tags", () => new Array<TorrentTag>());
-export const useAuthenticationModal = () => useState<boolean>("authentication-modal", () => false);
 export const useSettings = () => useState<PublicSettings>("public-settings", () => null);
 export const useUser = () => useState<TokenResponse>("user", () => null);
 
