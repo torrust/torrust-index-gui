@@ -20,7 +20,14 @@
           data-cy="registration-form-password"
           required
         />
-        <FormInputText v-model="form.confirm_password" label="Repeat password" name="confirm_password" data-cy="registration-form-confirm-password" required />
+        <FormInputText
+          v-model="form.confirm_password"
+          :type="'password'"
+          label="Repeat password"
+          name="confirm_password"
+          data-cy="registration-form-confirm-password"
+          required
+        />
         <button type="submit" name="submit" data-cy="registration-form-submit" class="w-full btn btn-primary">
           Sign Up
         </button>
