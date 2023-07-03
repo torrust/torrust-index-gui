@@ -55,10 +55,10 @@
           </div>
         </template>
         <template v-else>
-          <button class="btn btn-primary" @click="login">
+          <button class="btn btn-primary" data-cy="goto-login" @click="login">
             Login
           </button>
-          <button class="btn btn-primary" @click="signup">
+          <button class="btn btn-primary" data-cy="goto-signup" @click="signup">
             Sign Up
           </button>
         </template>

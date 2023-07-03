@@ -24,8 +24,7 @@ describe("A guest", () => {
   });
 
   it("should be able to sign up", () => {
-    // Go to sign up form
-    cy.contains("Sign Up").click();
+    cy.get("button[data-cy=\"goto-signup\"]").click();
 
     const registration_form = random_user_registration_form();
 
@@ -38,6 +37,6 @@ describe("A guest", () => {
 
     cy.get("button[data-cy=\"registration-form-submit\"]").click();
 
-    cy.contains("Success");
+    cy.contains("Your account was registered!");
   });
 });
