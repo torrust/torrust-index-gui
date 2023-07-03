@@ -10,7 +10,14 @@
       >
         <FormInputText v-model="form.username" label="Username" name="username" data-cy="registration-form-username" required />
         <template v-if="settings && settings.email_on_signup !== EmailOnSignup.None">
-          <FormInputText v-model="form.email" label="Email" name="email" data-cy="registration-form-email" :required="settings.email_on_signup === EmailOnSignup.Required" />
+          <FormInputText
+            v-model="form.email"
+            type="email"
+            label="Email"
+            name="email"
+            data-cy="registration-form-email"
+            :required="settings.email_on_signup === EmailOnSignup.Required"
+          />
         </template>
         <FormInputText
           v-model="form.password"
