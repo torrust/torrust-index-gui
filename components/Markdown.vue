@@ -6,6 +6,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { marked } from "marked";
+import DOMPurify from "dompurify";
 import { onMounted, ref, useRestApi, watch } from "#imports";
 
 const props = defineProps({
@@ -35,52 +36,79 @@ onMounted(() => {
 });
 
 function markdown (src: string) {
+  // Convert the markdown to HTML.
   return marked(src, options);
 }
 
 async function sanitizeDescription () {
   // Get the original not sanitized markdown string.
-  const description = markdown(props.source);
+  const html = markdown(props.source);
 
-  // Replace the img src's with a random id and return a map
-  // of these ids mapped to the original url.
-  const [filteredDescriptionWithImageIds, imageIdUrlMap] = filterDescriptionImagesWithRandomIds(description);
+  // Sanitize the description to remove any harmful HTML.
+  const sanitizedHtml = DOMPurify.sanitize(html);
 
-  // Get the image data using the backend's image proxy.
-  const imageIdDataUrlMap = await getImageDataUrlsFromUrls(imageIdUrlMap);
+  // Parse the description as HTML to easily manipulate it.
+  const parser = new DOMParser();
+  const descriptionHtml = parser.parseFromString(sanitizedHtml, "text/html");
 
-  // Replace the img id's with the proxied sources.
-  sanitizedDescription.value = replaceDescriptionImageIdsWithDataUrls(filteredDescriptionWithImageIds, imageIdDataUrlMap);
-}
-
-function filterDescriptionImagesWithRandomIds (description: string): [string, Map<string, string>] {
-  const filteredImageMap = new Map();
-
-  // Replace all image urls with a random id.
-  description = description.replace(/img src="(.*?)"/gi, (match, url): string => {
-    const imageId = randomId(32);
-
-    filteredImageMap.set(imageId, url);
-
-    return `img src="${imageId}"`;
+  // Remove all external links.
+  const links = descriptionHtml.querySelectorAll("a");
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (href && !href.startsWith("#")) {
+      link.removeAttribute("href");
+    }
   });
 
-  return [description, filteredImageMap];
-}
+  // Replace images with data from the image proxy
+  const images = descriptionHtml.querySelectorAll("img");
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+    const src = img.getAttribute("src");
 
-async function getImageDataUrlsFromUrls (imageMap: Map<string, string>): Promise<Map<string, string>> {
-  const imageDataMap: Map<string, string> = new Map();
-
-  for (const [id, url] of imageMap) {
-    const imageBlob = await rest.torrent.proxiedImage(url);
-    const imageDataUrl = await blobToDataURL(imageBlob);
-
-    imageDataMap.set(id, imageDataUrl);
+    if (src) {
+      if (isAllowedImage(src)) {
+        const imageDataSrc = await getImageDataUrl(src);
+        img.setAttribute("src", imageDataSrc);
+      } else {
+        img.remove();
+      }
+    }
   }
 
-  return imageDataMap;
+  // Convert the description HTML back to a string.
+  const body = descriptionHtml.querySelector("body");
+  const serializer = new XMLSerializer();
+  let sanitizedDescriptionStr = "";
+  if (body) {
+    sanitizedDescriptionStr = serializer.serializeToString(body);
+    sanitizedDescriptionStr = sanitizedDescriptionStr
+      .replace("<body xmlns=\"http://www.w3.org/1999/xhtml\">", "")
+      .replace("<body>", "")
+      .replace("</body>", "");
+  }
+
+  sanitizedDescription.value = sanitizedDescriptionStr;
 }
 
+// Returns true if the image is allowed to be displayed.
+function isAllowedImage (href: string): boolean {
+  const allowedExtensions = ["png", "PNG", "jpg", "JPG", "jpeg", "JPEG", "gif", "GIF"];
+  const extension = href.split(".").pop().trim();
+  return allowedExtensions.includes(extension);
+}
+
+// Returns a base64 string ready to be use in a "src" attribute in a "img" html tag,
+// like this `<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA+gA…IiIiIiIiIiIiIiHyO/P85XT/jxW1glg5Erk==">`.
+async function getImageDataUrl (url: string): Promise<string> {
+  const imageBlob = await rest.torrent.proxiedImage(url);
+  const data = await blobToDataURL(imageBlob);
+  return data;
+}
+
+// Convert binary data into a base64 encoded string ready to be use in a "src"
+// attribute in a "img" html tag, like the following:
+// `<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA+gA…IiIiIiIiIiIiIiHyO/P85XT/jxW1glg5Erk==">`.
 function blobToDataURL (blob: Blob): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
@@ -89,28 +117,6 @@ function blobToDataURL (blob: Blob): Promise<string> {
     reader.onabort = _e => reject(new Error("Read aborted"));
     reader.readAsDataURL(blob);
   });
-}
-
-function replaceDescriptionImageIdsWithDataUrls (description: string, imageIdDataUrlMap: Map<string, string>): string {
-  imageIdDataUrlMap.forEach((dataUrl, id) => {
-    description = description.replace(id, dataUrl);
-  });
-
-  return description;
-}
-
-function randomId (length: number) {
-  let result = "";
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  let counter = 0;
-
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    counter += 1;
-  }
-
-  return result;
 }
 </script>
 
