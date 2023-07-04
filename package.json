@@ -16,6 +16,7 @@
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@tailwindcss/typography": "^0.5.9",
+    "@types/dompurify": "^3.0.2",
     "@types/marked": "^5.0.0",
     "@types/node": "^20.3.2",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
@@ -32,6 +33,7 @@
   "dependencies": {
     "@heroicons/vue": "^2.0.18",
     "daisyui": "^3.1.7",
+    "dompurify": "^3.0.4",
     "marked": "^5.1.0",
     "notiwind-ts": "^2.0.2",
     "torrust-index-api-lib": "^0.2.0",
