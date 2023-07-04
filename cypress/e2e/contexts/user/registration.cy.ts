@@ -24,7 +24,7 @@ describe("A guest", () => {
   });
 
   it("should be able to sign up", () => {
-    cy.get("button[data-cy=\"goto-signup\"]").click();
+    cy.visit("/signup");
 
     const registration_form = random_user_registration_form();
 

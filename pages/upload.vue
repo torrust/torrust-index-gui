@@ -67,12 +67,11 @@
         />
       </template>
       <template v-else>
-        <button
-          class="w-full h-12 px-4 font-semibold duration-1000 shadow-lg bg-gradient-to-bl from-primary to-primary-dark disabled:from-gray-500 disabled:to-gray-500 text-neutral-content rounded-2xl disabled:shadow-none shadow-transparent hover:shadow-primary-dark/50"
-          @click="login"
-        >
-          <span>Please sign in to upload</span>
-        </button>
+        <div class="relative flex justify-center text-sm">
+          <NuxtLink to="/signin">
+            Please sign in to upload
+          </NuxtLink>
+        </div>
       </template>
     </div>
   </div>
@@ -92,7 +91,7 @@ import {
   useTags,
   useUser
 } from "#imports";
-import { useAuthenticationModal, useCategories } from "~/composables/states";
+import { useCategories } from "~/composables/states";
 
 type FormUploadTorrent = {
   title: string;
@@ -105,7 +104,6 @@ type FormUploadTorrent = {
 const categories = useCategories();
 const tags = useTags();
 const user = useUser();
-const authModalOpen = useAuthenticationModal();
 const rest = useRestApi();
 
 const uploading: Ref<boolean> = ref(false);
@@ -171,9 +169,6 @@ function submitForm () {
     });
 }
 
-function login () {
-  authModalOpen.value = true;
-}
 </script>
 
 <style scoped>
