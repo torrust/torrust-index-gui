@@ -4,10 +4,11 @@
 
     <NavigationBar />
 
-    <div class="bg-base-300 px-4 md:px-8 lg:px-24 flex flex-col w-full">
+    <div class="flex flex-col w-full px-4 bg-base-300 md:px-8 lg:px-24">
       <AuthenticationModal />
+      <RegistrationModal />
 
-      <div class="my-6 flex flex-col" style="max-width: 100vw;">
+      <div class="flex flex-col my-6" style="max-width: 100vw;">
         <NuxtPage />
       </div>
       <!-- Footer -->

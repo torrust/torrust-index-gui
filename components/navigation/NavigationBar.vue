@@ -50,13 +50,16 @@
               <li v-if="user.admin"><NuxtLink to="/admin/settings/backend">
                 Admin Settings
               </NuxtLink></li>
-              <li><a @click="logoutUser()">Logout</a></li>
+              <li><a @click="logoutUser()">Logout {{ user.username }}</a></li>
             </ul>
           </div>
         </template>
         <template v-else>
-          <button class="btn btn-primary" @click="login">
+          <button class="btn btn-primary" data-cy="goto-login" @click="login">
             Login
+          </button>
+          <button class="btn btn-primary" data-cy="goto-signup" @click="signup">
+            Sign Up
           </button>
         </template>
       </div>
@@ -107,12 +110,13 @@ import { UserCircleIcon, Bars3Icon, MagnifyingGlassIcon } from "@heroicons/vue/2
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { Ref } from "vue";
 import { useRouter } from "#app";
-import { ref, useAuthenticationModal, useSettings, useUser, logoutUser } from "#imports";
+import { ref, useAuthenticationModal, useRegistrationModal, useSettings, useUser, logoutUser } from "#imports";
 
 const router = useRouter();
 const settings = useSettings();
 const user = useUser();
 const authModalOpen = useAuthenticationModal();
+const registrationModalOpen = useRegistrationModal();
 
 const mobileCollapsed = ref(true);
 const searchQuery: Ref<string> = ref("");
@@ -129,6 +133,10 @@ function submitSearch () {
 
 function login () {
   authModalOpen.value = true;
+}
+
+function signup () {
+  registrationModalOpen.value = true;
 }
 </script>
 

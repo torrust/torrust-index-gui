@@ -8,7 +8,7 @@
       :placeholder="props.placeholder"
       :name="props.name"
       :value="modelValue"
-      :data-cy="props.name"
+      :data-cy="props.dataCy"
       class="w-full border-2 input input-bordered rounded-2xl"
       :required="props.required"
       @input="$emit('update:modelValue', $event.target.value)"
@@ -31,6 +31,12 @@ const props = defineProps({
     default: () => ""
   },
   name: {
+    type: String,
+    required: false,
+    default: () => ""
+  },
+  // https://docs.cypress.io/guides/references/best-practices#Selecting-Elements
+  dataCy: {
     type: String,
     required: false,
     default: () => ""
