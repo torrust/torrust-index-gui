@@ -3,9 +3,6 @@ import { Rest } from "torrust-index-api-lib";
 import { useRuntimeConfig, useState } from "#app";
 import { notify } from "notiwind-ts";
 
-export const useAuthenticationModal = () => useState<boolean>("authentication-modal", () => false);
-export const useRegistrationModal = () => useState<boolean>("registration-modal", () => false);
-
 export const useRestApi = () => useState<Rest>("rest-api", () => new Rest(useRuntimeConfig().public.apiBase));
 export const useCategories = () => useState<Array<Category>>("categories", () => new Array<Category>());
 export const useTags = () => useState<Array<TorrentTag>>("tags", () => new Array<TorrentTag>());
@@ -54,13 +51,15 @@ export function getTags () {
     });
 }
 
-export async function loginUser (login: string, password: string) {
-  return await useRestApi().value.user.loginUser({
+export async function loginUser (login: string, password: string): Promise<boolean> {
+  let authenticated = false;
+  await useRestApi().value.user.loginUser({
     login,
     password
   })
     .then((user) => {
       useUser().value = user;
+      authenticated = true;
     })
     .catch((err) => {
       notify({
@@ -69,6 +68,7 @@ export async function loginUser (login: string, password: string) {
         text: `Trying to login. ${err.message}.`
       }, 10000);
     });
+  return authenticated;
 }
 
 export function logoutUser () {

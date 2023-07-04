@@ -45,17 +45,12 @@
           Sign Up
         </button>
       </form>
-      <div class="relative mt-3">
-        <button class="w-full btn btn-secondary" @click="close">
-          Close
-        </button>
-      </div>
     </div>
     <div class="relative mt-6">
       <div class="relative flex justify-center text-sm">
-        <button class="px-2 font-semibold duration-200 text-neutral-content/50 hover:text-neutral-content" @click="goToLogin">
+        <NuxtLink to="/signin">
           Already have an account? Sign In
-        </button>
+        </NuxtLink>
       </div>
     </div>
   </div>
@@ -65,7 +60,7 @@
 import { Ref } from "vue";
 import { EmailOnSignup } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
-import { ref, useAuthenticationModal, useRegistrationModal, useRestApi, useSettings } from "#imports";
+import { ref, useRestApi, useSettings } from "#imports";
 
 const revealPasswords: Ref<Boolean> = ref(false);
 
@@ -77,8 +72,6 @@ type Form = {
 }
 
 const rest = useRestApi();
-const authenticationModalOpen = useAuthenticationModal();
-const registrationModalOpen = useRegistrationModal();
 const settings = useSettings();
 
 const form: Ref<Form> = ref({
@@ -96,15 +89,6 @@ function toggleState () {
   }
 }
 
-function goToLogin () {
-  close();
-  authenticationModalOpen.value = true;
-}
-
-function close () {
-  registrationModalOpen.value = false;
-}
-
 function submit () {
   signup();
 }
@@ -117,6 +101,7 @@ function signup () {
     confirm_password: form.value.confirm_password
   })
     .then(() => {
+      navigateTo("/signin", { replace: true });
       notify({
         group: "success",
         title: "Success",

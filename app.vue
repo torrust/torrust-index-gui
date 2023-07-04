@@ -5,9 +5,6 @@
     <NavigationBar />
 
     <div class="flex flex-col w-full px-4 bg-base-300 md:px-8 lg:px-24">
-      <AuthenticationModal />
-      <RegistrationModal />
-
       <div class="flex flex-col my-6" style="max-width: 100vw;">
         <NuxtPage />
       </div>

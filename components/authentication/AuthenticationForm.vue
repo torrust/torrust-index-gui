@@ -21,16 +21,11 @@
           Sign In
         </button>
       </form>
-      <div class="relative mt-3">
-        <button class="w-full btn btn-secondary" @click="close">
-          Close
-        </button>
-      </div>
       <div class="relative mt-6">
         <div class="relative flex justify-center text-sm">
-          <button class="px-2 font-semibold duration-200 text-neutral-content/50 hover:text-neutral-content" @click="goToSignUp">
+          <NuxtLink to="/signup">
             Don't have an account? Sign Up
-          </button>
+          </NuxtLink>
         </div>
       </div>
     </div>
@@ -40,7 +35,7 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { notify } from "notiwind-ts";
-import { loginUser, ref, useAuthenticationModal, useRegistrationModal } from "#imports";
+import { loginUser, ref } from "#imports";
 
 type Form = {
   username: string,
@@ -49,9 +44,6 @@ type Form = {
   confirm_password: string
 }
 
-const authModalOpen = useAuthenticationModal();
-const registrationModalOpen = useRegistrationModal();
-
 const form: Ref<Form> = ref({
   username: "",
   email: "",
@@ -59,29 +51,16 @@ const form: Ref<Form> = ref({
   confirm_password: ""
 });
 
-function goToSignUp () {
-  close();
-  registrationModalOpen.value = true;
-}
-
-function close () {
-  authModalOpen.value = false;
-}
-
 function submit () {
   login();
 }
 
-function login () {
-  loginUser(form.value.username, form.value.password)
-    .then(() => {
-      notify({
-        group: "success",
-        title: "Success",
-        text: "You were signed in!"
-      }, 4000);
-
-      authModalOpen.value = false;
+async function login () {
+  await loginUser(form.value.username, form.value.password)
+    .then((authenticated) => {
+      if (authenticated) {
+        navigateTo("/torrents", { replace: true });
+      }
     })
     .catch((err) => {
       notify({

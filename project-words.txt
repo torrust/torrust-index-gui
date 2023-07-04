@@ -4,4 +4,5 @@ notiwind
 Nuxt
 nuxtjs
 proxied
+signin
 vuex
