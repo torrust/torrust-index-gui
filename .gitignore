@@ -8,6 +8,7 @@
 *.log*
 /temp-package/
 /temp-package/api/
+coverage/
 cypress/screenshots/**/*.png
 cypress/videos/*.mp4
 dist
