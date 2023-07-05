@@ -9,6 +9,9 @@ import { marked } from "marked";
 import DOMPurify from "dompurify";
 import { onMounted, ref, useRestApi, watch } from "#imports";
 
+const allowedTags = ["h1", "h2", "h3", "h4", "h5", "h6", "em", "strong", "del", "a", "img", "ul", "ol", "li", "hr"];
+const allowedExtensions = ["png", "PNG", "jpg", "JPG", "jpeg", "JPEG", "gif", "GIF"];
+
 const props = defineProps({
   source: {
     type: String,
@@ -45,7 +48,7 @@ async function sanitizeDescription () {
   const html = markdown(props.source);
 
   // Sanitize the description to remove any harmful HTML.
-  const sanitizedHtml = DOMPurify.sanitize(html);
+  const sanitizedHtml = DOMPurify.sanitize(html, { ALLOWED_TAGS: allowedTags });
 
   // Parse the description as HTML to easily manipulate it.
   const parser = new DOMParser();
@@ -93,7 +96,6 @@ async function sanitizeDescription () {
 
 // Returns true if the image is allowed to be displayed.
 function isAllowedImage (href: string): boolean {
-  const allowedExtensions = ["png", "PNG", "jpg", "JPG", "jpeg", "JPEG", "gif", "GIF"];
   const extension = href.split(".").pop().trim();
   return allowedExtensions.includes(extension);
 }
