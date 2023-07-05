@@ -1,4 +1,5 @@
 composables
+dompurify
 heroicons
 notiwind
 Nuxt
