@@ -40,7 +40,7 @@
           <NuxtLink to="/upload" class="hidden md:flex btn bg-base-100 rounded-2xl">
             Upload Torrent
           </NuxtLink>
-          <div class="dropdown dropdown-end">
+          <div class="dropdown dropdown-end z-[1]">
             <label tabindex="0" class="btn btn-ghost btn-circle avatar">
               <div class="w-10 rounded-full">
                 <UserCircleIcon />
