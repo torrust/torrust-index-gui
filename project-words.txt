@@ -1,9 +1,12 @@
 composables
+daisyui
 dompurify
 heroicons
+lintfix
 notiwind
 Nuxt
 nuxtjs
 proxied
 signin
+unenv
 vuex

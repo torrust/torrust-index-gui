@@ -1,5 +1,5 @@
 import DOMPurify from "dompurify";
-import { useRestApi } from "#imports";
+import { useRestApi } from "../../../composables/states";
 
 const rest = useRestApi().value;
 
@@ -12,7 +12,7 @@ export async function sanitize (html: string) {
   return htmlWithNoUserTracking;
 }
 
-function remove_harmful_code (html: string) {
+export function remove_harmful_code (html: string) {
   return DOMPurify.sanitize(html, { ALLOWED_TAGS: allowedTags });
 }
 
@@ -71,7 +71,14 @@ function document_to_html (descriptionHtml: Document) {
 
 // Returns true if the image is allowed to be displayed.
 function isAllowedImage (href: string): boolean {
-  const extension = href.split(".").pop().trim();
+  let extension = "";
+  if (href) {
+    const parts = href.split(".");
+    if (parts.length > 0) {
+      extension = parts.pop() ?? "";
+    }
+  }
+  extension = extension.trim();
   return allowedImageExtensions.includes(extension);
 }
 
