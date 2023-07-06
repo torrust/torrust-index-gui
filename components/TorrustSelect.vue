@@ -10,7 +10,7 @@
         </div>
       </div>
     </label>
-    <div ref="dropdownContent" tabindex="0" class="flex flex-col gap-2 p-2 mt-3 border rounded-lg shadow dropdown-content border-base-content/20 bg-base-100">
+    <div ref="dropdownContent" tabindex="0" class="flex flex-col gap-2 p-2 mt-3 border rounded-lg shadow dropdown-content border-base-content/20 bg-base-100 z-[1]">
       <template v-if="props.search">
         <div class="">
           <input
