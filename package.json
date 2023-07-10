@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.18",
-    "daisyui": "^3.1.10",
+    "daisyui": "^3.2.1",
     "dompurify": "^3.0.4",
     "marked": "^5.1.0",
     "notiwind-ts": "^2.0.2",
