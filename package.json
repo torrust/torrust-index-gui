@@ -34,7 +34,7 @@
     "@heroicons/vue": "^2.0.18",
     "daisyui": "^3.1.10",
     "dompurify": "^3.0.4",
-    "marked": "^5.1.0",
+    "marked": "^5.1.1",
     "notiwind-ts": "^2.0.2",
     "torrust-index-api-lib": "^0.2.0",
     "torrust-index-types-lib": "^0.2.0"
