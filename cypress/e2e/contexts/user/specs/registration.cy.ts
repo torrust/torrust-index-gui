@@ -1,4 +1,4 @@
-import { random_user_registration_data } from "./registration";
+import { random_user_registration_data } from "../registration";
 
 describe("A guest", () => {
   beforeEach(() => {
