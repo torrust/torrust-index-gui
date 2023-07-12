@@ -1,7 +1,7 @@
 import { PublicSettings, Category, TokenResponse, TorrentTag } from "torrust-index-types-lib";
 import { Rest } from "torrust-index-api-lib";
-import { useRuntimeConfig, useState } from "#app";
 import { notify } from "notiwind-ts";
+import { useRuntimeConfig, useState } from "#app";
 
 export const useRestApi = () => useState<Rest>("rest-api", () => new Rest(useRuntimeConfig().public.apiBase));
 export const useCategories = () => useState<Array<Category>>("categories", () => new Array<Category>());
