@@ -9,7 +9,7 @@
 /temp-package/
 /temp-package/api/
 cypress/screenshots/**/*.png
-cypress/videos/*.mp4
+cypress/videos/**/*.mp4
 dist
 node_modules
 storage
