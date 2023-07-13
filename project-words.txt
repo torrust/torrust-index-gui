@@ -1,5 +1,7 @@
 composables
 dompurify
+filedrag
+filelist
 heroicons
 notiwind
 Nuxt
