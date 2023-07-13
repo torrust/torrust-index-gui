@@ -47,7 +47,7 @@
               </div>
             </label>
             <ul tabindex="0" class="p-2 mt-3 shadow menu dropdown-content bg-base-100 rounded-box w-52">
-              <li v-if="user.admin"><NuxtLink to="/admin/settings/backend">
+              <li v-if="user.admin" data-cy="admin-settings-link"><NuxtLink to="/admin/settings/backend">
                 Admin Settings
               </NuxtLink></li>
               <li><a @click="logoutUser()">Logout {{ user.username }}</a></li>
