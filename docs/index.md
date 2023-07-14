@@ -5,7 +5,8 @@
 - [Development](#development)
   - [Run the tracker](#run-the-tracker)
   - [Run the backend](#run-the-backend)
-  - [Run the frontend](#run-the-frontend)  
+  - [Run the frontend](#run-the-frontend)
+  - [Testing](#testing)
 
 ## User guide
 
@@ -243,3 +244,84 @@ npm run build && npm run preview
 ```
 
 More information about the [nuxt]https://nuxt.com/) command can be found [here](https://nuxt.com/docs/api/commands/add).
+
+### Testing
+
+#### Unit tests
+
+We do not have nay unit tests yet. You can contribute by:
+
+- [Setting up the scaffolding for unit testing](https://github.com/torrust/torrust-index-frontend/issues/164).
+- Adding unit tests.
+
+You can take a look at issues tagged with [testing](https://github.com/torrust/torrust-index-frontend/issues?q=is%3Aissue+is%3Aopen+label%3Atesting).
+
+#### E2E tests
+
+For now we only have E2E tests. We are starting to write E2E tests for the frontend. The [Index Backend API](https://github.com/torrust/torrust-index-backend/tree/develop/tests/e2e) has some tests, so part of the functionality is tested.
+
+You can contribute adding more E2E tests. We are using this [issue](https://github.com/torrust/torrust-index-frontend/issues/148) to track the tests we want to add.
+
+In order to run the E2E test you need to have a running application at <http://localhost:3000>. There two important variables hardcoded in Cypress configuration file `cypress.config.ts`:
+
+- The base URL: `http://localhost:3000` for the E2E testing environment.
+- The database file path: `./storage/database/torrust_index_backend_e2e_testing.db` for the E2E testing environment.
+
+Those variables describe hot to access the system under test.
+
+> **IMPORTANT** The database file path is relative to the root directory of the frontend. We should try to avoid this kind of dependencies. But for now, it is the easiest way to run the E2E tests. Ideally we should be able to run the test suit against any environment. For example, we should be able to run the test suit against an staging environment. That's still possible if we are running the tests from a machine that has access to the filesystem environment or we could start running the test using MySQL SQLite.
+
+The Cypress configuration file looks like this:
+
+```TypeScript
+export default defineConfig({
+  e2e: {
+    baseUrl: "http://localhost:3000",
+    setupNodeEvents (on, config) {
+      on("task", {
+        grantAdminRole: ({ username }) => {
+          return grantAdminRole(username, databaseConfig(config));
+        }
+      });
+    }
+  },
+  env: {
+    db_file_path: "./storage/database/torrust_index_backend_e2e_testing.db"
+  }
+});
+```
+
+The database file path (`db_file_path`) is needed because some tests need to access the database directly. For example, the test that grants the admin role to a user. There is no way to create administrator users using the frontend. So, we need to do it directly in the database.
+
+You can run the E2E test environments in two different ways:
+
+- Using docker compose.
+- Running the tracker, backend and the frontend locally (development environment).
+
+If you want to use the docker-compose environment you need to run the following command:
+
+```s
+./docker/bin/run-e2e-tests.sh
+```
+
+This is the way we run the E2E tests in the CI/CD pipeline.
+
+You should use the development environment if you want to debug the E2E tests or you are writing tests and code at the same time.
+
+**NOTICE** You will need to change the database file path in the backend to use the same as in the frontend so the running backend and the Cypress tests can access the same database. For example, change the database `connect_url` value in the backend config file to `"sqlite://../torrust-index-frontend/storage/database/torrust_index_backend_e2e_testing.db?mode=rwc"` or whatever the path is in your machine.
+
+Once the E2E environment is up, you can run the E2E tests with the following command.
+
+```s
+npm run cypress:run
+```
+
+With that command you will use the headless browser. If you want to see the browser while the tests are running you can run the following command:
+
+```s
+npm run cypress:open
+```
+
+Please refer to the [Cypress documentation](https://docs.cypress.io/) for more information.
+
+If you want to contribute please read the [Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices) documentation.
