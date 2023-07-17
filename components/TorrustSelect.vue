@@ -1,6 +1,6 @@
 <template>
   <div class="group dropdown" :class="dropdownAlignment">
-    <label tabindex="0" class="items-center duration-200 select select-bordered group-hover:border-amber-500" :class="{ 'h-[3.5rem]': !!label }">
+    <div tabindex="0" class="items-center duration-200 select select-bordered group-hover:border-amber-500" :class="{ 'h-[3.5rem]': !!label }">
       <div class="flex flex-col mr-1 text-left capitalize flex-nowrap">
         <span v-if="label" class="text-xs text-primary">{{ label }}</span>
         <div class="flex flex-row text-sm flex-nowrap">
@@ -9,7 +9,7 @@
           <span v-else>{{ getOptionNameByValue(props.selected[0]) }}</span>
         </div>
       </div>
-    </label>
+    </div>
     <div ref="dropdownContent" tabindex="0" class="flex flex-col gap-2 p-2 mt-3 border rounded-lg shadow dropdown-content border-base-content/20 bg-base-100 z-[1]">
       <template v-if="props.search">
         <div class="">
@@ -17,6 +17,7 @@
             v-model="searchText"
             class="text-sm border-2 input placeholder-base-content input-bordered rounded-2xl"
             placeholder="Search"
+            name="search"
           >
         </div>
       </template>
