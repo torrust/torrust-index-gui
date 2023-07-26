@@ -20,12 +20,12 @@
         >
       </div>
       <div class="hidden px-2 dropdown dropdown-hover md:inline-block text-base-content/75 hover:text-base-content">
-        <label tabindex="0" class="px-1">
+        <div tabindex="0" class="px-1">
           <NuxtLink to="/torrents" class="flex">
             Torrents
             <ChevronDownIcon class="w-5 ml-2" />
           </NuxtLink>
-        </label>
+        </div>
         <ul tabindex="0" class="p-2 rounded shadow menu dropdown-content bg-base-100 w-52">
           <li><NuxtLink to="/torrents?sorting=LeechersDesc">
             Most Popular
@@ -41,11 +41,11 @@
             Upload Torrent
           </NuxtLink>
           <div class="dropdown dropdown-end z-[1]">
-            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+            <div tabindex="0" class="btn btn-ghost btn-circle avatar">
               <div class="w-10 rounded-full">
                 <UserCircleIcon />
               </div>
-            </label>
+            </div>
             <ul tabindex="0" class="p-2 mt-3 shadow menu dropdown-content bg-base-100 rounded-box w-52">
               <li v-if="user.admin" data-cy="admin-settings-link"><NuxtLink to="/admin/settings/backend">
                 Admin Settings
