@@ -58,8 +58,8 @@ const loadingTorrent: Ref<boolean> = ref(false);
 const torrent: Ref<TorrentResponse> = ref(null);
 const title = ref("");
 
-useServerSeoMeta({
-  title
+useSeoMeta({
+  title: () => `${title.value} - Torrent`
 });
 
 onBeforeMount(() => {
