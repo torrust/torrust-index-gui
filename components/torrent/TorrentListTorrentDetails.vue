@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex flex-col items-center w-full group/details rounded-2xl"
-    @click.stop="$router.push(`/torrent/${props.infoHash}`)"
+    @click.stop="$router.push(`/torrent/${props.infoHash}/${slug}`)"
   >
     <div class="flex justify-center w-full p-4 overflow-y-auto duration-500 border-2 max-h-96 border-base-content/20 hover:border-primary text-base-content/75 rounded-2xl">
       <template v-if="torrent?.description">
@@ -19,6 +19,7 @@ import { Ref } from "vue";
 import { TorrentResponse } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
 import { onMounted, ref, useRestApi } from "#imports";
+import { generateSlug } from "~/src/domain/services/slug";
 
 const rest = useRestApi();
 
@@ -30,6 +31,8 @@ const props = defineProps({
     required: true
   }
 });
+
+const slug = computed(() => generateSlug(torrent.value.title));
 
 onMounted(() => {
   rest.value.torrent.getTorrentInfo(props.infoHash)
