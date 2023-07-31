@@ -8,4 +8,5 @@ Nuxt
 nuxtjs
 proxied
 signin
+uuidv
 vuex
