@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from "uuid";
 import { RegistrationForm, random_user_registration_data } from "../../user/registration";
+import { generateRandomTestTorrentInfo } from "../test_torrent_info";
 
 describe("A registered user", () => {
   let registration_form: RegistrationForm;
@@ -14,26 +14,22 @@ describe("A registered user", () => {
   });
 
   it("should be able to upload a torrent", () => {
-    let torrentId = uuidv4();
-    let torrentTitle = `title-${torrentId}`;
-    let torrentDescription = `title-${torrentId}`;
-    let torrentFilename = `file-${torrentId}.txt.torrent`;
-    let torrentPath = `cypress/fixtures/torrents/${torrentFilename}`;
+    const torrent_info = generateRandomTestTorrentInfo();
 
     cy.log("download a new test random torrent");
 
     cy.request({
-      url: `http://localhost:3001/v1/torrent/meta-info/random/${torrentId}`,
+      url: `http://localhost:3001/v1/torrent/meta-info/random/${torrent_info.id}`,
       encoding: "binary"
     }).then((response) => {
-      cy.log("random torrent downloaded to: ", torrentPath);
-      cy.writeFile(torrentPath, response.body, "binary");
+      cy.log("random torrent downloaded to: ", torrent_info.path);
+      cy.writeFile(torrent_info.path, response.body, "binary");
     });
 
     cy.visit("/upload");
 
-    cy.get("input[data-cy=\"upload-form-title\"]").type(torrentTitle);
-    cy.get("textarea[data-cy=\"upload-form-description\"]").type(torrentDescription);
+    cy.get("input[data-cy=\"upload-form-title\"]").type(torrent_info.title);
+    cy.get("textarea[data-cy=\"upload-form-description\"]").type(torrent_info.description);
     cy.get("select[data-cy=\"upload-form-category\"]").select("software");
 
     // todo: add tag.
@@ -45,13 +41,16 @@ describe("A registered user", () => {
 
     cy.get("input[data-cy=\"upload-form-torrent-upload\"]").selectFile(
       {
-        contents: torrentPath,
-        fileName: torrentFilename,
+        contents: torrent_info.path,
+        fileName: torrent_info.filename,
         mimeType: "application/x-bittorrent"
       }, { force: true });
 
     cy.get("button[data-cy=\"upload-form-submit\"]").click();
 
     cy.url().should("include", "/torrent/");
+
+    // todo: delete the dinamically created torrent file in `cypress/fixtures/torrents` 
+    // folder.
   });
 });
