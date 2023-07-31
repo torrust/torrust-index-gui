@@ -34,11 +34,13 @@
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.18",
+    "@types/uuid": "^9.0.2",
     "daisyui": "^3.2.1",
     "dompurify": "^3.0.5",
     "marked": "^5.1.1",
     "notiwind-ts": "^2.0.2",
     "torrust-index-api-lib": "^0.2.0",
-    "torrust-index-types-lib": "^0.2.0"
+    "torrust-index-types-lib": "^0.2.0",
+    "uuid": "^9.0.0"
   }
 }
