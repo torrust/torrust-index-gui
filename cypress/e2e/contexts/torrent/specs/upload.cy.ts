@@ -16,8 +16,6 @@ describe("A registered user", () => {
   it("should be able to upload a torrent", () => {
     const torrent_info = generateRandomTestTorrentInfo();
 
-    cy.log("download a new test random torrent");
-
     cy.request({
       url: `http://localhost:3001/v1/torrent/meta-info/random/${torrent_info.id}`,
       encoding: "binary"
@@ -31,26 +29,24 @@ describe("A registered user", () => {
     cy.get("input[data-cy=\"upload-form-title\"]").type(torrent_info.title);
     cy.get("textarea[data-cy=\"upload-form-description\"]").type(torrent_info.description);
     cy.get("select[data-cy=\"upload-form-category\"]").select("software");
-
-    // todo: add tag.
-    // By default there are no tags, so we need to create them first with
-    // a custom command. We can enable this feature after writing the test for
-    // the tags context.  We could even create some tags before running all the
-    // tests.
-    // cy.get("input[data-cy=\"upload-form-tags\"]").select('fractals');
-
     cy.get("input[data-cy=\"upload-form-torrent-upload\"]").selectFile(
       {
         contents: torrent_info.path,
         fileName: torrent_info.filename,
         mimeType: "application/x-bittorrent"
       }, { force: true });
+    // todo: add tag.
+    // By default there are no tags, so we need to create them first with
+    // a custom command. We can enable this feature after writing the test for
+    // the tags context.  We could even create some tags before running all the
+    // tests.
+    // cy.get("input[data-cy=\"upload-form-torrent-upload\"]").select('fractals');
 
     cy.get("button[data-cy=\"upload-form-submit\"]").click();
 
+    // It should redirect to the torrent detail page.
     cy.url().should("include", "/torrent/");
 
-    // todo: delete the dinamically created torrent file in `cypress/fixtures/torrents` 
-    // folder.
+    cy.exec(`rm ${torrent_info.path}`);
   });
 });
