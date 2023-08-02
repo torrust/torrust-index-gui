@@ -4,6 +4,7 @@ dompurify
 filedrag
 filelist
 heroicons
+infohash
 notiwind
 Nuxt
 nuxtjs

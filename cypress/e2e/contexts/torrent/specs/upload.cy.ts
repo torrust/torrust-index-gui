@@ -1,6 +1,14 @@
 import { RegistrationForm, random_user_registration_data } from "../../user/registration";
 import { generateRandomTestTorrentInfo } from "../test_torrent_info";
 
+function extractInfoHash (headerValue: string | string[]): string {
+  if (typeof headerValue === "string") {
+    return headerValue;
+  } else {
+    return headerValue.join(", ");
+  }
+}
+
 describe("A registered user", () => {
   let registration_form: RegistrationForm;
 
@@ -20,7 +28,9 @@ describe("A registered user", () => {
       url: `http://localhost:3001/v1/torrent/meta-info/random/${torrent_info.id}`,
       encoding: "binary"
     }).then((response) => {
-      cy.log("random torrent downloaded to: ", torrent_info.path);
+      const torrentInfoHash = extractInfoHash(response.headers["x-torrust-torrent-infohash"]);
+      cy.wrap(torrentInfoHash).as("infohash");
+      cy.log(`random torrent with info-hash '${torrentInfoHash}' downloaded to '${torrent_info.path}'`);
       cy.writeFile(torrent_info.path, response.body, "binary");
     });
 
@@ -44,9 +54,15 @@ describe("A registered user", () => {
 
     cy.get("button[data-cy=\"upload-form-submit\"]").click();
 
-    // It should redirect to the torrent detail page.
-    cy.url().should("include", "/torrent/");
+    cy.get("@infohash").then((infohash) => {
+      // It should redirect to the torrent detail page.
+      cy.url().should("include", `/torrent/${infohash}`);
 
-    cy.exec(`rm ${torrent_info.path}`);
+      // Delete the torrent in the database
+      cy.task("deleteTorrent", { infohash });
+
+      // Delete the torrent file in the fixtures folder
+      cy.exec(`rm ${torrent_info.path}`);
+    });
   });
 });
