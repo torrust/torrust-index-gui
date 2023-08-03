@@ -12,6 +12,7 @@
       hidden
       name="torrent-upload"
       type="file"
+      data-cy="upload-form-torrent-upload"
       class="sr-only"
       :accept="accept"
       @change="onChange"

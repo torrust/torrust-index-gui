@@ -1,5 +1,6 @@
 import { defineConfig } from "cypress";
 import { grantAdminRole } from "./cypress/e2e/contexts/user/tasks";
+import { deleteTorrent } from "./cypress/e2e/contexts/torrent/tasks";
 import { DatabaseConfig } from "./cypress/e2e/common/database";
 
 function databaseConfig (config: Cypress.PluginConfigOptions): DatabaseConfig {
@@ -15,6 +16,9 @@ export default defineConfig({
       on("task", {
         grantAdminRole: ({ username }) => {
           return grantAdminRole(username, databaseConfig(config));
+        },
+        deleteTorrent: ({ infohash }) => {
+          return deleteTorrent(infohash, databaseConfig(config));
         }
       });
     }

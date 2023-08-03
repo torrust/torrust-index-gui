@@ -1,9 +1,14 @@
 composables
+dinamically
 dompurify
+filedrag
+filelist
 heroicons
+infohash
 notiwind
 Nuxt
 nuxtjs
 proxied
 signin
+uuidv
 vuex

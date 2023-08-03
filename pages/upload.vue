@@ -6,7 +6,14 @@
     <div class="flex flex-col w-full max-w-xl gap-6">
       <div>
         <label for="title" class="px-2">Title</label>
-        <input id="title" v-model="form.title" name="title" type="text" class="mt-1">
+        <input
+          id="title"
+          v-model="form.title"
+          name="title"
+          type="text"
+          data-cy="upload-form-title"
+          class="mt-1"
+        >
       </div>
       <div>
         <label for="description" class="px-2">Description</label>
@@ -23,6 +30,7 @@
             id="description"
             v-model="form.description"
             name="description"
+            data-cy="upload-form-description"
             rows="8"
             class="mt-1"
           />
@@ -36,7 +44,7 @@
       <template v-if="categories?.length > 0">
         <div>
           <label for="category" class="px-2">Category</label>
-          <select id="category" v-model="form.category" class="mt-1">
+          <select id="category" v-model="form.category" data-cy="upload-form-category" class="mt-1">
             <template v-for="option in categories">
               <option :value="option.name">
                 {{ option.name }}
@@ -62,6 +70,7 @@
       <template v-if="user?.username">
         <TorrustButton
           label="submit"
+          data-cy="upload-form-submit"
           :disabled="!formValid() || uploading"
           @click="submitForm"
         />
