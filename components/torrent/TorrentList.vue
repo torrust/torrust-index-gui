@@ -52,7 +52,7 @@
 <script setup lang="ts">
 import { ArrowDownTrayIcon, LinkIcon } from "@heroicons/vue/24/outline";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
-import { PropType } from "vue";
+import { PropType, watch } from "vue";
 import { TorrentListing } from "torrust-index-types-lib";
 import { fileSize, timeSince, ref, downloadTorrent } from "#imports";
 
@@ -62,7 +62,13 @@ const props = defineProps({
 
 const isOpenList = ref([]);
 
-isOpenList.value = new Array(props.torrents.length).fill(false);
+watch(
+  () => props.torrents,
+  (torrents) => {
+    isOpenList.value = new Array(torrents.length).fill(false);
+  },
+  { immediate: true } // Run the watcher immediately on component creation
+);
 
 function toggleOpen (index: number) {
   isOpenList.value[index] = !isOpenList.value[index];
