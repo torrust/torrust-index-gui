@@ -20,6 +20,8 @@ describe("A registered user", () => {
     cy.get("button[data-cy=\"login-form-submit\"]").click();
 
     cy.url().should("include", "/torrents");
+
+    cy.delete_user(registration_form.username);
   });
 });
 
@@ -37,5 +39,7 @@ describe("The website admin", () => {
 
     // If the user is an admin, the link to admin settings should be available
     cy.get("li[data-cy=\"admin-settings-link\"]");
+
+    cy.delete_user(registration_form.username);
   });
 });

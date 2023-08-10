@@ -9,6 +9,7 @@ declare global {
       // User: Registration
       register(registration_form: RegistrationForm): Chainable<void>
       register_as_admin(registration_form: RegistrationForm): Chainable<void>
+      delete_user(username: string): Chainable<void>
       // User: Authentication
       login(username: string, password: string): Chainable<void>
       logout(): Chainable<void>

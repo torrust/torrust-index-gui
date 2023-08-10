@@ -14,6 +14,10 @@ describe("A registered user", () => {
     cy.login(registration_form.username, registration_form.password);
   });
 
+  after(() => {
+    cy.delete_user(registration_form.username);
+  });
+
   it("should be able to upload a torrent", () => {
     const torrent_info = generateRandomTestTorrentInfo();
 

@@ -14,6 +14,10 @@ describe("A registered user", () => {
     cy.login(registration_form.username, registration_form.password);
   });
 
+  after(() => {
+    cy.delete_user(registration_form.username);
+  });
+
   it("should be able to download a preexisting torrent", () => {
     const torrent_info = generateRandomTestTorrentInfo();
 
@@ -46,6 +50,10 @@ describe("A guest user", () => {
     cy.visit("/");
     cy.visit("/signup");
     cy.register(uploader_registration_form);
+  });
+
+  after(() => {
+    cy.delete_user(uploader_registration_form.username);
   });
 
   it("should be able to download a preexisting torrent", () => {
