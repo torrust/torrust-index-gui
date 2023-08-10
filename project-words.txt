@@ -1,4 +1,5 @@
 composables
+daisyui
 dinamically
 dompurify
 filedrag
