@@ -63,3 +63,14 @@ describe("A registered user", () => {
     });
   });
 });
+
+describe("A guest user", () => {
+  before(() => {
+    cy.visit("/");
+  });
+
+  it("should not be able to upload a torrent", () => {
+    cy.visit("/upload");
+    cy.contains("Please sign in to upload");
+  });
+});
