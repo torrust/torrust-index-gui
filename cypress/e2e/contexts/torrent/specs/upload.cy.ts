@@ -1,13 +1,6 @@
 import { RegistrationForm, random_user_registration_data } from "../../user/registration";
+import { parseInfoHash } from "../api";
 import { generateRandomTestTorrentInfo } from "../test_torrent_info";
-
-function extractInfoHash (headerValue: string | string[]): string {
-  if (typeof headerValue === "string") {
-    return headerValue;
-  } else {
-    return headerValue.join(", ");
-  }
-}
 
 describe("A registered user", () => {
   let registration_form: RegistrationForm;
@@ -28,7 +21,7 @@ describe("A registered user", () => {
       url: `http://localhost:3001/v1/torrent/meta-info/random/${torrent_info.id}`,
       encoding: "binary"
     }).then((response) => {
-      const torrentInfoHash = extractInfoHash(response.headers["x-torrust-torrent-infohash"]);
+      const torrentInfoHash = parseInfoHash(response.headers["x-torrust-torrent-infohash"]);
       cy.wrap(torrentInfoHash).as("infohash");
       cy.log(`random torrent with info-hash '${torrentInfoHash}' downloaded to '${torrent_info.path}'`);
       cy.writeFile(torrent_info.path, response.body, "binary");

@@ -100,7 +100,7 @@
 
         <div class="flex flex-row gap-3">
           <template v-if="showDownloadButtons">
-            <button class="btn btn-primary grow" @click="downloadTorrent(torrent.info_hash, torrent.title)">
+            <button class="btn btn-primary grow" data-cy="torrent-action-download" @click="downloadTorrent(torrent.info_hash, torrent.title)">
               download torrent
             </button>
             <button class="w-12 p-0 btn btn-primary">

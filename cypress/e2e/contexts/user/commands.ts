@@ -33,3 +33,7 @@ Cypress.Commands.add("login", (username: string, password: string) => {
 
   cy.url().should("include", "/torrents");
 });
+
+Cypress.Commands.add("logout", () => {
+  cy.get("a[data-cy=\"logout-link\"]").click();
+});
