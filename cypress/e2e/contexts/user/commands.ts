@@ -21,7 +21,7 @@ Cypress.Commands.add("register_as_admin", (registration_form) => {
   cy.task("grantAdminRole", { username: registration_form.username });
 });
 
-Cypress.Commands.add("delete_user", (username) => {
+Cypress.Commands.add("delete_user_from_database", (username) => {
   cy.task("deleteUser", { username });
 });
 

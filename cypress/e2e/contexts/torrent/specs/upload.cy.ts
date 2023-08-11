@@ -11,7 +11,7 @@ describe("A registered user", () => {
   });
 
   after(() => {
-    cy.delete_user(registration_form.username);
+    cy.delete_user_from_database(registration_form.username);
   });
 
   it("should be able to upload a torrent", () => {

@@ -33,7 +33,7 @@ Cypress.Commands.add("upload_torrent", (torrent_info) => {
   cy.get("button[data-cy=\"upload-form-submit\"]").click();
 });
 
-Cypress.Commands.add("delete_torrent", (torrent_info, infohash) => {
+Cypress.Commands.add("delete_torrent_from_database_and_fixture", (torrent_info, infohash) => {
   // Delete the torrent in the database
   cy.task("deleteTorrent", { infohash });
 

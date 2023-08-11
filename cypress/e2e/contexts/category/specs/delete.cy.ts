@@ -13,27 +13,28 @@ describe("The admin user", () => {
     cy.delete_user_from_database(registration_form.username);
   });
 
-  it("should be able to add a new category", () => {
+  it("should be able to delete a category", () => {
     const category_name = random_category_name();
 
-    // Make sure the category does not exist
-    cy.delete_category_from_database(category_name);
+    cy.add_category_to_database(category_name);
 
     cy.go_to_settings();
 
     // Click categories tab
     cy.contains("a", "categories").click();
 
-    // Fill new category name
-    cy.get("input[data-cy=\"add-category-input\"]").type(category_name);
+    // Delete the category
+    cy.get(`button[data-cy="delete-category-${category_name}"]`).click();
 
-    // Add category
-    cy.get("button[data-cy=\"add-category-button\"]").click();
+    // Confirm alert should pop up
+    cy.on("window:confirm", (str) => {
+      expect(str).to.equal(`Are you sure you want to delete ${category_name}?`);
+    });
 
-    // The new category should appear in the list
-    cy.contains(`${category_name} (0)`);
+    // Confirm delete
+    cy.on("window:confirm", () => true);
 
-    cy.delete_category_from_database(category_name);
+    cy.get(`[data-cy="delete-category-${category_name}"]`).should("not.exist");
   });
 });
 
@@ -49,14 +50,14 @@ describe("A non admin authenticated user", () => {
     cy.delete_user_from_database(registration_form.username);
   });
 
-  it("should not be able to add a new category", () => {
+  it("should not be able to delete category", () => {
     cy.visit("/admin/settings/categories");
     cy.contains("Please login to manage admin settings.");
   });
 });
 
 describe("A guest user", () => {
-  it("should not be able to add a new category", () => {
+  it("should not be able to delete a category", () => {
     cy.visit("/admin/settings/categories");
     cy.contains("Please login to manage admin settings.");
   });
