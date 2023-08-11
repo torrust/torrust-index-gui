@@ -14,6 +14,9 @@ declare global {
       // User: Authentication
       login(username: string, password: string): Chainable<void>
       logout(): Chainable<void>
+      // User: others
+      register_and_login(registration_form: RegistrationForm): Chainable<void>
+      register_as_admin_and_login(registration_form: RegistrationForm): Chainable<void>
       // Torrent
       upload_torrent(torrent_info: TestTorrentInfo): Chainable<void>
       delete_torrent(torrent_info: TestTorrentInfo, infohash: string): Chainable<void>

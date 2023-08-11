@@ -5,11 +5,7 @@ describe("The admin user", () => {
 
   before(() => {
     registration_form = random_user_registration_data();
-
-    cy.visit("/");
-    cy.visit("/signup");
-    cy.register_as_admin(registration_form);
-    cy.login(registration_form.username, registration_form.password);
+    cy.register_as_admin_and_login(registration_form);
   });
 
   after(() => {
@@ -45,11 +41,7 @@ describe("A non admin authenticated user", () => {
 
   before(() => {
     registration_form = random_user_registration_data();
-
-    cy.visit("/");
-    cy.visit("/signup");
-    cy.register(registration_form);
-    cy.login(registration_form.username, registration_form.password);
+    cy.register_and_login(registration_form);
   });
 
   after(() => {

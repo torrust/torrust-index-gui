@@ -7,11 +7,7 @@ describe("A registered user", () => {
 
   before(() => {
     registration_form = random_user_registration_data();
-
-    cy.visit("/");
-    cy.visit("/signup");
-    cy.register(registration_form);
-    cy.login(registration_form.username, registration_form.password);
+    cy.register_and_login(registration_form);
   });
 
   after(() => {
