@@ -40,7 +40,7 @@
           <NuxtLink to="/upload" class="hidden md:flex btn bg-base-100 rounded-2xl">
             Upload Torrent
           </NuxtLink>
-          <div class="dropdown dropdown-end z-[1]">
+          <div data-cy="user-menu" class="dropdown dropdown-end z-[1]">
             <div tabindex="0" class="btn btn-ghost btn-circle avatar">
               <div class="w-10 rounded-full">
                 <UserCircleIcon />
@@ -50,7 +50,7 @@
               <li v-if="user.admin" data-cy="admin-settings-link"><NuxtLink to="/admin/settings/backend">
                 Admin Settings
               </NuxtLink></li>
-              <li><a @click="logoutUser()">Logout {{ user.username }}</a></li>
+              <li><a data-cy="logout-link" @click="logoutUser()">Logout {{ user.username }}</a></li>
             </ul>
           </div>
         </template>
