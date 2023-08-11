@@ -80,7 +80,7 @@
               </div>
               <div class="flex flex-row w-1/2 py-1">
                 <div class="relative flex items-center max-w-full overflow-x-auto border rounded-lg border-base-content/10">
-                  <span class="px-2">{{ torrent.info_hash }}</span>
+                  <span data-cy="torrent-action-info-hash" class="px-2">{{ torrent.info_hash }}</span>
                 </div>
               </div>
             </div>
@@ -104,7 +104,7 @@
               download torrent
             </button>
             <button class="w-12 p-0 btn btn-primary">
-              <a class="flex items-center" :href="torrent.magnet_link">
+              <a data-cy="torrent-action-magnet-link" class="flex items-center" :href="torrent.magnet_link">
                 <LinkIcon class="w-6" />
               </a>
             </button>
