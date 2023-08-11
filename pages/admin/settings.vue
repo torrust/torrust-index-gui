@@ -22,6 +22,11 @@
       <template v-if="settings">
         <NuxtPage :settings="settings" class="w-full" />
       </template>
+      <template v-else>
+        <div class="flex flex-col gap-2">
+          Please login to manage admin settings.
+        </div>
+      </template>
 
     </div>
   </div>

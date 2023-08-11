@@ -11,8 +11,8 @@
       </template>
     </div>
     <div class="flex gap-2">
-      <input v-model="newCategory" class="w-full input input-bordered" type="text">
-      <button class="btn btn-primary" :class="{ 'loading': addingCategory }" :disabled="addingCategory || !newCategory" @click="addCategory">
+      <input v-model="newCategory" data-cy="add-category-input" class="w-full input input-bordered" type="text">
+      <button data-cy="add-category-button" class="btn btn-primary" :class="{ 'loading': addingCategory }" :disabled="addingCategory || !newCategory" @click="addCategory">
         Add category
       </button>
     </div>

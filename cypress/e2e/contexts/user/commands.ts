@@ -41,3 +41,19 @@ Cypress.Commands.add("login", (username: string, password: string) => {
 Cypress.Commands.add("logout", () => {
   cy.get("a[data-cy=\"logout-link\"]").click();
 });
+
+// Others
+
+Cypress.Commands.add("register_and_login", (registration_form) => {
+  cy.visit("/");
+  cy.visit("/signup");
+  cy.register(registration_form);
+  cy.login(registration_form.username, registration_form.password);
+});
+
+Cypress.Commands.add("register_as_admin_and_login", (registration_form) => {
+  cy.visit("/");
+  cy.visit("/signup");
+  cy.register_as_admin(registration_form);
+  cy.login(registration_form.username, registration_form.password);
+});
