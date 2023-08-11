@@ -10,13 +10,13 @@ describe("The admin user", () => {
   });
 
   after(() => {
-    cy.delete_user(registration_form.username);
+    cy.delete_user_from_database(registration_form.username);
   });
 
   it("should be able to delete a category", () => {
     const category_name = random_category_name();
 
-    cy.add_category(category_name);
+    cy.add_category_to_database(category_name);
 
     // Go to admin settings
     cy.get("div[data-cy=\"user-menu\"]").click();
@@ -47,7 +47,7 @@ describe("A non admin authenticated user", () => {
   });
 
   after(() => {
-    cy.delete_user(registration_form.username);
+    cy.delete_user_from_database(registration_form.username);
   });
 
   it("should not be able to delete category", () => {

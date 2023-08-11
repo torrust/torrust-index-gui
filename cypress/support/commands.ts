@@ -7,22 +7,26 @@ import { TestTorrentInfo } from "cypress/e2e/contexts/torrent/test_torrent_info"
 declare global {
   namespace Cypress {
     interface Chainable {
-      // User: Registration
+      // User context: Registration
       register(registration_form: RegistrationForm): Chainable<void>
       register_as_admin(registration_form: RegistrationForm): Chainable<void>
-      delete_user(username: string): Chainable<void>
-      // User: Authentication
+
+      // User context: Authentication
       login(username: string, password: string): Chainable<void>
       logout(): Chainable<void>
-      // User: others
+
+      // User context: Others
       register_and_login(registration_form: RegistrationForm): Chainable<void>
       register_as_admin_and_login(registration_form: RegistrationForm): Chainable<void>
-      // Torrent
+      delete_user_from_database(username: string): Chainable<void>
+
+      // Torrent context
       upload_torrent(torrent_info: TestTorrentInfo): Chainable<void>
-      delete_torrent(torrent_info: TestTorrentInfo, infohash: string): Chainable<void>
-      // Category
-      delete_category(name: string): Chainable<void>
-      add_category(name: string): Chainable<void>
+      delete_torrent_from_database_and_fixture(torrent_info: TestTorrentInfo, infohash: string): Chainable<void>
+
+      // Category context
+      delete_category_from_database(name: string): Chainable<void>
+      add_category_to_database(name: string): Chainable<void>
     }
   }
 }

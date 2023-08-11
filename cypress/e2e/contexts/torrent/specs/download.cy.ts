@@ -11,7 +11,7 @@ describe("A registered user", () => {
   });
 
   after(() => {
-    cy.delete_user(registration_form.username);
+    cy.delete_user_from_database(registration_form.username);
   });
 
   it("should be able to download a preexisting torrent", () => {
@@ -32,7 +32,7 @@ describe("A registered user", () => {
 
       // Delete the test torrent generated for this test
       const torrentInfoHash = parseInfoHash(interception.response.headers["x-torrust-torrent-infohash"]);
-      cy.delete_torrent(torrent_info, torrentInfoHash);
+      cy.delete_torrent_from_database_and_fixture(torrent_info, torrentInfoHash);
     });
   });
 });
@@ -49,7 +49,7 @@ describe("A guest user", () => {
   });
 
   after(() => {
-    cy.delete_user(uploader_registration_form.username);
+    cy.delete_user_from_database(uploader_registration_form.username);
   });
 
   it("should be able to download a preexisting torrent", () => {
@@ -79,7 +79,7 @@ describe("A guest user", () => {
 
       // Delete the test torrent generated for this test
       const torrentInfoHash = parseInfoHash(interception.response.headers["x-torrust-torrent-infohash"]);
-      cy.delete_torrent(torrent_info, torrentInfoHash);
+      cy.delete_torrent_from_database_and_fixture(torrent_info, torrentInfoHash);
     });
   });
 });

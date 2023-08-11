@@ -9,12 +9,12 @@ describe("The admin user", () => {
   });
 
   after(() => {
-    cy.delete_user(registration_form.username);
+    cy.delete_user_from_database(registration_form.username);
   });
 
   it("should be able to add a new category", () => {
     // Make sure the category does not exist
-    cy.delete_category("new category");
+    cy.delete_category_from_database("new category");
 
     // Go to admin settings
     cy.get("div[data-cy=\"user-menu\"]").click();
@@ -32,7 +32,7 @@ describe("The admin user", () => {
     // The new category should appear in the list
     cy.contains("new category (0)");
 
-    cy.delete_category("new category");
+    cy.delete_category_from_database("new category");
   });
 });
 
@@ -45,7 +45,7 @@ describe("A non admin authenticated user", () => {
   });
 
   after(() => {
-    cy.delete_user(registration_form.username);
+    cy.delete_user_from_database(registration_form.username);
   });
 
   it("should not be able to add a new category", () => {
