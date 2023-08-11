@@ -19,9 +19,7 @@ describe("The admin user", () => {
     // Make sure the category does not exist
     cy.delete_category_from_database(category_name);
 
-    // Go to admin settings
-    cy.get("div[data-cy=\"user-menu\"]").click();
-    cy.get("li[data-cy=\"admin-settings-link\"]").click();
+    cy.go_to_settings();
 
     // Click categories tab
     cy.contains("a", "categories").click();

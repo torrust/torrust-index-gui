@@ -18,9 +18,7 @@ describe("The admin user", () => {
 
     cy.add_category_to_database(category_name);
 
-    // Go to admin settings
-    cy.get("div[data-cy=\"user-menu\"]").click();
-    cy.get("li[data-cy=\"admin-settings-link\"]").click();
+    cy.go_to_settings();
 
     // Click categories tab
     cy.contains("a", "categories").click();
@@ -28,10 +26,12 @@ describe("The admin user", () => {
     // Delete the category
     cy.get(`button[data-cy="delete-category-${category_name}"]`).click();
 
+    // Confirm alert should pop up
     cy.on("window:confirm", (str) => {
       expect(str).to.equal(`Are you sure you want to delete ${category_name}?`);
     });
 
+    // Confirm delete
     cy.on("window:confirm", () => true);
 
     cy.get(`[data-cy="delete-category-${category_name}"]`).should("not.exist");
