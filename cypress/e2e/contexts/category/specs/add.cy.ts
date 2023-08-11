@@ -1,4 +1,5 @@
 import { RegistrationForm, random_user_registration_data } from "../../user/registration";
+import { random_category_name } from "../fixtures";
 
 describe("The admin user", () => {
   let registration_form: RegistrationForm;
@@ -13,8 +14,10 @@ describe("The admin user", () => {
   });
 
   it("should be able to add a new category", () => {
+    const category_name = random_category_name();
+
     // Make sure the category does not exist
-    cy.delete_category_from_database("new category");
+    cy.delete_category_from_database(category_name);
 
     // Go to admin settings
     cy.get("div[data-cy=\"user-menu\"]").click();
@@ -24,15 +27,15 @@ describe("The admin user", () => {
     cy.contains("a", "categories").click();
 
     // Fill new category name
-    cy.get("input[data-cy=\"add-category-input\"]").type("new category");
+    cy.get("input[data-cy=\"add-category-input\"]").type(category_name);
 
     // Add category
     cy.get("button[data-cy=\"add-category-button\"]").click();
 
     // The new category should appear in the list
-    cy.contains("new category (0)");
+    cy.contains(`${category_name} (0)`);
 
-    cy.delete_category_from_database("new category");
+    cy.delete_category_from_database(category_name);
   });
 });
 
