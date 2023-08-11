@@ -1,5 +1,6 @@
 import "../e2e/contexts/user/commands";
 import "../e2e/contexts/torrent/commands";
+import "../e2e/contexts/category/commands";
 import { RegistrationForm } from "../e2e/contexts/user/registration";
 import { TestTorrentInfo } from "cypress/e2e/contexts/torrent/test_torrent_info";
 
@@ -16,6 +17,8 @@ declare global {
       // Torrent
       upload_torrent(torrent_info: TestTorrentInfo): Chainable<void>
       delete_torrent(torrent_info: TestTorrentInfo, infohash: string): Chainable<void>
+      // Category
+      delete_category(name: string): Chainable<void>
     }
   }
 }

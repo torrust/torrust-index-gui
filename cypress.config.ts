@@ -1,6 +1,7 @@
 import { defineConfig } from "cypress";
 import { grantAdminRole, deleteUser } from "./cypress/e2e/contexts/user/tasks";
 import { deleteTorrent } from "./cypress/e2e/contexts/torrent/tasks";
+import { deleteCategory } from "./cypress/e2e/contexts/category/tasks";
 import { DatabaseConfig } from "./cypress/e2e/common/database";
 
 function databaseConfig (config: Cypress.PluginConfigOptions): DatabaseConfig {
@@ -22,6 +23,9 @@ export default defineConfig({
         },
         deleteUser: ({ username }) => {
           return deleteUser(username, databaseConfig(config));
+        },
+        deleteCategory: ({ name }) => {
+          return deleteCategory(name, databaseConfig(config));
         }
       });
     }
