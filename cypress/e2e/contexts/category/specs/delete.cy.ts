@@ -1,4 +1,5 @@
 import { RegistrationForm, random_user_registration_data } from "../../user/registration";
+import { random_category_name } from "../fixtures";
 
 describe("The admin user", () => {
   let registration_form: RegistrationForm;
@@ -12,9 +13,10 @@ describe("The admin user", () => {
     cy.delete_user(registration_form.username);
   });
 
-  it("should be able to add a new category", () => {
-    // Make sure the category does not exist
-    cy.delete_category("new category");
+  it("should be able to delete a category", () => {
+    const category_name = random_category_name();
+
+    cy.add_category(category_name);
 
     // Go to admin settings
     cy.get("div[data-cy=\"user-menu\"]").click();
@@ -23,16 +25,16 @@ describe("The admin user", () => {
     // Click categories tab
     cy.contains("a", "categories").click();
 
-    // Fill new category name
-    cy.get("input[data-cy=\"add-category-input\"]").type("new category");
+    // Delete the category
+    cy.get(`button[data-cy="delete-category-${category_name}"]`).click();
 
-    // Add category
-    cy.get("button[data-cy=\"add-category-button\"]").click();
+    cy.on("window:confirm", (str) => {
+      expect(str).to.equal(`Are you sure you want to delete ${category_name}?`);
+    });
 
-    // The new category should appear in the list
-    cy.contains("new category (0)");
+    cy.on("window:confirm", () => true);
 
-    cy.delete_category("new category");
+    cy.get(`[data-cy="delete-category-${category_name}"]`).should("not.exist");
   });
 });
 
@@ -48,14 +50,14 @@ describe("A non admin authenticated user", () => {
     cy.delete_user(registration_form.username);
   });
 
-  it("should not be able to add a new category", () => {
+  it("should not be able to delete category", () => {
     cy.visit("/admin/settings/categories");
     cy.contains("Please login to manage admin settings.");
   });
 });
 
 describe("A guest user", () => {
-  it("should not be able to add a new category", () => {
+  it("should not be able to delete a category", () => {
     cy.visit("/admin/settings/categories");
     cy.contains("Please login to manage admin settings.");
   });

@@ -4,7 +4,7 @@
       <template v-for="category in categories">
         <div class="flex justify-between p-2 rounded bg-base-100">
           <span class="text-base-content">{{ category.name }} ({{ category.num_torrents }})</span>
-          <button class="text-error-content hover:text-error" @click="deleteCategory(category.name)">
+          <button :data-cy="getDeleteButtonDataCy(category.name)" class="text-error-content hover:text-error" @click="deleteCategory(category.name)">
             Delete
           </button>
         </div>
@@ -29,6 +29,14 @@ const rest = useRestApi().value;
 
 const newCategory = ref("");
 const addingCategory = ref(false);
+
+onBeforeMount(() => {
+  getCategories();
+});
+
+function getDeleteButtonDataCy (name: string) {
+  return "delete-category-" + name.toLowerCase().replace(/ /g, "-");
+}
 
 function addCategory () {
   if (newCategory.value) {

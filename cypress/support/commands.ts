@@ -22,6 +22,7 @@ declare global {
       delete_torrent(torrent_info: TestTorrentInfo, infohash: string): Chainable<void>
       // Category
       delete_category(name: string): Chainable<void>
+      add_category(name: string): Chainable<void>
     }
   }
 }
