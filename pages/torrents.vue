@@ -126,8 +126,11 @@ watch([searchQuery, itemsSorting, pageSize, currentPage, layout, categoryFilters
   loadTorrents();
 });
 
-onMounted(() => {
+onActivated(() => {
   searchQuery.value = route.query.search as string ?? null;
+});
+
+onMounted(() => {
   loadTorrents();
 });
 
