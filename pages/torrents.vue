@@ -106,10 +106,8 @@ const selectedSorting = computed({
   }
 });
 
-watch([route], () => {
-  if (route.query.search !== searchQuery.value) {
-    searchQuery.value = route.query.search as string;
-  }
+watch(() => route.fullPath, () => {
+  searchQuery.value = route.query.search as string;
 });
 
 watch([searchQuery, itemsSorting, pageSize, currentPage, layout, categoryFilters, tagFilters], () => {

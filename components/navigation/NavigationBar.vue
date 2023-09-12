@@ -109,10 +109,8 @@
 import { UserCircleIcon, Bars3Icon, MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { Ref } from "vue";
-import { useRouter } from "#app";
 import { ref, useSettings, useUser, logoutUser } from "#imports";
 
-const router = useRouter();
 const settings = useSettings();
 const user = useUser();
 
@@ -121,7 +119,7 @@ const searchQuery: Ref<string> = ref("");
 const typingInSearch = ref(false);
 
 function submitSearch () {
-  router.push({
+  navigateTo({
     path: "/torrents",
     query: {
       search: searchQuery.value ?? null
