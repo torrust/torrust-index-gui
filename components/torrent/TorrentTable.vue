@@ -33,7 +33,7 @@
             </td>
             <td>
               <div class="flex flex-row items-center justify-center font-semibold flex-nowrap">
-                <div class="flex flex-col items-center justify-center w-10 h-10 ml-2 duration-500 cursor-pointer text-base-content/50 hover:text-base-content shrink-0" @click.stop="downloadTorrent(torrent.info_hash, torrent.title)">
+                <div class="flex flex-col items-center justify-center w-10 h-10 ml-2 duration-500 cursor-pointer text-base-content/50 hover:text-base-content shrink-0" @click.stop="downloadTorrent(torrent.info_hash, torrent.name)">
                   <ArrowDownTrayIcon class="w-5" />
                 </div>
                 <div class="flex flex-col items-center justify-center w-10 h-10 ml-2 duration-500 cursor-pointer text-base-content/50 hover:text-base-content shrink-0">
