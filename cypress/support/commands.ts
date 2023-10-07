@@ -2,8 +2,8 @@ import "../e2e/contexts/user/commands";
 import "../e2e/contexts/torrent/commands";
 import "../e2e/contexts/category/commands";
 import "../e2e/common/commands";
-import { RegistrationForm } from "../e2e/contexts/user/registration";
 import { TestTorrentInfo } from "cypress/e2e/contexts/torrent/test_torrent_info";
+import { RegistrationForm } from "../e2e/contexts/user/registration";
 
 declare global {
   namespace Cypress {
