@@ -40,3 +40,7 @@ Cypress.Commands.add("delete_torrent_from_database_and_fixture", (torrent_info, 
   // Delete the torrent file in the fixtures folder
   cy.exec(`rm ${torrent_info.path}`);
 });
+
+Cypress.Commands.add("clear_torrent_info_from_database", () => {
+  cy.task("deleteTorrentsInfoFromDatabase");
+});

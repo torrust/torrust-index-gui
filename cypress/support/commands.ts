@@ -27,6 +27,7 @@ declare global {
       // Torrent context
       upload_torrent(torrent_info: TestTorrentInfo): Chainable<void>
       delete_torrent_from_database_and_fixture(torrent_info: TestTorrentInfo, infohash: string): Chainable<void>
+      clear_torrent_info_from_database(): Chainable<void>;
 
       // Category context
       delete_category_from_database(name: string): Chainable<void>

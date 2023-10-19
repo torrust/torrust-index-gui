@@ -1,6 +1,6 @@
 import { defineConfig } from "cypress";
 import { grantAdminRole, deleteUser } from "./cypress/e2e/contexts/user/tasks";
-import { deleteTorrent } from "./cypress/e2e/contexts/torrent/tasks";
+import { deleteTorrent, deleteTorrentsInfoFromDatabase } from "./cypress/e2e/contexts/torrent/tasks";
 import { deleteCategory, addCategory } from "./cypress/e2e/contexts/category/tasks";
 import { DatabaseConfig } from "./cypress/e2e/common/database";
 
@@ -25,6 +25,9 @@ export default defineConfig({
         // Torrent context
         deleteTorrent: ({ infohash }) => {
           return deleteTorrent(infohash, databaseConfig(config));
+        },
+        deleteTorrentsInfoFromDatabase: () => {
+          return deleteTorrentsInfoFromDatabase(databaseConfig(config));
         },
         // User context
         grantAdminRole: ({ username }) => {
