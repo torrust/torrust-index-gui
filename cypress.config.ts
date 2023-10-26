@@ -37,6 +37,6 @@ export default defineConfig({
     }
   },
   env: {
-    db_file_path: "./storage/database/torrust_index_backend_e2e_testing.db"
+    db_file_path: "./storage/index/lib/database/e2e_testing_sqlite3.db"
   }
 });

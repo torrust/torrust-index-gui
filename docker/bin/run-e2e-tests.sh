@@ -37,7 +37,7 @@ wait_for_container_to_be_healthy() {
     return 1
 }
 
-./bin/install.sh || exit 1
+./docker/bin/e2e-env-install.sh || exit 1
 
 # Start E2E testing environment
 ./docker/bin/e2e-env-up.sh || exit 1
