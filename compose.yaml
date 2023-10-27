@@ -27,19 +27,19 @@ services:
     volumes:
       - ./:/app
     depends_on:
-      - idx-back
+      - index
       - tracker
       - mailcatcher
       - mysql
 
-  idx-back:
+  index:
     image: torrust/index-backend:develop
-    user: ${TORRUST_IDX_BACK_USER_UID:-1000}:${TORRUST_IDX_BACK_USER_UID:-1000}
     tty: true
     environment:
-      - TORRUST_IDX_BACK_CONFIG=${TORRUST_IDX_BACK_CONFIG}
-      - TORRUST_IDX_BACK_CORS_PERMISSIVE=true
-      - CARGO_HOME=/home/appuser/.cargo
+      - TORRUST_INDEX_CONFIG=${TORRUST_INDEX_CONFIG}
+      - TORRUST_INDEX_DATABASE_DRIVER=${TORRUST_TRACKER_DATABASE_DRIVER:-sqlite3}
+      - TORRUST_INDEX_BACK_CORS_PERMISSIVE=${TORRUST_INDEX_BACK_CORS_PERMISSIVE:-true}
+      - TORRUST_INDEX_TRACKER_API_TOKEN=${TORRUST_INDEX_TRACKER_API_TOKEN:-MyAccessToken}
     networks:
       - server_side
     ports:
@@ -56,7 +56,9 @@ services:
     #  start_period: 10s
     #  timeout: 3s
     volumes:
-      - ./storage:/app/storage    
+      - ./storage/index/lib:/var/lib/torrust/index:Z
+      - ./storage/index/log:/var/log/torrust/index:Z
+      - ./storage/index/etc:/etc/torrust/index:Z
     depends_on:
       - tracker
       - mailcatcher
