@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.18",
-    "@types/uuid": "^9.0.2",
+    "@types/uuid": "^9.0.6",
     "daisyui": "^3.5.1",
     "dompurify": "^3.0.5",
     "marked": "^7.0.2",
