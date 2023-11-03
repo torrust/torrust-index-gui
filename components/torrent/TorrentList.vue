@@ -32,7 +32,7 @@
                 <ArrowDownTrayIcon class="w-6" />
               </div>
               <div class="flex flex-col items-center justify-center w-10 h-10 ml-2 duration-500 cursor-pointer text-base-content/50 hover:text-base-content shrink-0 rounded-2xl">
-                <a class="flex items-center" :href="`magnet:?xt=urn:btih:${torrent.info_hash}`" @click.stop>
+                <a data-cy="torrent-list-magnet-link" class="flex items-center" :href="`magnet:?xt=urn:btih:${torrent.info_hash}`" @click.stop>
                   <LinkIcon class="w-6" />
                 </a>
               </div>

@@ -33,7 +33,7 @@
         <button class="tab" :class="{ 'tab-active': layout === 'default' }" @click="layout = 'default'">
           Default
         </button>
-        <button class="tab" :class="{ 'tab-active': layout === 'table' }" @click="layout = 'table'">
+        <button data-cy="torrents-table-layout-selector" class="tab" :class="{ 'tab-active': layout === 'table' }" @click="layout = 'table'">
           Table
         </button>
       </div>
