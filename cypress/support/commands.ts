@@ -1,6 +1,7 @@
 import "../e2e/contexts/user/commands";
 import "../e2e/contexts/torrent/commands";
 import "../e2e/contexts/category/commands";
+import "../e2e/contexts/tag/commands";
 import "../e2e/common/commands";
 import type { TestTorrentInfo } from "../e2e/contexts/torrent/test_torrent_info";
 import type { RegistrationForm } from "../e2e/contexts/user/registration";
@@ -32,6 +33,10 @@ declare global {
       // Category context
       delete_category_from_database(name: string): Chainable<void>
       add_category_to_database(name: string): Chainable<void>
+
+      // Tag context
+      delete_tag_from_database(name: string): Chainable<void>
+      add_tag_to_database(name: string): Chainable<void>
     }
   }
 }
