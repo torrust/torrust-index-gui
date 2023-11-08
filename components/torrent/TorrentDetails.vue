@@ -43,7 +43,7 @@ import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import { Ref } from "vue";
 import { TorrentResponse } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
-import { useRoute } from "#app";
+import { useRoute } from "#imports";
 import TorrentActionCard from "~/components/torrent/TorrentActionCard.vue";
 import TorrentDescriptionTab from "~/components/torrent/TorrentDescriptionTab.vue";
 import TorrentFilesTab from "~/components/torrent/TorrentFilesTab.vue";
