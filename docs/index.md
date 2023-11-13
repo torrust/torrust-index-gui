@@ -70,7 +70,7 @@ After installing all the repos you will have the following directory structure.
 ```s
 $ tree -L 2
 .
-├── torrust-index-backend
+├── torrust-index
 │   ├── adrs
 │   ├── bin
 │   ├── build.rs
@@ -174,13 +174,13 @@ Please refer to the [Tracker documentation](https://github.com/torrust/torrust-t
 
 ### Run the backend
 
-For the requirements please refer to the [Tracker documentation](https://github.com/torrust/torrust-index-backend).
+For the requirements please refer to the [Index documentation](https://github.com/torrust/torrust-index).
 
 ```s
-git clone git@github.com:torrust/torrust-index-backend.git
-cd torrust-index-backend/
-./bin/install.sh
-TORRUST_IDX_BACK_CORS_PERMISSIVE=true cargo run
+git clone git@github.com:torrust/torrust-index.git
+cd torrust-index/
+./contrib/dev-tools/init/install-local.sh
+TORRUST_INDEX_BACK_CORS_PERMISSIVE=true cargo run
 ```
 
 By default, the backend has the most restrictive CORS policy. This means that the frontend cannot access the backend API, because they are running on different ports. If you run the backend as it is, you will see the following error in the browser console.
@@ -189,9 +189,9 @@ By default, the backend has the most restrictive CORS policy. This means that th
 Access to fetch at 'http://localhost:3001/v1/torrents?page_size=50&page=0&sort=UploadedDesc&categories=&tags=' from origin 'http://localhost:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
 ```
 
-You need to enable the Cors layer with the permissive option setting the environment variable `TORRUST_IDX_BACK_CORS_PERMISSIVE` to `true`.
+You need to enable the Cors layer with the permissive option setting the environment variable `TORRUST_INDEX_BACK_CORS_PERMISSIVE` to `true`.
 
-Please refer to the [Index Backend documentation](https://github.com/torrust/torrust-index-backend) for more information.
+Please refer to the [Index documentation](https://github.com/torrust/torrust-index) for more information.
 
 ### Run the frontend
 
@@ -258,7 +258,7 @@ You can take a look at issues tagged with [testing](https://github.com/torrust/t
 
 #### E2E tests
 
-For now we only have E2E tests. We are starting to write E2E tests for the frontend. The [Index Backend API](https://github.com/torrust/torrust-index-backend/tree/develop/tests/e2e) has some tests, so part of the functionality is tested.
+For now we only have E2E tests. We are starting to write E2E tests for the frontend. The [Index Backend API](https://github.com/torrust/torrust-index/tree/develop/tests/e2e) has some tests, so part of the functionality is tested.
 
 You can contribute adding more E2E tests. We are using this [issue](https://github.com/torrust/torrust-index-frontend/issues/148) to track the tests we want to add.
 

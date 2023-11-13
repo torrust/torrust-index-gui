@@ -4,7 +4,7 @@
       <pre><code>{{ settings }}</code></pre>
     </div>
     <div class="flex flex-col">
-      <span>Read-only view for the backend configuration. See <a target="_blank" href="https://docs.rs/torrust-index-backend">the backend documentation</a> for more information.</span>
+      <span>Read-only view for the backend configuration. See <a target="_blank" href="https://docs.rs/torrust-index">the Index documentation</a> for more information.</span>
     </div>
   </div>
 </template>
