@@ -33,7 +33,7 @@ services:
       - mysql
 
   index:
-    image: torrust/index-backend:develop
+    image: torrust/index:develop
     tty: true
     environment:
       - TORRUST_INDEX_CONFIG=${TORRUST_INDEX_CONFIG}

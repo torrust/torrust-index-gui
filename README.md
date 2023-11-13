@@ -6,7 +6,7 @@ This repository serves as the frontend for the [Torrust Index](https://github.co
 
 It contains the [vue-3](https://vuejs.org/) frontend web application for the [Torrust Index](https://github.com/torrust/torrust-index).
 
-This frontend connects using the [Torrust Index Application Interface](https://github.com/torrust/torrust-index-api-lib) to our reference [Torrust Index Backend](https://github.com/torrust/torrust-index-backend).
+This frontend connects using the [Torrust Index Application Interface](https://github.com/torrust/torrust-index-api-lib) to our reference [Torrust Index](https://github.com/torrust/torrust-index).
 
 ![Torrust Architecture](https://raw.githubusercontent.com/torrust/.github/main/img/torrust-architecture.webp)
 
