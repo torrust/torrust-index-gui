@@ -6,9 +6,9 @@ services:
       context: .
       args:
         RUN_AS_USER: appuser
-        UID: ${TORRUST_IDX_FRON_USER_UID:-1001}
+        UID: ${TORRUST_INDEX_GUI_USER_UID:-1001}
       target: development
-    user: ${TORRUST_IDX_FRON_USER_UID:-1000}:${TORRUST_IDX_FRON_USER_UID:-1000}
+    user: ${TORRUST_INDEX_GUI_USER_UID:-1000}:${TORRUST_INDEX_GUI_USER_UID:-1000}
     tty: true
     ports:
       - 3000:3000
