@@ -6,9 +6,9 @@ services:
       context: .
       args:
         RUN_AS_USER: appuser
-        UID: ${TORRUST_IDX_FRON_USER_UID:-1001}
+        UID: ${TORRUST_INDEX_GUI_USER_UID:-1001}
       target: development
-    user: ${TORRUST_IDX_FRON_USER_UID:-1000}:${TORRUST_IDX_FRON_USER_UID:-1000}
+    user: ${TORRUST_INDEX_GUI_USER_UID:-1000}:${TORRUST_INDEX_GUI_USER_UID:-1000}
     tty: true
     ports:
       - 3000:3000
@@ -38,7 +38,7 @@ services:
     environment:
       - TORRUST_INDEX_CONFIG=${TORRUST_INDEX_CONFIG}
       - TORRUST_INDEX_DATABASE_DRIVER=${TORRUST_TRACKER_DATABASE_DRIVER:-sqlite3}
-      - TORRUST_INDEX_BACK_CORS_PERMISSIVE=${TORRUST_INDEX_BACK_CORS_PERMISSIVE:-true}
+      - TORRUST_INDEX_API_CORS_PERMISSIVE=${TORRUST_INDEX_API_CORS_PERMISSIVE:-true}
       - TORRUST_INDEX_TRACKER_API_TOKEN=${TORRUST_INDEX_TRACKER_API_TOKEN:-MyAccessToken}
     networks:
       - server_side

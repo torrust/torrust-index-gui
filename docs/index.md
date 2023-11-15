@@ -180,7 +180,7 @@ For the requirements please refer to the [Index documentation](https://github.co
 git clone git@github.com:torrust/torrust-index.git
 cd torrust-index/
 ./contrib/dev-tools/init/install-local.sh
-TORRUST_INDEX_BACK_CORS_PERMISSIVE=true cargo run
+TORRUST_INDEX_API_CORS_PERMISSIVE=true cargo run
 ```
 
 By default, the backend has the most restrictive CORS policy. This means that the frontend cannot access the backend API, because they are running on different ports. If you run the backend as it is, you will see the following error in the browser console.
@@ -189,7 +189,7 @@ By default, the backend has the most restrictive CORS policy. This means that th
 Access to fetch at 'http://localhost:3001/v1/torrents?page_size=50&page=0&sort=UploadedDesc&categories=&tags=' from origin 'http://localhost:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
 ```
 
-You need to enable the Cors layer with the permissive option setting the environment variable `TORRUST_INDEX_BACK_CORS_PERMISSIVE` to `true`.
+You need to enable the Cors layer with the permissive option setting the environment variable `TORRUST_INDEX_API_CORS_PERMISSIVE` to `true`.
 
 Please refer to the [Index documentation](https://github.com/torrust/torrust-index) for more information.
 
