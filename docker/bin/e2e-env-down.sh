@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TORRUST_IDX_BACK_USER_UID=${TORRUST_IDX_BACK_USER_UID:-1000} \
+USER_ID=${USER_ID:-1000} \
     TORRUST_INDEX_CONFIG=$(cat config-idx-back.local.toml) \
     TORRUST_TRACKER_CONFIG=$(cat config-tracker.local.toml) \
     TORRUST_TRACKER_DATABASE=${TORRUST_TRACKER_DATABASE:-sqlite3} \
