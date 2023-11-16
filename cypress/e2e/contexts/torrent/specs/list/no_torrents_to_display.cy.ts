@@ -1,6 +1,6 @@
 import { baseURL } from "nuxt/dist/core/runtime/nitro/paths";
 
-describe("A guest user", () => {
+describe("Users", () => {
   before(() => {
     // Deletes all torrents and their related info from the database so the test can pass
     cy.clear_torrents_info_from_database();
