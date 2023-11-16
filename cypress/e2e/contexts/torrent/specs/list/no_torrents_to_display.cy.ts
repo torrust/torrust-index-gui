@@ -3,7 +3,7 @@ import { baseURL } from "nuxt/dist/core/runtime/nitro/paths";
 describe("A guest user", () => {
   before(() => {
     // Deletes all torrents and their related info from the database so the test can pass
-    cy.clear_torrent_info_from_database();
+    cy.clear_torrents_info_from_database();
   });
 
   it("Should be able to see the list page when there are no torrents", () => {
