@@ -51,7 +51,7 @@
             <Pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :total-results="torrentsTotal" />
           </template>
           <template v-else>
-            <span class="text-neutral-content">No results.</span>
+            <span data-cy="no-results-element" class="text-neutral-content">No results.</span>
           </template>
         </div>
       </div>
