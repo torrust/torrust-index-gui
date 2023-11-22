@@ -15,7 +15,7 @@
       <div class="flex flex-col w-full h-full p-6 grow bg-base-100 rounded-2xl">
         <template v-if="torrent.creation_date">
           <!--<Markdown :source="torrent.name" />-->
-          {{ convertedDate }}
+          {{ creationDateUTC }}
         </template>
         <template v-else>
           <span class="italic text-neutral-content">No creation date provided.</span>
@@ -31,7 +31,7 @@ import { TorrentResponse } from "torrust-index-types-lib";
 import { PropType } from "vue";
 import { ref } from "#imports";
 import Markdown from "~/components/Markdown.vue";
-import { epochToUtc } from "~/src/helpers/DateConverter";
+import { unixTimeToHumanReadableUTC } from "~/src/helpers/DateConverter";
 
 const collapsed = ref(false);
 
@@ -42,8 +42,7 @@ const props = defineProps({
   }
 });
 
-// Takes the date in milliseconds/Epoch Time and converts it to human readable format
-const convertedDate = epochToUtc(props.torrent.creation_date);
+const creationDateUTC = unixTimeToHumanReadableUTC(props.torrent.creation_date);
 
 </script>
 
