@@ -5,17 +5,17 @@ services:
     build:
       context: .
       dockerfile: ./Containerfile
+      target: release
       args:
-        RUN_AS_USER: appuser
-        UID: ${TORRUST_INDEX_GUI_USER_UID:-1001}
-      target: development
-    user: ${TORRUST_INDEX_GUI_USER_UID:-1000}:${TORRUST_INDEX_GUI_USER_UID:-1000}
+        - TORRUST_INDEX_GUI_API_BASE_URL=${TORRUST_INDEX_GUI_API_BASE_URL:-http://localhost:3001/v1}
     tty: true
+    environment:
+      - USER_ID=${USER_ID}
     ports:
       - 3000:3000
       - 24678:24678
     volumes:
-      - ./:/app
+      - ./storage/index-gui/log:/var/log/torrust/index-gui:Z
     depends_on:
       - index
       - tracker

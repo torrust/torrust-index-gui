@@ -1,0 +1,42 @@
+#!/bin/sh
+set -x
+
+to_lc() { echo "$1" | tr '[:upper:]' '[:lower:]'; }
+clean() { echo "$1" | tr -d -c 'a-zA-Z0-9-' ; }
+cmp_lc() { [ "$(to_lc "$(clean "$1")")" = "$(to_lc "$(clean "$2")")" ]; }
+
+# Add torrust user, based upon supplied user-id.
+if [ -z "$USER_ID" ] && [ "$USER_ID" -lt 1000 ]; then
+    echo "ERROR: USER_ID is not set, or less than 1000"
+    exit 1
+fi
+
+adduser --disabled-password --shell "/bin/sh" --uid "$USER_ID" "torrust"
+
+# Configure Permissions for Torrust Folders
+chown -R "${USER_ID}" /var/log/torrust
+chmod -R 2770 /var/log/torrust
+
+# Make Minimal Message of the Day
+if cmp_lc "$RUNTIME" "runtime"; then
+    printf '\n in runtime \n' >> /etc/motd;
+elif cmp_lc "$RUNTIME" "debug"; then
+    printf '\n in debug mode \n' >> /etc/motd;
+elif cmp_lc "$RUNTIME" "release"; then
+    printf '\n in release mode \n' >> /etc/motd;
+else
+    echo "ERROR: running in unknown mode: \"$RUNTIME\""; exit 1
+fi
+
+if [ -e "/usr/share/torrust/container/message" ]; then
+    cat "/usr/share/torrust/container/message" >> /etc/motd; chmod 0644 /etc/motd
+fi
+
+# Load message of the day from Profile
+# shellcheck disable=SC2016
+echo '[ ! -z "$TERM" -a -r /etc/motd ] && cat /etc/motd' >> /etc/profile
+
+cd /home/torrust || exit 1
+
+# Switch to torrust user
+exec /bin/su-exec torrust "$@"
