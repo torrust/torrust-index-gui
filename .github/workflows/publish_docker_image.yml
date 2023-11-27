@@ -59,7 +59,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerfile
+          file: ./Containerfile
           build-args: |
             RUN_AS_USER=${{ env.TORRUST_INDEX_GUI_RUN_AS_USER }}
           push: ${{ github.event_name != 'pull_request' }}
