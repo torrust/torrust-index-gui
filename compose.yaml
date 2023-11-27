@@ -1,9 +1,10 @@
 name: torrust
 services:
 
-  idx-fron:
+  index-gui:
     build:
       context: .
+      dockerfile: ./Containerfile
       args:
         RUN_AS_USER: appuser
         UID: ${TORRUST_INDEX_GUI_USER_UID:-1001}
@@ -13,17 +14,6 @@ services:
     ports:
       - 3000:3000
       - 24678:24678
-    # todo: implement healthcheck
-    #healthcheck:
-    #  test:
-    #    [
-    #      "CMD-SHELL",
-    #      ""
-    #    ]
-    #  interval: 10s
-    #  retries: 5
-    #  start_period: 10s
-    #  timeout: 3s
     volumes:
       - ./:/app
     depends_on:
@@ -36,25 +26,16 @@ services:
     image: torrust/index:develop
     tty: true
     environment:
+      - USER_ID=${USER_ID}
       - TORRUST_INDEX_CONFIG=${TORRUST_INDEX_CONFIG}
-      - TORRUST_INDEX_DATABASE_DRIVER=${TORRUST_TRACKER_DATABASE_DRIVER:-sqlite3}
-      - TORRUST_INDEX_API_CORS_PERMISSIVE=${TORRUST_INDEX_API_CORS_PERMISSIVE:-true}
+      - TORRUST_INDEX_DATABASE=${TORRUST_INDEX_DATABASE:-e2e_testing_sqlite3}
+      - TORRUST_INDEX_DATABASE_DRIVER=${TORRUST_INDEX_DATABASE_DRIVER:-sqlite3}
       - TORRUST_INDEX_TRACKER_API_TOKEN=${TORRUST_INDEX_TRACKER_API_TOKEN:-MyAccessToken}
+      - TORRUST_INDEX_API_CORS_PERMISSIVE=${TORRUST_INDEX_API_CORS_PERMISSIVE:-true}
     networks:
       - server_side
     ports:
       - 3001:3001
-    # todo: implement healthcheck
-    #healthcheck:
-    #  test:
-    #    [
-    #      "CMD-SHELL",
-    #      "cargo run healthcheck"
-    #    ]
-    #  interval: 10s
-    #  retries: 5
-    #  start_period: 10s
-    #  timeout: 3s
     volumes:
       - ./storage/index/lib:/var/lib/torrust/index:Z
       - ./storage/index/log:/var/log/torrust/index:Z
@@ -68,8 +49,10 @@ services:
     image: torrust/tracker:develop
     tty: true
     environment:
+      - USER_ID=${USER_ID}
       - TORRUST_TRACKER_CONFIG=${TORRUST_TRACKER_CONFIG}
-      - TORRUST_TRACKER_DATABASE=${TORRUST_TRACKER_DATABASE:-sqlite3}
+      - TORRUST_TRACKER_DATABASE=${TORRUST_TRACKER_DATABASE:-e2e_testing_sqlite3}
+      - TORRUST_TRACKER_DATABASE_DRIVER=${TORRUST_TRACKER_DATABASE_DRIVER:-sqlite3}
       - TORRUST_TRACKER_API_ADMIN_TOKEN=${TORRUST_TRACKER_API_ADMIN_TOKEN:-MyAccessToken}
     networks:
       - server_side
