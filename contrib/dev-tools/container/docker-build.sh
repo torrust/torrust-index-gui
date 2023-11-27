@@ -1,10 +1,11 @@
 #!/bin/bash
 
+echo "Building docker image ..."
+
 TORRUST_INDEX_GUI_USER_UID=${TORRUST_INDEX_GUI_USER_UID:-1001}
 TORRUST_INDEX_GUI_RUN_AS_USER=${TORRUST_INDEX_GUI_RUN_AS_USER:-appuser}
 TORRUST_INDEX_GUI_API_BASE_URL=${TORRUST_INDEX_GUI_API_BASE_URL:-http://localhost:3001/v1}
 
-echo "Building docker image ..."
 echo "TORRUST_INDEX_GUI_USER_UID: $TORRUST_INDEX_GUI_USER_UID"
 echo "TORRUST_INDEX_GUI_RUN_AS_USER: $TORRUST_INDEX_GUI_RUN_AS_USER"
 echo "TORRUST_INDEX_GUI_API_BASE_URL: $TORRUST_INDEX_GUI_API_BASE_URL"
@@ -13,4 +14,6 @@ docker build \
     --build-arg UID="$TORRUST_INDEX_GUI_USER_UID" \
     --build-arg RUN_AS_USER="$TORRUST_INDEX_GUI_RUN_AS_USER" \
     --build-arg API_BASE_URL="$TORRUST_INDEX_GUI_API_BASE_URL" \
-    -t torrust-index-gui .
+    --target release \
+    --tag torrust-index-gui:release \
+    --file Containerfile .

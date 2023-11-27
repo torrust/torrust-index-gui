@@ -27,7 +27,7 @@ EXPOSE $IDX_FRONT_PORT/tcp
 CMD ["npm", "run", "dev"]
 
 
-FROM base as production
+FROM base as release
 WORKDIR /app
 ARG UID=1001
 ARG RUN_AS_USER=appuser
