@@ -17,11 +17,16 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerfile
+          file: ./Containerfile
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # todo: enable when docker compose congiguration is ready
-      #- name: Build docker-compose images
-      #  run: docker compose build
+      - id: checkout
+        name: Checkout Repository
+        uses: actions/checkout@v4
+  
+      - id: compose
+        name: Compose
+        run: docker compose build
+

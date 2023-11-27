@@ -10,8 +10,7 @@ echo "TORRUST_INDEX_GUI_RUN_AS_USER: $TORRUST_INDEX_GUI_RUN_AS_USER"
 echo "TORRUST_INDEX_GUI_API_BASE_URL: $TORRUST_INDEX_GUI_API_BASE_URL"
 
 docker build \
-    --target development \
     --build-arg UID="$TORRUST_INDEX_GUI_USER_UID" \
     --build-arg RUN_AS_USER="$TORRUST_INDEX_GUI_RUN_AS_USER" \
     --build-arg API_BASE_URL="$TORRUST_INDEX_GUI_API_BASE_URL" \
-    -t torrust-index-frontend .
+    -t torrust-index-gui .

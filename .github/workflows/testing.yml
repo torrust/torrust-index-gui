@@ -24,5 +24,4 @@ jobs:
         run: npm run generate
 
       - name: E2E Tests
-        run: ./docker/bin/run-e2e-tests.sh
-
+        run: ./contrib/dev-tools/container/e2e/sqlite/run-e2e-tests.sh

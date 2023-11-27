@@ -1,6 +1,7 @@
 .cache
 .env
 .env*
+!.env.local
 .idea
 .nitro
 .nuxt

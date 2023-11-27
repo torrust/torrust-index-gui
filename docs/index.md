@@ -301,7 +301,7 @@ You can run the E2E test environments in two different ways:
 If you want to use the docker-compose environment you need to run the following command:
 
 ```s
-./docker/bin/run-e2e-tests.sh
+./contrib/dev-tools/container/e2e/sqlite/run-e2e-tests.sh
 ```
 
 This is the way we run the E2E tests in the CI/CD pipeline.
