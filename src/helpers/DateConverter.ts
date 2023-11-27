@@ -1,15 +1,14 @@
 type UnixTime = number;
 
-/*
-  Takes the date in seconds from Epoch time and converts it to human readable format.
-  Date() can only work with integers between -8640000000000000 and 8640000000000000 to create a new Date object.
-*/
+function isValidDate (date: Date) {
+  return date instanceof Date && !isNaN(date.valueOf());
+}
+
+// Takes the date in seconds from Epoch time and converts it to human readable format.
 
 export function unixTimeToHumanReadableUTC (seconds: UnixTime) {
-  if (Number.isInteger(seconds) && seconds < 8640000000000000 && seconds > -8640000000000000) {
-    const milliseconds = seconds * 1000;
-    return new Date(milliseconds).toDateString();
-  } else {
-    return "Invalid date";
-  }
+  const milliseconds = seconds * 1000;
+  const convertedDate = new Date(milliseconds);
+
+  return isValidDate(convertedDate) ? convertedDate.toDateString() : "Invalid date";
 }
