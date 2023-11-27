@@ -1,4 +1,9 @@
-FROM node:20.2 as base
+# syntax=docker/dockerfile:latest
+
+# Torrust Index GUI
+
+## Builder Image
+FROM node:21-bookworm as base
 
 RUN mkdir -p /app
 WORKDIR /app
