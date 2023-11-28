@@ -40,7 +40,7 @@
     "marked": "^9.1.5",
     "notiwind-ts": "^2.0.2",
     "torrust-index-api-lib": "^1.0.0-alpha.3",
-    "torrust-index-types-lib": "^1.0.0-alpha.3",
+    "torrust-index-types-lib": "^1.0.0-alpha.4",
     "uuid": "^9.0.0"
   }
 }
