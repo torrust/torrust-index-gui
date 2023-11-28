@@ -22,7 +22,7 @@
     "@types/sqlite3": "^3.1.8",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
-    "cypress": "^13.4.0",
+    "cypress": "^13.6.0",
     "eslint": "^8.52.0",
     "eslint-plugin-vue": "^9.18.1",
     "i": "^0.3.7",
