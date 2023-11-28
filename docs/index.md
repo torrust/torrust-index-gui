@@ -7,6 +7,7 @@
   - [Run the backend](#run-the-backend)
   - [Run the frontend](#run-the-frontend)
   - [Testing](#testing)
+- [Containers](#containers)  
 
 ## User guide
 
@@ -325,3 +326,7 @@ npm run cypress:open
 Please refer to the [Cypress documentation](https://docs.cypress.io/) for more information.
 
 If you want to contribute please read the [Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices) documentation.
+
+## Containers
+
+Please refer to the [Containers](./containers.md) section for more information about containers.
