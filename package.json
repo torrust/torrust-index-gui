@@ -35,7 +35,7 @@
   "dependencies": {
     "@heroicons/vue": "^2.0.18",
     "@types/uuid": "^9.0.7",
-    "daisyui": "^3.5.1",
+    "daisyui": "^4.4.11",
     "dompurify": "^3.0.5",
     "marked": "^9.1.5",
     "notiwind-ts": "^2.0.2",
