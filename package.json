@@ -39,7 +39,7 @@
     "dompurify": "^3.0.5",
     "marked": "^9.1.5",
     "notiwind-ts": "^2.0.2",
-    "torrust-index-api-lib": "^1.0.0-alpha.3",
+    "torrust-index-api-lib": "^1.0.0-alpha.4",
     "torrust-index-types-lib": "^1.0.0-alpha.3",
     "uuid": "^9.0.0"
   }
