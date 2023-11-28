@@ -24,9 +24,7 @@ cp .env.local .env || exit 1
 ./contrib/dev-tools/container/functions/wait_for_container_to_be_healthy.sh torrust-mysql-1 10 3 || exit 1
 ./contrib/dev-tools/container/functions/wait_for_container_to_be_healthy.sh torrust-tracker-1 10 3 || exit 1
 ./contrib/dev-tools/container/functions/wait_for_container_to_be_healthy.sh  torrust-index-1 10 3 || exit 1
-
-# Wait for the Index GUI to be ready
-sleep 10
+./contrib/dev-tools/container/functions/wait_for_container_to_be_healthy.sh  torrust-index-gui-1 10 3 || exit 1
 
 # Just to make sure that everything is up and running
 docker ps

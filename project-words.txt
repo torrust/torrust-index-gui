@@ -1,9 +1,11 @@
 composables
+Containerfile
 daisyui
 dinamically
 dompurify
 filedrag
 filelist
+HEALTHCHECK
 heroicons
 infohash
 lintfix

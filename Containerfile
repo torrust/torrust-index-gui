@@ -47,6 +47,7 @@ RUN mkdir -p /var/log/torrust/tracker
 
 ENV ENV=/etc/profile
 COPY --chmod=0555 ./share/container/entry_script_sh /usr/local/bin/entry.sh
+COPY --chmod=0555 ./share/container/health_check.js /usr/local/bin/health_check.js
 
 VOLUME ["/var/log/torrust/index-gui"]
 
@@ -58,7 +59,6 @@ ENTRYPOINT ["/usr/local/bin/entry.sh"]
 FROM runtime as release
 ENV RUNTIME="release"
 COPY --from=test /app/.output /app/.output
-#HEALTHCHECK --interval=5s --timeout=5s --start-period=3s --retries=3 \  
-#  CMD /usr/bin/http_health_check http://localhost:${HEALTH_CHECK_API_PORT}/health_check \
-#    || exit 1
+HEALTHCHECK --interval=5s --timeout=5s --start-period=3s --retries=3 \
+  CMD /nodejs/bin/node /usr/local/bin/health_check.js ${INDEX_GUI_PORT} || exit 1
 CMD [ "/nodejs/bin/node", "/app/.output/server/index.mjs" ]
