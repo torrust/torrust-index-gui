@@ -11,6 +11,7 @@ services:
     tty: true
     environment:
       - USER_ID=${USER_ID}
+      - NUXT_PUBLIC_API_BASE=${TORRUST_INDEX_GUI_API_BASE_URL:-http://localhost:3001/v1}
     ports:
       - 3000:3000
       - 24678:24678

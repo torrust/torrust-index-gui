@@ -54,6 +54,13 @@ VOLUME ["/var/log/torrust/index-gui"]
 ENV RUNTIME="runtime"
 ENTRYPOINT ["/usr/local/bin/entry.sh"]
 
+## Torrust-Index-GUI (debug)
+FROM runtime as debug
+ENV RUNTIME="debug"
+COPY --from=test /app/.output /app/.output
+RUN env
+CMD ["sh"]
+
 
 ## Torrust-Index-GUI (release) (default)
 FROM runtime as release
