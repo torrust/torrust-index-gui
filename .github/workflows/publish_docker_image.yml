@@ -8,9 +8,6 @@ on:
     tags:
       - "v*"
 
-env:
-  TORRUST_INDEX_GUI_RUN_AS_USER: appuser
-
 jobs:
   check-secret:
     runs-on: ubuntu-latest
@@ -60,8 +57,6 @@ jobs:
         with:
           context: .
           file: ./Containerfile
-          build-args: |
-            RUN_AS_USER=${{ env.TORRUST_INDEX_GUI_RUN_AS_USER }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
