@@ -5,7 +5,7 @@
 - [Development](#development)
   - [Run the tracker](#run-the-tracker)
   - [Run the backend](#run-the-backend)
-  - [Run the frontend](#run-the-frontend)
+  - [Run the Index GUI](#run-the-index-gui)
   - [Testing](#testing)
 - [Containers](#containers)  
 
@@ -30,7 +30,7 @@ The torrent description supports markdown syntax. You can use it to add links, i
 You can add a PNG image with:
 
 ```text
-![alternative description for the image](https://raw.githubusercontent.com/torrust/torrust-index-frontend//develop/docs/media/torrust_logo.png)
+![alternative description for the image](https://raw.githubusercontent.com/torrust/torrust-index-gui/develop/docs/media/torrust_logo.png)
 ```
 
 The image will be proxied by the backend. This means that the image will be downloaded by the backend and served by the backend itself. The backend will cache the image but
@@ -103,7 +103,7 @@ $ tree -L 2
 │   ├── templates
 │   ├── tests
 │   └── upgrades
-├── torrust-index-frontend
+├── torrust-index-gui
 │   ├── app.vue
 │   ├── assets
 │   ├── components
@@ -149,7 +149,7 @@ $ tree -L 2
 34 directories, 41 files
 ```
 
-You can also run the frontend using the docker images for the Tracker and Index Backend.
+You can also run the Index GUI using the docker images for the Tracker and Index Backend.
 Please refer to their respective documentation for more information.
 
 ### Run the tracker
@@ -184,7 +184,7 @@ cd torrust-index/
 TORRUST_INDEX_API_CORS_PERMISSIVE=true cargo run
 ```
 
-By default, the backend has the most restrictive CORS policy. This means that the frontend cannot access the backend API, because they are running on different ports. If you run the backend as it is, you will see the following error in the browser console.
+By default, the Index API has the most restrictive CORS policy. This means that the Index GUI cannot access the backend API, because they are running on different ports. If you run the backend as it is, you will see the following error in the browser console.
 
 ```s
 Access to fetch at 'http://localhost:3001/v1/torrents?page_size=50&page=0&sort=UploadedDesc&categories=&tags=' from origin 'http://localhost:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
@@ -194,20 +194,20 @@ You need to enable the Cors layer with the permissive option setting the environ
 
 Please refer to the [Index documentation](https://github.com/torrust/torrust-index) for more information.
 
-### Run the frontend
+### Run the Index GUI
 
 Requirements:
 
 - Node: `^19.0.0`
 
 ```s
-git clone git@github.com:torrust/torrust-index-frontend.git
-cd torrust-index-frontend/
+git clone git@github.com:torrust/torrust-index-index-gui.git
+cd torrust-index-gui/
 ./bin/install.sh
 npm run dev
 ```
 
-**NOTICE** Make sure the `.env` file is present in the root directory of the frontend. And contains the API URL.
+**NOTICE** Make sure the `.env` file is present in the root directory of the Index GUI. And contains the API URL.
 
 ```s
 API_BASE_URL=http://localhost:3001/v1
@@ -238,7 +238,7 @@ WARN  Browserslist: caniuse-lite is outdated. Please run:
 
 You only need to follow the instructions and run `npx update-browserslist-db@latest`.
 
-If you want to run the frontend like int production you can run the following command.
+If you want to run the Index GUI like int production you can run the following command.
 
 ```s
 npm run build && npm run preview
@@ -252,16 +252,16 @@ More information about the [nuxt]https://nuxt.com/) command can be found [here](
 
 We do not have nay unit tests yet. You can contribute by:
 
-- [Setting up the scaffolding for unit testing](https://github.com/torrust/torrust-index-frontend/issues/164).
+- [Setting up the scaffolding for unit testing](https://github.com/torrust/torrust-index-gui/issues/164).
 - Adding unit tests.
 
-You can take a look at issues tagged with [testing](https://github.com/torrust/torrust-index-frontend/issues?q=is%3Aissue+is%3Aopen+label%3Atesting).
+You can take a look at issues tagged with [testing](https://github.com/torrust/torrust-index-gui/issues?q=is%3Aissue+is%3Aopen+label%3Atesting).
 
 #### E2E tests
 
-For now we only have E2E tests. We are starting to write E2E tests for the frontend. The [Index Backend API](https://github.com/torrust/torrust-index/tree/develop/tests/e2e) has some tests, so part of the functionality is tested.
+For now we only have E2E tests. We are starting to write E2E tests for the Index GUI. The [Index Index API](https://github.com/torrust/torrust-index/tree/develop/tests/e2e) has some tests, so part of the functionality is tested.
 
-You can contribute adding more E2E tests. We are using this [issue](https://github.com/torrust/torrust-index-frontend/issues/148) to track the tests we want to add.
+You can contribute adding more E2E tests. We are using this [issue](https://github.com/torrust/torrust-index-gui/issues/148) to track the tests we want to add.
 
 In order to run the E2E test you need to have a running application at <http://localhost:3000>. There two important variables hardcoded in Cypress configuration file `cypress.config.ts`:
 
@@ -270,7 +270,7 @@ In order to run the E2E test you need to have a running application at <http://l
 
 Those variables describe hot to access the system under test.
 
-> **IMPORTANT** The database file path is relative to the root directory of the frontend. We should try to avoid this kind of dependencies. But for now, it is the easiest way to run the E2E tests. Ideally we should be able to run the test suit against any environment. For example, we should be able to run the test suit against an staging environment. That's still possible if we are running the tests from a machine that has access to the filesystem environment or we could start running the test using MySQL SQLite.
+> **IMPORTANT** The database file path is relative to the root directory of the Index GUI. We should try to avoid this kind of dependencies. But for now, it is the easiest way to run the E2E tests. Ideally we should be able to run the test suit against any environment. For example, we should be able to run the test suit against an staging environment. That's still possible if we are running the tests from a machine that has access to the filesystem environment or we could start running the test using MySQL SQLite.
 
 The Cypress configuration file looks like this:
 
@@ -292,12 +292,12 @@ export default defineConfig({
 });
 ```
 
-The database file path (`db_file_path`) is needed because some tests need to access the database directly. For example, the test that grants the admin role to a user. There is no way to create administrator users using the frontend. So, we need to do it directly in the database.
+The database file path (`db_file_path`) is needed because some tests need to access the database directly. For example, the test that grants the admin role to a user. There is no way to create administrator users using the Index GUI. So, we need to do it directly in the database.
 
 You can run the E2E test environments in two different ways:
 
 - Using docker compose.
-- Running the tracker, backend and the frontend locally (development environment).
+- Running the Tracker, Index and the Index GUI locally (development environment).
 
 If you want to use the docker-compose environment you need to run the following command:
 
@@ -309,7 +309,7 @@ This is the way we run the E2E tests in the CI/CD pipeline.
 
 You should use the development environment if you want to debug the E2E tests or you are writing tests and code at the same time.
 
-**NOTICE** You will need to change the database file path in the backend to use the same as in the frontend so the running backend and the Cypress tests can access the same database. For example, change the database `connect_url` value in the backend config file to `"sqlite://../torrust-index-frontend/storage/database/torrust_index_backend_e2e_testing.db?mode=rwc"` or whatever the path is in your machine.
+**NOTICE** You will need to change the database file path in the Index to use the same as in the Index GUI so the running Index and the Cypress tests can access the same database. For example, change the database `connect_url` value in the Index config file to `"sqlite://../torrust-index-gui/storage/index/lib/database/e2e_testing_sqlite3.db?mode=rwc"` or whatever the path is in your machine.
 
 Once the E2E environment is up, you can run the E2E tests with the following command.
 
