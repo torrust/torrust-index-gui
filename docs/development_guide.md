@@ -1,19 +1,23 @@
 # Development Guide
 
-This is a guide to run the Torrust Index in development mode. It is not intended to be used in production.
+This is a guide to run the complete Torrust Index solution in development mode. It is not intended to be used in production.
+
+The whole solution includes the following:
+
+- The Torrust Tracker (the tracker linked to the Index).
+- The Torrust Index (the API).
+- The Torrust Index GUI (the front-end web GUI).
+
 It runs all the services locally, so you can modify the code and see the changes immediately.
-You will need to run these three services:
+You will need to run these all the three services.
 
-- Torrust Tracker
-- Torrust Index Backend
-- Torrust Index Frontend
-
-Before installing and running the services you can create a new directory to clone the repositories from GitHub.
+Before installing and running the services you can create a new directory to clone all the repositories from GitHub.
 
 ```s
-cd /tmp
-mkdir torrust-index
-cd torrust-index/
+cd /tmp && mkdir torrust && cd torrust/
+git clone https://github.com/torrust/torrust-tracker
+git clone https://github.com/torrust/torrust-index
+git clone https://github.com/torrust/torrust-index-gui
 ```
 
 After installing all the repos you will have the following directory structure.
@@ -22,68 +26,67 @@ After installing all the repos you will have the following directory structure.
 $ tree -L 2
 .
 ├── torrust-index
-│   ├── adrs
-│   ├── bin
 │   ├── build.rs
 │   ├── Cargo.lock
 │   ├── Cargo.toml
-│   ├── CODEOWNERS
+│   ├── codecov.yaml
 │   ├── compose.yaml
-│   ├── config-idx-back.local.toml
-│   ├── config.local.toml
-│   ├── config.toml
-│   ├── config-tracker.local.toml
-│   ├── COPYRIGHT
+│   ├── Containerfile
+│   ├── contrib
 │   ├── cspell.json
-│   ├── data.db
-│   ├── docker
-│   ├── Dockerfile
 │   ├── docs
-│   ├── img
-│   ├── LICENSE-AGPL_3_0
-│   ├── LICENSE-MIT_0
-│   ├── licensing
+│   ├── LICENSE
 │   ├── migrations
+│   ├── packages
 │   ├── project-words.txt
 │   ├── README.md
 │   ├── rustfmt.toml
+│   ├── share
 │   ├── src
-│   ├── storage
-│   ├── target
 │   ├── templates
 │   ├── tests
 │   └── upgrades
 ├── torrust-index-gui
 │   ├── app.vue
 │   ├── assets
+│   ├── bin
 │   ├── components
 │   ├── composables
+│   ├── compose.yaml
+│   ├── Containerfile
+│   ├── contrib
 │   ├── COPYRIGHT
+│   ├── cspell.json
+│   ├── cypress
+│   ├── cypress.config.ts
+│   ├── docs
+│   ├── dot.env.local
 │   ├── img
 │   ├── LICENSE-AGPL_3_0
 │   ├── LICENSE-MIT_0
 │   ├── licensing
-│   ├── node_modules
 │   ├── nuxt.config.ts
 │   ├── package.json
 │   ├── package-lock.json
 │   ├── pages
 │   ├── plugins
 │   ├── postcss.config.js
+│   ├── project-words.txt
 │   ├── public
 │   ├── README.md
+│   ├── SECURITY.md
+│   ├── share
+│   ├── src
 │   ├── tailwind.config.js
 │   └── tsconfig.json
 └── torrust-tracker
-    ├── bin
     ├── Cargo.lock
     ├── Cargo.toml
+    ├── codecov.yaml
     ├── compose.yaml
-    ├── config.toml
-    ├── config.toml.local
+    ├── Containerfile
+    ├── contrib
     ├── cSpell.json
-    ├── docker
-    ├── Dockerfile
     ├── docs
     ├── LICENSE
     ├── NOTICE
@@ -91,41 +94,42 @@ $ tree -L 2
     ├── README.md
     ├── rustfmt.toml
     ├── SECURITY.md
+    ├── share
     ├── src
-    ├── storage
-    ├── target
     └── tests
 
-34 directories, 41 files
+33 directories, 40 files
 ```
 
-You can also run the Index GUI using the docker images for the Tracker and Index Backend.
+You can also run the Index GUI using the docker images for the [Tracker][tracker] and [Index][index].
 Please refer to their respective documentation for more information.
 
 ## Run the tracker
 
-For the requirements please refer to the [Tracker documentation](https://github.com/torrust/torrust-tracker).
+For the requirements please refer to the [Tracker documentation][tracker].
 
 ```s
 git clone git@github.com:torrust/torrust-tracker.git
 cd torrust-tracker
-mkdir -p ./storage/database
-./bin/install.sh
+./contrib/dev-tools/init/install-local.sh
 cargo run
 ```
 
 ```s
-Loading configuration from config file ./config.toml
-2023-06-21T14:55:03.270026920+01:00 [torrust_tracker::bootstrap::logging][INFO] logging initialized.
-2023-06-21T14:55:03.274190246+01:00 [torrust_tracker::bootstrap::jobs::tracker_apis][INFO] Starting Torrust APIs server on: http://127.0.0.1:1212
-2023-06-21T14:55:03.274292005+01:00 [torrust_tracker::bootstrap::jobs::tracker_apis][INFO] Torrust APIs server started
+Loading default configuration file: `./share/default/config/tracker.development.sqlite3.toml` ...
+2023-11-29T16:27:04.662938414+00:00 [torrust_tracker::bootstrap::logging][INFO] logging initialized.
+2023-11-29T16:27:04.667771053+00:00 [torrust_tracker::bootstrap::jobs::tracker_apis][INFO] Starting Torrust APIs server on: http://127.0.0.1:1212
+2023-11-29T16:27:04.667933262+00:00 [torrust_tracker::bootstrap::jobs::tracker_apis][INFO] Torrust APIs server started
+2023-11-29T16:27:04.667946602+00:00 [torrust_tracker::bootstrap::jobs::health_check_api][INFO] Starting Health Check API server: http://127.0.0.1:1313
+2023-11-29T16:27:04.667998942+00:00 [torrust_tracker::servers::health_check_api::server][INFO] Health Check API server listening on http://127.0.0.1:1313
+2023-11-29T16:27:04.668007992+00:00 [torrust_tracker::bootstrap::jobs::health_check_api][INFO] Torrust Health Check API server started
 ```
 
-Please refer to the [Tracker documentation](https://github.com/torrust/torrust-tracker) for more information.
+Please refer to the [Tracker documentation][tracker] for more information.
 
-## Run the backend
+## Run the Index
 
-For the requirements please refer to the [Index documentation](https://github.com/torrust/torrust-index).
+For the requirements please refer to the [Index documentation][index].
 
 ```s
 git clone git@github.com:torrust/torrust-index.git
@@ -134,7 +138,18 @@ cd torrust-index/
 TORRUST_INDEX_API_CORS_PERMISSIVE=true cargo run
 ```
 
-By default, the Index API has the most restrictive CORS policy. This means that the Index GUI cannot access the backend API, because they are running on different ports. If you run the backend as it is, you will see the following error in the browser console.
+```s
+Loading default configuration file: `./share/default/config/index.development.sqlite3.toml` ...
+2023-11-29T16:32:56.657072410+00:00 [torrust_index::bootstrap::logging][INFO] logging initialized.
+...
+2023-11-29T16:32:56.811232959+00:00 [torrust_index::web::api::server][INFO] Starting API server with net config: 0.0.0.0:3001 ...
+2023-11-29T16:32:56.811209440+00:00 [torrust_index::console::tracker_statistics_importer][INFO] Tracker statistics importer launcher started
+2023-11-29T16:32:56.811322268+00:00 [torrust_index::web::api::server][INFO] API server listening on http://0.0.0.0:3001
+2023-11-29T16:32:56.811342498+00:00 [torrust_index::console::tracker_statistics_importer][INFO] Tracker statistics importer cronjob starting ...
+2023-11-29T16:32:56.811527765+00:00 [torrust_index::console::tracker_statistics_importer][INFO] Tracker statistics importer API server listening on http://127.0.0.1:3002
+```
+
+By default, the Index API has the most restrictive CORS policy. This means that the Index GUI cannot access the Index API, because they are running on different ports. If you run the backend as it is, you will see the following error in the browser console.
 
 ```s
 Access to fetch at 'http://localhost:3001/v1/torrents?page_size=50&page=0&sort=UploadedDesc&categories=&tags=' from origin 'http://localhost:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
@@ -142,18 +157,19 @@ Access to fetch at 'http://localhost:3001/v1/torrents?page_size=50&page=0&sort=U
 
 You need to enable the Cors layer with the permissive option setting the environment variable `TORRUST_INDEX_API_CORS_PERMISSIVE` to `true`.
 
-Please refer to the [Index documentation](https://github.com/torrust/torrust-index) for more information.
+Please refer to the [Index documentation][index] for more information.
 
 ## Run the Index GUI
 
 Requirements:
 
-- Node: `^19.0.0`
+- Node: `^20.10.0`
 
 ```s
-git clone git@github.com:torrust/torrust-index-index-gui.git
+git clone git@github.com:torrust/torrust-index-gui.git
 cd torrust-index-gui/
-./bin/install.sh
+cp .env.local .env
+npm install
 npm run dev
 ```
 
@@ -166,16 +182,13 @@ API_BASE_URL=http://localhost:3001/v1
 After running `npm run dev` you should see something like this in the console.
 
 ```s
-Nuxi 3.0.0
-Nuxt 3.0.0 with Nitro 1.0.0
-  > Local:    http://localhost:3000/ 
-  > Network:  http://192.168.1.88:3000/
+Nuxi 3.7.4 with Nitro 2.6.3
+
+  -> Local:    http://localhost:3000/ 
+  -> Network:  use --host to expose
 
 ℹ Using Tailwind CSS from ~/assets/css/tailwind.css
-ℹ Tailwind Viewer: http://localhost:3000/_tailwind/
-🌼 daisyUI components 2.51.5  https://daisyui.com
-✔︎ Including:  base, components, 2 themes, utilities
-❤︎ Support daisyUI:  https://opencollective.com/daisyui
+...
 ```
 
 You can also see this warning in the console.
@@ -194,7 +207,7 @@ If you want to run the Index GUI like int production you can run the following c
 npm run build && npm run preview
 ```
 
-More information about the [nuxt]https://nuxt.com/) command can be found [here](https://nuxt.com/docs/api/commands/add).
+More information about the [nuxt][nuxt] command can be found [here][nuxt_commands].
 
 ## Testing
 
@@ -213,12 +226,12 @@ For now we only have E2E tests. We are starting to write E2E tests for the Index
 
 You can contribute adding more E2E tests. We are using this [issue](https://github.com/torrust/torrust-index-gui/issues/148) to track the tests we want to add.
 
-In order to run the E2E test you need to have a running application at <http://localhost:3000>. There two important variables hardcoded in Cypress configuration file `cypress.config.ts`:
+In order to run the E2E test you need to have a running application at <http://localhost:3000>. There are two important variables hardcoded in the Cypress configuration file `cypress.config.ts`:
 
 - The base URL: `http://localhost:3000` for the E2E testing environment.
-- The database file path: `./storage/database/torrust_index_backend_e2e_testing.db` for the E2E testing environment.
+- The database file path: `./storage/index/lib/database/e2e_testing_sqlite3.db` for the E2E testing environment.
 
-Those variables describe hot to access the system under test.
+Those variables describe how to access the system under test.
 
 > **IMPORTANT** The database file path is relative to the root directory of the Index GUI. We should try to avoid this kind of dependencies. But for now, it is the easiest way to run the E2E tests. Ideally we should be able to run the test suit against any environment. For example, we should be able to run the test suit against an staging environment. That's still possible if we are running the tests from a machine that has access to the filesystem environment or we could start running the test using MySQL SQLite.
 
@@ -230,19 +243,37 @@ export default defineConfig({
     baseUrl: "http://localhost:3000",
     setupNodeEvents (on, config) {
       on("task", {
+        // Category context
+        deleteCategory: ({ name }) => {
+          return deleteCategory(name, databaseConfig(config));
+        },
+        addCategory: ({ name }) => {
+          return addCategory(name, databaseConfig(config));
+        },
+        // Torrent context
+        deleteTorrent: ({ infohash }) => {
+          return deleteTorrent(infohash, databaseConfig(config));
+        },
+        deleteTorrentsInfoFromDatabase: () => {
+          return deleteTorrentsInfoFromDatabase(databaseConfig(config));
+        },
+        // User context
         grantAdminRole: ({ username }) => {
           return grantAdminRole(username, databaseConfig(config));
+        },
+        deleteUser: ({ username }) => {
+          return deleteUser(username, databaseConfig(config));
         }
       });
     }
   },
   env: {
-    db_file_path: "./storage/database/torrust_index_backend_e2e_testing.db"
+    db_file_path: "./storage/index/lib/database/e2e_testing_sqlite3.db"
   }
 });
 ```
 
-The database file path (`db_file_path`) is needed because some tests need to access the database directly. For example, the test that grants the admin role to a user. There is no way to create administrator users using the Index GUI. So, we need to do it directly in the database.
+The database file path (`db_file_path`) is needed because some tests need to access the database directly. For example, the test that grants the `admin` role to a user. There is no way to create administrator users using the Index GUI. So, we need to do it directly in the database.
 
 You can run the E2E test environments in two different ways:
 
@@ -276,3 +307,8 @@ npm run cypress:open
 Please refer to the [Cypress documentation](https://docs.cypress.io/) for more information.
 
 If you want to contribute please read the [Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices) documentation.
+
+[tracker]: https://github.com/torrust/torrust-tracker
+[index]: https://github.com/torrust/torrust-index
+[nuxt]: https://nuxt.com/
+[nuxt_commands]: https://nuxt.com/docs/api/commands/add
