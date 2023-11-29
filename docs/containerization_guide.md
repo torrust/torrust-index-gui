@@ -1,4 +1,4 @@
-# Containers (Docker or Podman)
+# Containerization Guide
 
 - [Demo environment](#demo-environment)
 - [Requirements](#requirements)
@@ -181,11 +181,11 @@ The format is: `--publish [optional_host_ip]:[host_port]:[container_port]/[optio
 The default ports can be mapped with the following (IPv4 and IPv6):
 
 ```s
---publish 0.0.0.0:3000:3000/tcp \
---publish [::]:3000:3000/tcp
+--publish "0.0.0.0:3000:3000/tcp" \
+--publish "[::]:3000:3000/tcp"
 ```
 
-> NOTE: Inside the container it is necessary to expose a socket with the wildcard address `0.0.0.0` so that it may be accessible from the host. Verify that the configuration that the sockets are wildcard.
+> NOTE: Inside the container it is necessary to expose a socket with the wildcard address `0.0.0.0` or `[::]` so that it may be accessible from the host. Verify that the configuration that the sockets are wildcard.
 
 ### Volumes
 
