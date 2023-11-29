@@ -9,10 +9,12 @@ HEALTHCHECK
 heroicons
 infohash
 lintfix
+mailcatcher
 notiwind
 Nuxt
 nuxtjs
 proxied
+Quickstart
 signin
 uuidv
 vuex
