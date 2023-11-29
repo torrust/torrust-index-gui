@@ -7,7 +7,8 @@
   - [Run the backend](#run-the-backend)
   - [Run the Index GUI](#run-the-index-gui)
   - [Testing](#testing)
-- [Containers](#containers)  
+- [Containers](#containers)
+- [Release process](#containers)
 
 ## User guide
 
@@ -330,3 +331,7 @@ If you want to contribute please read the [Cypress Best Practices](https://docs.
 ## Containers
 
 Please refer to the [Containers](./containers.md) section for more information about containers.
+
+## Release process
+
+Please refer to the [Release process](./release_process.md) section for more information about the release process.
