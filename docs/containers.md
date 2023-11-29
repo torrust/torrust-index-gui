@@ -168,7 +168,7 @@ Environmental variables are loaded through the `--env`, in the format `--env VAR
 The following environmental variables can be set:
 
 - `USER_ID` - The user id for the runtime crated `torrust` user. Please Note: This user id should match the ownership of the host-mapped volumes, (default `1000`).
-- `NUXT_PUBLIC_API_BASE` - The base [Index API](https://github.com/torrust/torrust-index) URL the frontend connects to (default `http://localhost:3001/v1`).
+- `NUXT_PUBLIC_API_BASE` - The base [Index API](https://github.com/torrust/torrust-index) URL the Index GUI connects to (default `http://localhost:3001/v1`).
 - `NITRO_HOST` - The IP on which the web application socket is bound to (default loopback IPv6 `::`).
 - `NITRO_PORT` - The por on which the web application is served (default `3000`).
 
