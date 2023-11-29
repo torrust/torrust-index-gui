@@ -1,4 +1,4 @@
-# Torrust Index GUI Release Process (v2.2.2)
+# Release Process Guide (v2.2.2)
 
 ## Version
 

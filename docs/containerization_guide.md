@@ -1,4 +1,4 @@
-# Containers (Docker or Podman)
+# Containerization Guide
 
 - [Demo environment](#demo-environment)
 - [Requirements](#requirements)
