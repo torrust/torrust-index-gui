@@ -35,15 +35,17 @@ RUN ["/busybox/cp", "-sp", "/busybox/sh","/busybox/cat","/busybox/ls","/busybox/
 COPY --from=gcc --chmod=0555 /usr/local/bin/su-exec /bin/su-exec
 
 ARG USER_ID=1000
-ARG INDEX_GUI_PORT=3000
 ARG NUXT_PUBLIC_API_BASE0=http://localhost:3001/v1
+ARG NITRO_HOST=::
+ARG NITRO_PORT=3000
 
 ENV TZ=Etc/UTC
 ENV USER_ID=${USER_ID}
-ENV INDEX_GUI_PORT=${INDEX_GUI_PORT}
 ENV NUXT_PUBLIC_API_BASE=${NUXT_PUBLIC_API_BASE}
+ENV NITRO_HOST=${NITRO_HOST}
+ENV NITRO_PORT=${NITRO_PORT}
 
-EXPOSE $INDEX_GUI_PORT/tcp
+EXPOSE $NITRO_PORT/tcp
 
 RUN mkdir -p /var/log/torrust/tracker
 
@@ -69,5 +71,5 @@ FROM runtime as release
 ENV RUNTIME="release"
 COPY --from=test /app/.output /app/.output
 HEALTHCHECK --interval=5s --timeout=5s --start-period=3s --retries=3 \
-  CMD /nodejs/bin/node /usr/local/bin/health_check.js ${INDEX_GUI_PORT} || exit 1
+  CMD /nodejs/bin/node /usr/local/bin/health_check.js ${NITRO_PORT} || exit 1
 CMD [ "/nodejs/bin/node", "/app/.output/server/index.mjs" ]
