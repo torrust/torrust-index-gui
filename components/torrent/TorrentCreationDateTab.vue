@@ -14,8 +14,7 @@
     <template v-if="!collapsed">
       <div class="flex flex-col w-full h-full p-6 grow bg-base-100 rounded-2xl">
         <template v-if="torrent.creation_date">
-          <!--<Markdown :source="torrent.name" />-->
-          {{ creationDateUTC }}
+          {{ unixTimeToHumanReadableUTC(torrent.creation_date) }}
         </template>
         <template v-else>
           <span class="italic text-neutral-content">No creation date provided.</span>
@@ -41,8 +40,6 @@ const props = defineProps({
     required: true
   }
 });
-
-const creationDateUTC = unixTimeToHumanReadableUTC(props.torrent.creation_date);
 
 </script>
 
