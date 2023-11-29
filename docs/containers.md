@@ -168,8 +168,9 @@ Environmental variables are loaded through the `--env`, in the format `--env VAR
 The following environmental variables can be set:
 
 - `USER_ID` - The user id for the runtime crated `torrust` user. Please Note: This user id should match the ownership of the host-mapped volumes, (default `1000`).
-- `INDEX_GUI_PORT` - The port on which the web application is served (default `3000`).
 - `NUXT_PUBLIC_API_BASE` - The base [Index API](https://github.com/torrust/torrust-index) URL the frontend connects to (default `http://localhost:3001/v1`).
+- `NITRO_HOST` - The IP on which the web application socket is bound to (default loopback IPv6 `::`).
+- `NITRO_PORT` - The por on which the web application is served (default `3000`).
 
 ### Sockets
 
@@ -217,22 +218,20 @@ mkdir -p ./storage/index-gui/log/
 ## Run Torrust Index GUI Container Image (IPv6)
 docker run -it \
     --env USER_ID="$(id -u)" \
-    --env INDEX_GUI_PORT="3000" \
     --env NUXT_PUBLIC_API_BASE="http://localhost:3001/v1" \
     --env NITRO_HOST="::" \
     --env NITRO_PORT="3000" \
-    --publish [::]:3000:3000/tcp \
+    --publish "3000:3000/tcp" \
     --volume ./storage/index-gui/log:/var/log/torrust/index-gui:Z \
     torrust-index-gui:release
 
 ## Run Torrust Index GUI Container Image (IPv4)
 docker run -it \
     --env USER_ID="$(id -u)" \
-    --env INDEX_GUI_PORT="3000" \
     --env NUXT_PUBLIC_API_BASE="http://localhost:3001/v1" \
     --env NITRO_HOST="0.0.0.0" \
     --env NITRO_PORT="3000" \
-    --publish 0.0.0.0:3000:3000/tcp \
+    --publish "3000:3000/tcp" \
     --volume ./storage/index-gui/log:/var/log/torrust/index-gui:Z \
     torrust-index-gui:release
 ```
@@ -249,22 +248,20 @@ mkdir -p ./storage/index-gui/log/
 ## Run Torrust Index GUI Container Image (IPv6)
 podman run -it \
     --env USER_ID="$(id -u)" \
-    --env INDEX_GUI_PORT="3000" \
     --env NUXT_PUBLIC_API_BASE="http://localhost:3001/v1" \
     --env NITRO_HOST="::" \
     --env NITRO_PORT="3000" \
-    --publish [::]:3000:3000/tcp \
+    --publish "3000:3000/tcp" \
     --volume ./storage/index-gui/log:/var/log/torrust/index-gui:Z \
     torrust-index-gui:release
 
 ## Run Torrust Index GUI Container Image (IPv4)
 podman run -it \
     --env USER_ID="$(id -u)" \
-    --env INDEX_GUI_PORT="3000" \
     --env NUXT_PUBLIC_API_BASE="http://localhost:3001/v1" \
     --env NITRO_HOST="0.0.0.0" \
     --env NITRO_PORT="3000" \
-    --publish 0.0.0.0:3000:3000/tcp \
+    --publish "3000:3000/tcp" \
     --volume ./storage/index-gui/log:/var/log/torrust/index-gui:Z \
     torrust-index-gui:release
 ```
