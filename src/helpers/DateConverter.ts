@@ -1,34 +1,22 @@
 type UnixTime = number;
 
 class InvalidDateError extends Error {}
+class WrongTimestamp extends Error {}
 
 // Takes the date in seconds from Epoch time and converts it to human readable format.
 
 export function unixTimeToHumanReadableUTC (creationDate: UnixTime) {
+  let milliseconds;
+  let convertedDate;
   try {
-    return dateFromSeconds(creationDate);
+    milliseconds = creationDate * 1000;
   } catch (error) {
-    return ("Invalid date");
+    return new WrongTimestamp(`Could not convert ${creationDate} to milliseconds`);
   }
-}
-
-function dateFromSeconds (seconds: number) {
-  if (!validateTimestamp(seconds))
-  { throw new TypeError("Torrent creation date is not an integer"); }
-
-  const milliseconds = seconds * 1000;
-  const convertedDate = new Date(milliseconds);
-
-  if (!validateDate(convertedDate))
-  { throw new InvalidDateError("Date is not valid"); }
-
-  return convertedDate.toDateString();
-}
-
-function validateDate (date: Date) {
-  return date instanceof Date && !isNaN(date.valueOf());
-}
-
-function validateTimestamp (timestamp: UnixTime) {
-  return Number.isInteger(timestamp);
+  try {
+    convertedDate = new Date(milliseconds);
+  } catch (error) {
+    return new InvalidDateError(`Could not create a new date from ${milliseconds}`);
+  }
+  return !isNaN(convertedDate.valueOf()) ? convertedDate.toDateString() : new InvalidDateError(`Could not create a valid date from ${milliseconds}`);
 }
