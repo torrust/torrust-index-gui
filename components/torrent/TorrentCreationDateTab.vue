@@ -14,7 +14,7 @@
     <template v-if="!collapsed">
       <div class="flex flex-col w-full h-full p-6 grow bg-base-100 rounded-2xl">
         <template v-if="torrent.creation_date">
-          {{ unixTimeToHumanReadableUTC(torrent.creation_date) }}
+          {{ formatedDateFromTimestamp }}
         </template>
         <template v-else>
           <span class="italic text-neutral-content">No creation date provided.</span>
@@ -30,7 +30,7 @@ import { TorrentResponse } from "torrust-index-types-lib";
 import { PropType } from "vue";
 import { ref } from "#imports";
 import Markdown from "~/components/Markdown.vue";
-import { unixTimeToHumanReadableUTC } from "~/src/helpers/DateConverter";
+import { formatTimestamp } from "~/src/helpers/DateConverter";
 
 const collapsed = ref(false);
 
@@ -40,6 +40,8 @@ const props = defineProps({
     required: true
   }
 });
+
+const formatedDateFromTimestamp = formatTimestamp(props.torrent.creation_date);
 
 </script>
 

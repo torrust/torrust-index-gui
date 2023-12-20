@@ -1,22 +1,21 @@
-type UnixTime = number;
+type UnixTimestamp = number;
+type FormattedDate = string;
 
 class InvalidDateError extends Error {}
-class WrongTimestamp extends Error {}
 
-// Takes the date in seconds from Epoch time and converts it to human readable format.
+/**
+ * Takes the date in seconds from Unix Epoch time and converts it to human readable format.
+ *
+ * For example: 1701688451 -> "Mon Dec 04 2023"
+ */
 
-export function unixTimeToHumanReadableUTC (creationDate: UnixTime) {
-  let milliseconds;
-  let convertedDate;
-  try {
-    milliseconds = creationDate * 1000;
-  } catch (error) {
-    return new WrongTimestamp(`Could not convert ${creationDate} to milliseconds`);
-  }
-  try {
-    convertedDate = new Date(milliseconds);
-  } catch (error) {
-    return new InvalidDateError(`Could not create a new date from ${milliseconds}`);
-  }
-  return !isNaN(convertedDate.valueOf()) ? convertedDate.toDateString() : new InvalidDateError(`Could not create a valid date from ${milliseconds}`);
+export function formatTimestamp (creationDate: UnixTimestamp): FormattedDate | Error {
+  const milliseconds = creationDate * 1000;
+
+  const convertedDate = new Date(milliseconds);
+
+  return isNaN(convertedDate.valueOf())
+    ? new InvalidDateError(
+      `Invalid date. Could not create a new date from timestamp value: ${creationDate}`)
+    : convertedDate.toDateString();
 }
