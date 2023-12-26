@@ -17,6 +17,9 @@
               <div v-if="torrent" class="flex flex-col flex-auto w-full gap-6">
                 <TorrentDescriptionTab :torrent="torrent" @updated="reloadTorrent" />
                 <TorrentCommentTab :torrent="torrent" @updated="reloadTorrent" />
+                <TorrentCreationDateTab :torrent="torrent" @updated="reloadTorrent" />
+                <TorrentCreatedByTab :torrent="torrent" @updated="reloadTorrent" />
+                <TorrentEncodingTab :torrent="torrent" @updated="reloadTorrent" />
                 <TorrentFilesTab :torrent="torrent" @updated="reloadTorrent" />
                 <TorrentTrackersTab :torrent="torrent" @updated="reloadTorrent" />
               </div>
