@@ -37,7 +37,7 @@
     "@types/uuid": "^9.0.7",
     "daisyui": "^4.4.12",
     "dompurify": "^3.0.5",
-    "marked": "^9.1.5",
+    "marked": "^11.1.1",
     "notiwind-ts": "^2.0.2",
     "torrust-index-api-lib": "^1.0.0-alpha.5",
     "torrust-index-types-lib": "^1.0.0-alpha.4",
