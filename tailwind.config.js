@@ -17,6 +17,8 @@ module.exports = {
   daisyui: {
     themes: [
       "halloween",
+      "light",
+      "coffee",
       {
         torrust: {
           primary: "#f28c18",

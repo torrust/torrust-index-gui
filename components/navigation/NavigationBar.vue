@@ -84,7 +84,7 @@
             <option value="light">
               Light
             </option>
-            <option value="dark">
+            <option value="torrust">
               Dark
             </option>
             <option value="coffee">
