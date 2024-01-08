@@ -27,7 +27,7 @@
     "eslint-plugin-vue": "^9.19.2",
     "i": "^0.3.7",
     "npm": "^10.2.4",
-    "nuxt": "^3.6.5",
+    "nuxt": "^3.9.1",
     "sqlite3": "^5.1.6",
     "typescript": "^5.1.6",
     "vite-plugin-eslint": "^1.8.1"
