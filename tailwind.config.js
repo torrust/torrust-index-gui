@@ -17,7 +17,6 @@ module.exports = {
   daisyui: {
     themes: [
       "halloween",
-      "light",
       {
         torrust: {
           primary: "#f28c18",
@@ -30,6 +29,20 @@ module.exports = {
           success: "#16a34a",
           warning: "#d97706",
           error: "#dc2626"
+        },
+        torrustlight: {
+          primary: "#f28c18",
+          "primary-content": "#ffffff",
+          secondary: "#187EF2",
+          accent: "#51a800",
+          neutral: "#3b424e",
+          "base-100": "#ffffff",
+          base: "#ffffff",
+          info: "#2563eb",
+          success: "#16a34a",
+          warning: "#d97706",
+          error: "#dc2626",
+          "neutral-content": "#000000"
         }
       }
     ]
