@@ -62,7 +62,7 @@
             Sign Up
           </NuxtLink>
         </template>
-        <ColorModeSelector />
+        <ThemeToggle />
       </div>
     </div>
     <template v-if="!mobileCollapsed">

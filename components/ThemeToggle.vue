@@ -15,7 +15,7 @@
           @click="setColorTheme()"
         >Change Themes</button>
       </div> -->
-  <div>
+  <div class="flex">
     <button v-if="$colorMode.preference === 'system'" @click="$colorMode.preference = 'dark'">
       <svg
         xmlns="http://www.w3.org/2000/svg"
