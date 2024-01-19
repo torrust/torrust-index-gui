@@ -16,7 +16,7 @@
         >Change Themes</button>
       </div> -->
   <div class="flex">
-    <button v-if="$colorMode.preference === 'system'" @click="$colorMode.preference = 'dark'">
+    <button v-if="$colorMode.preference === 'system'" class="test" @click="$colorMode.preference = 'dark'">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -89,5 +89,8 @@
 </script>
 
   <style scoped>
-
+.feather:hover {
+  stroke: orange;
+  stroke-opacity: 75%;
+}
   </style>
