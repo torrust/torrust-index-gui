@@ -35,13 +35,14 @@ module.exports = {
           secondary: "#187EF2",
           accent: "#51a800",
           neutral: "#3b424e",
-          "base-100": "#ffffff",
-          base: "#ffffff",
+          "base-100": "#f0f0f0",
+          "base-200": "#f5f5f5",
+          "base-300": "#ffffff",
           info: "#2563eb",
           success: "#16a34a",
           warning: "#d97706",
           error: "#dc2626",
-          "neutral-content": "#000000"
+          "neutral-content": "#333333"
         }
       }
     ]

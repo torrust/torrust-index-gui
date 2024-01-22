@@ -37,7 +37,7 @@
       </div>
       <div class="flex-none gap-2 ml-auto">
         <template v-if="user">
-          <NuxtLink to="/upload" class="hidden md:flex btn bg-base-100 rounded-2xl">
+          <NuxtLink id="upload-button" to="/upload" class="hidden md:flex btn bg-base-100 rounded-2xl">
             Upload Torrent
           </NuxtLink>
           <div data-cy="user-menu" class="dropdown dropdown-end z-[1]">
@@ -133,5 +133,9 @@ function submitSearch () {
 <style scoped>
 #mobile-menu a.router-link-exact-active {
   @apply bg-primary;
+}
+
+[data-theme="light"] #upload-button {
+  background-color: #ffffff;
 }
 </style>
