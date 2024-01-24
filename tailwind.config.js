@@ -16,9 +16,8 @@ module.exports = {
   },
   daisyui: {
     themes: [
-      "halloween",
       {
-        torrust: {
+        dark: {
           primary: "#f28c18",
           "primary-content": "#fff7ee",
           secondary: "#187EF2",
@@ -29,10 +28,26 @@ module.exports = {
           success: "#16a34a",
           warning: "#d97706",
           error: "#dc2626"
+        },
+        light: {
+          primary: "#f28c18",
+          "primary-content": "#ffffff",
+          secondary: "#187EF2",
+          accent: "#51a800",
+          neutral: "#3b424e",
+          "base-100": "#f0f0f0",
+          "base-200": "#f5f5f5",
+          "base-300": "#ffffff",
+          info: "#2563eb",
+          success: "#16a34a",
+          warning: "#d97706",
+          error: "#dc2626",
+          "neutral-content": "#333333"
         }
       }
     ]
   },
+  darkMode: "class",
   plugins: [
     require("daisyui"),
     require("@tailwindcss/typography")

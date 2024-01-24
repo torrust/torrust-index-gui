@@ -1,5 +1,5 @@
 <template>
-  <div data-theme="torrust">
+  <div>
     <Notifications />
 
     <NavigationBar />
