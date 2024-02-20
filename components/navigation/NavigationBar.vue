@@ -19,22 +19,6 @@
           @focusout="typingInSearch = false"
         >
       </div>
-      <div class="hidden px-2 dropdown dropdown-hover md:inline-block text-base-content/75 hover:text-base-content">
-        <div tabindex="0" class="px-1">
-          <NuxtLink to="/torrents" class="flex">
-            Torrents
-            <ChevronDownIcon class="w-5 ml-2" />
-          </NuxtLink>
-        </div>
-        <ul tabindex="0" class="p-2 rounded shadow menu dropdown-content bg-base-100 w-52">
-          <li><NuxtLink to="/torrents?sorting=LeechersDesc">
-            Most Popular
-          </NuxtLink></li>
-          <li><NuxtLink to="/torrents?sorting=UploadedDesc">
-            Most Recent
-          </NuxtLink></li>
-        </ul>
-      </div>
       <div class="flex-none gap-2 ml-auto">
         <template v-if="user">
           <NuxtLink id="upload-button" to="/upload" class="hidden md:flex btn bg-base-100 rounded-2xl">
