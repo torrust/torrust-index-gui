@@ -33,6 +33,11 @@
             </td>
             <td>
               <div class="flex flex-row items-center justify-center font-semibold flex-nowrap">
+                <div class="flex flex-col items-center justify-center w-10 h-10 ml-2 duration-500 cursor-pointer text-base-content/50 hover:text-base-content shrink-0">
+                  <a class="flex items-center" @click.stop="$router.push(`/torrent/${torrent.info_hash}`)">
+                    <EyeIcon class="w-5" />
+                  </a>
+                </div>
                 <div class="flex flex-col items-center justify-center w-10 h-10 ml-2 duration-500 cursor-pointer text-base-content/50 hover:text-base-content shrink-0" @click.stop="downloadTorrent(torrent.info_hash, torrent.name)">
                   <ArrowDownTrayIcon class="w-5" />
                 </div>
@@ -51,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowDownTrayIcon, LinkIcon } from "@heroicons/vue/24/outline";
+import { ArrowDownTrayIcon, LinkIcon, EyeIcon } from "@heroicons/vue/24/outline";
 import { type PropType, watch } from "vue";
 import type { TorrentListing } from "torrust-index-types-lib";
 import { fileSize, timeSince, ref, downloadTorrent } from "#imports";
