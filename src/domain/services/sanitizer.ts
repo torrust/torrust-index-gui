@@ -1,3 +1,4 @@
+import { createCanvas, registerFont, CanvasRenderingContext2D } from "canvas";
 import DOMPurify from "dompurify";
 import { useRestApi } from "#imports";
 
@@ -23,6 +24,7 @@ async function remove_user_tracking (html: string) {
   const htmlDoc = parser.parseFromString(html, "text/html");
 
   remove_all_external_links(htmlDoc);
+
   await replace_images_with_proxied_images(htmlDoc);
 
   return document_to_html(htmlDoc);
@@ -46,10 +48,16 @@ async function replace_images_with_proxied_images (htmlDoc: Document) {
 
     if (src) {
       if (isAllowedImage(src)) {
-        const imageDataSrc = await getImageDataUrl(src);
-        img.setAttribute("src", imageDataSrc);
+        try {
+          const imageDataSrc = await getImageDataUrl(src);
+          img.setAttribute("src", imageDataSrc);
+        } catch (e) {
+          const imageDataUrl = createImageWithText(`Can't load proxied image: ${src}`, 1000, 50, 15);
+          img.setAttribute("src", imageDataUrl);
+        }
       } else {
-        img.remove();
+        const imageDataUrl = createImageWithText(`Not allowed image extension. It must be: ${allowedImageExtensions.concat()}`, 1000, 50, 15);
+        img.setAttribute("src", imageDataUrl);
       }
     }
   }
@@ -94,4 +102,32 @@ function blobToDataURL (blob: Blob): Promise<string> {
     reader.onabort = _e => reject(new Error("Read aborted"));
     reader.readAsDataURL(blob);
   });
+}
+
+function createImageWithText (text: string, width: number, height: number, font: number): string {
+  // Create a canvas element
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext("2d");
+
+  if (context) {
+    // Set background color (optional)
+    context.fillStyle = "white"; // or "transparent" for a transparent background
+    context.fillRect(0, 0, width, height);
+
+    // Set text properties
+    context.fillStyle = "black";
+    context.font = `${font}px Arial`; // Change font size and family as needed
+
+    // Align text
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+
+    // Draw text
+    context.fillText(text, width / 2, height / 2);
+  }
+
+  // Convert canvas to data URL (base64 encoded string)
+  return canvas.toDataURL("image/png");
 }
