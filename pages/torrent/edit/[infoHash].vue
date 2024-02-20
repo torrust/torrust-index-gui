@@ -76,9 +76,9 @@
 </template>
 
 <script setup lang="ts">
-import { Ref } from "vue";
+import { type Ref } from "vue";
 import { notify } from "notiwind-ts";
-import { TorrentResponse } from "torrust-index-types-lib";
+import { type TorrentResponse } from "torrust-index-types-lib";
 import {
   navigateTo,
   onMounted,

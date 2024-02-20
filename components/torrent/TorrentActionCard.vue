@@ -148,8 +148,8 @@
 
 <script setup lang="ts">
 import { LinkIcon, CalendarIcon, CircleStackIcon, UserCircleIcon, HashtagIcon, TagIcon } from "@heroicons/vue/24/solid";
-import { PropType } from "vue";
-import { TorrentResponse } from "torrust-index-types-lib";
+import type { PropType } from "vue";
+import type { TorrentResponse } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
 import {
   fileSize,

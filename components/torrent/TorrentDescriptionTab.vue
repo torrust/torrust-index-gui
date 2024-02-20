@@ -26,8 +26,8 @@
 
 <script setup lang="ts">
 import { ChevronDownIcon } from "@heroicons/vue/24/solid";
-import { TorrentResponse } from "torrust-index-types-lib";
-import { PropType } from "vue";
+import type { TorrentResponse } from "torrust-index-types-lib";
+import type { PropType } from "vue";
 import { ref } from "#imports";
 import Markdown from "~/components/Markdown.vue";
 

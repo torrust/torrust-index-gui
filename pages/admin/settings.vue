@@ -33,8 +33,8 @@
 </template>
 
 <script setup lang="ts">
-import { Ref } from "vue";
-import { Settings } from "torrust-index-types-lib";
+import { type Ref } from "vue";
+import { type Settings } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
 import { onMounted, ref, useRestApi } from "#imports";
 

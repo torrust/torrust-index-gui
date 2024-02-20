@@ -20,7 +20,6 @@
 
 <script setup lang="ts">
 import { getCategories, getSettings, getTags, getUser, onBeforeMount, onMounted } from "#imports";
-import Footer from "~/components/navigation/Footer.vue";
 import Notifications from "~/components/Notifications.vue";
 
 onBeforeMount(() => {

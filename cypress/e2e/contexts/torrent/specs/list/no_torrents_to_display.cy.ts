@@ -1,5 +1,3 @@
-import { baseURL } from "nuxt/dist/core/runtime/nitro/paths";
-
 describe("Users", () => {
   before(() => {
     // Deletes all torrents and their related info from the database so the test can pass

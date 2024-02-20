@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { TorrentTag } from "torrust-index-types-lib";
+import { type TorrentTag } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
 import { getTags, useRestApi, useTags } from "#imports";
 

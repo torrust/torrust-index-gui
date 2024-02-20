@@ -14,7 +14,7 @@
     <template v-if="!collapsed">
       <div class="flex flex-col w-full h-full p-6 grow bg-base-100 rounded-2xl">
         <template v-if="torrent.creation_date">
-          {{ formatedDateFromTimestamp }}
+          {{ formattedDateFromTimestamp }}
         </template>
         <template v-else>
           <span class="italic text-neutral-content">No creation date provided.</span>
@@ -26,10 +26,9 @@
 
 <script setup lang="ts">
 import { ChevronDownIcon } from "@heroicons/vue/24/solid";
-import { TorrentResponse } from "torrust-index-types-lib";
-import { PropType } from "vue";
+import type { TorrentResponse } from "torrust-index-types-lib";
+import type { PropType } from "vue";
 import { ref } from "#imports";
-import Markdown from "~/components/Markdown.vue";
 import { formatTimestamp } from "~/src/helpers/DateConverter";
 
 const collapsed = ref(false);
@@ -41,7 +40,7 @@ const props = defineProps({
   }
 });
 
-const formatedDateFromTimestamp = formatTimestamp(props.torrent.creation_date);
+const formattedDateFromTimestamp = formatTimestamp(props.torrent.creation_date);
 
 </script>
 

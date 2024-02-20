@@ -39,10 +39,9 @@
 </template>
 
 <script setup lang="ts">
-import { CircleStackIcon } from "@heroicons/vue/24/outline";
 import { ChevronDownIcon } from "@heroicons/vue/24/solid";
-import { PropType } from "vue";
-import { TorrentResponse } from "torrust-index-types-lib";
+import type { PropType } from "vue";
+import type { TorrentResponse } from "torrust-index-types-lib";
 import { ref, fileSize } from "#imports";
 
 const collapsed = ref(false);
