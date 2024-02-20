@@ -13,7 +13,7 @@
           name="search"
           type="text"
           class="border-2 input input-bordered rounded-2xl placeholder-neutral-content"
-          :placeholder="`Search ${settings?.website_name ?? 'Torrust'}`"
+          :placeholder="`Search torrents`"
           @keyup.enter="submitSearch"
           @focusin="typingInSearch = true"
           @focusout="typingInSearch = false"
