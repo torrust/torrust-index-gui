@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { Ref } from "vue";
+import { type Ref } from "vue";
 import { EmailOnSignup } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
 import { ref, useRestApi, useSettings } from "#imports";

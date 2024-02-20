@@ -15,8 +15,8 @@
 </template>
 
 <script setup lang="ts">
-import { Ref } from "vue";
-import { TorrentResponse } from "torrust-index-types-lib";
+import { type Ref } from "vue";
+import { type TorrentResponse } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
 import { onMounted, ref, useRestApi } from "#imports";
 import { generateSlug } from "~/src/domain/services/slug";
@@ -36,10 +36,10 @@ const slug = computed(() => generateSlug(torrent.value.title));
 
 onMounted(() => {
   rest.value.torrent.getTorrentInfo(props.infoHash)
-    .then((data) => {
+    .then((data: TorrentResponse) => {
       torrent.value = data;
     })
-    .catch((err) => {
+    .catch((err: { message: any; }) => {
       notify({
         group: "error",
         title: "Error",

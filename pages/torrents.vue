@@ -61,12 +61,12 @@
 
 <script setup lang="ts">
 import { useRuntimeConfig, useRoute, useRouter } from "nuxt/app";
-import { TorrentListing } from "torrust-index-types-lib";
-import { Ref } from "vue";
+import type { TorrentListing } from "torrust-index-types-lib";
+import type { Ref } from "vue";
 import { notify } from "notiwind-ts";
 import { computed, onMounted, ref, useTags, watch } from "#imports";
 import { useCategories, useRestApi } from "~/composables/states";
-import { TorrustSelectOption } from "~/components/TorrustSelect.vue";
+import type { TorrustSelectOption } from "~/components/TorrustSelect.vue";
 
 // TODO: provide sorting options from backend.
 const sortingOptions: Array<TorrustSelectOption> = [

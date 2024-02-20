@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, PropType, onBeforeUnmount, computed } from "vue";
+import { ref, watch, type PropType, onBeforeUnmount, computed } from "vue";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { onMounted } from "../.nuxt/imports";
 

@@ -10,8 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from "vue";
-import { Settings } from "torrust-index-types-lib";
+import { type PropType } from "vue";
+import { type Settings } from "torrust-index-types-lib";
 
 const props = defineProps({
   settings: {

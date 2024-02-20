@@ -87,9 +87,10 @@
 </template>
 
 <script setup lang="ts">
-import { Ref } from "vue";
+/* __placeholder__ */
+import type { Ref } from "vue";
 import { notify } from "notiwind-ts";
-import { TorrentTag } from "torrust-index-types-lib";
+import type { TorrentTag } from "torrust-index-types-lib";
 import {
   getCategories,
   getTags,

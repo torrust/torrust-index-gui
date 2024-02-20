@@ -109,7 +109,7 @@
 <script setup lang="ts">
 import { UserCircleIcon, Bars3Icon, MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
-import { Ref } from "vue";
+import { type Ref } from "vue";
 import { ref, useSettings, useUser, logoutUser } from "#imports";
 
 const settings = useSettings();

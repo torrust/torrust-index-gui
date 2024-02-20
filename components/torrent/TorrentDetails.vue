@@ -43,8 +43,8 @@
 
 <script setup lang="ts">
 import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
-import { Ref } from "vue";
-import { TorrentResponse } from "torrust-index-types-lib";
+import type { Ref } from "vue";
+import type { TorrentResponse } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
 import { useRoute, navigateTo, ref, useRestApi } from "#imports";
 import TorrentActionCard from "~/components/torrent/TorrentActionCard.vue";

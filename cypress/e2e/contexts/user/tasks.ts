@@ -1,6 +1,6 @@
 // Custom tasks for user context
 
-import { DatabaseConfig, DatabaseQuery, runDatabaseQuery } from "../../common/database";
+import { type DatabaseConfig, type DatabaseQuery, runDatabaseQuery } from "../../common/database";
 
 // Task to grant admin role to a user by username
 export const grantAdminRole = async (username: string, db_config: DatabaseConfig): Promise<number> => {

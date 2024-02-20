@@ -39,8 +39,8 @@
 
 <script setup lang="ts">
 import { ChevronDownIcon } from "@heroicons/vue/24/solid";
-import { PropType } from "vue";
-import { TorrentResponse } from "torrust-index-types-lib";
+import type { PropType } from "vue";
+import type { TorrentResponse } from "torrust-index-types-lib";
 import { ref } from "#imports";
 
 const collapsed = ref(false);

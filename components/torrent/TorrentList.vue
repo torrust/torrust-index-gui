@@ -52,8 +52,8 @@
 <script setup lang="ts">
 import { ArrowDownTrayIcon, LinkIcon } from "@heroicons/vue/24/outline";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
-import { PropType, watch } from "vue";
-import { TorrentListing } from "torrust-index-types-lib";
+import { type PropType, watch } from "vue";
+import type { TorrentListing } from "torrust-index-types-lib";
 import { fileSize, timeSince, ref, downloadTorrent } from "#imports";
 
 const props = defineProps({

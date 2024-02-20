@@ -1,4 +1,4 @@
-import { RegistrationForm, random_user_registration_data } from "../../user/registration";
+import { type RegistrationForm, random_user_registration_data } from "../../user/registration";
 import { parseInfoHash } from "../api";
 import { generateRandomTestTorrentInfo } from "../test_torrent_info";
 
