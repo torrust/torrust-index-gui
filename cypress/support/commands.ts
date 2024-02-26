@@ -35,7 +35,7 @@ declare global {
       add_category_to_database(name: string): Chainable<void>
 
       // Tag context
-      delete_tag_from_database(name: string): Chainable<void>
+      delete_tags_from_database(): Chainable<void>
       add_tag_to_database(name: string): Chainable<void>
     }
   }

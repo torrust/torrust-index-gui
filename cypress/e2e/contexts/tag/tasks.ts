@@ -3,10 +3,10 @@
 import { DatabaseConfig, DatabaseQuery, runDatabaseQuery } from "../../common/database";
 
 // Task to delete a tag
-export const deleteTag = async (name: string, db_config: DatabaseConfig): Promise<string> => {
+export const deleteTags = async (db_config: DatabaseConfig): Promise<any> => {
   try {
-    const result = await runDatabaseQuery(deleteTagQuery(name), db_config);
-    return name;
+    const result = await runDatabaseQuery(deleteTagsQuery(), db_config);
+    return {};
   } catch (err) {
     return await Promise.reject(err);
   }
@@ -24,10 +24,10 @@ export const addTag = async (name: string, db_config: DatabaseConfig): Promise<s
 
 // Database query specifications
 
-function deleteTagQuery (name: string): DatabaseQuery {
+function deleteTagsQuery (): DatabaseQuery {
   return {
-    query: "DELETE FROM torrust_torrent_tags WHERE name = ?",
-    params: [name]
+    query: "DELETE FROM torrust_torrent_tags",
+    params: []
   };
 }
 

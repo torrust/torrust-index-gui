@@ -5,8 +5,10 @@ describe("The admin user", () => {
   let registration_form: RegistrationForm;
 
   before(() => {
+    cy.delete_tags_from_database();
     registration_form = random_user_registration_data();
     cy.register_as_admin_and_login(registration_form);
+    // random_tag_name.as("tag_name");
   });
 
   after(() => {
@@ -42,6 +44,7 @@ describe("A non admin authenticated user", () => {
   let registration_form: RegistrationForm;
 
   before(() => {
+    cy.delete_tags_from_database();
     registration_form = random_user_registration_data();
     cy.register_and_login(registration_form);
   });

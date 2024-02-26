@@ -2,7 +2,7 @@ import { defineConfig } from "cypress";
 import { grantAdminRole, deleteUser } from "./cypress/e2e/contexts/user/tasks";
 import { deleteTorrent, deleteTorrentsInfoFromDatabase } from "./cypress/e2e/contexts/torrent/tasks";
 import { deleteCategory, addCategory } from "./cypress/e2e/contexts/category/tasks";
-import { deleteTag, addTag } from "./cypress/e2e/contexts/tag/tasks";
+import { deleteTags, addTag } from "./cypress/e2e/contexts/tag/tasks";
 import { DatabaseConfig } from "./cypress/e2e/common/database";
 
 function databaseConfig (config: Cypress.PluginConfigOptions): DatabaseConfig {
@@ -24,8 +24,8 @@ export default defineConfig({
           return addCategory(name, databaseConfig(config));
         },
         // Tag context
-        deleteTag: ({ name }) => {
-          return deleteTag(name, databaseConfig(config));
+        deleteTags: () => {
+          return deleteTags(databaseConfig(config));
         },
         addTag: ({ name }) => {
           return addTag(name, databaseConfig(config));
