@@ -9,6 +9,10 @@ export const grantAdminRole = async (username: string, db_config: DatabaseConfig
   try {
     const result = await runDatabaseQuery(getUserIdByUsernameQuery(username), db_config);
 
+    if (result === undefined || result.user_id === undefined) {
+      throw new Error(`Can't grant admin role to user. No user found with username: ${username} in database: ${db_config.filepath}`);
+    }
+
     const user_id = result.user_id;
 
     await runDatabaseQuery(grantAdminRoleQuery(user_id), db_config);
@@ -25,6 +29,10 @@ export const deleteUser = async (username: string, db_config: DatabaseConfig): P
 
   try {
     const result = await runDatabaseQuery(getUserIdByUsernameQuery(username), db_config);
+
+    if (result === undefined || result.user_id === undefined) {
+      throw new Error(`Can't delete user. No user found with username: ${username} in database: ${db_config.filepath}`);
+    }
 
     const user_id = result.user_id;
 
