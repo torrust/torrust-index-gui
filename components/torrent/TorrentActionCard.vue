@@ -99,7 +99,7 @@
         <div />
 
         <div class="flex flex-row gap-3">
-          <template v-if="showDownloadButtons">
+          <template v-if="showDownloadButtons()">
             <button class="btn btn-primary grow" data-cy="torrent-action-download" @click="downloadTorrent(torrent.info_hash, torrent.name)">
               download torrent
             </button>
@@ -178,7 +178,7 @@ function hasEditRights (): boolean {
   return canEditThisTorrent(props.torrent);
 }
 
-function showDownloadButtons () {
+function showDownloadButtons (): boolean {
   return isUserLoggedIn() || isTrackerPublic();
 }
 
