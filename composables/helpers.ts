@@ -4,8 +4,15 @@ import { useRestApi, useSettings, useUser } from "~/composables/states";
 export function isTrackerOpen (): boolean {
   const settings = useSettings();
 
-  return settings.value.tracker_mode === TrackerMode.Public ||
-        settings.value.tracker_mode === TrackerMode.Whitelisted;
+  // todo: we are not using the type TrackerMode in
+  // settings.value.tracker_mode
+
+  return settings.value.tracker_mode === "Public" ||
+        settings.value.tracker_mode === "Whitelisted";
+}
+
+export function isTrackerClose (): boolean {
+  return !isTrackerOpen();
 }
 
 export function isUserLoggedIn (): boolean {

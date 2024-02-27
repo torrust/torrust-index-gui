@@ -101,7 +101,7 @@
         <div class="flex flex-row gap-3">
           <template v-if="showDownloadButtons()">
             <button class="btn btn-primary grow" data-cy="torrent-action-download" @click="downloadTorrent(torrent.info_hash, torrent.name)">
-              download torrent
+              download {{ isTrackerClose()? 'private' : '' }} torrent
             </button>
             <button class="w-12 p-0 btn btn-primary">
               <a data-cy="torrent-action-magnet-link" class="flex items-center" :href="torrent.magnet_link">
@@ -145,7 +145,7 @@ import {
   downloadTorrent,
   useRestApi,
   isUserLoggedIn,
-  isTrackerOpen, navigateTo
+  isTrackerOpen, isTrackerClose, navigateTo
 } from "#imports";
 import { canEditThisTorrent } from "~/composables/helpers";
 
