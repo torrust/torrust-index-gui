@@ -110,18 +110,7 @@
             </button>
           </template>
           <template v-else>
-            <button
-              class="h-12 px-4 mt-3 text-sm font-medium text-black bg-white rounded-2xl"
-              @click="$store.dispatch('openAuthModal')"
-            >
-              Please sign in to download
-            </button>
-            <button
-              class="h-12 px-4 mt-3 text-sm font-medium text-white bg-sky-500 rounded-2xl"
-              @click="$store.dispatch('openAuthModal')"
-            >
-              Please sign in to download
-            </button>
+              <NuxtLink to="/signin">Private tracker. Sign in to download torrent or magnet link.</NuxtLink>
           </template>
         </div>
 
@@ -208,5 +197,9 @@ function deleteTorrent () {
         text: `Trying to delete the torrent. ${err.message}.`
       }, 10000);
     });
+}
+
+function navigateToSignIn () {
+  navigateTo("/signin", { replace: true });
 }
 </script>
