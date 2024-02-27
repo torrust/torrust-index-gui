@@ -110,7 +110,9 @@
             </button>
           </template>
           <template v-else>
-              <NuxtLink to="/signin">Private tracker. Sign in to download torrent or magnet link.</NuxtLink>
+            <NuxtLink to="/signin">
+              Private tracker. Sign in to download torrent or magnet link.
+            </NuxtLink>
           </template>
         </div>
 
