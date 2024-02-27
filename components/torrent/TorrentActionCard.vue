@@ -99,9 +99,9 @@
         <div />
 
         <div class="flex flex-row gap-3">
-          <template v-if="showDownloadButtons">
+          <template v-if="showDownloadButtons()">
             <button class="btn btn-primary grow" data-cy="torrent-action-download" @click="downloadTorrent(torrent.info_hash, torrent.name)">
-              download torrent
+              download {{ isTrackerClose()? 'private' : '' }} torrent
             </button>
             <button class="w-12 p-0 btn btn-primary">
               <a data-cy="torrent-action-magnet-link" class="flex items-center" :href="torrent.magnet_link">
@@ -110,18 +110,7 @@
             </button>
           </template>
           <template v-else>
-            <button
-              class="h-12 px-4 mt-3 text-sm font-medium text-black bg-white rounded-2xl"
-              @click="$store.dispatch('openAuthModal')"
-            >
-              Please sign in to download
-            </button>
-            <button
-              class="h-12 px-4 mt-3 text-sm font-medium text-white bg-sky-500 rounded-2xl"
-              @click="$store.dispatch('openAuthModal')"
-            >
-              Please sign in to download
-            </button>
+              <NuxtLink to="/signin">Private tracker. Sign in to download torrent or magnet link.</NuxtLink>
           </template>
         </div>
 
@@ -156,7 +145,7 @@ import {
   downloadTorrent,
   useRestApi,
   isUserLoggedIn,
-  isTrackerPublic, navigateTo
+  isTrackerOpen, isTrackerClose, navigateTo
 } from "#imports";
 import { canEditThisTorrent } from "~/composables/helpers";
 
@@ -178,8 +167,8 @@ function hasEditRights (): boolean {
   return canEditThisTorrent(props.torrent);
 }
 
-function showDownloadButtons () {
-  return isUserLoggedIn() || isTrackerPublic();
+function showDownloadButtons (): boolean {
+  return isUserLoggedIn() || isTrackerOpen();
 }
 
 function seedersPercentage () {
@@ -208,5 +197,9 @@ function deleteTorrent () {
         text: `Trying to delete the torrent. ${err.message}.`
       }, 10000);
     });
+}
+
+function navigateToSignIn () {
+  navigateTo("/signin", { replace: true });
 }
 </script>
