@@ -156,7 +156,7 @@ import {
   downloadTorrent,
   useRestApi,
   isUserLoggedIn,
-  isTrackerPublic, navigateTo
+  isTrackerOpen, navigateTo
 } from "#imports";
 import { canEditThisTorrent } from "~/composables/helpers";
 
@@ -179,7 +179,7 @@ function hasEditRights (): boolean {
 }
 
 function showDownloadButtons (): boolean {
-  return isUserLoggedIn() || isTrackerPublic();
+  return isUserLoggedIn() || isTrackerOpen();
 }
 
 function seedersPercentage () {
