@@ -67,6 +67,11 @@ git clone https://github.com/torrust/torrust-index-gui.git && cd torrust-index-g
 # Install dependencies
 npm install
 
+# Set up the .env file (if it doesn't exist, this is the normal behaviour with a newly cloned repo)
+if ! [ -f "./.env" ]; then
+    cp .env.local .env
+fi
+
 # Run development server
 npm run dev
 ```
