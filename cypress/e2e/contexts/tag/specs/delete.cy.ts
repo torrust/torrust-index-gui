@@ -1,14 +1,12 @@
 import { RegistrationForm, random_user_registration_data } from "../../user/registration";
-import { random_tag_name } from "../fixtures";
+import { randomTagName } from "../random_data";
 
 describe("The admin user", () => {
-  let registration_form: RegistrationForm;
-
+  const registration_form = random_user_registration_data();
+  const tag_name = randomTagName();
   before(() => {
     cy.delete_tags_from_database();
-    registration_form = random_user_registration_data();
     cy.register_as_admin_and_login(registration_form);
-    // random_tag_name.as("tag_name");
   });
 
   after(() => {
@@ -16,8 +14,6 @@ describe("The admin user", () => {
   });
 
   it("should be able to delete a tag", () => {
-    const tag_name = random_tag_name();
-
     cy.add_tag_to_database(tag_name);
 
     cy.go_to_settings();
@@ -41,11 +37,10 @@ describe("The admin user", () => {
 });
 
 describe("A non admin authenticated user", () => {
-  let registration_form: RegistrationForm;
+  const registration_form = random_user_registration_data();
 
   before(() => {
     cy.delete_tags_from_database();
-    registration_form = random_user_registration_data();
     cy.register_and_login(registration_form);
   });
 
