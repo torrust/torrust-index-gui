@@ -4,7 +4,7 @@
       <template v-for="tag in tags">
         <div class="flex justify-between p-2 rounded bg-base-100">
           <span class="text-base-content">{{ tag.name }}</span>
-          <button class="text-error-content hover:text-error" @click="deleteTag(tag)">
+          <button :data-cy="getDeleteButtonDataCy(tag.name)" class="text-error-content hover:text-error" @click="deleteTag(tag)">
             Delete
           </button>
         </div>
@@ -30,6 +30,14 @@ const rest = useRestApi().value;
 
 const newTag = ref("");
 const addingTag = ref(false);
+
+onBeforeMount(() => {
+  getTags();
+});
+
+function getDeleteButtonDataCy (name: string) {
+  return "delete-tag-" + name.toLowerCase().replace(/ /g, "-");
+}
 
 function addTag () {
   if (newTag.value) {
