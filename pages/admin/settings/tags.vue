@@ -11,8 +11,8 @@
       </template>
     </div>
     <div class="flex gap-2">
-      <input v-model="newTag" class="w-full input input-bordered" type="text">
-      <button class="btn btn-primary" :class="{ 'loading': addingTag }" :disabled="addingTag || !newTag" @click="addTag">
+      <input v-model="newTag" data-cy="add-tag-text-input" class="w-full input input-bordered" type="text">
+      <button data-cy="add-tag-button" class="{ 'loading': addingTag }" :disabled="addingTag || !newTag" @click="addTag">
         Add tag
       </button>
     </div>
