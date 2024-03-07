@@ -44,6 +44,17 @@
 
         <div class="flex flex-col p-6 stats bg-base-100 rounded-2xl">
           <div class="flex flex-col text-sm text-base-content/60">
+            <div class="flex flex-row">
+              <div class="flex flex-row w-1/2 py-2">
+                <HashtagIcon class="w-4 mr-2" />
+                <span>Canonical Info Hash</span>
+              </div>
+              <div class="flex flex-row w-1/2 py-1">
+                <div class="relative flex items-center max-w-full overflow-x-auto border rounded-lg border-base-content/10">
+                  <span data-cy="torrent-action-info-hash" class="px-2">{{ torrent.info_hash }}</span>
+                </div>
+              </div>
+            </div>
             <div v-if="torrent.category !== null" class="flex flex-row py-2 pt-0">
               <div class="flex flex-row w-1/2">
                 <TagIcon class="w-4 mr-2" />
@@ -71,17 +82,6 @@
               </div>
               <div class="flex flex-row w-1/2">
                 <span>{{ fileSize(torrent.file_size) }}</span>
-              </div>
-            </div>
-            <div class="flex flex-row">
-              <div class="flex flex-row w-1/2 py-2">
-                <HashtagIcon class="w-4 mr-2" />
-                <span>Info Hash</span>
-              </div>
-              <div class="flex flex-row w-1/2 py-1">
-                <div class="relative flex items-center max-w-full overflow-x-auto border rounded-lg border-base-content/10">
-                  <span data-cy="torrent-action-info-hash" class="px-2">{{ torrent.info_hash }}</span>
-                </div>
               </div>
             </div>
             <div class="flex flex-row py-2 pb-0">
