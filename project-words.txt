@@ -16,5 +16,6 @@ nuxtjs
 proxied
 Quickstart
 signin
+struct
 uuidv
 vuex
