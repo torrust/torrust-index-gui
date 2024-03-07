@@ -23,6 +23,7 @@
                 <TorrentEncodingTab :torrent="torrent" @updated="reloadTorrent" />
                 <TorrentFilesTab :torrent="torrent" @updated="reloadTorrent" />
                 <TorrentTrackersTab :torrent="torrent" @updated="reloadTorrent" />
+                <CanonicalInfoHashGroup :torrent="torrent" @updated="reloadTorrent" />
               </div>
             </div>
           </div>
@@ -47,6 +48,7 @@ import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import type { Ref } from "vue";
 import type { TorrentResponse } from "torrust-index-types-lib";
 import { notify } from "notiwind-ts";
+import CanonicalInfoHashGroup from "./CanonicalInfoHashGroup.vue";
 import { useRoute, navigateTo, ref, useRestApi } from "#imports";
 import TorrentActionCard from "~/components/torrent/TorrentActionCard.vue";
 import TorrentDescriptionTab from "~/components/torrent/TorrentDescriptionTab.vue";
