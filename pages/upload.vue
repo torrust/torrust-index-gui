@@ -160,11 +160,17 @@ function submitForm () {
     .then((new_torrent) => {
       uploading.value = false;
 
+      let text = "Torrent uploaded!";
+
+      if (new_torrent.canonical_info_hash !== new_torrent.info_hash) {
+        text += ` Original infohash ${new_torrent.info_hash} has changed because non-standard info dictionary fields were removed. New infohash is ${new_torrent.canonical_info_hash}`;
+      }
+
       notify({
         group: "success",
         title: "Success",
-        text: "Torrent uploaded!"
-      }, 4000);
+        text
+      }, 8000);
 
       navigateTo(`/torrent/${new_torrent.canonical_info_hash}`, { replace: true });
     })
