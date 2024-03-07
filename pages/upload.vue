@@ -166,7 +166,7 @@ function submitForm () {
         text: "Torrent uploaded!"
       }, 4000);
 
-      navigateTo(`/torrent/${new_torrent.info_hash}`, { replace: true });
+      navigateTo(`/torrent/${new_torrent.canonical_info_hash}`, { replace: true });
     })
     .catch((err) => {
       uploading.value = false;
