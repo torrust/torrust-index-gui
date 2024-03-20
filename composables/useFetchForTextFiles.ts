@@ -10,6 +10,6 @@ export async function fetchTextFile (fileName: string) {
     const fileContent = await fetchResponse.text();
     return fileContent;
   } catch (error) {
-    return new FetchTextFileError(`Couldn't fetch the file: ${fileName}`);
+    throw new FetchTextFileError(`Couldn't fetch the file: ${fileName}`);
   }
 }
