@@ -38,7 +38,7 @@
     "@types/uuid": "^9.0.8",
     "canvas": "^2.11.2",
     "daisyui": "^4.7.3",
-    "dompurify": "^3.0.9",
+    "dompurify": "^3.0.11",
     "marked": "^12.0.0",
     "notiwind-ts": "^2.0.2",
     "torrust-index-api-lib": "^1.0.0-alpha.6",
