@@ -1,4 +1,4 @@
-## Copyright 2024 
+# Copyright 2024 
 
 Copyright 2024 in the Torrust-Index-Frontend project are retained by their contributors. No
 copyright assignment is required to contribute to the Torrust-Index-Frontend project.
