@@ -2,18 +2,21 @@
     <head>
         <title>License</title>
     </head>
-    <div class="flex flex-col items-center text-center text-justify">
-    <LicenseCopyright />
-  </div>
-  <div class="flex flex-col items-center text-center">
-    <LicenseContributorAgreement />
-  </div>
-    <div class="flex flex-col items-center text-center">
-    <LicenseAGPL30 />
-  </div>
-    <div class="flex flex-col items-center text-center">
-    <LicenseMIT />
-  </div>
+    <div class="flex items-center">
+      <License license-file-path="COPYRIGHT.md" />
+    </div>
+    <div class="flex items-center">
+      <License license-file-path="contributor_agreement_v01.md" />
+    </div>
+    <div class="flex items-center">
+      <License license-file-path="LICENSE-AGPL_3_0.md" />
+    </div>
+    <div class="flex items-center">
+      <License license-file-path="LICENSE-MIT_0.md" />
+    </div>
+    <div class="flex items-center">
+      <License license-file-path="legacy_exception.md" />
+    </div>
 </template>
   
 
@@ -21,10 +24,7 @@
 </script>
   
 <style scoped>
-div{
-text-align: center;
-margin-top: 1%;
-}
+
 
 </style>
   
