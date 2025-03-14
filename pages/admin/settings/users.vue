@@ -9,7 +9,7 @@
           class="h-8 border-2 input input-bordered rounded-2xl placeholder-neutral-content"
           :placeholder="`Filter by username`"
         >
-
+        <TorrustSelect v-model:selected="selectedSorting" class="ml-auto" :options="sortingOptions" label="Sort by" />
       </div>
       <UserTable :user-profiles="userProfiles" />
       <Pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :total-results="userProfilesTotal" />
@@ -23,6 +23,14 @@ import { notify } from "notiwind-ts";
 import type { UserProfile } from "torrust-index-types-lib";
 import { onMounted, ref, watch } from "#imports";
 import { useRestApi } from "~/composables/states";
+import type { TorrustSelectOption } from "components/TorrustSelect.vue";
+
+const sortingOptions: Array<TorrustSelectOption> = [
+  { name: "Registration date (Newest first)", value: "DateRegisteredNewest" },
+  { name: "Registration date (Oldest first)", value: "DateRegisteredOldest" },
+  { name: "Username (A to Z)", value: "UsernameAZ" },
+  { name: "Username (Z to A)", value: "UsernameZA" }
+];
 
 const route = useRoute();
 const router = useRouter();
@@ -35,9 +43,21 @@ const userProfiles: Ref<Array<UserProfile>> = ref([]);
 const userProfilesTotal = ref(0);
 const currentPage: Ref<number> = ref(Number(route.query?.page as string) || 1);
 const searchQuery: Ref<string> = ref(null);
+const itemsSorting: Ref<string> = ref(route.query?.sorting as string || sortingOptions[0].value);
+
+const selectedSorting = computed({
+  get () {
+    return [itemsSorting.value];
+  },
+  set (value) {
+    itemsSorting.value = value[0];
+    currentPage.value = 1;
+  }
+});
 
 watch(() => route.fullPath, () => {
   searchQuery.value = route.query.search as string ?? null;
+  itemsSorting.value = route.query.sorting as string ?? sortingOptions[0].value;
   currentPage.value = isNaN(route.query.page) ? 1 : parseInt(route.query.page);
   pageSize.value = isNaN(route.query.pageSize) ? defaultPageSize : parseInt(route.query.pageSize);
 });
@@ -46,6 +66,7 @@ watch(currentPage, () => {
   router.push({
     query: {
       search: searchQuery.value,
+      sorting: itemsSorting.value ? itemsSorting.value : sortingOptions[0].value,
       pageSize: pageSize.value,
       page: currentPage.value
     }
@@ -59,6 +80,7 @@ watch([pageSize, searchQuery], () => {
   router.push({
     query: {
       search: searchQuery.value,
+      sorting: itemsSorting.value ? itemsSorting.value : sortingOptions[0].value,
       pageSize: pageSize.value,
       page: 1
     }
@@ -69,6 +91,7 @@ watch([pageSize, searchQuery], () => {
 
 onActivated(() => {
   searchQuery.value = route.query.search as string ?? null;
+  itemsSorting.value = route.query.sorting as string ?? sortingOptions[0].value;
   pageSize.value = route.query.pageSize as number ?? defaultPageSize;
   currentPage.value = route.query.page as number ?? 1;
 });
