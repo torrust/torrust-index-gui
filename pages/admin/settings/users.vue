@@ -1,36 +1,34 @@
 <template>
-  <div class="flex flex-col gap-6">
-    <div class="flex w-full">
-      <div class="flex flex-wrap justify-between  gap-2">
-        <div class="pl-0.5 flex flex-wrap gap-2">
-          <input
-            v-model="searchQuery"
-            name="search"
-            type="text"
-            class="h-8 border-2 input input-bordered rounded-2xl placeholder-neutral-content"
-            :placeholder="`Filter by username`"
-          >
-          <div class="flex flex-wrap gap-1">
-            <TorrustSelect
-              v-model:selected="selectedFilters"
-              class="ml-auto"
-              :options="filteringOptions"
-              label="Filter by"
-            />
-            <TorrustSelect
-              v-model:selected="selectedSorting"
-              class="ml-auto"
-              :options="sortingOptions"
-              label="Sort by"
-            />
-          </div>
-          <UserTable :user-profiles="userProfiles" />
-          <Pagination
-            v-model:current-page="currentPage"
-            v-model:page-size="pageSize"
-            :total-results="userProfilesTotal"
+  <div class="flex flex-col max-w-md gap-2 mx-auto">
+    <div class="flex flex-col gap-2">
+      <div class="pl-0.5 flex flex-wrap gap-2">
+        <input
+          v-model="searchQuery"
+          name="search"
+          type="text"
+          class="h-8 border-2 input input-bordered rounded-2xl placeholder-neutral-content"
+          :placeholder="`Filter by username`"
+        >
+        <div class="flex flex-wrap gap-1">
+          <TorrustSelect
+            v-model:selected="selectedFilters"
+            class="ml-auto"
+            :options="filteringOptions"
+            label="Filter by"
+          />
+          <TorrustSelect
+            v-model:selected="selectedSorting"
+            class="ml-auto"
+            :options="sortingOptions"
+            label="Sort by"
           />
         </div>
+        <UserTable :user-profiles="userProfiles" />
+        <Pagination
+          v-model:current-page="currentPage"
+          v-model:page-size="pageSize"
+          :total-results="userProfilesTotal"
+        />
       </div>
     </div>
   </div>
