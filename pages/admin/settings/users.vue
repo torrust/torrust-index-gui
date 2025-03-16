@@ -1,18 +1,37 @@
 <template>
-  <div class="flex flex-col max-w-md gap-2 mx-auto">
-    <div class="flex flex-col gap-2">
-      <div class="pl-0.5 flex flex-wrap gap-2">
-        <input
-          v-model="searchQuery"
-          name="search"
-          type="text"
-          class="h-8 border-2 input input-bordered rounded-2xl placeholder-neutral-content"
-          :placeholder="`Filter by username`"
-        >
-        <TorrustSelect v-model:selected="selectedSorting" class="ml-auto" :options="sortingOptions" label="Sort by" />
+  <div class="flex flex-col gap-6">
+    <div class="flex w-full">
+      <div class="flex flex-wrap justify-between  gap-2">
+        <div class="pl-0.5 flex flex-wrap gap-2">
+          <input
+            v-model="searchQuery"
+            name="search"
+            type="text"
+            class="h-8 border-2 input input-bordered rounded-2xl placeholder-neutral-content"
+            :placeholder="`Filter by username`"
+          >
+          <div class="flex flex-wrap gap-1">
+            <TorrustSelect
+              v-model:selected="selectedFilters"
+              class="ml-auto"
+              :options="filteringOptions"
+              label="Filter by"
+            />
+            <TorrustSelect
+              v-model:selected="selectedSorting"
+              class="ml-auto"
+              :options="sortingOptions"
+              label="Sort by"
+            />
+          </div>
+          <UserTable :user-profiles="userProfiles" />
+          <Pagination
+            v-model:current-page="currentPage"
+            v-model:page-size="pageSize"
+            :total-results="userProfilesTotal"
+          />
+        </div>
       </div>
-      <UserTable :user-profiles="userProfiles" />
-      <Pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :total-results="userProfilesTotal" />
     </div>
   </div>
 </template>
@@ -25,6 +44,12 @@ import { onMounted, ref, watch } from "#imports";
 import { useRestApi } from "~/composables/states";
 import type { TorrustSelectOption } from "components/TorrustSelect.vue";
 
+const filteringOptions: Array<TorrustSelectOption> = [
+  { name: "Email verified", value: "EmailVerified" },
+  { name: "Email not verified", value: "EmailNotVerified" },
+  { name: "Torrent uploader", value: "TorrentUploader" }
+];
+
 const sortingOptions: Array<TorrustSelectOption> = [
   { name: "Registration date (Newest first)", value: "DateRegisteredNewest" },
   { name: "Registration date (Oldest first)", value: "DateRegisteredOldest" },
@@ -35,6 +60,7 @@ const sortingOptions: Array<TorrustSelectOption> = [
 const route = useRoute();
 const router = useRouter();
 const rest = useRestApi();
+// const filters = useFilters();
 
 const defaultPageSize = 50;
 const queryPageSize = isNaN(route.query?.pageSize) ? defaultPageSize : parseInt(route.query?.pageSize as string, 10);
