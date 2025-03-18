@@ -60,9 +60,6 @@ const sortingOptions: Array<TorrustSelectOption> = [
 const route = useRoute();
 const router = useRouter();
 const rest = useRestApi();
-/* const filters =
-
-export const useTags = () => useState<Array<TorrentTag>>("tags", () => new Array<TorrentTag>()); */
 
 const defaultPageSize = 50;
 const queryPageSize = isNaN(route.query?.pageSize) ? defaultPageSize : parseInt(route.query?.pageSize as string, 10);
@@ -72,19 +69,9 @@ const userProfilesTotal = ref(0);
 const currentPage: Ref<number> = ref(Number(route.query?.page as string) || 1);
 const searchQuery: Ref<string> = ref(null);
 const itemsFilters: Ref<string> = ref(route.query?.filters as string || filteringOptions[0].value);
-  const queryFilters = route.query?.filters as string[] || [];
-  const filters: Ref<string[]> = ref(Array.isArray(queryFilters) ? queryFilters : [queryFilters]);
+const queryFilters = route.query?.filters as string[] || [];
+const filters: Ref<string[]> = ref(Array.isArray(queryFilters) ? queryFilters : [queryFilters]);
 const itemsSorting: Ref<string> = ref(route.query?.sorting as string || sortingOptions[0].value);
-
-/* const selectedFilters = computed({
-  get () {
-    return itemsFilters.value;
-  },
-  set (value) {
-    itemsFilters.value = value;
-    currentPage.value = 1;
-  }
-}); */
 
 const selectedSorting = computed({
   get () {
@@ -98,7 +85,6 @@ const selectedSorting = computed({
 
 watch(() => route.fullPath, () => {
   searchQuery.value = route.query.search as string ?? null;
-  /* itemsFilters.value = route.query.filters as string ?? filteringOptions[0].value; */
   itemsSorting.value = route.query.sorting as string ?? sortingOptions[0].value;
   currentPage.value = isNaN(route.query.page) ? 1 : parseInt(route.query.page);
   pageSize.value = isNaN(route.query.pageSize) ? defaultPageSize : parseInt(route.query.pageSize);
@@ -113,7 +99,6 @@ watch(currentPage, () => {
   router.push({
     query: {
       search: searchQuery.value,
-      /* filters: itemsFilters.value ? itemsFilters.value : filteringOptions[0].value, */
       filters: filters.value.length > 0 ? filters.value : [],
       sorting: itemsSorting.value ? itemsSorting.value : sortingOptions[0].value,
       pageSize: pageSize.value,
@@ -123,21 +108,6 @@ watch(currentPage, () => {
 
   loadUserProfiles();
 });
-
-// Resets the current page value to 1 when the page size is changed to display results correctly
-/* watch([pageSize, searchQuery, selectedFilters], () => {
-  router.push({
-    query: {
-      search: searchQuery.value,
-      filters: selectedFilters.value.length > 0 ? selectedFilters.value : [],
-      sorting: itemsSorting.value ? itemsSorting.value : sortingOptions[0].value,
-      pageSize: pageSize.value,
-      page: 1
-    }
-  });
-
-  loadUserProfiles();
-}); */
 
 watch([pageSize, searchQuery, filters], () => {
   router.push({
