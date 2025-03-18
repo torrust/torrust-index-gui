@@ -109,7 +109,7 @@ watch(currentPage, () => {
   loadUserProfiles();
 });
 
-watch([pageSize, searchQuery, filters], () => {
+watch([pageSize, searchQuery, filters, itemsSorting], () => {
   router.push({
     query: {
       search: searchQuery.value,
@@ -140,6 +140,7 @@ function loadUserProfiles () {
   rest.value.user.getUserProfiles(
     {
       filters: filters.value,
+      sorting: itemsSorting.value,
       pageSize: pageSize.value,
       page: currentPage.value,
       searchQuery: searchQuery.value
