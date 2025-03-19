@@ -83,20 +83,8 @@ const selectedSorting = computed({
   }
 });
 
-watch(() => route.fullPath, () => {
-  searchQuery.value = route.query.search as string ?? null;
-  itemsSorting.value = route.query.sorting as string ?? sortingOptions[0].value;
-  currentPage.value = isNaN(route.query.page) ? 1 : parseInt(route.query.page);
-  pageSize.value = isNaN(route.query.pageSize) ? defaultPageSize : parseInt(route.query.pageSize);
-
-  // Ensure tagFilters is always an array of strings
-  filters.value = Array.isArray(route.query.filters)
-    ? route.query.filters as string[]
-    : (route.query.filters ? [route.query.filters as string] : []);
-});
-
 watch(currentPage, () => {
-  router.push({
+  router.replace({
     query: {
       search: searchQuery.value,
       filters: filters.value.length > 0 ? filters.value : [],
@@ -106,11 +94,11 @@ watch(currentPage, () => {
     }
   });
 
-  loadUserProfiles();
+   loadUserProfiles();
 });
 
 watch([pageSize, searchQuery, filters, itemsSorting], () => {
-  router.push({
+  router.replace({
     query: {
       search: searchQuery.value,
       filters: filters.value.length > 0 ? filters.value : [],
