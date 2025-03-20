@@ -68,7 +68,6 @@ const userProfiles: Ref<Array<UserProfile>> = ref([]);
 const userProfilesTotal = ref(0);
 const currentPage: Ref<number> = ref(Number(route.query?.page as string) || 1);
 const searchQuery: Ref<string> = ref(null);
-const itemsFilters: Ref<string> = ref(route.query?.filters as string || filteringOptions[0].value);
 const queryFilters = route.query?.filters as string[] || [];
 const filters: Ref<string[]> = ref(Array.isArray(queryFilters) ? queryFilters : [queryFilters]);
 const itemsSorting: Ref<string> = ref(route.query?.sorting as string || sortingOptions[0].value);
