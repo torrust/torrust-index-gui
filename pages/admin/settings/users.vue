@@ -94,7 +94,7 @@ watch(currentPage, () => {
     }
   });
 
-   loadUserProfiles();
+  loadUserProfiles();
 });
 
 watch([pageSize, searchQuery, filters, itemsSorting], () => {
