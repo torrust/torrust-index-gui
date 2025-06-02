@@ -49,10 +49,11 @@
         <div>
           <label for="tags" class="px-2">Tags</label>
           <TorrustSelect
-            v-model:selected="form.tags"
-            :options="tags.map(entry => ({ name: entry.name, value: entry.tag_id }))"
+            :selected="form.tags.map(String)"
+            :options="tags.map((entry: Tag) => ({ name: entry.name, value: entry.tag_id }))"
             :multiple="true"
             search
+            @update:selected="(selected: string[]) => form.tags = selected.map(Number)"
           />
         </div>
       </template>
@@ -96,6 +97,11 @@ type FormEditTorrent = {
   tags: Array<number>;
 }
 
+interface Tag {
+  tag_id: number;
+  name: string;
+}
+
 const categories = useCategories();
 const tags = useTags();
 const user = useUser();
@@ -128,7 +134,7 @@ function getTorrentFromApi (infoHash: string) {
   loadingTorrent.value = true;
 
   rest.value.torrent.getTorrentInfo(infoHash)
-    .then((data) => {
+    .then((data: TorrentResponse) => {
       torrent.value = data;
 
       form.value.title = data.title;
@@ -148,7 +154,7 @@ function getTorrentFromApi (infoHash: string) {
         }
       });
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       loadingTorrent.value = false;
       notify({
         group: "error",
@@ -180,7 +186,7 @@ function submitForm () {
   };
 
   rest.value.torrent.updateTorrent(infoHash, updateTorrentInfo)
-    .then((torrentResponse) => {
+    .then(() => {
       notify({
         group: "success",
         title: "Success",
@@ -189,7 +195,7 @@ function submitForm () {
 
       navigateTo(`/torrent/${infoHash}`, { replace: true });
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       loadingTorrent.value = false;
       notify({
         group: "error",

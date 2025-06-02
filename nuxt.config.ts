@@ -15,6 +15,10 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode"
   ],
 
+  build: {
+    transpile: ["notiwind-ts"]
+  },
+
   colorMode: {
     preference: "dark", // default value of $colorMode.preference
     fallback: "dark", // fallback value if not system preference found

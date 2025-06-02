@@ -194,7 +194,7 @@ function deleteTorrent () {
     .then(() => {
       emit("deleted");
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       notify({
         group: "error",
         title: "Error",

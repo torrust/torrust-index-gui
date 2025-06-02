@@ -60,7 +60,7 @@
           <label for="tags" class="px-2">Tags</label>
           <TorrustSelect
             v-model:selected="form.tags"
-            :options="tags.map(entry => ({ name: entry.name, value: entry.tag_id }))"
+            :options="tags.map((entry: TorrentTag) => ({ name: entry.name, value: entry.tag_id.toString() }))"
             :multiple="true"
             search
           />
@@ -120,8 +120,13 @@ type FormUploadTorrent = {
   title: string;
   category: string;
   description: string;
-  tags: Array<number>;
+  tags: string[];
   torrentFile: any;
+}
+
+interface TorrentResponse {
+  canonical_info_hash: string;
+  info_hash: string;
 }
 
 const settings = useSettings();
@@ -137,7 +142,7 @@ const form: Ref<FormUploadTorrent> = ref({
   title: "",
   description: "",
   category: "",
-  tags: [],
+  tags: [] as string[],
   torrentFile: ""
 });
 const contentUploadAgreement = ref("");
@@ -183,7 +188,7 @@ function submitForm () {
       file: form.value.torrentFile
     }
   )
-    .then((new_torrent) => {
+    .then((new_torrent: TorrentResponse) => {
       uploading.value = false;
 
       let text = "Torrent uploaded!";
@@ -200,7 +205,7 @@ function submitForm () {
 
       navigateTo(`/torrent/${new_torrent.canonical_info_hash}`, { replace: true });
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       uploading.value = false;
 
       notify({

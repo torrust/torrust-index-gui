@@ -54,10 +54,10 @@ onMounted(() => {
 
 function getAdminSettings () {
   rest.value.settings.getSettings()
-    .then((v) => {
+    .then((v: Settings) => {
       settings.value = v;
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       notify({
         group: "error",
         title: "Error",

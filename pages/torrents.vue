@@ -16,14 +16,14 @@
         <div class="flex flex-wrap gap-1">
           <TorrustSelect
             v-model:selected="categoryFilters"
-            :options="categories.map(entry => ({ name: entry.name, value: entry.name }))"
+            :options="categories ? categories.map(entry => ({ name: entry.name, value: entry.name })) : []"
             :label="'Category'"
             :multiple="true"
             search
           />
           <TorrustSelect
             v-model:selected="tagFilters"
-            :options="tags.map(entry => ({ name: entry.name, value: entry.name }))"
+            :options="tags ? tags.map(entry => ({ name: entry.name, value: entry.name })) : []"
             :label="'Tags'"
             :multiple="true"
             search
@@ -80,14 +80,18 @@ const sortingOptions: Array<TorrustSelectOption> = [
   { name: "Leechers (High to low)", value: "LeechersDesc" }
 ];
 
+interface NamedEntry {
+  name: string;
+}
+
 const route = useRoute();
 const router = useRouter();
-const categories = useCategories();
-const tags = useTags();
+const categories: Ref<NamedEntry[]> = useCategories();
+const tags: Ref<NamedEntry[]> = useTags();
 const rest = useRestApi();
 
 const defaultPageSize = 50;
-const queryPageSize = isNaN(route.query?.pageSize) ? defaultPageSize : parseInt(route.query?.pageSize as string, 10);
+const queryPageSize = isNaN(Number(route.query?.pageSize)) ? defaultPageSize : parseInt(route.query?.pageSize as string, 10);
 const pageSize: Ref<number> = ref(isNaN(queryPageSize) ? defaultPageSize : queryPageSize);
 const queryCategoryFilters = route.query?.categoryFilters as string[] || [];
 const categoryFilters: Ref<string[]> = ref(Array.isArray(queryCategoryFilters) ? queryCategoryFilters : [queryCategoryFilters]);
@@ -113,8 +117,8 @@ const selectedSorting = computed({
 watch(() => route.fullPath, () => {
   searchQuery.value = route.query.search as string ?? null;
   itemsSorting.value = route.query.sorting as string ?? sortingOptions[0].value;
-  pageSize.value = isNaN(route.query.pageSize) ? defaultPageSize : parseInt(route.query.pageSize);
-  currentPage.value = isNaN(route.query.page) ? 1 : parseInt(route.query.page);
+  pageSize.value = isNaN(Number(route.query?.pageSize)) ? defaultPageSize : parseInt(Array.isArray(route.query.pageSize) ? route.query.pageSize[0] : route.query.pageSize, 10);
+  currentPage.value = isNaN(Number(route.query.page)) ? 1 : parseInt(Array.isArray(route.query.page) ? route.query.page[0] : route.query.page, 10);
   layout.value = route.query.layout as string ?? "default";
 
   // Ensure categoryFilters is always an array of strings
@@ -164,8 +168,8 @@ watch(pageSize, () => {
 onActivated(() => {
   searchQuery.value = route.query.search as string ?? null;
   itemsSorting.value = route.query.sorting as string ?? sortingOptions[0].value;
-  pageSize.value = route.query.pageSize as number ?? defaultPageSize;
-  currentPage.value = route.query.page as number ?? 1;
+  pageSize.value = isNaN(Number(route.query.pageSize)) ? defaultPageSize : parseInt(Array.isArray(route.query.pageSize) ? route.query.pageSize[0] : route.query.pageSize, 10);
+  currentPage.value = isNaN(Number(route.query.page)) ? 1 : parseInt(Array.isArray(route.query.page) ? route.query.page[0] : route.query.page, 10);
   layout.value = route.query.layout as string ?? "default";
   categoryFilters.value = route.query.categoryFilters as string[] ?? null;
   tagFilters.value = route.query.tagFilters as string[] ?? null;
@@ -202,11 +206,14 @@ function loadTorrents () {
       searchQuery: searchQuery.value
     }
   )
-    .then((v) => {
+    .then((v: { total: number; results: TorrentListing[] }) => {
+      if (!v || typeof v.total !== "number" || !Array.isArray(v.results)) {
+        throw new Error("Invalid response from getTorrents");
+      }
       torrentsTotal.value = v.total;
       torrents.value = v.results;
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       notify({
         group: "error",
         title: "Error",

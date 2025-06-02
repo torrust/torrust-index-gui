@@ -40,7 +40,10 @@ const props = defineProps({
   }
 });
 
-const formattedDateFromTimestamp = formatTimestamp(props.torrent.creation_date);
+const formattedDateFromTimestamp = (() => {
+  const result = formatTimestamp(props.torrent.creation_date);
+  return result instanceof Error ? "Invalid date" : result;
+})();
 
 </script>
 

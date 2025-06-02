@@ -62,7 +62,7 @@ async function login () {
         navigateTo("/torrents", { replace: true });
       }
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       notify({
         group: "error",
         title: "Error",
