@@ -6,15 +6,15 @@ import { useRuntimeConfig, useState } from "#imports";
 export const useRestApi = () => useState<Rest>("rest-api", () => new Rest(useRuntimeConfig().public.apiBase));
 export const useCategories = () => useState<Array<Category>>("categories", () => new Array<Category>());
 export const useTags = () => useState<Array<TorrentTag>>("tags", () => new Array<TorrentTag>());
-export const useSettings = () => useState<PublicSettings>("public-settings", () => null);
-export const useUser = () => useState<TokenResponse>("user", () => null);
+export const useSettings = (): Ref<PublicSettings | null> => useState<PublicSettings>("public-settings", (): PublicSettings | null => null);
+export const useUser = (): Ref<TokenResponse | null> => useState<TokenResponse>("user", (): TokenResponse | null => null);
 
 export function getSettings () {
   useRestApi().value.settings.getPublicSettings()
-    .then((publicSettings) => {
+    .then((publicSettings: PublicSettings) => {
       useSettings().value = publicSettings;
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       notify({
         group: "error",
         title: "Error",
@@ -25,10 +25,10 @@ export function getSettings () {
 
 export function getCategories () {
   useRestApi().value.category.getCategories()
-    .then((res) => {
+    .then((res: Category[]) => {
       useCategories().value = res;
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       notify({
         group: "error",
         title: "Error",
@@ -39,10 +39,10 @@ export function getCategories () {
 
 export function getTags () {
   useRestApi().value.tag.getTags()
-    .then((res) => {
+    .then((res: Category[]) => {
       useTags().value = res;
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       notify({
         group: "error",
         title: "Error",
@@ -57,11 +57,11 @@ export async function loginUser (login: string, password: string): Promise<boole
     login,
     password
   })
-    .then((user) => {
+    .then((user: TokenResponse) => {
       useUser().value = user;
       authenticated = true;
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       notify({
         group: "error",
         title: "Error",
@@ -83,10 +83,10 @@ export async function getUser () {
   }
 
   return await useRestApi().value.user.renewToken()
-    .then((user) => {
+    .then((user: TokenResponse) => {
       useUser().value = user;
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       notify({
         group: "error",
         title: "Error",

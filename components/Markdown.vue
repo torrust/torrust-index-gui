@@ -20,7 +20,8 @@ const sanitizedDescription = ref("");
 
 const options = {
   headerIds: false,
-  mangle: false
+  mangle: false,
+  async: true
 };
 
 const source = computed(() => props.source);
@@ -33,12 +34,12 @@ onMounted(() => {
   sanitizeDescription();
 });
 
-function convert_markdown_to_html (src: string) {
-  return marked(src, options);
+async function convert_markdown_to_html (src: string): Promise<string> {
+  return await marked(src, options);
 }
 
 async function sanitizeDescription () {
-  const html = convert_markdown_to_html(props.source);
+  const html = await convert_markdown_to_html(props.source); // await here
   sanitizedDescription.value = await sanitize(html);
 }
 </script>

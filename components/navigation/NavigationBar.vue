@@ -81,6 +81,10 @@ const user = useUser();
 
 const mobileCollapsed = ref(true);
 
+// Define the submitSearch function
+function submitSearch () {
+  // Add your search logic here
+}
 </script>
 
 <style scoped>

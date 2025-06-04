@@ -29,7 +29,8 @@ const router = useRouter();
 const rest = useRestApi();
 
 const defaultPageSize = 50;
-const queryPageSize = isNaN(route.query?.pageSize) ? defaultPageSize : parseInt(route.query?.pageSize as string, 10);
+const rawPageSize = route.query.pageSize;
+const queryPageSize = isNaN(Number(rawPageSize)) ? defaultPageSize : parseInt(rawPageSize as string, 10);
 const pageSize: Ref<number> = ref(isNaN(queryPageSize) ? defaultPageSize : queryPageSize);
 const userProfiles: Ref<Array<UserProfile>> = ref([]);
 const userProfilesTotal = ref(0);
@@ -37,9 +38,13 @@ const currentPage: Ref<number> = ref(Number(route.query?.page as string) || 1);
 const searchQuery: Ref<string> = ref(null);
 
 watch(() => route.fullPath, () => {
-  searchQuery.value = route.query.search as string ?? null;
-  currentPage.value = isNaN(route.query.page) ? 1 : parseInt(route.query.page);
-  pageSize.value = isNaN(route.query.pageSize) ? defaultPageSize : parseInt(route.query.pageSize);
+  searchQuery.value = (route.query.search as string) ?? null;
+
+  const page = parseInt(route.query.page as string);
+  currentPage.value = isNaN(page) ? 1 : page;
+
+  const size = parseInt(route.query.pageSize as string);
+  pageSize.value = isNaN(size) ? defaultPageSize : size;
 });
 
 watch(currentPage, () => {
@@ -68,9 +73,13 @@ watch([pageSize, searchQuery], () => {
 });
 
 onActivated(() => {
-  searchQuery.value = route.query.search as string ?? null;
-  pageSize.value = route.query.pageSize as number ?? defaultPageSize;
-  currentPage.value = route.query.page as number ?? 1;
+  searchQuery.value = (route.query.search as string) ?? null;
+
+  const size = parseInt(route.query.pageSize as string);
+  pageSize.value = isNaN(size) ? defaultPageSize : size;
+
+  const page = parseInt(route.query.page as string);
+  currentPage.value = isNaN(page) ? 1 : page;
 });
 
 onMounted(() => {
@@ -79,18 +88,16 @@ onMounted(() => {
 });
 
 function loadUserProfiles () {
-  rest.value.user.getUserProfiles(
-    {
-      pageSize: pageSize.value,
-      page: currentPage.value,
-      searchQuery: searchQuery.value
-    }
-  )
-    .then((v) => {
+  rest.value.user.getUserProfiles({
+    pageSize: pageSize.value,
+    page: currentPage.value,
+    searchQuery: searchQuery.value
+  })
+    .then((v: { total: number; results: UserProfile[] }) => {
       userProfilesTotal.value = v.total;
       userProfiles.value = v.results;
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       notify({
         group: "error",
         title: "Error",
@@ -98,4 +105,5 @@ function loadUserProfiles () {
       }, 10000);
     });
 }
+
 </script>

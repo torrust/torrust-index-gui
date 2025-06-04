@@ -80,11 +80,11 @@ function getTorrentFromApi (infoHash: string) {
   loadingTorrent.value = true;
 
   rest.torrent.getTorrentInfo(infoHash)
-    .then((data) => {
+    .then((data: TorrentResponse) => {
       torrent.value = data;
       title.value = data.title;
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       loadingTorrent.value = false;
       notify({
         group: "error",

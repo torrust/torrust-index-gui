@@ -1,6 +1,6 @@
 <template>
     <div>
-    <Markdown :source="file" class="prose-h1:text-center pt-2 pb-10 pb-5 px-40 max-w-none" />
+    <Markdown :source="file" class="prose-h1:text-center pt-2 pb-5 px-40 max-w-none" />
     </div>
 </template>
 <script setup lang="ts">

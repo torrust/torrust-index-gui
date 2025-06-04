@@ -100,7 +100,7 @@ function changePassword (username: string) {
         text: "Your password was changed!"
       }, 4000); // 4s
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       notify({
         group: "error",
         title: "Error",

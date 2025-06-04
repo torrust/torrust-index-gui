@@ -1,4 +1,4 @@
-import { RegistrationForm, random_user_registration_data } from "../../user/registration";
+import { type RegistrationForm, random_user_registration_data } from "../../user/registration";
 import { random_category_name } from "../fixtures";
 
 describe("The admin user", () => {

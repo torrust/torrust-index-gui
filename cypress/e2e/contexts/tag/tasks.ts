@@ -1,6 +1,6 @@
 // Custom tasks for tag context
 
-import { DatabaseConfig, DatabaseQuery, runDatabaseQuery } from "../../common/database";
+import { type DatabaseConfig, type DatabaseQuery, runDatabaseQuery } from "../../common/database";
 
 // Task to delete a tag
 export const deleteTags = async (db_config: DatabaseConfig): Promise<any> => {

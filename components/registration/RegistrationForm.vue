@@ -108,7 +108,7 @@ function signup () {
         text: "Your account was registered!"
       }, 4000); // 4s
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       notify({
         group: "error",
         title: "Error",

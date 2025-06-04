@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full overflow-hidden rounded-lg border-base-content/20 rounded-2xl grow">
+  <div class="flex flex-col w-full overflow-hidden border-base-content/20 rounded-2xl grow">
     <div class="flex flex-col overflow-x-auto whitespace-nowrap">
       <table class="text-center table-auto bg-base-200">
         <thead>

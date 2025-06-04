@@ -1,6 +1,6 @@
 // Custom tasks for category context
 
-import { DatabaseConfig, DatabaseQuery, runDatabaseQuery } from "../../common/database";
+import { type DatabaseConfig, type DatabaseQuery, runDatabaseQuery } from "../../common/database";
 
 // Task to delete a category
 export const deleteCategory = async (name: string, db_config: DatabaseConfig): Promise<string> => {

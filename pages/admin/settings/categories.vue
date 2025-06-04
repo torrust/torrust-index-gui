@@ -46,7 +46,7 @@ function addCategory () {
       .then(() => {
         getCategories();
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         notify({
           group: "error",
           title: "Error",
@@ -65,7 +65,7 @@ function deleteCategory (category: string) {
       .then(() => {
         getCategories();
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         notify({
           group: "error",
           title: "Error",

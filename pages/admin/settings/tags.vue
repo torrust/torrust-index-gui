@@ -47,7 +47,7 @@ function addTag () {
       .then(() => {
         getTags();
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         notify({
           group: "error",
           title: "Error",
@@ -66,7 +66,7 @@ function deleteTag (tag: TorrentTag) {
       .then(() => {
         getTags();
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         notify({
           group: "error",
           title: "Error",
